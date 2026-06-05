@@ -69,7 +69,8 @@ ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE waitlist ENABLE ROW LEVEL SECURITY;
 
 -- trips: offentlig lesing av publiserte turer
-CREATE POLICY IF NOT EXISTS "trips_public_read"
+DROP POLICY IF EXISTS "trips_public_read" ON trips;
+CREATE POLICY "trips_public_read"
   ON trips FOR SELECT
   USING (published = true);
 
@@ -77,17 +78,20 @@ CREATE POLICY IF NOT EXISTS "trips_public_read"
 -- service_role bypasser RLS automatisk; ingen eksplisitt policy trengs.
 
 -- bookings: autentiserte brukere kan lese og opprette egne bookinger
-CREATE POLICY IF NOT EXISTS "bookings_insert_auth"
+DROP POLICY IF EXISTS "bookings_insert_auth" ON bookings;
+CREATE POLICY "bookings_insert_auth"
   ON bookings FOR INSERT
   TO authenticated
   WITH CHECK (auth.uid() = user_id OR user_id IS NULL);
 
-CREATE POLICY IF NOT EXISTS "bookings_select_own"
+DROP POLICY IF EXISTS "bookings_select_own" ON bookings;
+CREATE POLICY "bookings_select_own"
   ON bookings FOR SELECT
   TO authenticated
   USING (auth.uid() = user_id);
 
 -- waitlist: alle kan melde seg på
-CREATE POLICY IF NOT EXISTS "waitlist_insert_public"
+DROP POLICY IF EXISTS "waitlist_insert_public" ON waitlist;
+CREATE POLICY "waitlist_insert_public"
   ON waitlist FOR INSERT
   WITH CHECK (true);
