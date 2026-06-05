@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  /* Farger */
+  --color-primary: #1B3A4B;
+  --color-accent: #E8863A;
+  --color-sand: #F2EDE4;
+  --color-dark: #111827;
+  --color-light: #FAFAF8;
+  --color-muted: #6B7280;
+
+  /* Fonter — variablene settes av next/font i hvert layout */
+  --font-display: var(--font-playfair);
+  --font-sans: var(--font-dm-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  @apply bg-light text-dark font-sans;
+}
