@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Nav from '@/components/travels/Nav'
 
 export const metadata: Metadata = {
   title: 'Fera Travels — Padel-reiser til Costa Blanca',
@@ -6,5 +7,10 @@ export const metadata: Metadata = {
 }
 
 export default function TravelsLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  return (
+    <>
+      <Nav />
+      <main>{children}</main>
+    </>
+  )
 }

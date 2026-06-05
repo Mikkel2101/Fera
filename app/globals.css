@@ -1,17 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  /* Farger */
-  --color-primary: #1B3A4B;
-  --color-accent: #E8863A;
-  --color-sand: #F2EDE4;
-  --color-dark: #111827;
-  --color-light: #FAFAF8;
-  --color-muted: #6B7280;
+  /* Bakgrunner */
+  --color-bg:        #FFFCF5;
+  --color-surface:   #FFFFFF;
+  --color-sand:      #F5F0E8;
+
+  /* Hero / mørk seksjon */
+  --color-dark:      #1C1410;
+  --color-dark-mid:  #3D2A1C;
+  --color-dark-card: #2C1A0E;
+
+  /* Tekst */
+  --color-text:      #1C1410;
+  --color-muted:     #B0A090;
+  --color-subtle:    #7A6A5A;
+
+  /* Merkevare */
+  --color-gold:      #C49A3C;
+  --color-cta:       #E8752A;
+  --color-success:   #5D9E6A;
+
+  /* Border */
+  --color-border:    #EDE5D8;
 
   /* Fonter — variablene settes av next/font i hvert layout */
   --font-display: var(--font-playfair);
-  --font-sans: var(--font-dm-sans);
+  --font-sans:    var(--font-dm-sans);
 }
 
 * {
@@ -19,5 +34,5 @@
 }
 
 body {
-  @apply bg-light text-dark font-sans;
+  @apply bg-[--color-bg] text-[--color-text] font-sans;
 }
