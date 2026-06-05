@@ -31,8 +31,8 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(REDIRECT_MAP[cleanHost], 301)
   }
 
-  if (cleanHost.startsWith('admin.')) {
-    return NextResponse.rewrite(new URL(`/admin${pathname}`, request.url))
+  if (cleanHost.startsWith('admin.') || pathname.startsWith('/admin')) {
+    return response
   }
 
   const brand = BRAND_MAP[cleanHost] ?? process.env.NEXT_PUBLIC_DEFAULT_BRAND ?? 'travels'
