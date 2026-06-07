@@ -14,8 +14,8 @@ export default function AdminNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="bg-[--color-dark] text-white px-6 py-3 flex items-center gap-6 sticky top-0 z-50">
-      <span className="font-display text-[--color-gold] font-semibold mr-2">
+    <nav className="bg-(--color-dark) text-white px-6 py-3 flex items-center gap-6 sticky top-0 z-50">
+      <span className="font-display text-(--color-gold) font-semibold mr-2">
         Fera Admin
       </span>
       {LINKS.map(({ href, label }) => (
@@ -25,7 +25,7 @@ export default function AdminNav() {
           className={`text-sm transition-colors ${
             pathname === href || pathname.startsWith(href + '/')
               ? 'text-white font-medium'
-              : 'text-[--color-muted] hover:text-white'
+              : 'text-(--color-muted) hover:text-white'
           }`}
         >
           {label}
@@ -33,7 +33,7 @@ export default function AdminNav() {
       ))}
       <Link
         href="/admin/trips/new"
-        className="ml-auto bg-[--color-cta] text-white text-sm px-4 py-1.5 rounded-full hover:opacity-90 transition-opacity"
+        className="ml-auto bg-(--color-cta) text-white text-sm px-4 py-1.5 rounded-full hover:opacity-90 transition-opacity"
       >
         + Ny tur
       </Link>

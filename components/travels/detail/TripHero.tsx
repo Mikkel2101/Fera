@@ -7,7 +7,7 @@ export default function TripHero({ trip }: { trip: TripRow }) {
   const isAvailable = trip.status !== 'Fullbooket' && trip.status !== 'Avlyst' && trip.status !== 'Gjennomført'
 
   return (
-    <section className="relative min-h-[50vh] flex items-end overflow-hidden bg-gradient-to-b from-[--color-dark] to-[--color-dark-mid]">
+    <section className="relative min-h-[50vh] flex items-end overflow-hidden bg-gradient-to-b from-(--color-dark) to-(--color-dark-mid)">
       {trip.main_image && (
         <>
           <Image
@@ -24,7 +24,7 @@ export default function TripHero({ trip }: { trip: TripRow }) {
 
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 pt-24">
         {isAvailable && (
-          <span className="inline-block bg-[--color-success] text-white text-sm font-medium px-3 py-1 rounded-full mb-4">
+          <span className="inline-block bg-(--color-success) text-white text-sm font-medium px-3 py-1 rounded-full mb-4">
             {trip.status}
           </span>
         )}

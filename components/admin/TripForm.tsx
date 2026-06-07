@@ -108,22 +108,22 @@ export default function TripForm({ trip }: { trip?: TripRow }) {
     }
   }
 
-  const inputClass = 'border border-[--color-border] rounded-lg px-3 py-2 w-full focus:outline-none focus:border-[--color-cta] text-sm'
-  const labelClass = 'block text-xs font-medium text-[--color-subtle] mb-1'
-  const sectionClass = 'bg-[--color-surface] border border-[--color-border] rounded-xl p-5 space-y-4'
+  const inputClass = 'border border-(--color-border) rounded-lg px-3 py-2 w-full focus:outline-none focus:border-(--color-cta) text-sm'
+  const labelClass = 'block text-xs font-medium text-(--color-subtle) mb-1'
+  const sectionClass = 'bg-(--color-surface) border border-(--color-border) rounded-xl p-5 space-y-4'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-display font-semibold text-[--color-text]">
+        <h1 className="text-2xl font-display font-semibold text-(--color-text)">
           {trip ? 'Rediger tur' : 'Ny tur'}
         </h1>
-        <label className="flex items-center gap-2 text-sm text-[--color-text] cursor-pointer">
+        <label className="flex items-center gap-2 text-sm text-(--color-text) cursor-pointer">
           <input
             type="checkbox"
             checked={published}
             onChange={e => setPublished(e.target.checked)}
-            className="accent-[--color-cta] w-4 h-4"
+            className="accent-(--color-cta) w-4 h-4"
           />
           Publisert
         </label>
@@ -131,7 +131,7 @@ export default function TripForm({ trip }: { trip?: TripRow }) {
 
       {/* Grunninfo */}
       <div className={sectionClass}>
-        <h2 className="text-sm font-semibold text-[--color-text]">Grunninfo</h2>
+        <h2 className="text-sm font-semibold text-(--color-text)">Grunninfo</h2>
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2">
             <label className={labelClass}>Navn *</label>
@@ -174,7 +174,7 @@ export default function TripForm({ trip }: { trip?: TripRow }) {
 
       {/* Priser */}
       <div className={sectionClass}>
-        <h2 className="text-sm font-semibold text-[--color-text]">Priser (EUR)</h2>
+        <h2 className="text-sm font-semibold text-(--color-text)">Priser (EUR)</h2>
         <div className="grid grid-cols-3 gap-4">
           <div>
             <label className={labelClass}>Pris dobbel *</label>
@@ -205,7 +205,7 @@ export default function TripForm({ trip }: { trip?: TripRow }) {
 
       {/* Innhold */}
       <div className={sectionClass}>
-        <h2 className="text-sm font-semibold text-[--color-text]">Innhold</h2>
+        <h2 className="text-sm font-semibold text-(--color-text)">Innhold</h2>
         <div>
           <label className={labelClass}>Beskrivelse</label>
           <textarea value={description} onChange={e => setDescription(e.target.value)} className={inputClass} rows={4} />
@@ -226,14 +226,14 @@ export default function TripForm({ trip }: { trip?: TripRow }) {
 
       {/* Inkludert / ikke inkludert */}
       <div className={sectionClass}>
-        <h2 className="text-sm font-semibold text-[--color-text]">Inkludert / Ikke inkludert</h2>
+        <h2 className="text-sm font-semibold text-(--color-text)">Inkludert / Ikke inkludert</h2>
         <StringListEditor label="Inkludert" items={included} onChange={setIncluded} />
         <StringListEditor label="Ikke inkludert" items={notIncluded} onChange={setNotIncluded} />
       </div>
 
       {/* Extras */}
       <div className={sectionClass}>
-        <h2 className="text-sm font-semibold text-[--color-text]">Tilvalg (extras)</h2>
+        <h2 className="text-sm font-semibold text-(--color-text)">Tilvalg (extras)</h2>
         {extras.map((e, i) => (
           <div key={i} className="flex gap-2 items-center">
             <input
@@ -248,37 +248,37 @@ export default function TripForm({ trip }: { trip?: TripRow }) {
               value={e.price_eur}
               onChange={ev => setExtras(prev => prev.map((x, j) => j === i ? { ...x, price_eur: parseFloat(ev.target.value) || 0 } : x))}
               placeholder="EUR"
-              className="border border-[--color-border] rounded-lg px-3 py-2 w-24 focus:outline-none focus:border-[--color-cta] text-sm"
+              className="border border-(--color-border) rounded-lg px-3 py-2 w-24 focus:outline-none focus:border-(--color-cta) text-sm"
               min={0} step={0.01}
             />
             <button type="button" onClick={() => setExtras(prev => prev.filter((_, j) => j !== i))}
-              className="text-[--color-muted] hover:text-red-500 text-sm px-2">✕</button>
+              className="text-(--color-muted) hover:text-red-500 text-sm px-2">✕</button>
           </div>
         ))}
         <button type="button" onClick={() => setExtras(prev => [...prev, { name: '', price_eur: 0 }])}
-          className="text-[--color-cta] text-sm hover:underline">+ Legg til tilvalg</button>
+          className="text-(--color-cta) text-sm hover:underline">+ Legg til tilvalg</button>
       </div>
 
       {/* Coaches */}
       <div className={sectionClass}>
-        <h2 className="text-sm font-semibold text-[--color-text]">Coaches</h2>
+        <h2 className="text-sm font-semibold text-(--color-text)">Coaches</h2>
         {coaches.map((c, i) => (
-          <div key={i} className="grid grid-cols-2 gap-2 border border-[--color-border] rounded-lg p-3">
+          <div key={i} className="grid grid-cols-2 gap-2 border border-(--color-border) rounded-lg p-3">
             <input type="text" value={c.name}  onChange={ev => setCoaches(prev => prev.map((x, j) => j === i ? { ...x, name: ev.target.value } : x))}  placeholder="Navn"   className={inputClass} />
             <input type="text" value={c.title} onChange={ev => setCoaches(prev => prev.map((x, j) => j === i ? { ...x, title: ev.target.value } : x))} placeholder="Tittel" className={inputClass} />
             <input type="text" value={c.image} onChange={ev => setCoaches(prev => prev.map((x, j) => j === i ? { ...x, image: ev.target.value } : x))} placeholder="Bilde URL" className={inputClass} />
             <input type="text" value={c.bio}   onChange={ev => setCoaches(prev => prev.map((x, j) => j === i ? { ...x, bio: ev.target.value } : x))}   placeholder="Bio"    className={inputClass} />
             <button type="button" onClick={() => setCoaches(prev => prev.filter((_, j) => j !== i))}
-              className="col-span-2 text-[--color-muted] hover:text-red-500 text-xs text-right">Fjern coach</button>
+              className="col-span-2 text-(--color-muted) hover:text-red-500 text-xs text-right">Fjern coach</button>
           </div>
         ))}
         <button type="button" onClick={() => setCoaches(prev => [...prev, { name: '', title: '', bio: '', image: '' }])}
-          className="text-[--color-cta] text-sm hover:underline">+ Legg til coach</button>
+          className="text-(--color-cta) text-sm hover:underline">+ Legg til coach</button>
       </div>
 
       {/* FAQ */}
       <div className={sectionClass}>
-        <h2 className="text-sm font-semibold text-[--color-text]">FAQ</h2>
+        <h2 className="text-sm font-semibold text-(--color-text)">FAQ</h2>
         {faq.map((f, i) => (
           <div key={i} className="flex gap-2 items-start">
             <div className="flex-1 space-y-2">
@@ -286,22 +286,22 @@ export default function TripForm({ trip }: { trip?: TripRow }) {
               <textarea value={f.answer} onChange={ev => setFaq(prev => prev.map((x, j) => j === i ? { ...x, answer: ev.target.value } : x))} placeholder="Svar" className={inputClass} rows={2} />
             </div>
             <button type="button" onClick={() => setFaq(prev => prev.filter((_, j) => j !== i))}
-              className="text-[--color-muted] hover:text-red-500 text-sm px-2 mt-2">✕</button>
+              className="text-(--color-muted) hover:text-red-500 text-sm px-2 mt-2">✕</button>
           </div>
         ))}
         <button type="button" onClick={() => setFaq(prev => [...prev, { question: '', answer: '' }])}
-          className="text-[--color-cta] text-sm hover:underline">+ Legg til FAQ</button>
+          className="text-(--color-cta) text-sm hover:underline">+ Legg til FAQ</button>
       </div>
 
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
       <div className="flex gap-4 pb-8">
         <button type="button" onClick={() => router.back()}
-          className="px-5 py-2.5 text-[--color-subtle] hover:text-[--color-text] text-sm transition-colors">
+          className="px-5 py-2.5 text-(--color-subtle) hover:text-(--color-text) text-sm transition-colors">
           Avbryt
         </button>
         <button type="submit" disabled={saving}
-          className="bg-[--color-cta] text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-60">
+          className="bg-(--color-cta) text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-60">
           {saving ? 'Lagrer…' : trip ? 'Lagre endringer' : 'Opprett tur'}
         </button>
       </div>
@@ -318,7 +318,7 @@ function StringListEditor({
 }) {
   return (
     <div>
-      <p className="text-xs font-medium text-[--color-subtle] mb-2">{label}</p>
+      <p className="text-xs font-medium text-(--color-subtle) mb-2">{label}</p>
       <div className="space-y-2">
         {items.map((item, i) => (
           <div key={i} className="flex gap-2">
@@ -326,15 +326,15 @@ function StringListEditor({
               type="text"
               value={item}
               onChange={e => onChange(items.map((x, j) => j === i ? e.target.value : x))}
-              className="border border-[--color-border] rounded-lg px-3 py-2 flex-1 focus:outline-none focus:border-[--color-cta] text-sm"
+              className="border border-(--color-border) rounded-lg px-3 py-2 flex-1 focus:outline-none focus:border-(--color-cta) text-sm"
             />
             <button type="button" onClick={() => onChange(items.filter((_, j) => j !== i))}
-              className="text-[--color-muted] hover:text-red-500 text-sm px-2">✕</button>
+              className="text-(--color-muted) hover:text-red-500 text-sm px-2">✕</button>
           </div>
         ))}
       </div>
       <button type="button" onClick={() => onChange([...items, ''])}
-        className="text-[--color-cta] text-sm hover:underline mt-2">+ Legg til</button>
+        className="text-(--color-cta) text-sm hover:underline mt-2">+ Legg til</button>
     </div>
   )
 }

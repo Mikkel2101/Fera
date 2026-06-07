@@ -15,11 +15,11 @@ export default async function BookLayout({
   const { id } = await params
 
   return (
-    <div className="min-h-screen bg-[--color-surface]">
+    <div className="min-h-screen bg-(--color-surface)">
       <div className="max-w-2xl mx-auto px-4 py-8">
         <Link
           href={`/travels/${id}`}
-          className="text-[--color-subtle] text-sm hover:text-[--color-text]"
+          className="text-(--color-subtle) text-sm hover:text-(--color-text)"
         >
           ← Tilbake til turen
         </Link>

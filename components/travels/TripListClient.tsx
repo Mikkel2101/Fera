@@ -15,12 +15,12 @@ export default function TripListClient({ initialTrips }: { initialTrips: Trip[] 
   }, [])
 
   return (
-    <section className="bg-[--color-sand] min-h-screen">
+    <section className="bg-(--color-sand) min-h-screen">
       <TripFilters trips={initialTrips} onFilter={handleFilter} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {filtered.length === 0 ? (
-          <p className="text-[--color-muted] text-center py-16 text-lg">
+          <p className="text-(--color-muted) text-center py-16 text-lg">
             Ingen turer matcher filtrene dine
           </p>
         ) : (

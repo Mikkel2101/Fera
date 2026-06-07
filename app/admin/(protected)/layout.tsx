@@ -15,7 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (role !== 'admin') redirect('/?error=not_authorized')
 
   return (
-    <div className="min-h-screen bg-[--color-bg]">
+    <div className="min-h-screen bg-(--color-bg)">
       <AdminNav />
       <main className="max-w-6xl mx-auto px-6 py-8">
         {children}

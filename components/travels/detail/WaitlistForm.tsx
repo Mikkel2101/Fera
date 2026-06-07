@@ -28,17 +28,17 @@ export default function WaitlistForm({ tripId }: { tripId: string }) {
   }
 
   return (
-    <section className="bg-[--color-sand] px-4 sm:px-6 lg:px-8 py-12 border-t border-[--color-border]">
+    <section className="bg-(--color-sand) px-4 sm:px-6 lg:px-8 py-12 border-t border-(--color-border)">
       <div className="max-w-md mx-auto text-center">
-        <h2 className="font-display text-2xl font-bold text-[--color-text] mb-3">
+        <h2 className="font-display text-2xl font-bold text-(--color-text) mb-3">
           Meld deg på venteliste
         </h2>
-        <p className="text-[--color-muted] mb-6">
+        <p className="text-(--color-muted) mb-6">
           Denne turen er fullbooket. Vi gir deg beskjed hvis en plass blir ledig.
         </p>
 
         {success ? (
-          <p className="text-[--color-success] font-medium">
+          <p className="text-(--color-success) font-medium">
             Du er på ventelisten! Vi gir deg beskjed hvis en plass blir ledig.
           </p>
         ) : (
@@ -49,15 +49,15 @@ export default function WaitlistForm({ tripId }: { tripId: string }) {
               placeholder="din@epost.no"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="border border-[--color-border] rounded-lg px-4 py-3 text-[--color-text] bg-white focus:outline-none focus:ring-2 focus:ring-[--color-gold]/40 w-full"
+              className="border border-(--color-border) rounded-lg px-4 py-3 text-(--color-text) bg-white focus:outline-none focus:ring-2 focus:ring-(--color-gold)/40 w-full"
             />
             {error && (
-              <p className="text-[--color-cta] text-sm">Noe gikk galt — prøv igjen.</p>
+              <p className="text-(--color-cta) text-sm">Noe gikk galt — prøv igjen.</p>
             )}
             <button
               type="submit"
               disabled={loading}
-              className="bg-[--color-cta] text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
+              className="bg-(--color-cta) text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
             >
               {loading ? 'Sender...' : 'Meld meg på'}
             </button>

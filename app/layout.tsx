@@ -14,7 +14,7 @@ const dmSans = DM_Sans({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="nb" className={`${playfair.variable} ${dmSans.variable}`}>
-      <body className="bg-light font-sans antialiased">{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   )
 }

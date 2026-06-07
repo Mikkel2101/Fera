@@ -15,15 +15,15 @@ export default function ProgressBar({ currentStep }: { currentStep: 1 | 2 | 3 })
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold
                 ${n <= currentStep
-                  ? 'bg-[--color-cta] text-white'
-                  : 'bg-[--color-border] text-[--color-muted]'
+                  ? 'bg-(--color-cta) text-white'
+                  : 'bg-(--color-border) text-(--color-muted)'
                 }`}
             >
               {n < currentStep ? '✓' : n}
             </div>
             <span
               className={`text-xs mt-1 whitespace-nowrap
-                ${n === currentStep ? 'text-[--color-text] font-medium' : 'text-[--color-muted]'}`}
+                ${n === currentStep ? 'text-(--color-text) font-medium' : 'text-(--color-muted)'}`}
             >
               {label}
             </span>
@@ -31,7 +31,7 @@ export default function ProgressBar({ currentStep }: { currentStep: 1 | 2 | 3 })
           {i < STEPS.length - 1 && (
             <div
               className={`flex-1 h-0.5 mx-2 mb-4
-                ${n < currentStep ? 'bg-[--color-cta]' : 'bg-[--color-border]'}`}
+                ${n < currentStep ? 'bg-(--color-cta)' : 'bg-(--color-border)'}`}
             />
           )}
         </div>

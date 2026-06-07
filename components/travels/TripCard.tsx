@@ -20,11 +20,11 @@ function getStatusBadge(trip: Trip) {
   if (trip.status === 'Få plasser' || (available !== null && trip.max_participants! > 0 && available / trip.max_participants! < 0.2)) {
     return {
       label: available != null ? `${available} plasser igjen` : 'Få plasser',
-      className: 'bg-[--color-cta] text-white',
+      className: 'bg-(--color-cta) text-white',
     }
   }
 
-  return { label: 'Åpen', className: 'bg-[--color-success] text-white' }
+  return { label: 'Åpen', className: 'bg-(--color-success) text-white' }
 }
 
 function hasEarlyBird(trip: Trip): boolean {
@@ -52,7 +52,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
   const isFull = trip.status === 'Fullbooket'
 
   return (
-    <div className="bg-[--color-dark-card] rounded-[14px] overflow-hidden flex flex-col">
+    <div className="bg-(--color-dark-card) rounded-[14px] overflow-hidden flex flex-col">
       {/* Bildedel */}
       <div className="relative aspect-video">
         {trip.main_image ? (
@@ -67,11 +67,11 @@ export default function TripCard({ trip }: { trip: Trip }) {
             <div className="absolute inset-0 bg-black/40" />
           </>
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[--color-dark] to-[--color-dark-mid]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-(--color-dark) to-(--color-dark-mid)" />
         )}
 
         {/* FERA watermark */}
-        <span className="absolute bottom-3 left-4 font-display text-[--color-gold]/20 text-4xl font-bold select-none pointer-events-none">
+        <span className="absolute bottom-3 left-4 font-display text-(--color-gold)/20 text-4xl font-bold select-none pointer-events-none">
           FERA
         </span>
 
@@ -86,7 +86,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
 
         {/* Early bird badge */}
         {earlyBird && (
-          <span className="absolute bottom-3 right-3 bg-[--color-gold] text-white text-xs font-medium px-2.5 py-1 rounded-full">
+          <span className="absolute bottom-3 right-3 bg-(--color-gold) text-white text-xs font-medium px-2.5 py-1 rounded-full">
             Early bird
           </span>
         )}
@@ -95,7 +95,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
       {/* Kortinnhold */}
       <div className="flex flex-col flex-1 p-4 gap-2">
         {trip.trip_type && (
-          <p className="text-[--color-muted] text-xs uppercase tracking-wider font-sans">
+          <p className="text-(--color-muted) text-xs uppercase tracking-wider font-sans">
             {trip.trip_type}
           </p>
         )}
@@ -104,19 +104,19 @@ export default function TripCard({ trip }: { trip: Trip }) {
           {trip.name}
         </h3>
 
-        <p className="text-[--color-muted] text-sm">
+        <p className="text-(--color-muted) text-sm">
           {formatDate(trip.start_date)} · {trip.destination}
           {spotsLeft != null && ` · ${spotsLeft} plasser igjen`}
         </p>
 
         {/* Footer */}
         <div className="flex items-center justify-between mt-auto pt-4">
-          <span className="text-[--color-gold] text-2xl font-bold">
+          <span className="text-(--color-gold) text-2xl font-bold">
             €{trip.price_double_eur.toLocaleString('nb-NO')}
           </span>
           <Link
             href={`/travels/${trip.id}`}
-            className="bg-[--color-cta] text-white text-sm font-medium px-4 py-2 rounded-full hover:opacity-90 transition-opacity"
+            className="bg-(--color-cta) text-white text-sm font-medium px-4 py-2 rounded-full hover:opacity-90 transition-opacity"
           >
             {isFull ? 'Venteliste →' : 'Se detaljer →'}
           </Link>

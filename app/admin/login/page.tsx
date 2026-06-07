@@ -30,16 +30,16 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[--color-bg] flex items-center justify-center px-4">
-      <div className="bg-[--color-surface] border border-[--color-border] rounded-2xl p-8 w-full max-w-sm shadow-sm">
-        <h1 className="font-display text-2xl font-semibold text-[--color-text] mb-1">
+    <div className="min-h-screen bg-(--color-bg) flex items-center justify-center px-4">
+      <div className="bg-(--color-surface) border border-(--color-border) rounded-2xl p-8 w-full max-w-sm shadow-sm">
+        <h1 className="font-display text-2xl font-semibold text-(--color-text) mb-1">
           Fera Admin
         </h1>
-        <p className="text-sm text-[--color-muted] mb-6">Logg inn for å fortsette</p>
+        <p className="text-sm text-(--color-muted) mb-6">Logg inn for å fortsette</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-[--color-subtle] mb-1">
+            <label className="block text-xs font-medium text-(--color-subtle) mb-1">
               E-post
             </label>
             <input
@@ -48,11 +48,11 @@ export default function AdminLoginPage() {
               onChange={e => setEmail(e.target.value)}
               required
               autoFocus
-              className="border border-[--color-border] rounded-lg px-3 py-2 w-full focus:outline-none focus:border-[--color-cta] text-sm"
+              className="border border-(--color-border) rounded-lg px-3 py-2 w-full focus:outline-none focus:border-(--color-cta) text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-[--color-subtle] mb-1">
+            <label className="block text-xs font-medium text-(--color-subtle) mb-1">
               Passord
             </label>
             <input
@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
-              className="border border-[--color-border] rounded-lg px-3 py-2 w-full focus:outline-none focus:border-[--color-cta] text-sm"
+              className="border border-(--color-border) rounded-lg px-3 py-2 w-full focus:outline-none focus:border-(--color-cta) text-sm"
             />
           </div>
 
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[--color-cta] text-white py-2.5 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-60"
+            className="w-full bg-(--color-cta) text-white py-2.5 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-60"
           >
             {loading ? 'Logger inn…' : 'Logg inn'}
           </button>

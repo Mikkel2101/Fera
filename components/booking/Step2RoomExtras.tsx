@@ -46,13 +46,13 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-display font-semibold text-[--color-text] mt-6">
+      <h2 className="text-2xl font-display font-semibold text-(--color-text) mt-6">
         Rom & tilvalg
       </h2>
 
       {/* Romtype */}
       <div>
-        <p className="text-sm font-medium text-[--color-text] mb-3">Romtype</p>
+        <p className="text-sm font-medium text-(--color-text) mb-3">Romtype</p>
         <div className="space-y-3">
           {([
             { value: 'Dobbel', label: 'Dobbeltrom', price: trip.price_double_eur },
@@ -62,8 +62,8 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
               key={value}
               className={`flex items-center justify-between border rounded-lg p-4 cursor-pointer transition-colors
                 ${roomType === value
-                  ? 'border-[--color-cta] bg-orange-50'
-                  : 'border-[--color-border] hover:border-[--color-muted]'
+                  ? 'border-(--color-cta) bg-orange-50'
+                  : 'border-(--color-border) hover:border-(--color-muted)'
                 }`}
             >
               <div className="flex items-center gap-3">
@@ -73,18 +73,18 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
                   value={value}
                   checked={roomType === value}
                   onChange={() => setRoomType(value)}
-                  className="accent-[--color-cta]"
+                  className="accent-(--color-cta)"
                 />
-                <span className="font-medium text-[--color-text]">{label}</span>
+                <span className="font-medium text-(--color-text)">{label}</span>
               </div>
-              <span className="text-[--color-muted]">{price} EUR</span>
+              <span className="text-(--color-muted)">{price} EUR</span>
             </label>
           ))}
         </div>
 
         {roomType === 'Dobbel' && (
           <div className="mt-3">
-            <label className="block text-sm font-medium text-[--color-text] mb-1">
+            <label className="block text-sm font-medium text-(--color-text) mb-1">
               Hvem deler du rom med?
             </label>
             <input
@@ -92,7 +92,7 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
               value={roommateName}
               onChange={e => setRoommateName(e.target.value)}
               placeholder="Navn (valgfritt)"
-              className="border border-[--color-border] rounded-lg px-4 py-3 w-full focus:outline-none focus:border-[--color-cta]"
+              className="border border-(--color-border) rounded-lg px-4 py-3 w-full focus:outline-none focus:border-(--color-cta)"
             />
           </div>
         )}
@@ -101,23 +101,23 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
       {/* Tilvalg */}
       {trip.extras.length > 0 && (
         <div>
-          <p className="text-sm font-medium text-[--color-text] mb-3">Tilvalg</p>
+          <p className="text-sm font-medium text-(--color-text) mb-3">Tilvalg</p>
           <div className="space-y-2">
             {trip.extras.map(extra => (
               <label
                 key={extra.name}
-                className="flex items-center justify-between border border-[--color-border] rounded-lg p-4 cursor-pointer hover:border-[--color-muted] transition-colors"
+                className="flex items-center justify-between border border-(--color-border) rounded-lg p-4 cursor-pointer hover:border-(--color-muted) transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <input
                     type="checkbox"
                     checked={selectedExtras.includes(extra.name)}
                     onChange={() => toggleExtra(extra.name)}
-                    className="accent-[--color-cta] w-4 h-4"
+                    className="accent-(--color-cta) w-4 h-4"
                   />
-                  <span className="text-[--color-text]">{extra.name}</span>
+                  <span className="text-(--color-text)">{extra.name}</span>
                 </div>
-                <span className="text-[--color-gold] font-medium">+ {extra.price_eur} EUR</span>
+                <span className="text-(--color-gold) font-medium">+ {extra.price_eur} EUR</span>
               </label>
             ))}
           </div>
@@ -125,22 +125,22 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
       )}
 
       {/* Prisoppsummering */}
-      <div className="bg-[--color-sand] rounded-xl p-5 space-y-2">
-        <p className="text-sm font-medium text-[--color-text] mb-3">Prisoppsummering</p>
-        <div className="flex justify-between text-sm text-[--color-subtle]">
+      <div className="bg-(--color-sand) rounded-xl p-5 space-y-2">
+        <p className="text-sm font-medium text-(--color-text) mb-3">Prisoppsummering</p>
+        <div className="flex justify-between text-sm text-(--color-subtle)">
           <span>Depositum (betales nå)</span>
           <span>{trip.deposit_eur} EUR</span>
         </div>
         {selectedExtras.map(name => {
           const extra = trip.extras.find(e => e.name === name)
           return extra ? (
-            <div key={name} className="flex justify-between text-sm text-[--color-subtle]">
+            <div key={name} className="flex justify-between text-sm text-(--color-subtle)">
               <span>+ {extra.name}</span>
               <span>{extra.price_eur} EUR</span>
             </div>
           ) : null
         })}
-        <div className="border-t border-[--color-border] pt-2 flex justify-between font-bold text-[--color-gold]">
+        <div className="border-t border-(--color-border) pt-2 flex justify-between font-bold text-(--color-gold)">
           <span>Total depositum</span>
           <span>{totalDeposit} EUR</span>
         </div>
@@ -151,14 +151,14 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
         <button
           type="button"
           onClick={onBack}
-          className="px-6 py-3 text-[--color-subtle] hover:text-[--color-text] transition-colors"
+          className="px-6 py-3 text-(--color-subtle) hover:text-(--color-text) transition-colors"
         >
           ← Tilbake
         </button>
         <button
           type="button"
           onClick={handleSubmit}
-          className="flex-1 bg-[--color-cta] text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
+          className="flex-1 bg-(--color-cta) text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
         >
           Gå til betaling →
         </button>

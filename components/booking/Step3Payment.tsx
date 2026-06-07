@@ -61,31 +61,31 @@ export default function Step3Payment({ trip, step1, step2, onBack }: Props) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-display font-semibold text-[--color-text] mt-6">
+      <h2 className="text-2xl font-display font-semibold text-(--color-text) mt-6">
         Oppsummering og betaling
       </h2>
 
       {/* Oppsummering */}
-      <div className="bg-[--color-sand] rounded-xl p-5 space-y-3">
+      <div className="bg-(--color-sand) rounded-xl p-5 space-y-3">
         <div className="flex justify-between text-sm">
-          <span className="text-[--color-subtle]">Navn</span>
-          <span className="text-[--color-text] font-medium">{step1.first_name} {step1.last_name}</span>
+          <span className="text-(--color-subtle)">Navn</span>
+          <span className="text-(--color-text) font-medium">{step1.first_name} {step1.last_name}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-[--color-subtle]">E-post</span>
-          <span className="text-[--color-text]">{step1.email}</span>
+          <span className="text-(--color-subtle)">E-post</span>
+          <span className="text-(--color-text)">{step1.email}</span>
         </div>
         <div className="flex justify-between text-sm">
-          <span className="text-[--color-subtle]">Romtype</span>
-          <span className="text-[--color-text]">{ROOM_LABELS[step2.room_type] ?? step2.room_type}</span>
+          <span className="text-(--color-subtle)">Romtype</span>
+          <span className="text-(--color-text)">{ROOM_LABELS[step2.room_type] ?? step2.room_type}</span>
         </div>
         {step2.selected_extras.length > 0 && (
           <div className="flex justify-between text-sm">
-            <span className="text-[--color-subtle]">Tilvalg</span>
-            <span className="text-[--color-text]">{step2.selected_extras.join(', ')}</span>
+            <span className="text-(--color-subtle)">Tilvalg</span>
+            <span className="text-(--color-text)">{step2.selected_extras.join(', ')}</span>
           </div>
         )}
-        <div className="border-t border-[--color-border] pt-3 flex justify-between font-bold text-[--color-gold]">
+        <div className="border-t border-(--color-border) pt-3 flex justify-between font-bold text-(--color-gold)">
           <span>Depositum</span>
           <span>{trip.deposit_eur} EUR</span>
         </div>
@@ -98,9 +98,9 @@ export default function Step3Payment({ trip, step1, step2, onBack }: Props) {
             type="checkbox"
             checked={gdprConsent}
             onChange={e => setGdprConsent(e.target.checked)}
-            className="accent-[--color-cta] w-4 h-4 mt-0.5 flex-shrink-0"
+            className="accent-(--color-cta) w-4 h-4 mt-0.5 flex-shrink-0"
           />
-          <span className="text-sm text-[--color-text]">
+          <span className="text-sm text-(--color-text)">
             Jeg samtykker til at Fera Padel lagrer og behandler mine personopplysninger
             i henhold til personvernreglene (GDPR). <span className="text-red-500">*</span>
           </span>
@@ -111,9 +111,9 @@ export default function Step3Payment({ trip, step1, step2, onBack }: Props) {
             type="checkbox"
             checked={termsAccepted}
             onChange={e => setTermsAccepted(e.target.checked)}
-            className="accent-[--color-cta] w-4 h-4 mt-0.5 flex-shrink-0"
+            className="accent-(--color-cta) w-4 h-4 mt-0.5 flex-shrink-0"
           />
-          <span className="text-sm text-[--color-text]">
+          <span className="text-sm text-(--color-text)">
             Jeg aksepterer vilkårene for booking. <span className="text-red-500">*</span>
           </span>
         </label>
@@ -127,7 +127,7 @@ export default function Step3Payment({ trip, step1, step2, onBack }: Props) {
           type="button"
           onClick={onBack}
           disabled={loading}
-          className="px-6 py-3 text-[--color-subtle] hover:text-[--color-text] transition-colors disabled:opacity-50"
+          className="px-6 py-3 text-(--color-subtle) hover:text-(--color-text) transition-colors disabled:opacity-50"
         >
           ← Tilbake
         </button>
@@ -135,7 +135,7 @@ export default function Step3Payment({ trip, step1, step2, onBack }: Props) {
           type="button"
           onClick={handleSubmit}
           disabled={loading}
-          className="flex-1 bg-[--color-cta] text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
+          className="flex-1 bg-(--color-cta) text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
         >
           {loading ? 'Sender til betaling…' : `Betal depositum ${trip.deposit_eur} EUR →`}
         </button>

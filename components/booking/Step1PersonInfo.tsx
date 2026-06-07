@@ -57,17 +57,17 @@ export default function Step1PersonInfo({ data, onNext }: Props) {
     `border rounded-lg px-4 py-3 w-full focus:outline-none ${
       errors[field]
         ? 'border-red-400 focus:border-red-400'
-        : 'border-[--color-border] focus:border-[--color-cta]'
+        : 'border-(--color-border) focus:border-(--color-cta)'
     }`
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      <h2 className="text-2xl font-display font-semibold text-[--color-text] mb-6">
+      <h2 className="text-2xl font-display font-semibold text-(--color-text) mb-6">
         Dine opplysninger
       </h2>
 
       <div>
-        <label className="block text-sm font-medium text-[--color-text] mb-1">
+        <label className="block text-sm font-medium text-(--color-text) mb-1">
           Fornavn <span className="text-red-500">*</span>
         </label>
         <input
@@ -81,7 +81,7 @@ export default function Step1PersonInfo({ data, onNext }: Props) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[--color-text] mb-1">
+        <label className="block text-sm font-medium text-(--color-text) mb-1">
           Etternavn <span className="text-red-500">*</span>
         </label>
         <input
@@ -95,7 +95,7 @@ export default function Step1PersonInfo({ data, onNext }: Props) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[--color-text] mb-1">
+        <label className="block text-sm font-medium text-(--color-text) mb-1">
           E-post <span className="text-red-500">*</span>
         </label>
         <input
@@ -109,7 +109,7 @@ export default function Step1PersonInfo({ data, onNext }: Props) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[--color-text] mb-1">Telefon</label>
+        <label className="block text-sm font-medium text-(--color-text) mb-1">Telefon</label>
         <input
           type="tel"
           value={formData.phone}
@@ -119,7 +119,7 @@ export default function Step1PersonInfo({ data, onNext }: Props) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[--color-text] mb-1">Padelnivå</label>
+        <label className="block text-sm font-medium text-(--color-text) mb-1">Padelnivå</label>
         <select
           value={formData.padel_level}
           onChange={e => setFormData(p => ({ ...p, padel_level: e.target.value }))}
@@ -134,7 +134,7 @@ export default function Step1PersonInfo({ data, onNext }: Props) {
 
       <button
         type="submit"
-        className="w-full bg-[--color-cta] text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
+        className="w-full bg-(--color-cta) text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
       >
         Neste: Rom &amp; tilvalg →
       </button>
