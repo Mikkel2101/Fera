@@ -45,3 +45,6 @@ next-env.d.ts
 
 # sensitive
 recovery-codes.txt
+
+# local image assets (already in Supabase Storage)
+/Bilder/

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source not "../docs/**";
 
 @theme {
   /* Bakgrunner */
@@ -34,5 +35,5 @@
 }
 
 body {
-  @apply bg-[--color-bg] text-[--color-text] font-sans;
+  @apply bg-(--color-bg) text-(--color-text) font-sans;
 }
