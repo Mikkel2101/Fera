@@ -31,7 +31,11 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(REDIRECT_MAP[cleanHost], 301)
   }
 
-  if (cleanHost.startsWith('admin.') || pathname.startsWith('/admin')) {
+  if (
+    cleanHost.startsWith('admin.') ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/shop')
+  ) {
     return response
   }
 
