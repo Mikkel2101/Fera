@@ -348,51 +348,50 @@ export type Database = {
       products: {
         Row: {
           id: string
-          name_no: string
-          description_no: string | null
-          price_nok: number
-          original_price_eur: number | null
-          brand: string | null
-          category: string | null
+          name: string
+          slug: string
+          brand: string
+          category: string
+          description: string | null
+          price_eur: number
           images: string[]
-          ean: string | null
-          sku: string | null
           stock_status: string
           padelpoint_id: string | null
+          padelpoint_url: string | null
           published: boolean
           created_at: string
+          updated_at: string
         }
         Insert: {
           id?: string
-          name_no: string
-          description_no?: string | null
-          price_nok: number
-          original_price_eur?: number | null
-          brand?: string | null
-          category?: string | null
+          name: string
+          slug: string
+          brand: string
+          category: string
+          description?: string | null
+          price_eur: number
           images?: string[]
-          ean?: string | null
-          sku?: string | null
           stock_status?: string
           padelpoint_id?: string | null
+          padelpoint_url?: string | null
           published?: boolean
           created_at?: string
+          updated_at?: string
         }
         Update: {
           id?: string
-          name_no?: string
-          description_no?: string | null
-          price_nok?: number
-          original_price_eur?: number | null
-          brand?: string | null
-          category?: string | null
+          name?: string
+          slug?: string
+          brand?: string
+          category?: string
+          description?: string | null
+          price_eur?: number
           images?: string[]
-          ean?: string | null
-          sku?: string | null
           stock_status?: string
           padelpoint_id?: string | null
+          padelpoint_url?: string | null
           published?: boolean
-          created_at?: string
+          updated_at?: string
         }
         Relationships: []
       }
