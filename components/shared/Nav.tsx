@@ -4,15 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart/context'
 
-const eventerSegmenter = [
-  { label: 'Åpen tur', slug: 'apen-tur' },
-  { label: 'Klubbtur', slug: 'klubbtur' },
-  { label: 'Privat', slug: 'privat' },
-  { label: 'Bedrift', slug: 'bedrift' },
-]
-
 export default function Nav() {
-  const [eventerOpen, setEventerOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { totalItems, openCart } = useCart()
 
@@ -21,7 +13,7 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link href="/travels" className="font-display italic font-bold text-(--color-dark) text-2xl tracking-tight leading-none">
+          <Link href="/" className="font-display italic font-bold text-(--color-dark) text-2xl tracking-tight leading-none">
             Fera
           </Link>
 
@@ -34,36 +26,11 @@ export default function Nav() {
               Shop
             </Link>
 
-            {/* Eventer dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={() => setEventerOpen(true)}
-              onMouseLeave={() => setEventerOpen(false)}
-            >
-              <button className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors flex items-center gap-1">
-                Reiser
-                <span className="text-[10px]">▾</span>
-              </button>
-              {eventerOpen && (
-                <div className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-lg border border-(--color-border) py-2 min-w-[180px] z-50">
-                  {eventerSegmenter.map((seg) => (
-                    <Link
-                      key={seg.slug}
-                      href={`/travels/eventer/${seg.slug}`}
-                      className="block px-4 py-2 text-[13px] text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-sand) transition-colors"
-                    >
-                      {seg.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-
             <Link
-              href="/travels/inspirasjon"
+              href="/travels"
               className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors"
             >
-              Inspirasjon
+              Reiser
             </Link>
 
             <Link
@@ -138,27 +105,12 @@ export default function Nav() {
             >
               Shop
             </Link>
-            <div>
-              <p className="text-(--color-subtle) text-[14px] font-medium mb-1">Eventer</p>
-              <div className="pl-3 flex flex-col gap-2">
-                {eventerSegmenter.map((seg) => (
-                  <Link
-                    key={seg.slug}
-                    href={`/travels/eventer/${seg.slug}`}
-                    className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {seg.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
             <Link
-              href="/travels/inspirasjon"
+              href="/travels"
               className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors"
               onClick={() => setMenuOpen(false)}
             >
-              Inspirasjon
+              Reiser
             </Link>
             <Link
               href="/travels"
