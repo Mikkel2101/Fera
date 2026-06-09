@@ -121,7 +121,7 @@ export default async function HomePage() {
 
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible">
             {trips && trips.length > 0 ? trips.map((trip) => {
-              const spotsLeft = (trip.max_participants ?? 20) - (trip.confirmed_count ?? 0)
+              const spotsLeft = (trip.max_participants ?? 20) - (trip.registered_count ?? 0)
               const urgency = spotsLeft <= 3 ? 'text-red-400' : spotsLeft <= 6 ? 'text-(--color-sand)' : 'text-white/50'
               return (
                 <Link
@@ -137,7 +137,6 @@ export default async function HomePage() {
                     {trip.start_date && (
                       <p>{new Date(trip.start_date).toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                     )}
-                    {trip.duration_nights && <p>{trip.duration_nights} netter</p>}
                   </div>
                   <p className={`text-xs font-semibold ${urgency}`}>
                     {spotsLeft <= 0 ? 'Utsolgt' : `${spotsLeft} plasser igjen`}
