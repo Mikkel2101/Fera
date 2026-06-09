@@ -53,14 +53,14 @@ export default async function HomePage() {
             style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }}
           />
           {/* Gradient only at left/bottom so text is readable */}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(17,0,7,0.75) 0%, rgba(17,0,7,0.3) 60%, transparent 100%)' }} />
+          <div className="absolute inset-0 bg-gradient-to-r from-(--color-dark)/75 via-(--color-dark)/30 to-transparent" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
             <p className="text-white/50 text-xs tracking-[0.35em] uppercase font-sans mb-6">
               PADEL · SOL · SOSIALT
             </p>
             <h1 className="font-display italic font-bold text-white text-5xl sm:text-6xl lg:text-7xl leading-tight max-w-3xl mb-6">
               Profesjonelle<br />
-              <em className="not-italic" style={{ color: '#FFE1B0' }}>padelopplevelser</em><br />
+              <em className="not-italic text-(--color-sand)">padelopplevelser</em><br />
               fra Norge
             </h1>
             <p className="text-white/70 text-lg max-w-xl leading-relaxed mb-10">
@@ -119,10 +119,9 @@ export default async function HomePage() {
             loop
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
-            src="/travels-hero.mov"
+            src="/travels-hero.webm"
           />
-          {/* Dark overlay #1E000C @ 80% for text readability — the 20% is the video showing through */}
-          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(17, 0, 7, 0.80)' }} />
+          <div className="absolute inset-0 bg-(--color-dark)/80" />
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
             {/* Overline */}
