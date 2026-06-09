@@ -52,8 +52,8 @@ export default async function HomePage() {
           <div className="absolute inset-0"
             style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }}
           />
-          {/* Dark overlay so text stays readable */}
-          <div className="absolute inset-0 bg-(--color-dark)/65" />
+          {/* Gradient only at left/bottom so text is readable */}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(66,0,22,0.75) 0%, rgba(66,0,22,0.3) 60%, transparent 100%)' }} />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
             <p className="text-white/50 text-xs tracking-[0.35em] uppercase font-sans mb-6">
               PADEL · SOL · SOSIALT
