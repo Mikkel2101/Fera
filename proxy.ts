@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { updateSession } from '@/lib/supabase/proxy'
 
-const BRAND_MAP: Record<string, string> = {
-  'feratravels.no': 'travels',
-  'feratravels.com': 'travels',
-  'ferashop.no': 'shop',
-}
+const BRAND_MAP: Record<string, string> = {}
 
 const REDIRECT_MAP: Record<string, string> = {
-  'padeltur.no': 'https://feratravels.no',
-  'padelreise.no': 'https://feratravels.no',
+  'padeltur.no': 'https://ferabrand.com',
+  'padelreise.no': 'https://ferabrand.com',
+  'ferashop.no': 'https://ferabrand.com',
+  'www.ferashop.no': 'https://ferabrand.com',
+  'feratravels.no': 'https://ferabrand.com',
+  'www.feratravels.no': 'https://ferabrand.com',
+  'feratravels.com': 'https://ferabrand.com',
+  'www.feratravels.com': 'https://ferabrand.com',
 }
 
 export async function proxy(request: NextRequest) {
@@ -35,6 +37,7 @@ export async function proxy(request: NextRequest) {
     cleanHost.startsWith('admin.') ||
     pathname.startsWith('/admin') ||
     pathname.startsWith('/shop') ||
+    pathname.startsWith('/travels') ||
     pathname === '/'
   ) {
     return response
