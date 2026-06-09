@@ -53,14 +53,14 @@ export default async function HomePage() {
             style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }}
           />
           {/* Gradient only at left/bottom so text is readable */}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(66,0,22,0.75) 0%, rgba(66,0,22,0.3) 60%, transparent 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, color-mix(in srgb, var(--color-dark) 75%, transparent) 0%, color-mix(in srgb, var(--color-dark) 30%, transparent) 60%, transparent 100%)' }} />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
             <p className="text-white/50 text-xs tracking-[0.35em] uppercase font-sans mb-6">
               PADEL · SOL · SOSIALT
             </p>
             <h1 className="font-display italic font-bold text-white text-5xl sm:text-6xl lg:text-7xl leading-tight max-w-3xl mb-6">
               Profesjonelle<br />
-              <em className="not-italic" style={{ color: '#FFE1B0' }}>padelopplevelser</em><br />
+              <em className="not-italic text-(--color-sand)">padelopplevelser</em><br />
               fra Norge
             </h1>
             <p className="text-white/70 text-lg max-w-xl leading-relaxed mb-10">
@@ -115,7 +115,7 @@ export default async function HomePage() {
           <section className="bg-(--color-dark) py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden cursor-pointer">
             {/* Subtle radial glow */}
             <div className="absolute inset-0 opacity-20 pointer-events-none"
-              style={{ backgroundImage: 'radial-gradient(ellipse at 50% 100%, #7C0023 0%, transparent 70%)' }}
+              style={{ backgroundImage: 'radial-gradient(ellipse at 50% 100%, var(--color-dark-mid) 0%, transparent 70%)' }}
             />
 
             <div className="max-w-7xl mx-auto relative">
@@ -126,7 +126,7 @@ export default async function HomePage() {
 
               {/* Main headline */}
               <h2 className="font-display italic font-bold text-white text-4xl sm:text-5xl lg:text-6xl text-center leading-tight mb-6">
-                Opplev <em className="not-italic" style={{ color: '#FFE1B0' }}>Fera Reiser</em>
+                Opplev <em className="not-italic text-(--color-sand)">Fera Reiser</em>
               </h2>
 
               <p className="text-white/60 text-lg text-center max-w-2xl mx-auto mb-12 leading-relaxed">
@@ -141,7 +141,7 @@ export default async function HomePage() {
                   { number: '100%', label: 'inkludert' },
                 ].map((stat) => (
                   <div key={stat.label} className="text-center">
-                    <p className="font-display italic font-bold text-white text-3xl sm:text-4xl" style={{ color: '#FFE1B0' }}>{stat.number}</p>
+                    <p className="font-display italic font-bold text-(--color-sand) text-3xl sm:text-4xl">{stat.number}</p>
                     <p className="text-white/40 text-xs uppercase tracking-widest mt-1">{stat.label}</p>
                   </div>
                 ))}
@@ -242,7 +242,7 @@ export default async function HomePage() {
               ))}
             </div>
             <div className="text-center mt-8">
-              <a href="https://instagram.com/fera.padel" target="_blank" rel="noopener noreferrer"
+              <a href="https://instagram.com/feratravels" target="_blank" rel="noopener noreferrer"
                 className="inline-block bg-(--color-dark) text-white text-sm font-semibold px-8 py-3 rounded-full hover:opacity-90 transition-opacity">
                 Følg oss på Instagram
               </a>
@@ -273,8 +273,9 @@ export default async function HomePage() {
           <div>
             <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">Kontakt</h4>
             <ul className="space-y-2 text-sm">
-              <li>post@fera.no</li>
-              <li>Instagram: @fera.padel</li>
+              <li><a href="mailto:post@feratravels.com" className="hover:text-white transition-colors">post@feratravels.com</a></li>
+              <li>+47 414 94 200</li>
+              <li>Instagram: @feratravels</li>
             </ul>
           </div>
         </div>

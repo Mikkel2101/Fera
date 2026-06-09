@@ -19,7 +19,7 @@ export default function InspirasjonPage() {
       {/* Hero */}
       <section className="bg-gradient-to-b from-(--color-dark) to-(--color-dark-mid) px-4 sm:px-6 lg:px-8 py-20 md:py-28 text-center">
         <div className="max-w-3xl mx-auto">
-          <p className="text-(--color-gold) text-xs tracking-widest uppercase font-sans mb-4">Innblikk</p>
+          <p className="text-white/50 text-xs tracking-widest uppercase font-sans mb-4">Innblikk</p>
           <h1 className="font-display text-white text-4xl md:text-6xl font-bold leading-tight mb-6">
             Inspirasjon fra{' '}
             <em className="italic text-(--color-sand)">våre turer</em>

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export const metadata = {
   title: 'Om oss — Fera',
@@ -18,7 +19,7 @@ export default function OmOssPage() {
       {/* Hero */}
       <section className="bg-gradient-to-b from-(--color-dark) to-(--color-dark-mid) px-4 sm:px-6 lg:px-8 py-20 md:py-28 text-center">
         <div className="max-w-3xl mx-auto">
-          <p className="text-(--color-gold) text-xs tracking-widest uppercase font-sans mb-4">Om oss</p>
+          <p className="text-white/50 text-xs tracking-widest uppercase font-sans mb-4">Om oss</p>
           <h1 className="font-display text-white text-4xl md:text-6xl font-bold leading-tight mb-6">
             Bak{' '}
             <em className="italic text-(--color-sand)">Fera Travels</em>
@@ -33,10 +34,14 @@ export default function OmOssPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div className="aspect-[3/4] bg-(--color-ice) rounded-2xl overflow-hidden">
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-(--color-dark-mid) to-(--color-dark)">
-                <span className="text-white/20 text-xs uppercase tracking-widest">Petter Skimmeland</span>
-              </div>
+            <div className="aspect-[3/4] rounded-2xl overflow-hidden relative">
+              <Image
+                src="/Petter_Skimmeland.jpg"
+                alt="Petter Skimmeland"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-top"
+              />
             </div>
             <div>
               <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Grunnlegger</p>
@@ -60,14 +65,59 @@ export default function OmOssPage() {
         </div>
       </section>
 
+      {/* André */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="order-2 lg:order-1">
+              <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Partner & Coach</p>
+              <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-2">André Schlyter</h2>
+              <p className="text-(--color-muted) text-sm italic mb-6">Coach i verdensklasse</p>
+              <div className="space-y-4 text-(--color-muted) leading-relaxed">
+                <p>
+                  André er en av Sveriges mest anerkjente padeltrenere, med bakgrunn fra toppnivå-coaching og en evne til å gjøre alle bedre – uansett nivå. I tillegg er han en meget god og merittert padelspiller selv, og kan skilte med både landskamper og noen kjente skalper i bagasjen.
+                </p>
+                <p>
+                  Det som gjør André unik er hans evne til å se menneskene på banen. Det er aldri noen som går fra en økt med han uten et stort smil om munnen. Han slenger svenske gloser i hytt og pine, men alltid med et glimt i øyet.
+                </p>
+                <p>
+                  André har også vært eier av — og drevet — padelsenter både i Sverige og Spania, og har derfor bred erfaring både på banen og bak kulissene i padelverdenen.
+                </p>
+                <p>
+                  Kort fortalt er dette en mann du må oppleve. En utrolig god venn, en gledesspreder, nybakt pappa, og padeltrener i verdensklasse. Og en ekstremt viktig del av FERA-teamet.
+                </p>
+                <p className="text-(--color-text) font-medium">
+                  Når du reiser med Fera, får du coaching fra en trener som kombinerer faglig dybde med smittsom entusiasme. Det er ikke bare trening – det er en opplevelse.
+                </p>
+              </div>
+            </div>
+            <div className="aspect-[3/4] rounded-2xl overflow-hidden relative order-1 lg:order-2">
+              <Image
+                src="/Andre_S.jpg"
+                alt="André Schlyter — Coach"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover object-top"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Verdier */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
         <div className="max-w-5xl mx-auto">
+          {/* Dekorativ skillelinje */}
+          <div className="flex items-center justify-center gap-3 mb-10">
+            <div className="h-px w-16 bg-(--color-gold) opacity-40" />
+            <div className="w-1.5 h-1.5 rounded-full bg-(--color-gold)" />
+            <div className="h-px w-16 bg-(--color-gold) opacity-40" />
+          </div>
           <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-12 text-center">Våre verdier</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {values.map((v) => (
-              <div key={v.title} className="bg-white rounded-2xl p-8 border border-(--color-border)">
-                <h3 className="font-display font-bold text-(--color-cta) text-xl mb-3">{v.title}</h3>
+              <div key={v.title} className="bg-white rounded-2xl p-8 border border-(--color-border) border-t-2 border-t-(--color-gold)">
+                <h3 className="font-display font-bold text-(--color-text) text-xl mb-3">{v.title}</h3>
                 <p className="text-(--color-muted) leading-relaxed">{v.desc}</p>
               </div>
             ))}

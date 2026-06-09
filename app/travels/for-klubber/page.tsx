@@ -17,7 +17,7 @@ export default function ForKlubberPage() {
       {/* Hero */}
       <section className="bg-gradient-to-b from-(--color-dark) to-(--color-dark-mid) px-4 sm:px-6 lg:px-8 py-20 md:py-28 text-center">
         <div className="max-w-3xl mx-auto">
-          <p className="text-(--color-gold) text-xs tracking-widest uppercase font-sans mb-4">
+          <p className="text-white/50 text-xs tracking-widest uppercase font-sans mb-4">
             For klubber & trenere
           </p>
           <h1 className="font-display text-white text-4xl md:text-6xl font-bold leading-tight mb-6">
@@ -55,7 +55,7 @@ export default function ForKlubberPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {steps.map((step) => (
               <div key={step.num} className="text-center">
-                <span className="font-display font-bold text-5xl text-(--color-sand) block mb-4" style={{ color: '#FFE1B0', WebkitTextStroke: '1px #7C0023' }}>{step.num}</span>
+                <span className="font-display font-bold text-5xl text-(--color-dark) block mb-4 opacity-20">{step.num}</span>
                 <h3 className="font-display font-bold text-(--color-text) text-lg mb-2">{step.title}</h3>
                 <p className="text-(--color-muted) text-sm leading-relaxed">{step.desc}</p>
               </div>
