@@ -3,27 +3,29 @@
 
 @theme {
   /* Bakgrunner */
-  --color-bg:        #FFFCF5;
+  --color-bg:        #FFEFDC;
   --color-surface:   #FFFFFF;
-  --color-sand:      #F5F0E8;
+  --color-sand:      #FFE1B0;
+  --color-ice:       #D3ECED;
+  --color-ice-light: #E9F4F4;
 
   /* Hero / mørk seksjon */
-  --color-dark:      #1C1410;
-  --color-dark-mid:  #3D2A1C;
-  --color-dark-card: #2C1A0E;
+  --color-dark:      #420016;
+  --color-dark-mid:  #7C0023;
+  --color-dark-card: #420016;
 
   /* Tekst */
-  --color-text:      #1C1410;
-  --color-muted:     #B0A090;
-  --color-subtle:    #7A6A5A;
+  --color-text:      #1C0008;
+  --color-muted:     #9B7888;
+  --color-subtle:    #7A5868;
 
   /* Merkevare */
-  --color-gold:      #C49A3C;
-  --color-cta:       #E8752A;
-  --color-success:   #5D9E6A;
+  --color-gold:      #7C0023;
+  --color-cta:       #420016;
+  --color-success:   #3D7A4A;
 
   /* Border */
-  --color-border:    #EDE5D8;
+  --color-border:    #EDD8C8;
 
   /* Fonter — variablene settes av next/font i hvert layout */
   --font-display: var(--font-playfair);

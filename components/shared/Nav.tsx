@@ -17,16 +17,16 @@ export default function Nav() {
   const { totalItems, openCart } = useCart()
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-(--color-border)">
+    <nav className="sticky top-0 z-50 bg-(--color-bg)/95 backdrop-blur border-b border-(--color-border)">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link href="/travels" className="flex items-center gap-0.5">
-            <span className="font-display font-bold text-(--color-text) text-lg leading-none">
+          <Link href="/travels" className="flex flex-col items-start leading-none gap-0.5">
+            <span className="font-display italic font-bold text-(--color-dark) text-xl tracking-tight leading-none">
               FERA
             </span>
-            <span className="font-display font-normal text-(--color-gold) text-lg leading-none">
-              {' \\ PADEL'}
+            <span className="font-sans font-semibold text-(--color-dark) text-[7px] tracking-[0.4em] uppercase leading-none">
+              PADEL
             </span>
           </Link>
 
