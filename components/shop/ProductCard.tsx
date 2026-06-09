@@ -17,10 +17,10 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/shop/${product.id}`}
-      className="group bg-(--color-surface) border border-(--color-border) rounded-xl overflow-hidden flex flex-col hover:shadow-md transition-shadow"
+      className="group bg-(--color-surface) rounded-xl overflow-hidden flex flex-col hover:shadow-md transition-shadow"
     >
       {/* Image */}
-      <div className="relative aspect-square bg-(--color-sand)">
+      <div className="relative aspect-square bg-white">
         {primaryImage ? (
           <Image
             src={primaryImage}
