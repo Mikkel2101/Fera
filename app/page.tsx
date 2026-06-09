@@ -48,9 +48,12 @@ export default async function HomePage() {
 
         {/* ── 1. HERO ─────────────────────────────────────────── */}
         <section className="relative min-h-[88vh] flex items-center bg-(--color-dark) overflow-hidden">
-          <div className="absolute inset-0 opacity-10"
-            style={{ backgroundImage: 'radial-gradient(circle at 70% 50%, #7C0023 0%, transparent 60%)' }}
+          {/* Hero background image */}
+          <div className="absolute inset-0"
+            style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }}
           />
+          {/* Dark overlay so text stays readable */}
+          <div className="absolute inset-0 bg-(--color-dark)/65" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
             <p className="text-white/50 text-xs tracking-[0.35em] uppercase font-sans mb-6">
               PADEL · SOL · SOSIALT
