@@ -54,6 +54,7 @@ export default async function ProductPage({
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-contain p-8"
               priority
+              unoptimized
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center text-8xl">🏓</div>
