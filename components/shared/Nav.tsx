@@ -19,20 +19,11 @@ export default function Nav() {
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6">
-            <Link
-              href="/shop"
-              className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors"
-            >
-              Shop
-            </Link>
-
-            <Link
-              href="/travels"
-              className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors"
-            >
-              Reiser
-            </Link>
-
+            <Link href="/shop" className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors">Shop</Link>
+            <Link href="/travels" className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors">Reiser</Link>
+            <Link href="/travels/for-klubber" className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors">For klubber</Link>
+            <Link href="/travels/for-bedrifter" className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors">For bedrifter</Link>
+            <Link href="/travels/om-oss" className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors">Om oss</Link>
             <Link
               href="/travels"
               className="bg-(--color-cta) text-white text-[13px] font-medium px-4 py-1.5 rounded-full hover:opacity-90 transition-opacity"
@@ -98,27 +89,13 @@ export default function Nav() {
       {menuOpen && (
         <div className="md:hidden border-t border-(--color-border) bg-white">
           <div className="px-4 py-4 flex flex-col gap-3">
-            <Link
-              href="/shop"
-              className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              Shop
-            </Link>
-            <Link
-              href="/travels"
-              className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors"
-              onClick={() => setMenuOpen(false)}
-            >
-              Reiser
-            </Link>
-            <Link
-              href="/travels"
-              className="bg-(--color-cta) text-white text-[14px] font-medium px-4 py-2 rounded-full text-center hover:opacity-90 transition-opacity"
-              onClick={() => setMenuOpen(false)}
-            >
-              Se turer
-            </Link>
+            <Link href="/shop" className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors" onClick={() => setMenuOpen(false)}>Shop</Link>
+            <Link href="/travels" className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors" onClick={() => setMenuOpen(false)}>Reiser</Link>
+            <Link href="/travels/for-klubber" className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors" onClick={() => setMenuOpen(false)}>For klubber</Link>
+            <Link href="/travels/for-bedrifter" className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors" onClick={() => setMenuOpen(false)}>For bedrifter</Link>
+            <Link href="/travels/om-oss" className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors" onClick={() => setMenuOpen(false)}>Om oss</Link>
+            <Link href="/travels/faq" className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors" onClick={() => setMenuOpen(false)}>FAQ</Link>
+            <Link href="/travels" className="bg-(--color-cta) text-white text-[14px] font-medium px-4 py-2 rounded-full text-center hover:opacity-90 transition-opacity" onClick={() => setMenuOpen(false)}>Se turer</Link>
           </div>
         </div>
       )}
