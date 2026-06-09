@@ -17,44 +17,38 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <Link
       href={`/shop/${product.id}`}
-      className="group bg-(--color-surface) rounded-xl overflow-hidden flex flex-col hover:shadow-md transition-shadow"
+      className="group flex flex-col"
     >
       {/* Image */}
-      <div className="relative aspect-square bg-white">
+      <div className="relative aspect-square bg-white overflow-hidden">
         {primaryImage ? (
           <Image
             src={primaryImage}
             alt={product.name}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-105"
             unoptimized
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-5xl">🏓</div>
         )}
-        {/* Stock badge */}
-        <span className={`absolute top-2 right-2 text-xs font-medium px-2 py-0.5 rounded-full ${badge.className}`}>
+        <span className={`absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full ${badge.className}`}>
           {badge.label}
         </span>
       </div>
 
       {/* Info */}
-      <div className="p-4 flex flex-col flex-1">
-        <p className="text-xs text-(--color-muted) uppercase tracking-wide font-medium mb-1">
+      <div className="pt-3 pb-1">
+        <p className="text-[10px] text-(--color-muted) uppercase tracking-widest font-medium mb-0.5">
           {product.brand}
         </p>
-        <p className="text-(--color-text) font-medium text-sm leading-snug line-clamp-2 flex-1">
+        <p className="text-(--color-text) text-sm leading-snug line-clamp-2 mb-2">
           {product.name}
         </p>
-        <div className="flex items-center justify-between mt-3">
-          <span className="text-(--color-gold) font-bold text-lg">
-            € {product.price_eur.toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
-          </span>
-          <span className="text-(--color-cta) text-sm font-medium group-hover:underline">
-            Se detaljer →
-          </span>
-        </div>
+        <span className="text-(--color-gold) font-bold text-base">
+          € {product.price_eur.toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
+        </span>
       </div>
     </Link>
   )

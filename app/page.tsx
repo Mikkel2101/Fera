@@ -88,7 +88,7 @@ export default async function HomePage() {
 
         {/* ── 2. PRODUKTNYHETER ────────────────────────────────── */}
         {newProducts && newProducts.length > 0 && (
-          <section className="py-20 px-4 sm:px-6 lg:px-8">
+          <section className="py-28 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
               <div className="flex items-end justify-between mb-10">
                 <div>
@@ -99,9 +99,11 @@ export default async function HomePage() {
                   Se alle produkter →
                 </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-(--color-border)">
                 {newProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <div key={product.id} className="bg-white p-4">
+                    <ProductCard product={product} />
+                  </div>
                 ))}
               </div>
             </div>
@@ -199,7 +201,7 @@ export default async function HomePage() {
         )}
 
         {/* ── 5. NYHETER & INSPIRASJON ─────────────────────────── */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <section className="py-28 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="mb-10">
               <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Fra bloggen</p>
