@@ -35,7 +35,7 @@ export async function proxy(request: NextRequest) {
     cleanHost.startsWith('admin.') ||
     pathname.startsWith('/admin') ||
     pathname.startsWith('/shop') ||
-    (pathname === '/' && !BRAND_MAP[cleanHost])
+    pathname === '/'
   ) {
     return response
   }
