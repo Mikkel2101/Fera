@@ -41,7 +41,7 @@ export default function Nav() {
               onMouseLeave={() => setEventerOpen(false)}
             >
               <button className="text-(--color-subtle) text-[13px] hover:text-(--color-text) transition-colors flex items-center gap-1">
-                Eventer
+                Reiser
                 <span className="text-[10px]">▾</span>
               </button>
               {eventerOpen && (
