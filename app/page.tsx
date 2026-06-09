@@ -108,58 +108,73 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* ── 3. EVENT BANNER / TRIPS ──────────────────────────── */}
-        <section className="bg-(--color-dark) py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <p className="text-white/50 text-xs uppercase tracking-widest font-medium mb-2">Eksklusivt · Begrenset antall plasser</p>
-                <h2 className="font-display italic font-bold text-white text-3xl sm:text-4xl">Kommende turer</h2>
+        {/* ── 3. FERA REISER HOOK ───────────────────────────────── */}
+        <Link href="/travels" className="block group">
+          <section className="bg-(--color-dark) py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden cursor-pointer">
+            {/* Subtle radial glow */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none"
+              style={{ backgroundImage: 'radial-gradient(ellipse at 50% 100%, #7C0023 0%, transparent 70%)' }}
+            />
+
+            <div className="max-w-7xl mx-auto relative">
+              {/* Top label */}
+              <p className="text-white/40 text-xs tracking-[0.3em] uppercase font-medium mb-6 text-center">
+                EKSKLUSIVT · BEGRENSET ANTALL PLASSER · 2026
+              </p>
+
+              {/* Main headline */}
+              <h2 className="font-display italic font-bold text-white text-4xl sm:text-5xl lg:text-6xl text-center leading-tight mb-6">
+                Opplev <em className="not-italic" style={{ color: '#FFE1B0' }}>Fera Reiser</em>
+              </h2>
+
+              <p className="text-white/60 text-lg text-center max-w-2xl mx-auto mb-12 leading-relaxed">
+                Hotell, baner, coaching og sosiale opplevelser i Spania — alt inkludert. Du møter opp, vi ordner resten. Turene fylles raskt.
+              </p>
+
+              {/* Stats row */}
+              <div className="flex justify-center gap-12 sm:gap-20 mb-14">
+                {[
+                  { number: '7', label: 'netter' },
+                  { number: '20', label: 'maks deltakere' },
+                  { number: '100%', label: 'inkludert' },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center">
+                    <p className="font-display italic font-bold text-white text-3xl sm:text-4xl" style={{ color: '#FFE1B0' }}>{stat.number}</p>
+                    <p className="text-white/40 text-xs uppercase tracking-widest mt-1">{stat.label}</p>
+                  </div>
+                ))}
               </div>
-              <Link href="/travels" className="text-white/60 text-sm hover:text-white transition-colors hidden sm:block">
-                Se alle turer →
-              </Link>
-            </div>
-            <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible">
-              {trips && trips.length > 0 ? trips.map((trip) => {
-                const spotsLeft = (trip.max_participants ?? 20) - (trip.registered_count ?? 0)
-                const urgency = spotsLeft <= 3 ? 'text-red-400' : spotsLeft <= 6 ? 'text-(--color-sand)' : 'text-white/50'
-                return (
-                  <Link
-                    key={trip.id}
-                    href={`/travels/${trip.id}`}
-                    className="flex-shrink-0 w-64 sm:w-auto bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-colors group"
-                  >
-                    <p className="text-white/40 text-xs uppercase tracking-widest mb-3">{trip.destination ?? 'Spania'}</p>
-                    <h3 className="text-white font-semibold leading-snug mb-4 group-hover:text-(--color-sand) transition-colors">
-                      {trip.name}
-                    </h3>
-                    {trip.start_date && (
-                      <p className="text-xs text-white/50 mb-4">
-                        {new Date(trip.start_date).toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric' })}
-                      </p>
-                    )}
-                    <p className={`text-xs font-semibold ${urgency}`}>
-                      {spotsLeft <= 0 ? 'Utsolgt' : `${spotsLeft} plasser igjen`}
-                    </p>
-                  </Link>
-                )
-              }) : (
-                <div className="col-span-4 text-center py-12 text-white/40">
-                  <p>Ingen kommende turer — kom tilbake snart.</p>
+
+              {/* Trip teasers */}
+              {trips && trips.length > 0 && (
+                <div className="flex flex-wrap justify-center gap-3 mb-12">
+                  {trips.map((trip) => {
+                    const spotsLeft = (trip.max_participants ?? 20) - (trip.registered_count ?? 0)
+                    const urgent = spotsLeft <= 5
+                    return (
+                      <div key={trip.id} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-5 py-2.5">
+                        <span className="text-white text-sm font-medium">{trip.name}</span>
+                        <span className={`text-xs font-semibold ${urgent ? 'text-red-400' : 'text-white/40'}`}>
+                          {spotsLeft <= 0 ? '● Utsolgt' : urgent ? `● ${spotsLeft} igjen` : `${spotsLeft} plasser`}
+                        </span>
+                      </div>
+                    )
+                  })}
                 </div>
               )}
+
+              {/* CTA */}
+              <div className="text-center">
+                <span className="inline-flex items-center gap-2 bg-white text-(--color-dark) font-semibold text-sm px-8 py-4 rounded-full group-hover:bg-(--color-sand) transition-colors">
+                  Se alle turer og book din plass
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </div>
             </div>
-            <div className="mt-10 text-center">
-              <Link
-                href="/travels"
-                className="inline-block border border-white/30 text-white text-sm font-semibold px-8 py-3 rounded-full hover:border-white transition-colors"
-              >
-                Se alle turer og book din plass
-              </Link>
-            </div>
-          </div>
-        </section>
+          </section>
+        </Link>
 
         {/* ── 4. BESTSELGERE ───────────────────────────────────── */}
         {bestSellers && bestSellers.length > 0 && (
