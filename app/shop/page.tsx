@@ -17,7 +17,7 @@ export default async function ShopPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-(--color-sand) py-14 px-4 sm:px-6 lg:px-8">
+      <section className="py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <p className="text-xs uppercase tracking-widest text-(--color-gold) font-medium mb-3">
             PADELUTSTYR & TILBEHØR
