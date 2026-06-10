@@ -71,7 +71,7 @@ export default async function HomePage() {
         <section className="relative min-h-[88vh] flex items-center bg-(--color-dark) overflow-hidden">
           {/* Hero background image */}
           <div className="absolute inset-0"
-            style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover', backgroundPosition: '35% 20%' }}
+            style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }}
           />
           {/* Gradient only at left/bottom so text is readable */}
           <div className="absolute inset-0 bg-gradient-to-r from-(--color-dark)/75 via-(--color-dark)/30 to-transparent" />
