@@ -1,18 +1,36 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Database } from '@/lib/supabase/types'
+import { useCart } from '@/lib/cart/context'
 
 type Product = Database['public']['Tables']['products']['Row']
 
 function stockBadge(status: string) {
   if (status === 'out_of_stock') return { label: 'Utsolgt', className: 'bg-(--color-border) text-(--color-muted)' }
   if (status === 'low_stock') return { label: 'Få igjen', className: 'bg-(--color-cta) text-white' }
-  return { label: 'På lager', className: 'bg-(--color-success) text-white' }
+  return null
 }
 
 export default function ProductCard({ product }: { product: Product }) {
   const badge = stockBadge(product.stock_status)
   const primaryImage = product.images[0] ?? null
+  const { addItem } = useCart()
+  const isOutOfStock = product.stock_status === 'out_of_stock'
+
+  function handleAddToCart(e: React.MouseEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (isOutOfStock) return
+    addItem({
+      product_id: product.id,
+      name: product.name,
+      brand: product.brand,
+      price_eur: product.price_eur,
+      image: product.images[0] ?? '',
+    })
+  }
 
   return (
     <Link
@@ -31,11 +49,27 @@ export default function ProductCard({ product }: { product: Product }) {
             unoptimized
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-5xl">🏓</div>
+          <div className="absolute inset-0 flex items-center justify-center text-5xl opacity-20">🏓</div>
         )}
-        <span className={`absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full ${badge.className}`}>
-          {badge.label}
-        </span>
+
+        {/* Stock badge */}
+        {badge && (
+          <span className={`absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full ${badge.className}`}>
+            {badge.label}
+          </span>
+        )}
+
+        {/* Quick-add hover overlay */}
+        {!isOutOfStock && (
+          <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 p-3">
+            <button
+              onClick={handleAddToCart}
+              className="w-full bg-(--color-cta) text-white text-xs font-semibold py-2.5 rounded-full hover:opacity-90 transition-opacity"
+            >
+              Legg i kurv
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Info */}

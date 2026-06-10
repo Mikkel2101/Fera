@@ -106,6 +106,25 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* ── 1b. TRUST SIGNALS BAR ────────────────────────────── */}
+        <section className="border-b border-(--color-border)">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x divide-(--color-border)">
+              {[
+                { stat: '100+', label: 'Reisende på ett år' },
+                { stat: '5-stjernes', label: 'Coach — André Schlyter' },
+                { stat: 'Padelpoint', label: 'Offisiell partner' },
+                { stat: 'Stripe', label: 'Trygg betaling' },
+              ].map((item) => (
+                <div key={item.stat} className="text-center md:px-6">
+                  <p className="font-display font-bold text-(--color-dark) text-lg sm:text-xl mb-1">{item.stat}</p>
+                  <p className="text-(--color-muted) text-xs uppercase tracking-widest">{item.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── 2. PRODUKTNYHETER ────────────────────────────────── */}
         {newProducts && newProducts.length > 0 && (
           <section className="py-28 px-4 sm:px-6 lg:px-8">
@@ -151,13 +170,13 @@ export default async function HomePage() {
 
             {/* Heading */}
             <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-2xl mb-5">
-              <span className="font-sans font-medium">Minnerike padelopplevelser i</span>
+              <span className="font-sans font-medium">Minnerike padelopplevelser i </span>
               <span className="font-display italic font-bold">Spania</span>
             </h2>
 
             {/* Subtitle */}
             <p className="text-white/70 text-lg max-w-lg leading-relaxed mb-8">
-              Hotell, coaching og sosiale opplevelser med Fera.
+              Kofferten din. Ditt padel-spill. Vår jobb er resten — hotell, baner, coaching og opplevelser som slår alt du har gjort før.
             </p>
 
             {/* Trip tags */}
