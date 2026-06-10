@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import AddToCartButton from '@/components/shop/AddToCartButton'
+import ProductCard from '@/components/shop/ProductCard'
 import type { Metadata } from 'next'
 
 export async function generateMetadata({
@@ -43,6 +44,14 @@ export default async function ProductPage({
     .single()
 
   if (!product) notFound()
+
+  const { data: related } = await supabase
+    .from('products')
+    .select('*')
+    .eq('published', true)
+    .eq('category', product.category)
+    .neq('id', product.id)
+    .limit(4)
 
   const primaryImage = product.images[0] ?? null
 
@@ -168,8 +177,32 @@ export default async function ProductPage({
         </div>
       </div>
 
+      {/* Related products */}
+      {related && related.length > 0 && (
+        <div className="border-t border-(--color-border) py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Mer fra samme kategori</p>
+                <h2 className="font-display font-bold text-(--color-text) text-2xl sm:text-3xl">Du vil kanskje også like</h2>
+              </div>
+              <Link href="/shop" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
+                Se alle produkter →
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-(--color-border)">
+              {related.map((p) => (
+                <div key={p.id} className="bg-white p-4">
+                  <ProductCard product={p} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* CTA section */}
-      <div className="border-t border-(--color-border) bg-(--color-ice-light) py-12 px-4 sm:px-6 lg:px-8 mt-10">
+      <div className="border-t border-(--color-border) bg-(--color-ice-light) py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-1">Planlegger du padel-reise?</p>
