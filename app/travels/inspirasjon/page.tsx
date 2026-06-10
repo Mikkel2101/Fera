@@ -81,7 +81,7 @@ export default function InspirasjonPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-(--color-dark) px-4 sm:px-6 lg:px-8 py-24 md:py-36 text-center overflow-hidden">
+      <section className="relative bg-(--color-community) px-4 sm:px-6 lg:px-8 py-24 md:py-36 text-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1600&q=80"
@@ -92,7 +92,7 @@ export default function InspirasjonPage() {
             unoptimized
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-(--color-dark)/70 to-(--color-dark)" />
+          <div className="absolute inset-0 bg-gradient-to-b from-(--color-community)/70 to-(--color-community)" />
         </div>
         <div className="relative max-w-3xl mx-auto">
           <p className="text-white/50 text-xs tracking-widest uppercase font-sans mb-4">Innblikk</p>

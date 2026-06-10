@@ -272,47 +272,61 @@ export default async function HomePage() {
         )}
 
         {/* ── 5. NYHETER & INSPIRASJON ─────────────────────────── */}
-        <section className="py-28 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-end justify-between mb-10">
+        <section className="py-28">
+          {/* Header — inne i container */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+            <div className="flex items-end justify-between">
               <div>
-                <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Fra bloggen</p>
-                <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Nyheter & inspirasjon</h2>
+                <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Nyheter</p>
+                <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
+                <p className="font-sans text-[18px] text-(--color-muted) max-w-xl leading-relaxed">
+                  Les om tidligere padelreiser, få våre utstyrsanbefalinger og finn inspirasjon til deg som vil få mer ut av padel.
+                </p>
               </div>
-              <Link href="/travels/inspirasjon" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
+              <Link href="/travels/inspirasjon" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block self-start">
                 Se mer →
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          </div>
+
+          {/* Slider — venstrekant aligned med container, bleed til høyre kant */}
+          <div className="overflow-x-auto pb-6 pl-4 sm:pl-6 lg:pl-8 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex gap-6">
               {blogPosts.map((post) => (
-                <Link key={post.title} href={post.href} className="group block">
+                <Link
+                  key={post.title}
+                  href={post.href}
+                  className="group flex-none w-[85vw] sm:w-[560px] lg:w-[640px] [scroll-snap-align:start]"
+                >
                   <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
                     <Image
                       src={post.src}
                       alt={post.alt}
                       fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="640px"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       unoptimized
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <span className="absolute bottom-4 left-4 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-2.5 py-1 rounded-full">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <span className="absolute bottom-5 left-5 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-3 py-1 rounded-full">
                       {post.category}
                     </span>
                   </div>
                   <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
-                  <h3 className="font-display font-bold text-(--color-text) text-lg leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
+                  <h3 className="font-sans font-normal text-(--color-text) text-2xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
                     {post.title}
                   </h3>
                   <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
                 </Link>
               ))}
+              {/* Litt luft på slutten */}
+              <div className="flex-none w-4 sm:w-6 lg:w-8" />
             </div>
           </div>
         </section>
 
         {/* ── 6. SOSIALE MEDIER + INSTAGRAM ────────────────────── */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-sand)">
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-sand-light)">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>

@@ -14,7 +14,7 @@ export default function Footer() {
               <img src="/fera-logo.svg" alt="Fera" className="h-8 w-auto brightness-0 invert" />
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
-              Profesjonelle padelopplevelser — reiser til Spania og premium utstyr fra Padelpoint.
+              Profesjonelle padelopplevelser og premium utstyr
             </p>
             <div className="flex gap-3">
               <a

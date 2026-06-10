@@ -1,6 +1,6 @@
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import TripListClient from '@/components/travels/TripListClient'
-import Link from 'next/link'
 
 export const metadata = {
   title: 'Padelreiser til Spania',
@@ -18,8 +18,13 @@ export default async function TravelsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-(--color-dark) via-(--color-dark) to-(--color-dark-mid) px-4 sm:px-6 lg:px-8 pt-16 pb-0 md:pt-24">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative bg-(--color-community) overflow-hidden px-4 sm:px-6 lg:px-8 pt-16 pb-0 md:pt-24">
+        <div
+          className="absolute inset-0 opacity-40"
+          style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-(--color-community)/60 via-(--color-community)/30 to-transparent" />
+        <div className="relative max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end pb-16 md:pb-24">
             <div>
               <p className="text-(--color-sand) text-xs tracking-widest uppercase font-sans mb-4 opacity-70">

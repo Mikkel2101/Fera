@@ -72,7 +72,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
               Ingen produkter passer filteret
             </div>
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px bg-(--color-border)">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filtered.map(p => (
                 <div key={p.id} className="bg-white p-4">
                   <ProductCard product={p} />

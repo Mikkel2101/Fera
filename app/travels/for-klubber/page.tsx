@@ -16,7 +16,7 @@ export default function ForKlubberPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-(--color-dark) px-4 sm:px-6 lg:px-8 py-24 md:py-36 text-center overflow-hidden">
+      <section className="relative bg-(--color-community) px-4 sm:px-6 lg:px-8 py-24 md:py-36 text-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1526888935184-a82d2a4b7e67?w=1600&q=80"
@@ -27,7 +27,7 @@ export default function ForKlubberPage() {
             unoptimized
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-(--color-dark)/80 to-(--color-dark)" />
+          <div className="absolute inset-0 bg-gradient-to-b from-(--color-community)/80 to-(--color-community)" />
         </div>
         <div className="relative max-w-3xl mx-auto">
           <p className="text-(--color-sand) text-xs tracking-widest uppercase font-sans mb-4">

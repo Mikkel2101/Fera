@@ -2,7 +2,7 @@ export default function ShopLoading() {
   return (
     <>
       {/* Hero skeleton */}
-      <div className="bg-(--color-dark) py-20 md:py-28 px-4 sm:px-6 lg:px-8">
+      <div className="bg-(--color-community) py-20 md:py-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="h-3 w-24 bg-white/10 rounded-full mb-4 animate-pulse" />
           <div className="h-10 w-80 bg-white/10 rounded-xl mb-4 animate-pulse" />

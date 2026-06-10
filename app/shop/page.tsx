@@ -18,7 +18,7 @@ export default async function ShopPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-(--color-dark) overflow-hidden">
+      <section className="relative bg-(--color-community) overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=1600&q=80"
@@ -29,7 +29,7 @@ export default async function ShopPage() {
             unoptimized
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-(--color-dark) via-(--color-dark)/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-(--color-community) via-(--color-community)/80 to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
           <p className="text-(--color-sand) text-xs uppercase tracking-widest font-medium mb-4 opacity-80">
