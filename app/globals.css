@@ -6,11 +6,14 @@
   --color-bg:        #FFFFFF;
   --color-surface:   #FFFFFF;
   --color-sand:      #FFE1B0;
+  --color-sand-light: #F9F4EF;
   --color-ice:       #D3ECED;
   --color-ice-light: #E9F4F4;
 
   /* Hero / mørk seksjon */
   --color-dark:      #420016;
+  --color-overlay:   #110007;
+  --color-footer:    #21000D;
   --color-dark-mid:  #7C0023;
   --color-dark-card: #420016;
 

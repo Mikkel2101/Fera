@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import ProductCard from '@/components/shop/ProductCard'
-import TripCard from '@/components/travels/TripCard'
 import Nav from '@/components/shared/Nav'
 import CartDrawer from '@/components/shop/CartDrawer'
 import HomeCartProvider from '@/components/home/HomeCartProvider'
@@ -10,10 +9,10 @@ import Footer from '@/components/shared/Footer'
 import NewsletterSignup from '@/components/shared/NewsletterSignup'
 
 export const metadata = {
-  title: 'Fera Padel — Reiser og utstyr',
+  title: 'Fera Padel | Reiser og utstyr',
   description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint. Alt på ett sted.',
   openGraph: {
-    title: 'Fera Padel — Reiser og utstyr',
+    title: 'Fera Padel | Reiser og utstyr',
     description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.',
     url: 'https://ferabrand.com',
     siteName: 'Fera Padel',
@@ -25,7 +24,7 @@ export const metadata = {
 const blogPosts = [
   {
     category: 'Inspirasjon',
-    title: 'Costa Blanca — Spanias beste padeldestinasjon',
+    title: 'Costa Blanca: Spanias beste padeldestinasjon',
     excerpt: 'Hvorfor tusenvis av norske padel-entusiaster velger Costa Blanca som sin neste reisedestinasjon.',
     date: '5. juni 2026',
     href: '/travels/inspirasjon',
@@ -35,7 +34,7 @@ const blogPosts = [
   {
     category: 'Utstyr',
     title: 'Slik velger du riktig racket for ditt nivå',
-    excerpt: 'Fra nybegynner til avansert — vår guide hjelper deg å finne den perfekte padelracket.',
+    excerpt: 'Fra nybegynner til avansert. Vår guide hjelper deg å finne den perfekte padelracket.',
     date: '1. juni 2026',
     href: '/shop',
     src: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&q=80',
@@ -43,7 +42,7 @@ const blogPosts = [
   },
   {
     category: 'Event',
-    title: 'Bedriftstur til Albir — perfekt teambuilding',
+    title: 'Bedriftstur til Albir, perfekt teambuilding',
     excerpt: 'Se hvorfor Fera Padel er det naturlige valget for bedrifter som vil kombinere sport og sosialt.',
     date: '28. mai 2026',
     href: '/travels/for-bedrifter',
@@ -74,27 +73,27 @@ export default async function HomePage() {
             style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }}
           />
           {/* Gradient only at left/bottom so text is readable */}
-          <div className="absolute inset-0 bg-gradient-to-r from-(--color-dark)/75 via-(--color-dark)/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-(--color-overlay)/75 via-(--color-overlay)/30 to-transparent" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
             <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl lg:text-7xl leading-none max-w-3xl mb-6">
               Utstyr du elsker.<br />
               <span className="font-display italic">Turer du husker.</span>
             </h1>
-            <p className="text-white/70 text-lg max-w-xl leading-relaxed mb-10">
-              Premium padel utstyr og eksklusive reiser til Spania — alt på ett sted.
+            <p className="text-white/70 text-[18px] max-w-xl leading-relaxed mb-10">
+              Premium padelutstyr og eksklusive reiser til Spania for opplevelser på og utenfor banen.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/travels"
+                href="/shop"
                 className="bg-white text-(--color-dark) font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors"
               >
-                Se kommende turer →
+                Shop utstyr
               </Link>
               <Link
-                href="/shop"
+                href="/travels"
                 className="border border-white/40 text-white font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:border-white/80 transition-colors"
               >
-                Shop utstyr
+                Se kommende turer →
               </Link>
             </div>
           </div>
@@ -109,7 +108,7 @@ export default async function HomePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x divide-(--color-border)">
               {[
                 { stat: '100+', label: 'Reisende på ett år' },
-                { stat: '5-stjernes', label: 'Coach — André Schlyter' },
+                { stat: '5-stjernes', label: 'Coach: André Schlyter' },
                 { stat: 'Padelpoint', label: 'Offisiell partner' },
                 { stat: 'Stripe', label: 'Trygg betaling' },
               ].map((item) => (
@@ -129,15 +128,15 @@ export default async function HomePage() {
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Nytt inn</p>
-                  <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Produktnyheter</h2>
+                  <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Produktnyheter</h2>
                 </div>
                 <Link href="/shop" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
                   Se alle produkter →
                 </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-(--color-border)">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {newProducts.map((product) => (
-                  <div key={product.id} className="bg-white p-4">
+                  <div key={product.id} className="bg-white p-4 rounded-xl">
                     <ProductCard product={product} />
                   </div>
                 ))}
@@ -146,7 +145,7 @@ export default async function HomePage() {
           </section>
         )}
 
-        {/* ── 2b. SLIK FUNGERER DET ────────────────────────────── */}
+        {/* ── 2b. SLIK FUNGERER DET — skjult, kan brukes et annet sted
         <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
           <div className="max-w-5xl mx-auto text-center">
             <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Enkelt å komme i gang</p>
@@ -154,9 +153,9 @@ export default async function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
               <div className="hidden md:block absolute top-8 left-1/3 right-1/3 h-px bg-(--color-border)" />
               {[
-                { num: '01', title: 'Velg tur', desc: 'Bla gjennom kommende turer og finn den som passer deg — åpen gruppe, klubbtur eller bedriftstur.' },
-                { num: '02', title: 'Betal depositum', desc: 'Sett plassen din med kun €250 via Stripe. Alt er inkludert — kun kofferten mangler.' },
-                { num: '03', title: 'Møt opp i Spania', desc: 'Vi fikser resten. Hotell, baner, coaching og opplevelser — alt er klart når du ankommer.' },
+                { num: '01', title: 'Velg tur', desc: 'Bla gjennom kommende turer og finn den som passer deg. Åpen gruppe, klubbtur eller bedriftstur.' },
+                { num: '02', title: 'Betal depositum', desc: 'Sett plassen din med kun €250 via Stripe. Alt er inkludert, kun kofferten mangler.' },
+                { num: '03', title: 'Møt opp i Spania', desc: 'Vi fikser resten. Hotell, baner, coaching og opplevelser er klart når du ankommer.' },
               ].map((step) => (
                 <div key={step.num} className="flex flex-col items-center">
                   <div className="w-16 h-16 rounded-full bg-white border-2 border-(--color-border) flex items-center justify-center mb-4 relative z-10">
@@ -169,6 +168,7 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        ── */}
 
         {/* ── 3. FERA REISER HOOK ───────────────────────────────── */}
         <section className="relative min-h-[75vh] flex items-center overflow-hidden">
@@ -179,25 +179,25 @@ export default async function HomePage() {
             loop
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
-            src="/travels-hero.webm"
+            src="/Fera%20Video.mp4"
           />
-          <div className="absolute inset-0 bg-(--color-dark)/80" />
+          <div className="absolute inset-0 bg-(--color-overlay)/80" />
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
             {/* Overline */}
-            <p className="text-white/50 text-xs tracking-[0.35em] uppercase font-sans mb-5">
+            <p className="text-white text-xs tracking-[0.35em] uppercase font-sans mb-5">
               REIS MED FERA
             </p>
 
             {/* Heading */}
             <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-2xl mb-5">
-              <span className="font-sans font-medium">Sportsturer til </span>
-              <span className="font-display italic font-bold">Spania</span>
+              <span className="font-sans font-medium">Utforsk våre reiser til kysten i </span>
+              <span className="font-display italic font-bold">Costa Blanca</span>
             </h2>
 
             {/* Subtitle */}
             <p className="text-white/70 text-lg max-w-lg leading-relaxed mb-8">
-              Kofferten din. Ditt padel-spill. Vår jobb er resten — hotell, baner, coaching og opplevelser som slår alt du har gjort før.
+              Vi tilbyr reiser med hotell, baner, coaching og opplevelser. Nøye planlagt for deg som vil kombinere spill, sol og gode dager på og utenfor banen.
             </p>
 
             {/* Trip tags */}
@@ -221,7 +221,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── 3b. KOMMENDE TURER ───────────────────────────────── */}
+        {/* ── 3b. KOMMENDE TURER — skjult, kan brukes et annet sted
         {trips && trips.length > 0 && (
           <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-dark)">
             <div className="max-w-7xl mx-auto">
@@ -247,13 +247,14 @@ export default async function HomePage() {
             </div>
           </section>
         )}
+        ── */}
 
         {/* ── 3c. TESTIMONIALS ─────────────────────────────────── */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-sand)">
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-sand-light)">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
-              <p className="text-(--color-cta) text-xs uppercase tracking-widest font-medium mb-3">Hva sier reisende</p>
-              <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">
+              <p className="text-(--color-cta) text-xs uppercase tracking-widest font-medium mb-3">Hva sier våre reisende</p>
+              <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">
                 Over 100 fornøyde gjester
               </h2>
             </div>
@@ -299,12 +300,12 @@ export default async function HomePage() {
 
         {/* ── 4. BESTSELGERE ───────────────────────────────────── */}
         {bestSellers && bestSellers.length > 0 && (
-          <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
+          <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
             <div className="max-w-7xl mx-auto">
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Populære valg</p>
-                  <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Bestselgere</h2>
+                  <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Bestselgere</h2>
                 </div>
                 <Link href="/shop" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
                   Se hele sortimentet →
