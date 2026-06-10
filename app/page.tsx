@@ -150,6 +150,30 @@ export default async function HomePage() {
           </section>
         )}
 
+        {/* ── 2b. SLIK FUNGERER DET ────────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
+          <div className="max-w-5xl mx-auto text-center">
+            <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Enkelt å komme i gang</p>
+            <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-14">Slik fungerer det</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
+              <div className="hidden md:block absolute top-8 left-1/3 right-1/3 h-px bg-(--color-border)" />
+              {[
+                { num: '01', title: 'Velg tur', desc: 'Bla gjennom kommende turer og finn den som passer deg — åpen gruppe, klubbtur eller bedriftstur.' },
+                { num: '02', title: 'Betal depositum', desc: 'Sett plassen din med kun €250 via Stripe. Alt er inkludert — kun kofferten mangler.' },
+                { num: '03', title: 'Møt opp i Spania', desc: 'Vi fikser resten. Hotell, baner, coaching og opplevelser — alt er klart når du ankommer.' },
+              ].map((step) => (
+                <div key={step.num} className="flex flex-col items-center">
+                  <div className="w-16 h-16 rounded-full bg-white border-2 border-(--color-border) flex items-center justify-center mb-4 relative z-10">
+                    <span className="font-display font-bold text-(--color-dark) text-xl">{step.num}</span>
+                  </div>
+                  <h3 className="font-display font-bold text-(--color-text) text-xl mb-2">{step.title}</h3>
+                  <p className="text-(--color-muted) text-sm leading-relaxed max-w-xs">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── 3. FERA REISER HOOK ───────────────────────────────── */}
         <section className="relative min-h-[75vh] flex items-center overflow-hidden">
           {/* Video background */}
@@ -227,6 +251,55 @@ export default async function HomePage() {
             </div>
           </section>
         )}
+
+        {/* ── 3c. TESTIMONIALS ─────────────────────────────────── */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-sand)">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-(--color-cta) text-xs uppercase tracking-widest font-medium mb-3">Hva sier reisende</p>
+              <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">
+                Over 100 fornøyde gjester
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  quote: 'Den beste ferien jeg har hatt på år og dag. Kombinasjonen av padel, sol og et supert sosialt miljø var akkurat det vi trengte. Petter og André er rett og slett fantastiske verter.',
+                  name: 'Marte H.',
+                  role: 'Oslo',
+                  stars: 5,
+                },
+                {
+                  quote: 'Vi tok med hele laget på bedriftstur og det overgikk alle forventninger. Profesjonell coaching, perfekte baner og en gruppe som er smidd for evigheten. Anbefales på det varmeste!',
+                  name: 'Kristoffer V.',
+                  role: 'Bergen',
+                  stars: 5,
+                },
+                {
+                  quote: 'Jeg reiste alene og var litt spent, men trengte overhodet ikke være det. Gruppen var varm og inkluderende fra dag én. Booker igjen til høsten!',
+                  name: 'Ingrid S.',
+                  role: 'Trondheim',
+                  stars: 5,
+                },
+              ].map((t) => (
+                <div key={t.name} className="bg-white rounded-2xl p-8 border border-(--color-border)">
+                  <div className="flex gap-0.5 mb-4">
+                    {Array.from({ length: t.stars }).map((_, i) => (
+                      <svg key={i} width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="text-(--color-gold)">
+                        <path d="M8 1l1.854 3.757L14 5.457l-3 2.923.708 4.13L8 10.427l-3.708 2.083L5 8.38 2 5.457l4.146-.7L8 1z"/>
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="text-(--color-text) text-sm leading-relaxed mb-6 italic">"{t.quote}"</p>
+                  <div>
+                    <p className="font-semibold text-(--color-text) text-sm">{t.name}</p>
+                    <p className="text-(--color-muted) text-xs">{t.role}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ── 4. BESTSELGERE ───────────────────────────────────── */}
         {bestSellers && bestSellers.length > 0 && (
