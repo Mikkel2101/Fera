@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { hostname: 'www.tiendapadelpoint.com' },
       { hostname: 'dbvnuoayzevtoaolhqxd.supabase.co' },
+      { hostname: 'images.unsplash.com' },
     ],
   },
 }
