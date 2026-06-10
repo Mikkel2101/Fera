@@ -43,7 +43,7 @@ export default function DerforElskerViCostaBlanca() {
         En padeltur er ikke bare padel. Det er den spanske frokosten ute på terrassen. Det er tapas med cerveza etter siste kamp. Det er å vandre langs strandpromenaden i Albir om kvelden, snakke om de beste øyeblikkene fra dagen, og planlegge morgendagens strategi med folk du bare har kjent i tre dager men som allerede føles som gamle venner.
       </p>
       <p>
-        Costa Blanca er ikke en turist-fabrikk som Mallorca eller Gran Canaria. Spesielt Albir og L'Alfàs del Pi er rolige, familievennlige byer med autentisk spansk kultur, lave priser og folk som faktisk er glade for at du er der.
+        Costa Blanca er ikke en turist-fabrikk som Mallorca eller Gran Canaria. Spesielt Albir og L&apos;Alfàs del Pi er rolige, familievennlige byer med autentisk spansk kultur, lave priser og folk som faktisk er glade for at du er der.
       </p>
 
       <h2>Tilgjengelighet fra Norge</h2>

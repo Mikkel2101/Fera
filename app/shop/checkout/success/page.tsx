@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ClearCartEffect from '@/components/shop/ClearCartEffect'
 
 export const metadata = {
   title: 'Bestilling bekreftet — Fera Shop',
@@ -7,6 +8,7 @@ export const metadata = {
 export default function ShopCheckoutSuccessPage() {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4">
+      <ClearCartEffect />
       <div className="max-w-lg w-full text-center">
         <div className="w-16 h-16 rounded-full bg-(--color-success)/10 flex items-center justify-center mx-auto mb-6">
           <svg className="w-8 h-8 text-(--color-success)" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -19,8 +21,11 @@ export default function ShopCheckoutSuccessPage() {
         <p className="text-(--color-muted) text-lg mb-2">
           Tusen takk for kjøpet. Du vil motta en bekreftelse på e-post.
         </p>
-        <p className="text-(--color-muted) text-sm mb-10">
-          Produktene leveres fra Padelpoint og sendes innen 3–5 virkedager.
+        <p className="text-(--color-muted) text-sm mb-2">
+          Produktene sendes med UPS fra Spania og leveres om 3–5 virkedager.
+        </p>
+        <p className="text-(--color-subtle) text-xs mb-10">
+          UPS vil kontakte deg for betaling av toll og merverdiavgift ved levering til Norge.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link

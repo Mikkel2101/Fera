@@ -12,11 +12,12 @@ export default function AddToCartButton({ product }: { product: Product }) {
 
   function handleAdd() {
     addItem({
-      product_id: product.id,
-      name: product.name,
-      brand: product.brand,
-      price_eur: product.price_eur,
-      image: product.images[0] ?? '',
+      product_id:     product.id,
+      name:           product.name,
+      brand:          product.brand,
+      price_eur:      product.price_eur,
+      image:          product.images[0] ?? '',
+      padelpoint_url: product.padelpoint_url ?? undefined,
     })
   }
 

@@ -52,6 +52,7 @@ export default function Footer() {
               <li><Link href="/shop?kategori=shoes" className="text-white/50 text-sm hover:text-white transition-colors">Sko</Link></li>
               <li><Link href="/shop?kategori=bag" className="text-white/50 text-sm hover:text-white transition-colors">Vesker</Link></li>
               <li><Link href="/shop?kategori=balls" className="text-white/50 text-sm hover:text-white transition-colors">Baller</Link></li>
+              <li><Link href="/shop/levering-og-retur" className="text-white/50 text-sm hover:text-white transition-colors">Levering og retur</Link></li>
             </ul>
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Om oss</h4>
             <ul className="space-y-3">

@@ -399,37 +399,118 @@ export type Database = {
         Row: {
           id: string
           user_id: string | null
+          first_name: string
+          last_name: string
           email: string
+          phone: string | null
+          id_passport: string | null
           status: string
-          total_nok: number
+          total_eur: number
           stripe_session_id: string | null
           shipping_address: Json | null
-          padelpoint_order_id: string | null
           items: Json
           created_at: string
         }
         Insert: {
           id?: string
           user_id?: string | null
+          first_name: string
+          last_name: string
           email: string
+          phone?: string | null
+          id_passport?: string | null
           status?: string
-          total_nok: number
+          total_eur: number
           stripe_session_id?: string | null
           shipping_address?: Json | null
-          padelpoint_order_id?: string | null
           items: Json
           created_at?: string
         }
         Update: {
           id?: string
           user_id?: string | null
+          first_name?: string
+          last_name?: string
           email?: string
+          phone?: string | null
+          id_passport?: string | null
           status?: string
-          total_nok?: number
+          total_eur?: number
           stripe_session_id?: string | null
           shipping_address?: Json | null
-          padelpoint_order_id?: string | null
           items?: Json
+          created_at?: string
+        }
+        Relationships: []
+      }
+      restricted_brands: {
+        Row: {
+          id: string
+          brand: string
+          reason: string
+          restricted_at: string
+        }
+        Insert: {
+          id?: string
+          brand: string
+          reason: string
+          restricted_at?: string
+        }
+        Update: {
+          id?: string
+          brand?: string
+          reason?: string
+          restricted_at?: string
+        }
+        Relationships: []
+      }
+      pending_notifications: {
+        Row: {
+          id: string
+          order_id: string | null
+          payload: Json
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          order_id?: string | null
+          payload: Json
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          order_id?: string | null
+          payload?: Json
+          created_at?: string
+        }
+        Relationships: []
+      }
+      price_review_queue: {
+        Row: {
+          id: string
+          padelpoint_url: string
+          product_name: string
+          current_price: number | null
+          proposed_price: number
+          reason: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          padelpoint_url: string
+          product_name: string
+          current_price?: number | null
+          proposed_price: number
+          reason: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          padelpoint_url?: string
+          product_name?: string
+          current_price?: number | null
+          proposed_price?: number
+          reason?: string
           created_at?: string
         }
         Relationships: []

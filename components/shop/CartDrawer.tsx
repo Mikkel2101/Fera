@@ -1,30 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart/context'
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, totalEur } = useCart()
-  const [isCheckingOut, setIsCheckingOut] = useState(false)
-
-  async function handleCheckout() {
-    setIsCheckingOut(true)
-    try {
-      const res = await fetch('/api/shop/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items }),
-      })
-      const data = await res.json()
-      if (data.url) {
-        window.location.href = data.url
-      }
-    } catch {
-      setIsCheckingOut(false)
-    }
-  }
 
   // Close on Escape
   useEffect(() => {
@@ -143,28 +125,26 @@ export default function CartDrawer() {
         {items.length > 0 && (
           <div className="px-5 py-4 border-t border-(--color-border) flex flex-col gap-3">
             <div className="flex justify-between items-center">
-              <span className="text-(--color-muted) text-sm">Totalt</span>
+              <span className="text-(--color-muted) text-sm">
+                Varer {totalEur >= 200 ? '— gratis frakt!' : `(+ €20 frakt)`}
+              </span>
               <span className="text-(--color-gold) font-bold text-lg">
                 € {totalEur.toFixed(2)}
               </span>
             </div>
-            <button
-              onClick={handleCheckout}
-              disabled={isCheckingOut}
-              className="w-full bg-(--color-cta) text-white font-semibold py-3 rounded-full hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
+            <Link
+              href="/shop/checkout"
+              onClick={closeCart}
+              className="w-full bg-(--color-cta) text-white font-semibold py-3 rounded-full hover:opacity-90 transition-opacity text-center"
             >
-              {isCheckingOut ? (
-                <>
-                  <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                  </svg>
-                  Åpner betaling…
-                </>
-              ) : (
-                'Gå til kasse →'
-              )}
-            </button>
+              Gå til kasse →
+            </Link>
+            <p className="text-xs text-(--color-subtle) text-center">
+              Levering 3–5 virkedager ·{' '}
+              <Link href="/shop/levering-og-retur" className="underline hover:text-(--color-text)" onClick={closeCart}>
+                Vilkår
+              </Link>
+            </p>
             <button
               onClick={closeCart}
               className="w-full text-(--color-subtle) text-sm text-center hover:text-(--color-text) transition-colors"
