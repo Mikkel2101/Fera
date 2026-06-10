@@ -17,8 +17,20 @@ export default function OmOssPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-b from-(--color-dark) to-(--color-dark-mid) px-4 sm:px-6 lg:px-8 py-20 md:py-28 text-center">
-        <div className="max-w-3xl mx-auto">
+      <section className="relative bg-(--color-dark) px-4 sm:px-6 lg:px-8 py-24 md:py-36 text-center overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=80"
+            alt="Costa Blanca kystlinje"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-20"
+            unoptimized
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-(--color-dark)/70 to-(--color-dark)" />
+        </div>
+        <div className="relative max-w-3xl mx-auto">
           <p className="text-white/50 text-xs tracking-widest uppercase font-sans mb-4">Om oss</p>
           <h1 className="font-display text-white text-4xl md:text-6xl font-bold leading-tight mb-6">
             Bak{' '}
