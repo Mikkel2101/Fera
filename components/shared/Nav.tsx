@@ -8,6 +8,7 @@ const reiserLinks = [
   { label: 'Se alle turer', href: '/travels' },
   { label: 'For klubber & coacher', href: '/travels/for-klubber' },
   { label: 'For bedrifter', href: '/travels/for-bedrifter' },
+  { label: 'Inspirasjon', href: '/travels/inspirasjon' },
   { label: 'FAQ', href: '/travels/faq' },
 ]
 

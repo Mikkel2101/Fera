@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ContactForm from '@/components/shared/ContactForm'
 
 export const metadata = {
   title: 'For klubber & trenere — Fera',
@@ -82,41 +83,19 @@ export default function ForKlubberPage() {
         <div className="max-w-2xl mx-auto">
           <h2 className="font-display italic font-bold text-white text-3xl sm:text-4xl mb-3 text-center">Send en forespørsel</h2>
           <p className="text-white/60 text-center mb-10">Vi tar kontakt innen 24 timer med et uforpliktende tilbud.</p>
-          <form action="mailto:post@feratravels.com" method="get" className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-white/70 text-xs mb-1.5 uppercase tracking-widest">Ditt navn *</label>
-                <input required name="navn" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/50" />
-              </div>
-              <div>
-                <label className="block text-white/70 text-xs mb-1.5 uppercase tracking-widest">Klubb/organisasjon *</label>
-                <input required name="klubb" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/50" />
-              </div>
-              <div>
-                <label className="block text-white/70 text-xs mb-1.5 uppercase tracking-widest">E-post *</label>
-                <input required type="email" name="epost" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/50" />
-              </div>
-              <div>
-                <label className="block text-white/70 text-xs mb-1.5 uppercase tracking-widest">Telefon</label>
-                <input name="telefon" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/50" />
-              </div>
-              <div>
-                <label className="block text-white/70 text-xs mb-1.5 uppercase tracking-widest">Estimert antall</label>
-                <input name="antall" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/50" />
-              </div>
-              <div>
-                <label className="block text-white/70 text-xs mb-1.5 uppercase tracking-widest">Ønsket tidspunkt</label>
-                <input name="tidspunkt" placeholder="F.eks. Høst 2026, Vinter 2027" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/50" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-white/70 text-xs mb-1.5 uppercase tracking-widest">Fortell oss om gruppen og ønskene</label>
-              <textarea rows={4} name="melding" placeholder="Nivå, spesielle ønsker, antall dager, destinasjon du drømmer om..." className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/50 resize-none" />
-            </div>
-            <button type="submit" className="w-full bg-white text-(--color-dark) font-semibold py-3.5 rounded-full hover:bg-(--color-sand) transition-colors text-sm">
-              Send forespørsel →
-            </button>
-          </form>
+          <ContactForm
+            type="klubber"
+            fields={[
+              { name: 'navn', label: 'Ditt navn', required: true },
+              { name: 'klubb', label: 'Klubb/organisasjon', required: true },
+              { name: 'epost', label: 'E-post', type: 'email', required: true },
+              { name: 'telefon', label: 'Telefon' },
+              { name: 'antall', label: 'Estimert antall' },
+              { name: 'tidspunkt', label: 'Ønsket tidspunkt', placeholder: 'F.eks. Høst 2026, Vinter 2027' },
+            ]}
+            messagePlaceholder="Nivå, spesielle ønsker, antall dager, destinasjon du drømmer om..."
+            messageLabel="Fortell oss om gruppen og ønskene"
+          />
         </div>
       </section>
     </>

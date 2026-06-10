@@ -1,13 +1,24 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import ProductCard from '@/components/shop/ProductCard'
 import Nav from '@/components/shared/Nav'
 import CartDrawer from '@/components/shop/CartDrawer'
 import HomeCartProvider from '@/components/home/HomeCartProvider'
+import Footer from '@/components/shared/Footer'
+import NewsletterSignup from '@/components/shared/NewsletterSignup'
 
 export const metadata = {
   title: 'Fera Padel — Reiser og utstyr',
   description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint. Alt på ett sted.',
+  openGraph: {
+    title: 'Fera Padel — Reiser og utstyr',
+    description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.',
+    url: 'https://ferabrand.com',
+    siteName: 'Fera Padel',
+    locale: 'nb_NO',
+    type: 'website',
+  },
 }
 
 const blogPosts = [
@@ -16,18 +27,27 @@ const blogPosts = [
     title: 'Costa Blanca — Spanias beste padeldestinasjon',
     excerpt: 'Hvorfor tusenvis av norske padel-entusiaster velger Costa Blanca som sin neste reisedestinasjon.',
     date: '5. juni 2026',
+    href: '/travels/inspirasjon',
+    src: 'https://images.unsplash.com/photo-1499678329028-101435549a4e?w=800&q=80',
+    alt: 'Costa Blanca kystlinje',
   },
   {
     category: 'Utstyr',
     title: 'Slik velger du riktig racket for ditt nivå',
     excerpt: 'Fra nybegynner til avansert — vår guide hjelper deg å finne den perfekte padelracket.',
     date: '1. juni 2026',
+    href: '/shop',
+    src: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&q=80',
+    alt: 'Padelracket',
   },
   {
     category: 'Event',
     title: 'Bedriftstur til Albir — perfekt teambuilding',
     excerpt: 'Se hvorfor Fera Padel er det naturlige valget for bedrifter som vil kombinere sport og sosialt.',
     date: '28. mai 2026',
+    href: '/travels/for-bedrifter',
+    src: 'https://images.unsplash.com/photo-1526888935184-a82d2a4b7e67?w=800&q=80',
+    alt: 'Bedriftstur padel',
   },
 ]
 
@@ -186,85 +206,96 @@ export default async function HomePage() {
         {/* ── 5. NYHETER & INSPIRASJON ─────────────────────────── */}
         <section className="py-28 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            <div className="mb-10">
-              <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Fra bloggen</p>
-              <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Nyheter & inspirasjon</h2>
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Fra bloggen</p>
+                <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Nyheter & inspirasjon</h2>
+              </div>
+              <Link href="/travels/inspirasjon" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
+                Se mer →
+              </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {blogPosts.map((post) => (
-                <article key={post.title} className="group cursor-pointer">
-                  <div className="aspect-[4/3] bg-(--color-ice) rounded-2xl mb-5 flex items-end p-6">
-                    <span className="text-xs uppercase tracking-widest text-(--color-cta) font-semibold">{post.category}</span>
+                <Link key={post.title} href={post.href} className="group block">
+                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
+                    <Image
+                      src={post.src}
+                      alt={post.alt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      unoptimized
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    <span className="absolute bottom-4 left-4 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-2.5 py-1 rounded-full">
+                      {post.category}
+                    </span>
                   </div>
                   <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
                   <h3 className="font-display font-bold text-(--color-text) text-lg leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
                     {post.title}
                   </h3>
                   <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
-                </article>
+                </Link>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── 6. INSTAGRAM ─────────────────────────────────────── */}
+        {/* ── 6. SOSIALE MEDIER + INSTAGRAM ────────────────────── */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-sand)">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-10">
-              <p className="text-(--color-muted) text-xs uppercase tracking-widest font-medium mb-2">Sosiale medier</p>
-              <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-2">Følg oss</h2>
-              <p className="text-(--color-muted)">@fera.padel</p>
-            </div>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="aspect-square rounded-xl bg-(--color-dark)/10 flex items-center justify-center hover:opacity-80 transition-opacity cursor-pointer">
-                  <svg className="w-6 h-6 text-(--color-dark)/20" fill="currentColor" viewBox="0 0 24 24">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-(--color-cta) text-xs uppercase tracking-widest font-medium mb-3">Sosiale medier</p>
+                <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-4">
+                  Følg oss på<br />Instagram
+                </h2>
+                <p className="text-(--color-text)/70 text-base leading-relaxed mb-6">
+                  Daglige oppdateringer fra banen, turene og alt det fine imellom. Se hva som skjer i Fera-verdenen.
+                </p>
+                <a
+                  href="https://instagram.com/fera.padel"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-(--color-dark) text-white font-semibold text-sm px-7 py-3.5 rounded-full hover:opacity-90 transition-opacity"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                   </svg>
-                </div>
-              ))}
-            </div>
-            <div className="text-center mt-8">
-              <a href="https://instagram.com/fera.padel" target="_blank" rel="noopener noreferrer"
-                className="inline-block bg-(--color-dark) text-white text-sm font-semibold px-8 py-3 rounded-full hover:opacity-90 transition-opacity">
-                Følg oss på Instagram
-              </a>
+                  @fera.padel
+                </a>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { src: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=400&q=80', alt: 'Padel bane' },
+                  { src: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400&q=80', alt: 'Trening' },
+                  { src: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=400&q=80', alt: 'Utsikt' },
+                  { src: 'https://images.unsplash.com/photo-1526888935184-a82d2a4b7e67?w=400&q=80', alt: 'Gruppe' },
+                  { src: 'https://images.unsplash.com/photo-1499678329028-101435549a4e?w=400&q=80', alt: 'Strand' },
+                  { src: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80', alt: 'Pool' },
+                ].map((img, i) => (
+                  <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="150px"
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      unoptimized
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
       </main>
 
-      {/* ── 7. FOOTER ────────────────────────────────────────── */}
-      <footer className="bg-(--color-dark) text-white/70 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
-          <div>
-            <span className="font-display italic font-bold text-white text-2xl block mb-4">Fera</span>
-            <p className="text-sm leading-relaxed">
-              Profesjonelle padelopplevelser — reiser til Spania og premium utstyr fra Padelpoint.
-            </p>
-          </div>
-          <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">Tjenester</h4>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/travels" className="hover:text-white transition-colors">Padelreiser</Link></li>
-              <li><Link href="/shop" className="hover:text-white transition-colors">Padelutstyr</Link></li>
-              <li><Link href="/travels" className="hover:text-white transition-colors">Bedriftsturer</Link></li>
-              <li><Link href="/travels" className="hover:text-white transition-colors">Klubbturer</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-white font-semibold text-sm uppercase tracking-widest mb-4">Kontakt</h4>
-            <ul className="space-y-2 text-sm">
-              <li>post@fera.no</li>
-              <li>Instagram: @fera.padel</li>
-            </ul>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/10 text-xs text-white/40">
-          © {new Date().getFullYear()} Fera Padel AS
-        </div>
-      </footer>
+      <NewsletterSignup />
+      <Footer />
     </HomeCartProvider>
   )
 }

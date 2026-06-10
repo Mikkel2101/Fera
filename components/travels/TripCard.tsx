@@ -51,9 +51,9 @@ export default function TripCard({ trip }: { trip: Trip }) {
   const isFull = trip.status === 'Fullbooket'
 
   return (
-    <div className="bg-(--color-dark-card) rounded-[14px] overflow-hidden flex flex-col">
+    <Link href={`/travels/${trip.id}`} className="group bg-(--color-dark-card) rounded-[14px] overflow-hidden flex flex-col hover:shadow-2xl transition-shadow duration-300">
       {/* Bildedel */}
-      <div className="relative aspect-video">
+      <div className="relative aspect-video overflow-hidden">
         {trip.main_image ? (
           <>
             <Image
@@ -61,9 +61,9 @@ export default function TripCard({ trip }: { trip: Trip }) {
               alt={trip.name}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
           </>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-(--color-dark) to-(--color-dark-mid)" />
@@ -113,14 +113,11 @@ export default function TripCard({ trip }: { trip: Trip }) {
           <span className="text-(--color-sand) text-2xl font-bold">
             €{trip.price_double_eur.toLocaleString('nb-NO')}
           </span>
-          <Link
-            href={`/travels/${trip.id}`}
-            className="bg-white text-(--color-dark) text-sm font-semibold px-4 py-2 rounded-full hover:bg-(--color-sand) transition-colors"
-          >
+          <span className="bg-white text-(--color-dark) text-sm font-semibold px-4 py-2 rounded-full group-hover:bg-(--color-sand) transition-colors">
             {isFull ? 'Venteliste →' : 'Se detaljer →'}
-          </Link>
+          </span>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
