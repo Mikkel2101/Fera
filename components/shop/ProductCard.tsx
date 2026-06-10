@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState } from 'react'
 import type { Database } from '@/lib/supabase/types'
 import { useCart } from '@/lib/cart/context'
 
@@ -13,9 +14,23 @@ function stockBadge(status: string) {
   return null
 }
 
+function ImagePlaceholder() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-(--color-ice-light)">
+      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" className="text-(--color-border)">
+        <ellipse cx="28" cy="22" rx="16" ry="16" stroke="currentColor" strokeWidth="2"/>
+        <line x1="28" y1="38" x2="28" y2="52" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        <line x1="12" y1="22" x2="44" y2="22" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.5"/>
+        <line x1="28" y1="6" x2="28" y2="38" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.5"/>
+      </svg>
+    </div>
+  )
+}
+
 export default function ProductCard({ product }: { product: Product }) {
   const badge = stockBadge(product.stock_status)
   const primaryImage = product.images[0] ?? null
+  const [imgError, setImgError] = useState(false)
   const { addItem } = useCart()
   const isOutOfStock = product.stock_status === 'out_of_stock'
 
@@ -39,7 +54,7 @@ export default function ProductCard({ product }: { product: Product }) {
     >
       {/* Image */}
       <div className="relative aspect-square bg-white overflow-hidden">
-        {primaryImage ? (
+        {primaryImage && !imgError ? (
           <Image
             src={primaryImage}
             alt={product.name}
@@ -47,9 +62,10 @@ export default function ProductCard({ product }: { product: Product }) {
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-105"
             unoptimized
+            onError={() => setImgError(true)}
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-5xl opacity-20">🏓</div>
+          <ImagePlaceholder />
         )}
 
         {/* Stock badge */}
