@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import ProductCard from '@/components/shop/ProductCard'
+import TripCard from '@/components/travels/TripCard'
 import Nav from '@/components/shared/Nav'
 import CartDrawer from '@/components/shop/CartDrawer'
 import HomeCartProvider from '@/components/home/HomeCartProvider'
@@ -199,6 +200,33 @@ export default async function HomePage() {
             </Link>
           </div>
         </section>
+
+        {/* ── 3b. KOMMENDE TURER ───────────────────────────────── */}
+        {trips && trips.length > 0 && (
+          <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-dark)">
+            <div className="max-w-7xl mx-auto">
+              <div className="flex items-end justify-between mb-10">
+                <div>
+                  <p className="text-(--color-sand)/60 text-xs uppercase tracking-widest font-medium mb-2">Neste tur</p>
+                  <h2 className="font-display italic font-bold text-white text-3xl sm:text-4xl">Kommende turer</h2>
+                </div>
+                <Link href="/travels" className="text-(--color-sand) text-sm font-medium hover:underline hidden sm:block">
+                  Se alle turer →
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {trips.map((trip) => (
+                  <TripCard key={trip.id} trip={trip} />
+                ))}
+              </div>
+              <div className="text-center mt-10">
+                <Link href="/travels" className="inline-block border border-white/20 text-white text-sm font-medium px-7 py-3 rounded-full hover:border-white/50 transition-colors sm:hidden">
+                  Se alle turer →
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ── 4. BESTSELGERE ───────────────────────────────────── */}
         {bestSellers && bestSellers.length > 0 && (
