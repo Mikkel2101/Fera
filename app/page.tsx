@@ -163,7 +163,7 @@ export default async function HomePage() {
                     <span className="font-display font-bold text-(--color-dark) text-xl">{step.num}</span>
                   </div>
                   <h3 className="font-display font-bold text-(--color-text) text-xl mb-2">{step.title}</h3>
-                  <p className="text-(--color-muted) text-sm leading-relaxed max-w-xs">{step.desc}</p>
+                  <p className="text-(--color-text) text-sm leading-relaxed max-w-xs">{step.desc}</p>
                 </div>
               ))}
             </div>
