@@ -3,7 +3,7 @@ import Link from 'next/link'
 export default function Footer() {
   return (
     <footer className="bg-(--color-footer) text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
 
         {/* Top grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
@@ -16,6 +16,7 @@ export default function Footer() {
             <p className="text-white/50 text-sm leading-relaxed mb-6">
               Profesjonelle padelopplevelser og premium utstyr
             </p>
+            <p className="text-white/50 text-xs mb-3">Følg oss på Instagram</p>
             <div className="flex gap-3">
               <a
                 href="https://instagram.com/fera.padel"

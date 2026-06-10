@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import TripListClient from '@/components/travels/TripListClient'
 
@@ -18,49 +17,33 @@ export default async function TravelsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-(--color-community) overflow-hidden px-4 sm:px-6 lg:px-8 pt-16 pb-0 md:pt-24">
+      <section className="relative bg-(--color-community) overflow-hidden px-4 pt-20 pb-0 md:pt-32 min-h-[55vh] md:min-h-[65vh] flex flex-col justify-center pb-8 md:pb-12">
         <div
-          className="absolute inset-0 opacity-40"
+          className="absolute inset-0"
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-(--color-community)/60 via-(--color-community)/30 to-transparent" />
-        <div className="relative max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end pb-16 md:pb-24">
-            <div>
-              <p className="text-(--color-sand) text-xs tracking-widest uppercase font-sans mb-4 opacity-70">
-                Kommende turer
-              </p>
-              <h1 className="font-display text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                Finn ditt neste{' '}
-                <em className="italic text-(--color-sand) not-italic">padel-eventyr</em>
-              </h1>
-              <p className="text-white/60 text-lg max-w-xl leading-relaxed mb-8">
-                Kurerte reisepakker til Costa Blanca — for bedrifter, klubber, vennegjenger og skoler. Alt inkludert, kun kofferten mangler.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="#turer"
-                  className="bg-white text-(--color-dark) font-semibold text-sm px-6 py-3 rounded-full hover:bg-(--color-sand) transition-colors"
-                >
-                  Se alle turer ↓
-                </Link>
-                <Link
-                  href="/travels/for-bedrifter"
-                  className="border border-white/30 text-white font-semibold text-sm px-6 py-3 rounded-full hover:border-white/60 transition-colors"
-                >
-                  Bedriftsturer
-                </Link>
-              </div>
-            </div>
-            <div className="grid grid-cols-3 gap-4 pb-8">
+        <div className="absolute inset-0 bg-(--color-overlay)/80" />
+        <div className="relative max-w-[1600px] mx-auto w-full">
+          <div className="pb-16 md:pb-24">
+            <p className="text-(--color-overline-light) text-xs tracking-widest uppercase font-sans mb-4">
+              Fera Travel
+            </p>
+            <h1 className="font-sans font-normal text-white text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
+              Padelopplevelser på <span className="font-display italic">Costa Blanca</span>
+            </h1>
+            <p className="text-white text-lg max-w-xl leading-relaxed mb-10">
+              Skreddersydde opphold for bedrifter, klubber, skoler og private grupper — med trening, opplevelser og alt det praktiske ivaretatt.
+            </p>
+            {/* Trust signals */}
+            <div className="flex flex-wrap gap-x-10 gap-y-4 pt-10 border-t border-white/15">
               {[
-                { number: '100+', label: 'Fornøyde reisende' },
-                { number: 'Costa Blanca', label: 'Destinasjon' },
-                { number: 'André Schlyter', label: 'World class coach' },
-              ].map((stat) => (
-                <div key={stat.number} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-                  <p className="font-display font-bold text-white text-base sm:text-lg leading-tight mb-1">{stat.number}</p>
-                  <p className="text-white/40 text-[10px] uppercase tracking-widest">{stat.label}</p>
+                { stat: '100+', label: 'Fornøyde reisende' },
+                { stat: '5-stjernes', label: 'Coach: André Schlyter' },
+                { stat: 'Costa Blanca', label: 'Destinasjon' },
+              ].map((item) => (
+                <div key={item.stat}>
+                  <p className="text-white font-sans font-semibold text-2xl leading-none mb-1">{item.stat}</p>
+                  <p className="text-white/50 text-[11px] uppercase tracking-widest">{item.label}</p>
                 </div>
               ))}
             </div>
@@ -74,10 +57,10 @@ export default async function TravelsPage() {
       </div>
 
       {/* Testimonials */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-sand-light)">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 bg-(--color-sand-light)">
+        <div className="max-w-[1600px] mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-(--color-cta) text-xs uppercase tracking-widest font-medium mb-3">Hva sier våre reisende</p>
+            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Hva sier våre reisende</p>
             <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">
               Over 100 fornøyde gjester
             </h2>

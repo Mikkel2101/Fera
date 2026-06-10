@@ -46,45 +46,47 @@ export default function TripFilters({ trips, onFilter }: Props) {
     'border border-(--color-border) rounded-lg px-3 py-2 text-sm bg-white text-(--color-text) focus:outline-none focus:ring-2 focus:ring-(--color-gold)/40'
 
   return (
-    <div className="bg-white border-b border-(--color-border) px-6 py-3 flex flex-wrap gap-3">
-      <select
-        value={destination}
-        onChange={(e) => setDestination(e.target.value)}
-        className={selectClass}
-      >
-        <option value="">Alle destinasjoner</option>
-        {destinations.map((d) => (
-          <option key={d} value={d}>
-            {d}
-          </option>
-        ))}
-      </select>
+    <div className="bg-white border-b border-(--color-border) py-3">
+      <div className="max-w-[1600px] mx-auto px-4 flex flex-wrap gap-3">
+        <select
+          value={destination}
+          onChange={(e) => setDestination(e.target.value)}
+          className={selectClass}
+        >
+          <option value="">Alle destinasjoner</option>
+          {destinations.map((d) => (
+            <option key={d} value={d}>
+              {d}
+            </option>
+          ))}
+        </select>
 
-      <select
-        value={tripType}
-        onChange={(e) => setTripType(e.target.value)}
-        className={selectClass}
-      >
-        <option value="">Alle typer</option>
-        {tripTypes.map((t) => (
-          <option key={t} value={t}>
-            {t}
-          </option>
-        ))}
-      </select>
+        <select
+          value={tripType}
+          onChange={(e) => setTripType(e.target.value)}
+          className={selectClass}
+        >
+          <option value="">Alle typer</option>
+          {tripTypes.map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
+        </select>
 
-      <select
-        value={month}
-        onChange={(e) => setMonth(e.target.value)}
-        className={selectClass}
-      >
-        <option value="">Alle måneder</option>
-        {months.map((m) => (
-          <option key={m} value={m}>
-            {monthLabel(m + '-01')}
-          </option>
-        ))}
-      </select>
+        <select
+          value={month}
+          onChange={(e) => setMonth(e.target.value)}
+          className={selectClass}
+        >
+          <option value="">Alle måneder</option>
+          {months.map((m) => (
+            <option key={m} value={m}>
+              {monthLabel(m + '-01')}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   )
 }

@@ -51,7 +51,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
   const isFull = trip.status === 'Fullbooket'
 
   return (
-    <Link href={`/travels/${trip.id}`} className="group bg-(--color-sand-light) rounded-[14px] overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-300">
+    <Link href={`/travels/${trip.id}`} className="group bg-(--color-sand-light) rounded overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-300">
       {/* Bildedel */}
       <div className="relative aspect-video overflow-hidden">
         {trip.main_image ? (

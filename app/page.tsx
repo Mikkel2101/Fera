@@ -67,31 +67,33 @@ export default async function HomePage() {
       <main>
 
         {/* ── 1. HERO ─────────────────────────────────────────── */}
-        <section className="relative min-h-[88vh] flex items-center bg-(--color-dark) overflow-hidden">
+        <section className="relative min-h-[60vh] sm:min-h-[88vh] flex items-center bg-(--color-dark) overflow-hidden">
           {/* Hero background image */}
-          <div className="absolute inset-0"
-            style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }}
+          <div className="absolute inset-0 hero-bg"
+            style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover' }}
           />
-          {/* Gradient only at left/bottom so text is readable */}
-          <div className="absolute inset-0 bg-gradient-to-r from-(--color-overlay)/75 via-(--color-overlay)/30 to-transparent" />
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+          {/* Mobile + tablet: full overlay */}
+          <div className="absolute inset-0 bg-(--color-overlay)/65 lg:hidden" />
+          {/* Desktop: gradient from left */}
+          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-(--color-overlay)/75 via-(--color-overlay)/30 to-transparent" />
+          <div className="relative max-w-[1600px] mx-auto px-4 py-24 w-full">
             <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl lg:text-7xl leading-none max-w-3xl mb-6">
               Utstyr du elsker.<br />
               <span className="font-display italic">Turer du husker.</span>
             </h1>
-            <p className="text-white/70 text-[18px] max-w-xl leading-relaxed mb-10">
+            <p className="text-white text-[18px] max-w-xl leading-relaxed mb-10">
               Premium padelutstyr og eksklusive reiser til Spania for opplevelser på og utenfor banen.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/shop"
-                className="bg-white text-(--color-dark) font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors"
+                className="bg-white text-(--color-dark) font-sans font-normal text-sm px-5 py-2.5 rounded-full hover:bg-(--color-sand-warm) transition-colors"
               >
                 Shop utstyr
               </Link>
               <Link
                 href="/travels"
-                className="border border-white/40 text-white font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:border-white/80 transition-colors"
+                className="border border-white/40 text-white font-sans font-normal text-sm px-5 py-2.5 rounded-full hover:border-white/80 transition-colors"
               >
                 Se kommende turer →
               </Link>
@@ -102,14 +104,13 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── 1b. TRUST SIGNALS BAR ────────────────────────────── */}
+        {/* ── 1b. TRUST SIGNALS BAR — skjult
         <section className="border-b border-(--color-border)">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x divide-(--color-border)">
+          <div className="max-w-[1600px] mx-auto px-4 py-6">
+            <div className="grid grid-cols-3 gap-6 md:gap-0 md:divide-x divide-(--color-border)">
               {[
                 { stat: '100+', label: 'Reisende på ett år' },
                 { stat: '5-stjernes', label: 'Coach: André Schlyter' },
-                { stat: 'Padelpoint', label: 'Offisiell partner' },
                 { stat: 'Stripe', label: 'Trygg betaling' },
               ].map((item) => (
                 <div key={item.stat} className="text-center md:px-6">
@@ -120,15 +121,30 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        ── */}
+
+        {/* ── 1c. BRAND BAR ────────────────────────────────────── */}
+        <div className="border-b border-(--color-border) bg-white">
+          <div className="max-w-[1600px] mx-auto px-4 py-5">
+            <p className="text-center text-(--color-muted) text-xs uppercase tracking-widest mb-4">Vi fører merker som</p>
+            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+              {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Babolat', 'Dunlop'].map((brand) => (
+                <span key={brand} className="font-display font-bold text-(--color-dark) text-lg md:text-xl opacity-60 hover:opacity-100 transition-opacity">
+                  {brand}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* ── 2. PRODUKTNYHETER ────────────────────────────────── */}
         {newProducts && newProducts.length > 0 && (
-          <section className="py-28 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
+          <section className="py-28">
+            <div className="max-w-[1600px] mx-auto px-4">
               <div className="flex items-end justify-between mb-10">
                 <div>
-                  <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Nytt inn</p>
-                  <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Produktnyheter</h2>
+                  <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Padelutstyr</p>
+                  <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Nyheter</h2>
                 </div>
                 <Link href="/shop" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
                   Se alle produkter →
@@ -146,9 +162,9 @@ export default async function HomePage() {
         )}
 
         {/* ── 2b. SLIK FUNGERER DET — skjult, kan brukes et annet sted
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
+        <section className="py-24 px-4 bg-(--color-ice-light)">
           <div className="max-w-5xl mx-auto text-center">
-            <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Enkelt å komme i gang</p>
+            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Enkelt å komme i gang</p>
             <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-14">Slik fungerer det</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
               <div className="hidden md:block absolute top-8 left-1/3 right-1/3 h-px bg-(--color-border)" />
@@ -183,7 +199,7 @@ export default async function HomePage() {
           />
           <div className="absolute inset-0 bg-(--color-overlay)/80" />
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+          <div className="relative max-w-[1600px] mx-auto px-4 py-24 w-full">
             {/* Overline */}
             <p className="text-white text-xs tracking-[0.35em] uppercase font-sans mb-5">
               REIS MED FERA
@@ -192,11 +208,11 @@ export default async function HomePage() {
             {/* Heading */}
             <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-2xl mb-5">
               <span className="font-sans font-medium">Utforsk våre reiser langs kysten i</span>
-              <span className="font-display italic font-bold">Costa Blanca</span>
+              <span className="font-display italic font-medium">Costa Blanca</span>
             </h2>
 
             {/* Subtitle */}
-            <p className="text-white/70 text-lg max-w-lg leading-relaxed mb-8">
+            <p className="text-white text-lg max-w-lg leading-relaxed mb-8">
               Vi tilbyr reiser med hotell, baner, coaching og opplevelser. Nøye planlagt for deg som vil kombinere spill, sol og gode dager på og utenfor banen.
             </p>
 
@@ -223,8 +239,8 @@ export default async function HomePage() {
 
         {/* ── 3b. KOMMENDE TURER — skjult, kan brukes et annet sted
         {trips && trips.length > 0 && (
-          <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-dark)">
-            <div className="max-w-7xl mx-auto">
+          <section className="py-24 px-4 bg-(--color-dark)">
+            <div className="max-w-[1600px] mx-auto">
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-sand)/60 text-xs uppercase tracking-widest font-medium mb-2">Neste tur</p>
@@ -251,11 +267,11 @@ export default async function HomePage() {
 
         {/* ── 4. BESTSELGERE ───────────────────────────────────── */}
         {bestSellers && bestSellers.length > 0 && (
-          <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-            <div className="max-w-7xl mx-auto">
+          <section className="py-20 bg-white">
+            <div className="max-w-[1600px] mx-auto px-4">
               <div className="flex items-end justify-between mb-10">
                 <div>
-                  <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Populære valg</p>
+                  <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Populære valg</p>
                   <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Bestselgere</h2>
                 </div>
                 <Link href="/shop" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
@@ -272,14 +288,14 @@ export default async function HomePage() {
         )}
 
         {/* ── 5. NYHETER & INSPIRASJON ─────────────────────────── */}
-        <section className="py-28">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-28 overflow-hidden bg-(--color-sand-light)">
+          <div className="max-w-[1600px] mx-auto px-4">
             {/* Header */}
             <div className="flex items-end justify-between mb-10">
               <div>
-                <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Nyheter</p>
+                <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
                 <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
-                <p className="font-sans text-[18px] text-(--color-muted) max-w-xl leading-relaxed">
+                <p className="font-sans text-[18px] text-(--color-text) max-w-xl leading-relaxed">
                   Les om tidligere padelreiser, få våre utstyrsanbefalinger og finn inspirasjon til deg som vil få mer ut av padel.
                 </p>
               </div>
@@ -288,8 +304,8 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            {/* Slider — i samme container som header, negativ høyre-margin bryter ut av padding */}
-            <div className="-mr-4 sm:-mr-6 lg:-mr-8 overflow-x-auto pb-6 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {/* Slider — calc(-50vw + 50%) extends to viewport right edge on all screen widths */}
+            <div className="overflow-x-auto pb-6 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ marginRight: 'calc(-50vw + 50%)' }}>
               <div className="flex gap-6">
                 {blogPosts.map((post) => (
                   <Link
@@ -324,13 +340,13 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── 6. SOSIALE MEDIER + INSTAGRAM ────────────────────── */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-sand-light)">
-          <div className="max-w-7xl mx-auto">
+        {/* ── 6. SOSIALE MEDIER + INSTAGRAM — skjult
+        <section className="py-20 bg-white">
+          <div className="max-w-[1600px] mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <p className="text-(--color-cta) text-xs uppercase tracking-widest font-medium mb-3">Sosiale medier</p>
-                <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-4">
+                <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Sosiale medier</p>
+                <h2 className="font-display italic font-normal text-(--color-text) text-3xl sm:text-4xl mb-4">
                   Følg oss på<br />Instagram
                 </h2>
                 <p className="text-(--color-text)/70 text-base leading-relaxed mb-6">
@@ -372,6 +388,7 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        ── */}
 
       </main>
 

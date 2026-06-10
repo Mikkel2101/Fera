@@ -25,10 +25,10 @@ export default function NewsletterSignup() {
 
   return (
     <section className="overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-3 min-h-[600px]">
+      <div className="grid grid-cols-1 lg:grid-cols-5 min-h-[600px]">
 
-        {/* Left — image (2/3) */}
-        <div className="relative min-h-[320px] lg:min-h-0 lg:col-span-2">
+        {/* Left — image (3/5) */}
+        <div className="relative min-h-[320px] lg:min-h-0 lg:col-span-3">
           <Image
             src="/fonts/static/manuel-pappacena-zTwzxr4BbTA-unsplash.jpg"
             alt="Padel utendørs i solen"
@@ -39,15 +39,15 @@ export default function NewsletterSignup() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent to-(--color-overlay)/20" />
         </div>
 
-        {/* Right — content (1/3) */}
-        <div className="bg-(--color-community) flex flex-col justify-center px-10 py-16 lg:px-12">
-          <p className="text-(--color-sand) text-xs uppercase tracking-widest font-medium mb-4">
+        {/* Right — content (2/5) */}
+        <div className="bg-(--color-community) flex flex-col justify-center px-10 py-16 lg:px-12 lg:col-span-2">
+          <p className="text-white text-xs uppercase tracking-widest font-medium mb-4">
             Meld deg på vårt nyhetsbrev
           </p>
           <h2 className="font-sans font-normal text-white text-4xl sm:text-5xl leading-tight mb-6">
             Bli med i<br />FERA Community
           </h2>
-          <p className="font-sans text-[18px] text-white/65 leading-relaxed mb-10">
+          <p className="font-sans text-[16px] text-white leading-relaxed mb-10">
             Få tilgang til prelanseringer, eksklusive tilbud og utvalgte padelreiser før alle andre. Et fellesskap for deg som vil være først ute når nye opplevelser åpner.
           </p>
 

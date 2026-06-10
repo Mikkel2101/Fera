@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import ProductGrid from '@/components/shop/ProductGrid'
 
@@ -17,55 +16,18 @@ export default async function ShopPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative bg-(--color-community) overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=1600&q=80"
-            alt="Padelutstyr"
-            fill
-            sizes="100vw"
-            className="object-cover opacity-20"
-            unoptimized
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-(--color-community) via-(--color-community)/80 to-transparent" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-          <p className="text-(--color-sand) text-xs uppercase tracking-widest font-medium mb-4 opacity-80">
-            PADELUTSTYR & TILBEHØR
-          </p>
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4">
-            Utstyr fra <em className="italic text-(--color-sand)">Spania</em>
-          </h1>
-          <p className="text-white/60 text-lg max-w-xl mb-8">
-            Offisiell Padelpoint-partner — racketer, sko, vesker og tilbehør levert raskt til Norge.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            {['Racketer', 'Sko', 'Vesker', 'Baller', 'Tilbehør'].map((cat) => (
-              <span key={cat} className="border border-white/20 text-white/70 text-xs font-medium px-3 py-1.5 rounded-full">
-                {cat}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Brand bar */}
+      {/* Page header */}
       <div className="border-b border-(--color-border) bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <p className="text-center text-(--color-muted) text-xs uppercase tracking-widest mb-4">Vi fører merker som</p>
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-            {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Babolat', 'Dunlop'].map((brand) => (
-              <span key={brand} className="font-display font-bold text-(--color-dark) text-base md:text-lg opacity-60 hover:opacity-100 transition-opacity">
-                {brand}
-              </span>
-            ))}
-          </div>
+        <div className="max-w-[1600px] mx-auto px-4 py-8">
+          <p className="text-(--color-muted) text-xs">
+            <a href="/" className="hover:text-(--color-text) transition-colors">Hjem</a>
+            <span className="mx-2">›</span>
+            <span className="text-(--color-text)">Utstyr</span>
+          </p>
         </div>
       </div>
 
-      <ProductGrid products={products ?? []} />
+<ProductGrid products={products ?? []} />
     </>
   )
 }
