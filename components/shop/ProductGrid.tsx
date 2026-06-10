@@ -85,9 +85,11 @@ function ProductGridInner({ products }: { products: Product[] }) {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
-              {filtered.map((p) => (
-                <ProductCard key={p.id} product={p} />
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filtered.map(p => (
+                <div key={p.id} className="bg-white p-4">
+                  <ProductCard product={p} />
+                </div>
               ))}
             </div>
           )}

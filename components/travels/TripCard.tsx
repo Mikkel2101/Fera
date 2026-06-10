@@ -6,7 +6,7 @@ type Trip = Database['public']['Tables']['trips']['Row']
 
 function getStatusBadge(trip: Trip) {
   if (trip.status === 'Fullbooket') {
-    return { label: 'Utsolgt', className: 'bg-white/20 text-white' }
+    return { label: 'Utsolgt', className: 'bg-(--color-border) text-(--color-muted)' }
   }
   if (trip.status === 'Avlyst' || trip.status === 'Gjennomført' || trip.status === 'Utkast') {
     return null
@@ -51,7 +51,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
   const isFull = trip.status === 'Fullbooket'
 
   return (
-    <Link href={`/travels/${trip.id}`} className="group bg-(--color-dark-card) rounded-[14px] overflow-hidden flex flex-col hover:shadow-2xl transition-shadow duration-300">
+    <Link href={`/travels/${trip.id}`} className="group bg-(--color-sand-light) rounded overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-300">
       {/* Bildedel */}
       <div className="relative aspect-video overflow-hidden">
         {trip.main_image ? (
@@ -63,22 +63,15 @@ export default function TripCard({ trip }: { trip: Trip }) {
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors" />
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
           </>
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-(--color-dark) to-(--color-dark-mid)" />
+          <div className="absolute inset-0 bg-(--color-border)" />
         )}
-
-        {/* FERA watermark */}
-        <span className="absolute bottom-3 left-4 font-display text-white/8 text-4xl font-bold select-none pointer-events-none">
-          FERA
-        </span>
 
         {/* Status badge */}
         {badge && (
-          <span
-            className={`absolute top-3 right-3 ${badge.className} text-xs font-semibold px-2.5 py-1 rounded-full`}
-          >
+          <span className={`absolute top-3 right-3 ${badge.className} text-xs font-semibold px-2.5 py-1 rounded-full`}>
             {badge.label}
           </span>
         )}
@@ -94,26 +87,26 @@ export default function TripCard({ trip }: { trip: Trip }) {
       {/* Kortinnhold */}
       <div className="flex flex-col flex-1 p-4 gap-2">
         {trip.trip_type && (
-          <p className="text-white/50 text-xs uppercase tracking-wider font-sans">
+          <p className="text-(--color-muted) text-xs uppercase tracking-wider font-sans">
             {trip.trip_type}
           </p>
         )}
 
-        <h3 className="font-display text-white text-xl font-semibold leading-tight">
+        <h3 className="font-display text-(--color-text) text-xl font-semibold leading-tight">
           {trip.name}
         </h3>
 
-        <p className="text-white/60 text-sm">
+        <p className="text-(--color-muted) text-sm">
           {formatDate(trip.start_date)} · {trip.destination}
           {spotsLeft != null && ` · ${spotsLeft} plasser igjen`}
         </p>
 
         {/* Footer */}
         <div className="flex items-center justify-between mt-auto pt-4">
-          <span className="text-(--color-sand) text-2xl font-bold">
+          <span className="text-(--color-cta) text-2xl font-bold">
             €{trip.price_double_eur.toLocaleString('nb-NO')}
           </span>
-          <span className="bg-white text-(--color-dark) text-sm font-semibold px-4 py-2 rounded-full group-hover:bg-(--color-sand) transition-colors">
+          <span className="bg-(--color-cta) text-white text-sm font-semibold px-4 py-2 rounded-full group-hover:bg-(--color-dark-mid) transition-colors">
             {isFull ? 'Venteliste →' : 'Se detaljer →'}
           </span>
         </div>

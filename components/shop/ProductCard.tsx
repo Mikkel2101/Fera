@@ -17,7 +17,7 @@ function stockBadge(status: string) {
 
 function ImagePlaceholder() {
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-(--color-ice-light)">
+    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" className="text-(--color-border)">
         <ellipse cx="28" cy="22" rx="16" ry="16" stroke="currentColor" strokeWidth="2"/>
         <line x1="28" y1="38" x2="28" y2="52" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -40,18 +40,19 @@ export default function ProductCard({ product }: { product: Product }) {
     e.stopPropagation()
     if (isOutOfStock) return
     addItem({
-      product_id: product.id,
-      name: product.name,
-      brand: product.brand,
-      price_eur: product.price_eur,
-      image: product.images[0] ?? '',
+      product_id:     product.id,
+      name:           product.name,
+      brand:          product.brand,
+      price_eur:      product.price_eur,
+      image:          product.images[0] ?? '',
+      padelpoint_url: product.padelpoint_url ?? undefined,
     })
   }
 
   return (
     <Link href={`/shop/${product.id}`} className="group flex flex-col">
       {/* Image */}
-      <div className="relative aspect-square bg-(--color-ice-light) rounded-xl overflow-hidden">
+      <div className="relative aspect-square bg-gray-100 overflow-hidden">
         {primaryImage && !imgError ? (
           <Image
             src={primaryImage}

@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useState } from 'react'
+import Image from 'next/image'
 
 export default function NewsletterSignup() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault()
     setStatus('loading')
     try {
@@ -16,59 +17,72 @@ export default function NewsletterSignup() {
         body: JSON.stringify({ email }),
       })
       const data = await res.json()
-      if (data.success) {
-        setStatus('success')
-      } else {
-        setStatus('error')
-      }
+      setStatus(data.success ? 'success' : 'error')
     } catch {
       setStatus('error')
     }
   }
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-dark)">
-      <div className="max-w-2xl mx-auto text-center">
-        <p className="text-(--color-sand) text-xs uppercase tracking-widest font-medium mb-3">Hold deg oppdatert</p>
-        <h2 className="font-display italic font-bold text-white text-3xl sm:text-4xl mb-4">
-          Få nyhetsbrev fra Fera
-        </h2>
-        <p className="text-white/60 text-base leading-relaxed mb-8">
-          Nye turer, utstyr-nyheter og ekklusive tilbud — rett i innboksen din. Ingen spam, kun det som gjelder.
-        </p>
+    <section className="overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-5 min-h-[600px]">
 
-        {status === 'success' ? (
-          <div className="flex items-center justify-center gap-2 text-(--color-sand)">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-            <span className="font-medium">Du er påmeldt! Takk.</span>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="din@epost.no"
-              className="flex-1 bg-white/10 border border-white/20 rounded-full px-5 py-3 text-white placeholder-white/40 text-sm focus:outline-none focus:border-white/50 transition-colors"
-            />
-            <button
-              type="submit"
-              disabled={status === 'loading'}
-              className="bg-white text-(--color-dark) font-semibold text-sm px-6 py-3 rounded-full hover:bg-(--color-sand) transition-colors whitespace-nowrap disabled:opacity-60"
-            >
-              {status === 'loading' ? 'Melder på…' : 'Meld meg på →'}
-            </button>
-          </form>
-        )}
+        {/* Left — image (3/5) */}
+        <div className="relative min-h-[320px] lg:min-h-0 lg:col-span-3">
+          <Image
+            src="/fonts/static/manuel-pappacena-zTwzxr4BbTA-unsplash.jpg"
+            alt="Padel utendørs i solen"
+            fill
+            sizes="(max-width: 1024px) 100vw, 66vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-(--color-overlay)/20" />
+        </div>
 
-        {status === 'error' && (
-          <p className="text-red-400 text-sm mt-3">Noe gikk galt. Prøv igjen.</p>
-        )}
+        {/* Right — content (2/5) */}
+        <div className="bg-(--color-community) flex flex-col justify-center px-10 py-16 lg:px-12 lg:col-span-2">
+          <p className="text-white text-xs uppercase tracking-widest font-medium mb-4">
+            Meld deg på vårt nyhetsbrev
+          </p>
+          <h2 className="font-sans font-normal text-white text-4xl sm:text-5xl leading-tight mb-6">
+            Bli med i<br />FERA Community
+          </h2>
+          <p className="font-sans text-[16px] text-white leading-relaxed mb-10">
+            Få tilgang til prelanseringer, eksklusive tilbud og utvalgte padelreiser før alle andre. Et fellesskap for deg som vil være først ute når nye opplevelser åpner.
+          </p>
 
-        <p className="text-white/30 text-xs mt-4">Ingen spam. Meld av når som helst.</p>
+          {status === 'success' ? (
+            <div className="flex items-center gap-3 text-(--color-sand)">
+              <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="font-sans font-normal text-base">Du er med i FERA Select. Velkommen!</span>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="din@epost.no"
+                className="bg-white/10 border border-white/20 rounded-full px-5 py-3.5 text-white placeholder-white/35 text-sm focus:outline-none focus:border-white/50 transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="bg-white text-(--color-community) font-sans font-normal text-sm px-6 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors disabled:opacity-60"
+              >
+                {status === 'loading' ? 'Melder på…' : 'Meld på'}
+              </button>
+              {status === 'error' && (
+                <p className="text-red-400 text-xs pl-1">Noe gikk galt. Prøv igjen.</p>
+              )}
+              <p className="text-white/30 text-xs pl-1 mt-1">Ingen spam. Meld av når som helst.</p>
+            </form>
+          )}
+        </div>
+
       </div>
     </section>
   )

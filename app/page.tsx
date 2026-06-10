@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import ProductCard from '@/components/shop/ProductCard'
-import TripCard from '@/components/travels/TripCard'
 import Nav from '@/components/shared/Nav'
 import CartDrawer from '@/components/shop/CartDrawer'
 import HomeCartProvider from '@/components/home/HomeCartProvider'
@@ -10,10 +9,10 @@ import Footer from '@/components/shared/Footer'
 import NewsletterSignup from '@/components/shared/NewsletterSignup'
 
 export const metadata = {
-  title: 'Fera Padel — Reiser og utstyr',
+  title: 'Fera Padel | Reiser og utstyr',
   description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint. Alt på ett sted.',
   openGraph: {
-    title: 'Fera Padel — Reiser og utstyr',
+    title: 'Fera Padel | Reiser og utstyr',
     description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.',
     url: 'https://ferabrand.com',
     siteName: 'Fera Padel',
@@ -27,7 +26,7 @@ const PHOTOS = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/publi
 const blogPosts = [
   {
     category: 'Inspirasjon',
-    title: 'Costa Blanca — Spanias beste padeldestinasjon',
+    title: 'Costa Blanca: Spanias beste padeldestinasjon',
     excerpt: 'Hvorfor tusenvis av norske padel-entusiaster velger Costa Blanca som sin neste reisedestinasjon.',
     date: '5. juni 2026',
     href: '/travels/inspirasjon',
@@ -37,7 +36,7 @@ const blogPosts = [
   {
     category: 'Utstyr',
     title: 'Slik velger du riktig racket for ditt nivå',
-    excerpt: 'Fra nybegynner til avansert — vår guide hjelper deg å finne den perfekte padelracket.',
+    excerpt: 'Fra nybegynner til avansert. Vår guide hjelper deg å finne den perfekte padelracket.',
     date: '1. juni 2026',
     href: '/shop',
     src: `${PHOTOS}/player-fence.jpg`,
@@ -45,7 +44,7 @@ const blogPosts = [
   },
   {
     category: 'Event',
-    title: 'Bedriftstur til Albir — perfekt teambuilding',
+    title: 'Bedriftstur til Albir, perfekt teambuilding',
     excerpt: 'Se hvorfor Fera Padel er det naturlige valget for bedrifter som vil kombinere sport og sosialt.',
     date: '28. mai 2026',
     href: '/travels/for-bedrifter',
@@ -70,33 +69,35 @@ export default async function HomePage() {
       <main>
 
         {/* ── 1. HERO ─────────────────────────────────────────── */}
-        <section className="relative min-h-[88vh] flex items-center bg-(--color-dark) overflow-hidden">
+        <section className="relative min-h-[60vh] sm:min-h-[88vh] flex items-center bg-(--color-dark) overflow-hidden">
           {/* Hero background image */}
-          <div className="absolute inset-0"
-            style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover', backgroundPosition: 'center 30%' }}
+          <div className="absolute inset-0 hero-bg"
+            style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover' }}
           />
-          {/* Gradient only at left/bottom so text is readable */}
-          <div className="absolute inset-0 bg-gradient-to-r from-(--color-dark)/75 via-(--color-dark)/30 to-transparent" />
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+          {/* Mobile + tablet: full overlay */}
+          <div className="absolute inset-0 bg-(--color-overlay)/65 lg:hidden" />
+          {/* Desktop: gradient from left */}
+          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-(--color-overlay)/75 via-(--color-overlay)/30 to-transparent" />
+          <div className="relative max-w-[1600px] mx-auto px-4 py-24 w-full">
             <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl lg:text-7xl leading-none max-w-3xl mb-6">
               Utstyr du elsker.<br />
               <span className="font-display italic">Turer du husker.</span>
             </h1>
-            <p className="text-white/70 text-lg max-w-xl leading-relaxed mb-10">
-              Premium padel utstyr og eksklusive reiser til Spania — alt på ett sted.
+            <p className="text-white text-[18px] max-w-xl leading-relaxed mb-10">
+              Premium padelutstyr og eksklusive reiser til Spania for opplevelser på og utenfor banen.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/travels"
-                className="bg-white text-(--color-dark) font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors"
-              >
-                Se kommende turer →
-              </Link>
-              <Link
                 href="/shop"
-                className="border border-white/40 text-white font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:border-white/80 transition-colors"
+                className="bg-white text-(--color-dark) font-sans font-normal text-sm px-5 py-2.5 rounded-full hover:bg-(--color-sand-warm) transition-colors"
               >
                 Shop utstyr
+              </Link>
+              <Link
+                href="/travels"
+                className="border border-white/40 text-white font-sans font-normal text-sm px-5 py-2.5 rounded-full hover:border-white/80 transition-colors"
+              >
+                Se kommende turer →
               </Link>
             </div>
           </div>
@@ -105,14 +106,13 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── 1b. TRUST SIGNALS BAR ────────────────────────────── */}
+        {/* ── 1b. TRUST SIGNALS BAR — skjult
         <section className="border-b border-(--color-border)">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0 md:divide-x divide-(--color-border)">
+          <div className="max-w-[1600px] mx-auto px-4 py-6">
+            <div className="grid grid-cols-3 gap-6 md:gap-0 md:divide-x divide-(--color-border)">
               {[
                 { stat: '100+', label: 'Reisende på ett år' },
-                { stat: '5-stjernes', label: 'Coach — André Schlyter' },
-                { stat: 'Padelpoint', label: 'Offisiell partner' },
+                { stat: '5-stjernes', label: 'Coach: André Schlyter' },
                 { stat: 'Stripe', label: 'Trygg betaling' },
               ].map((item) => (
                 <div key={item.stat} className="text-center md:px-6">
@@ -123,40 +123,57 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        ── */}
+
+        {/* ── 1c. BRAND BAR ────────────────────────────────────── */}
+        <div className="border-b border-(--color-border) bg-white">
+          <div className="max-w-[1600px] mx-auto px-4 py-5">
+            <p className="text-center text-(--color-muted) text-xs uppercase tracking-widest mb-4">Vi fører merker som</p>
+            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+              {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Babolat', 'Dunlop'].map((brand) => (
+                <span key={brand} className="font-display font-bold text-(--color-dark) text-lg md:text-xl opacity-60 hover:opacity-100 transition-opacity">
+                  {brand}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* ── 2. PRODUKTNYHETER ────────────────────────────────── */}
         {newProducts && newProducts.length > 0 && (
-          <section className="py-28 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
+          <section className="py-28">
+            <div className="max-w-[1600px] mx-auto px-4">
               <div className="flex items-end justify-between mb-10">
                 <div>
-                  <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Nytt inn</p>
-                  <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Produktnyheter</h2>
+                  <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Padelutstyr</p>
+                  <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Nyheter</h2>
                 </div>
                 <Link href="/shop" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
                   Se alle produkter →
                 </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {newProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <div key={product.id} className="bg-white p-4 rounded-xl">
+                    <ProductCard product={product} />
+                  </div>
                 ))}
               </div>
             </div>
           </section>
         )}
 
-        {/* ── 2b. SLIK FUNGERER DET ────────────────────────────── */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
+        {/* ── 2b. SLIK FUNGERER DET — skjult, kan brukes et annet sted
+        <section className="py-24 px-4 bg-(--color-ice-light)">
           <div className="max-w-5xl mx-auto text-center">
-            <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Enkelt å komme i gang</p>
+            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Enkelt å komme i gang</p>
             <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-14">Slik fungerer det</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
               <div className="hidden md:block absolute top-8 left-1/3 right-1/3 h-px bg-(--color-border)" />
               {[
-                { num: '01', title: 'Velg tur', desc: 'Bla gjennom kommende turer og finn den som passer deg — åpen gruppe, klubbtur eller bedriftstur.' },
-                { num: '02', title: 'Betal depositum', desc: 'Sett plassen din med kun €250 via Stripe. Alt er inkludert — kun kofferten mangler.' },
-                { num: '03', title: 'Møt opp i Spania', desc: 'Vi fikser resten. Hotell, baner, coaching og opplevelser — alt er klart når du ankommer.' },
+                { num: '01', title: 'Velg tur', desc: 'Bla gjennom kommende turer og finn den som passer deg. Åpen gruppe, klubbtur eller bedriftstur.' },
+                { num: '02', title: 'Betal depositum', desc: 'Sett plassen din med kun €250 via Stripe. Alt er inkludert, kun kofferten mangler.' },
+                { num: '03', title: 'Møt opp i Spania', desc: 'Vi fikser resten. Hotell, baner, coaching og opplevelser er klart når du ankommer.' },
               ].map((step) => (
                 <div key={step.num} className="flex flex-col items-center">
                   <div className="w-16 h-16 rounded-full bg-white border-2 border-(--color-border) flex items-center justify-center mb-4 relative z-10">
@@ -169,6 +186,7 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        ── */}
 
         {/* ── 3. FERA REISER HOOK ───────────────────────────────── */}
         <section className="relative min-h-[75vh] flex items-center overflow-hidden">
@@ -179,25 +197,25 @@ export default async function HomePage() {
             loop
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
-            src="/travels-hero.webm"
+            src="https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/trips/videos/fera-travels.mp4"
           />
-          <div className="absolute inset-0 bg-(--color-dark)/80" />
+          <div className="absolute inset-0 bg-(--color-overlay)/80" />
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+          <div className="relative max-w-[1600px] mx-auto px-4 py-24 w-full">
             {/* Overline */}
-            <p className="text-white/50 text-xs tracking-[0.35em] uppercase font-sans mb-5">
+            <p className="text-white text-xs tracking-[0.35em] uppercase font-sans mb-5">
               REIS MED FERA
             </p>
 
             {/* Heading */}
             <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-2xl mb-5">
-              <span className="font-sans font-medium">Sportsturer til </span>
-              <span className="font-display italic font-bold">Spania</span>
+              <span className="font-sans font-medium">Utforsk våre reiser langs kysten i</span>
+              <span className="font-display italic font-medium">Costa Blanca</span>
             </h2>
 
             {/* Subtitle */}
-            <p className="text-white/70 text-lg max-w-lg leading-relaxed mb-8">
-              Kofferten din. Ditt padel-spill. Vår jobb er resten — hotell, baner, coaching og opplevelser som slår alt du har gjort før.
+            <p className="text-white text-lg max-w-lg leading-relaxed mb-8">
+              Vi tilbyr reiser med hotell, baner, coaching og opplevelser. Nøye planlagt for deg som vil kombinere spill, sol og gode dager på og utenfor banen.
             </p>
 
             {/* Trip tags */}
@@ -221,10 +239,10 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── 3b. KOMMENDE TURER ───────────────────────────────── */}
+        {/* ── 3b. KOMMENDE TURER — skjult, kan brukes et annet sted
         {trips && trips.length > 0 && (
-          <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-dark)">
-            <div className="max-w-7xl mx-auto">
+          <section className="py-24 px-4 bg-(--color-dark)">
+            <div className="max-w-[1600px] mx-auto">
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-sand)/60 text-xs uppercase tracking-widest font-medium mb-2">Neste tur</p>
@@ -247,64 +265,16 @@ export default async function HomePage() {
             </div>
           </section>
         )}
-
-        {/* ── 3c. TESTIMONIALS ─────────────────────────────────── */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-(--color-sand)">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <p className="text-(--color-cta) text-xs uppercase tracking-widest font-medium mb-3">Hva sier reisende</p>
-              <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">
-                Over 100 fornøyde gjester
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  quote: 'Den beste ferien jeg har hatt på år og dag. Kombinasjonen av padel, sol og et supert sosialt miljø var akkurat det vi trengte. Petter og André er rett og slett fantastiske verter.',
-                  name: 'Marte H.',
-                  role: 'Oslo',
-                  stars: 5,
-                },
-                {
-                  quote: 'Vi tok med hele laget på bedriftstur og det overgikk alle forventninger. Profesjonell coaching, perfekte baner og en gruppe som er smidd for evigheten. Anbefales på det varmeste!',
-                  name: 'Kristoffer V.',
-                  role: 'Bergen',
-                  stars: 5,
-                },
-                {
-                  quote: 'Jeg reiste alene og var litt spent, men trengte overhodet ikke være det. Gruppen var varm og inkluderende fra dag én. Booker igjen til høsten!',
-                  name: 'Ingrid S.',
-                  role: 'Trondheim',
-                  stars: 5,
-                },
-              ].map((t) => (
-                <div key={t.name} className="bg-white rounded-2xl p-8 border border-(--color-border)">
-                  <div className="flex gap-0.5 mb-4">
-                    {Array.from({ length: t.stars }).map((_, i) => (
-                      <svg key={i} width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="text-(--color-gold)">
-                        <path d="M8 1l1.854 3.757L14 5.457l-3 2.923.708 4.13L8 10.427l-3.708 2.083L5 8.38 2 5.457l4.146-.7L8 1z"/>
-                      </svg>
-                    ))}
-                  </div>
-                  <p className="text-(--color-text) text-sm leading-relaxed mb-6 italic">&ldquo;{t.quote}&rdquo;</p>
-                  <div>
-                    <p className="font-semibold text-(--color-text) text-sm">{t.name}</p>
-                    <p className="text-(--color-muted) text-xs">{t.role}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        ── */}
 
         {/* ── 4. BESTSELGERE ───────────────────────────────────── */}
         {bestSellers && bestSellers.length > 0 && (
-          <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
-            <div className="max-w-7xl mx-auto">
+          <section className="py-20 bg-white">
+            <div className="max-w-[1600px] mx-auto px-4">
               <div className="flex items-end justify-between mb-10">
                 <div>
-                  <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Populære valg</p>
-                  <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Bestselgere</h2>
+                  <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Populære valg</p>
+                  <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Bestselgere</h2>
                 </div>
                 <Link href="/shop" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
                   Se hele sortimentet →
@@ -320,52 +290,65 @@ export default async function HomePage() {
         )}
 
         {/* ── 5. NYHETER & INSPIRASJON ─────────────────────────── */}
-        <section className="py-28 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
+        <section className="py-28 overflow-hidden bg-(--color-sand-light)">
+          <div className="max-w-[1600px] mx-auto px-4">
+            {/* Header */}
             <div className="flex items-end justify-between mb-10">
               <div>
-                <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Fra bloggen</p>
-                <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Nyheter & inspirasjon</h2>
+                <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
+                <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
+                <p className="font-sans text-[18px] text-(--color-text) max-w-xl leading-relaxed">
+                  Les om tidligere padelreiser, få våre utstyrsanbefalinger og finn inspirasjon til deg som vil få mer ut av padel.
+                </p>
               </div>
-              <Link href="/travels/inspirasjon" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
+              <Link href="/travels/inspirasjon" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block self-start">
                 Se mer →
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {blogPosts.map((post) => (
-                <Link key={post.title} href={post.href} className="group block">
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
-                    <Image
-                      src={post.src}
-                      alt={post.alt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      unoptimized
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <span className="absolute bottom-4 left-4 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-2.5 py-1 rounded-full">
-                      {post.category}
-                    </span>
-                  </div>
-                  <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
-                  <h3 className="font-display font-bold text-(--color-text) text-lg leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
-                </Link>
-              ))}
+
+            {/* Slider — calc(-50vw + 50%) extends to viewport right edge on all screen widths */}
+            <div className="overflow-x-auto pb-6 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ marginRight: 'calc(-50vw + 50%)' }}>
+              <div className="flex gap-6">
+                {blogPosts.map((post) => (
+                  <Link
+                    key={post.title}
+                    href={post.href}
+                    className="group flex-none w-[85vw] sm:w-[560px] lg:w-[640px] [scroll-snap-align:start]"
+                  >
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
+                      <Image
+                        src={post.src}
+                        alt={post.alt}
+                        fill
+                        sizes="640px"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        unoptimized
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                      <span className="absolute bottom-5 left-5 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-3 py-1 rounded-full">
+                        {post.category}
+                      </span>
+                    </div>
+                    <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
+                    <h3 className="font-sans font-normal text-(--color-text) text-2xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
+                  </Link>
+                ))}
+                <div className="flex-none w-4 sm:w-6 lg:w-8" />
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ── 6. SOSIALE MEDIER + INSTAGRAM ────────────────────── */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-sand)">
-          <div className="max-w-7xl mx-auto">
+        {/* ── 6. SOSIALE MEDIER + INSTAGRAM — skjult
+        <section className="py-20 bg-white">
+          <div className="max-w-[1600px] mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <p className="text-(--color-cta) text-xs uppercase tracking-widest font-medium mb-3">Sosiale medier</p>
-                <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-4">
+                <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Sosiale medier</p>
+                <h2 className="font-display italic font-normal text-(--color-text) text-3xl sm:text-4xl mb-4">
                   Følg oss på<br />Instagram
                 </h2>
                 <p className="text-(--color-text)/70 text-base leading-relaxed mb-6">
@@ -407,6 +390,7 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        ── */}
 
       </main>
 

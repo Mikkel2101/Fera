@@ -2,7 +2,7 @@ export default function TravelsLoading() {
   return (
     <>
       {/* Hero skeleton */}
-      <div className="bg-gradient-to-b from-(--color-dark) to-(--color-dark-mid) px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+      <div className="bg-gradient-to-b from-(--color-community) to-(--color-dark-mid) px-4 sm:px-6 lg:px-8 py-20 md:py-28">
         <div className="max-w-4xl mx-auto">
           <div className="h-3 w-24 bg-white/10 rounded-full mb-4 animate-pulse" />
           <div className="h-12 w-80 bg-white/10 rounded-xl mb-4 animate-pulse" />

@@ -6,11 +6,16 @@
   --color-bg:        #FFFFFF;
   --color-surface:   #FFFFFF;
   --color-sand:      #FFE1B0;
+  --color-sand-light: #F9F4EF;
+  --color-sand-warm: #FFEED9;
   --color-ice:       #D3ECED;
   --color-ice-light: #E9F4F4;
 
   /* Hero / mørk seksjon */
   --color-dark:      #420016;
+  --color-overlay:   #110007;
+  --color-footer:    #160009;
+  --color-community: #300415;
   --color-dark-mid:  #7C0023;
   --color-dark-card: #420016;
 
@@ -26,6 +31,8 @@
 
   /* Border */
   --color-border:    #EDD8C8;
+  --color-overline:  #927665;
+  --color-overline-light: #F7DDB7;
 
   /* Fonter — variablene settes av next/font i hvert layout */
   --font-display: var(--font-playfair);
@@ -36,12 +43,30 @@
   box-sizing: border-box;
 }
 
+/* Matcher max-w-[1600px] mx-auto px-4 sin venstrekant */
+:root { --container-left: 1rem; }
+@media (min-width: 1600px) { :root { --container-left: calc((100vw - 1600px) / 2 + 1rem); } }
+
+.hero-bg {
+  background-position: 70% 30%;
+}
+@media (min-width: 1024px) {
+  .hero-bg {
+    background-position: center 30%;
+  }
+}
+
 body {
-  @apply bg-(--color-bg) text-(--color-text) font-sans font-thin;
+  @apply bg-(--color-bg) text-(--color-text) font-sans font-normal;
 }
 
 h1, h2, h3, h4, h5, h6 {
   @apply font-normal;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
 }
 
 /* Scroll-driven fade-in animation */

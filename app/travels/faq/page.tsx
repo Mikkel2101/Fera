@@ -79,7 +79,7 @@ export default function FaqPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-(--color-dark) px-4 sm:px-6 lg:px-8 py-24 md:py-36 text-center overflow-hidden">
+      <section className="relative bg-(--color-community) px-4 sm:px-6 lg:px-8 py-24 md:py-36 text-center overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=1600&q=80"
@@ -90,7 +90,7 @@ export default function FaqPage() {
             unoptimized
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-(--color-dark)/80 to-(--color-dark)" />
+          <div className="absolute inset-0 bg-gradient-to-b from-(--color-community)/80 to-(--color-community)" />
         </div>
         <div className="relative max-w-3xl mx-auto">
           <p className="text-white/50 text-xs tracking-widest uppercase font-sans mb-4">Spørsmål</p>
