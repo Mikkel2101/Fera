@@ -77,17 +77,26 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-(--color-dark)/75 via-(--color-dark)/30 to-transparent" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
             <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl lg:text-7xl leading-none max-w-3xl mb-6">
-              Padel essentials for <span className="font-display italic">every match</span>
+              Utstyr du elsker.<br />
+              <span className="font-display italic">Turer du husker.</span>
             </h1>
             <p className="text-white/70 text-lg max-w-xl leading-relaxed mb-10">
-              Premium padelwear med fokus på passform, komfort og tidløse detaljer — laget for spill, bevegelse og hverdager mellom kampene.
+              Premium padel utstyr og eksklusive reiser til Spania — alt på ett sted.
             </p>
-            <Link
-              href="/shop"
-              className="bg-white text-(--color-dark) font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors"
-            >
-              Oppdag nyhetene →
-            </Link>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/travels"
+                className="bg-white text-(--color-dark) font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors"
+              >
+                Se kommende turer →
+              </Link>
+              <Link
+                href="/shop"
+                className="border border-white/40 text-white font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:border-white/80 transition-colors"
+              >
+                Shop utstyr
+              </Link>
+            </div>
           </div>
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
             <div className="w-px h-10 bg-gradient-to-b from-white/30 to-transparent" />
