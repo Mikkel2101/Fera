@@ -191,7 +191,7 @@ export default async function HomePage() {
 
             {/* Heading */}
             <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-2xl mb-5">
-              <span className="font-sans font-medium">Utforsk våre reiser til kysten i </span>
+              <span className="font-sans font-medium">Utforsk våre reiser langs kysten i</span>
               <span className="font-display italic font-bold">Costa Blanca</span>
             </h2>
 
@@ -273,9 +273,9 @@ export default async function HomePage() {
 
         {/* ── 5. NYHETER & INSPIRASJON ─────────────────────────── */}
         <section className="py-28">
-          {/* Header — inne i container */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-            <div className="flex items-end justify-between">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header */}
+            <div className="flex items-end justify-between mb-10">
               <div>
                 <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Nyheter</p>
                 <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
@@ -287,40 +287,39 @@ export default async function HomePage() {
                 Se mer →
               </Link>
             </div>
-          </div>
 
-          {/* Slider — venstrekant aligned med container, bleed til høyre kant */}
-          <div className="overflow-x-auto pb-6 pl-4 sm:pl-6 lg:pl-8 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex gap-6">
-              {blogPosts.map((post) => (
-                <Link
-                  key={post.title}
-                  href={post.href}
-                  className="group flex-none w-[85vw] sm:w-[560px] lg:w-[640px] [scroll-snap-align:start]"
-                >
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
-                    <Image
-                      src={post.src}
-                      alt={post.alt}
-                      fill
-                      sizes="640px"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      unoptimized
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                    <span className="absolute bottom-5 left-5 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-3 py-1 rounded-full">
-                      {post.category}
-                    </span>
-                  </div>
-                  <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
-                  <h3 className="font-sans font-normal text-(--color-text) text-2xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
-                </Link>
-              ))}
-              {/* Litt luft på slutten */}
-              <div className="flex-none w-4 sm:w-6 lg:w-8" />
+            {/* Slider — i samme container som header, negativ høyre-margin bryter ut av padding */}
+            <div className="-mr-4 sm:-mr-6 lg:-mr-8 overflow-x-auto pb-6 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex gap-6">
+                {blogPosts.map((post) => (
+                  <Link
+                    key={post.title}
+                    href={post.href}
+                    className="group flex-none w-[85vw] sm:w-[560px] lg:w-[640px] [scroll-snap-align:start]"
+                  >
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
+                      <Image
+                        src={post.src}
+                        alt={post.alt}
+                        fill
+                        sizes="640px"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        unoptimized
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                      <span className="absolute bottom-5 left-5 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-3 py-1 rounded-full">
+                        {post.category}
+                      </span>
+                    </div>
+                    <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
+                    <h3 className="font-sans font-normal text-(--color-text) text-2xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
+                  </Link>
+                ))}
+                <div className="flex-none w-4 sm:w-6 lg:w-8" />
+              </div>
             </div>
           </div>
         </section>
