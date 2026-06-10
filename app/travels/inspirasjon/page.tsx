@@ -1,80 +1,22 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import { posts } from './posts'
 
 export const metadata = {
   title: 'Inspirasjon — Fera Travels',
   description: 'Bilder og øyeblikk fra padelreiser vi har arrangert til Costa Blanca og Spania.',
 }
 
-const highlights = [
-  {
-    src: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&q=80',
-    alt: 'Padelbane i solen',
-    label: 'På banen',
-    span: 'col-span-2 row-span-2',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1526888935184-a82d2a4b7e67?w=600&q=80',
-    alt: 'Padel gruppe',
-    label: 'Gruppen',
-    span: '',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=600&q=80',
-    alt: 'Treningsøkt padel',
-    label: 'Coaching',
-    span: '',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80',
-    alt: 'Hotell pool Costa Blanca',
-    label: 'Hotell & pool',
-    span: '',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1471967183320-ee018f6e114a?w=600&q=80',
-    alt: 'Spansk kystlinje',
-    label: 'Destinasjon',
-    span: '',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&q=80',
-    alt: 'Sport og velvære',
-    label: 'Velvære',
-    span: '',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80',
-    alt: 'Middag i Spania',
-    label: 'Mat & drikke',
-    span: '',
-  },
-]
+const PHOTOS = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
 
-const stories = [
-  {
-    category: 'Reiserapport',
-    title: 'En uke i Albir — slik var det',
-    excerpt: 'Femten padel-entusiaster fra Oslo. Sju dager med sol, padel og gode minner. Her er alt som skjedde.',
-    date: '20. mai 2026',
-    src: 'https://images.unsplash.com/photo-1499678329028-101435549a4e?w=800&q=80',
-    alt: 'Solnedgang ved Albir',
-  },
-  {
-    category: 'Coaching',
-    title: 'Hva skjer egentlig på en coaching-økt med André?',
-    excerpt: 'André Schlyter er ikke en vanlig trener. Vi tok med kamera på banen for å vise deg hva du kan forvente.',
-    date: '12. mai 2026',
-    src: 'https://images.unsplash.com/photo-1544298621-a28e56a7e29e?w=800&q=80',
-    alt: 'Padel coaching på bane',
-  },
-  {
-    category: 'Destinasjon',
-    title: 'Derfor elsker vi Costa Blanca',
-    excerpt: '300 soldager i året, fantastiske padelsentre og mat som slår alt. Vi forteller deg hvorfor Costa Blanca er det perfekte padelreisemålet.',
-    date: '3. mai 2026',
-    src: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=800&q=80',
-    alt: 'Costa Blanca utsikt',
-  },
+const highlights = [
+  { src: `${PHOTOS}/two-women-action.jpg`, alt: 'To spillere i aksjon', label: 'På banen', span: 'col-span-2 row-span-2' },
+  { src: `${PHOTOS}/group-photo.jpg`, alt: 'Hele gruppen på bane', label: 'Gruppen', span: '' },
+  { src: `${PHOTOS}/coach-bullpadel.jpg`, alt: 'Coach på padelbane', label: 'Coaching', span: '' },
+  { src: `${PHOTOS}/highfive.jpg`, alt: 'High-five etter kamp', label: 'Seier', span: '' },
+  { src: `${PHOTOS}/palm-sunset.jpg`, alt: 'Bane med palmer og solnedgang', label: 'Destinasjon', span: '' },
+  { src: `${PHOTOS}/two-players-sunset.jpg`, alt: 'Spilling ved solnedgang', label: 'Kveldsstemning', span: '' },
+  { src: `${PHOTOS}/beer-court.jpg`, alt: 'Sosialt etter kamp', label: 'Sosialt', span: '' },
 ]
 
 export default function InspirasjonPage() {
@@ -156,12 +98,16 @@ export default function InspirasjonPage() {
             <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Historier fra banen</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {stories.map((story) => (
-              <article key={story.title} className="group bg-white rounded-2xl overflow-hidden border border-(--color-border) hover:shadow-lg transition-shadow">
+            {posts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/travels/inspirasjon/${post.slug}`}
+                className="group bg-white rounded-2xl overflow-hidden border border-(--color-border) hover:shadow-lg transition-shadow"
+              >
                 <div className="relative aspect-[16/9] overflow-hidden">
                   <Image
-                    src={story.src}
-                    alt={story.alt}
+                    src={post.image}
+                    alt={post.imageAlt}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -169,18 +115,23 @@ export default function InspirasjonPage() {
                   />
                   <div className="absolute top-3 left-3">
                     <span className="bg-white/90 backdrop-blur text-[10px] font-semibold px-2.5 py-1 rounded-full text-(--color-cta) uppercase tracking-widest">
-                      {story.category}
+                      {post.category}
                     </span>
                   </div>
                 </div>
                 <div className="p-5">
-                  <p className="text-(--color-muted) text-xs mb-2">{story.date}</p>
+                  <div className="flex items-center gap-3 text-xs text-(--color-muted) mb-2">
+                    <span>{post.date}</span>
+                    <span>·</span>
+                    <span>{post.readTime}</span>
+                  </div>
                   <h3 className="font-display font-bold text-(--color-text) text-lg leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
-                    {story.title}
+                    {post.title}
                   </h3>
-                  <p className="text-(--color-muted) text-sm leading-relaxed">{story.excerpt}</p>
+                  <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
+                  <p className="text-(--color-cta) text-xs font-semibold mt-3 group-hover:underline">Les mer →</p>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         </div>
