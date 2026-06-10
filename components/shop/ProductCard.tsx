@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import type { Database } from '@/lib/supabase/types'
 import { useCart } from '@/lib/cart/context'
+import { formatPriceEur } from './format'
 
 type Product = Database['public']['Tables']['products']['Row']
 
@@ -48,19 +49,18 @@ export default function ProductCard({ product }: { product: Product }) {
   }
 
   return (
-    <Link
-      href={`/shop/${product.id}`}
-      className="group flex flex-col"
-    >
+    <Link href={`/shop/${product.id}`} className="group flex flex-col">
       {/* Image */}
-      <div className="relative aspect-square bg-white overflow-hidden">
+      <div className="relative aspect-square bg-(--color-ice-light) rounded-xl overflow-hidden">
         {primaryImage && !imgError ? (
           <Image
             src={primaryImage}
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className="object-contain p-4 transition-transform duration-500 ease-out group-hover:scale-105"
+            className={`object-contain p-4 transition-transform duration-500 ease-out ${
+              isOutOfStock ? 'opacity-40 grayscale' : 'group-hover:scale-105'
+            }`}
             unoptimized
             onError={() => setImgError(true)}
           />
@@ -68,19 +68,18 @@ export default function ProductCard({ product }: { product: Product }) {
           <ImagePlaceholder />
         )}
 
-        {/* Stock badge */}
         {badge && (
           <span className={`absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full ${badge.className}`}>
             {badge.label}
           </span>
         )}
 
-        {/* Quick-add hover overlay */}
+        {/* Cart-knapp: alltid synlig på mobil, hover-overlay på desktop */}
         {!isOutOfStock && (
-          <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 p-3">
+          <div className="absolute inset-x-0 bottom-0 p-3 lg:translate-y-full lg:group-hover:translate-y-0 lg:group-focus-within:translate-y-0 transition-transform duration-300">
             <button
               onClick={handleAddToCart}
-              className="w-full bg-(--color-cta) text-white text-xs font-semibold py-2.5 rounded-full hover:opacity-90 transition-opacity"
+              className="w-full bg-(--color-cta) text-white text-xs font-semibold py-2.5 rounded-full hover:bg-(--color-dark-mid) transition-colors"
             >
               Legg i kurv
             </button>
@@ -96,8 +95,8 @@ export default function ProductCard({ product }: { product: Product }) {
         <p className="text-(--color-text) text-sm leading-snug line-clamp-2 mb-2">
           {product.name}
         </p>
-        <span className="text-(--color-gold) font-bold text-base">
-          € {product.price_eur.toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
+        <span className="text-(--color-gold) font-bold text-base tabular-nums">
+          {formatPriceEur(product.price_eur)}
         </span>
       </div>
     </Link>

@@ -22,6 +22,8 @@ export const metadata = {
   },
 }
 
+const PHOTOS = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
+
 const blogPosts = [
   {
     category: 'Inspirasjon',
@@ -29,8 +31,8 @@ const blogPosts = [
     excerpt: 'Hvorfor tusenvis av norske padel-entusiaster velger Costa Blanca som sin neste reisedestinasjon.',
     date: '5. juni 2026',
     href: '/travels/inspirasjon',
-    src: 'https://images.unsplash.com/photo-1499678329028-101435549a4e?w=800&q=80',
-    alt: 'Costa Blanca kystlinje',
+    src: `${PHOTOS}/palm-sunset.jpg`,
+    alt: 'Padelbane med palmer og solnedgang',
   },
   {
     category: 'Utstyr',
@@ -38,8 +40,8 @@ const blogPosts = [
     excerpt: 'Fra nybegynner til avansert — vår guide hjelper deg å finne den perfekte padelracket.',
     date: '1. juni 2026',
     href: '/shop',
-    src: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&q=80',
-    alt: 'Padelracket',
+    src: `${PHOTOS}/player-fence.jpg`,
+    alt: 'Spiller med padelracket',
   },
   {
     category: 'Event',
@@ -47,8 +49,8 @@ const blogPosts = [
     excerpt: 'Se hvorfor Fera Padel er det naturlige valget for bedrifter som vil kombinere sport og sosialt.',
     date: '28. mai 2026',
     href: '/travels/for-bedrifter',
-    src: 'https://images.unsplash.com/photo-1526888935184-a82d2a4b7e67?w=800&q=80',
-    alt: 'Bedriftstur padel',
+    src: `${PHOTOS}/group-photo.jpg`,
+    alt: 'Hele Fera-gruppen på padelbane',
   },
 ]
 
@@ -135,11 +137,9 @@ export default async function HomePage() {
                   Se alle produkter →
                 </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-(--color-border)">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
                 {newProducts.map((product) => (
-                  <div key={product.id} className="bg-white p-4">
-                    <ProductCard product={product} />
-                  </div>
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
             </div>
@@ -310,7 +310,7 @@ export default async function HomePage() {
                   Se hele sortimentet →
                 </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
                 {bestSellers.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
@@ -385,12 +385,12 @@ export default async function HomePage() {
               </div>
               <div className="grid grid-cols-3 gap-2">
                 {[
-                  { src: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=400&q=80', alt: 'Padel bane' },
-                  { src: 'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=400&q=80', alt: 'Trening' },
-                  { src: 'https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=400&q=80', alt: 'Utsikt' },
-                  { src: 'https://images.unsplash.com/photo-1526888935184-a82d2a4b7e67?w=400&q=80', alt: 'Gruppe' },
-                  { src: 'https://images.unsplash.com/photo-1499678329028-101435549a4e?w=400&q=80', alt: 'Strand' },
-                  { src: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80', alt: 'Pool' },
+                  { src: `${PHOTOS}/highfive.jpg`, alt: 'High-five etter kamp' },
+                  { src: `${PHOTOS}/coach-bullpadel.jpg`, alt: 'Coach på padelbane' },
+                  { src: `${PHOTOS}/two-players-sunset.jpg`, alt: 'Spilling ved solnedgang' },
+                  { src: `${PHOTOS}/action-evening.jpg`, alt: 'Aksjon på banen' },
+                  { src: `${PHOTOS}/beer-court.jpg`, alt: 'Sosialt etter trening' },
+                  { src: `${PHOTOS}/red-headband.jpg`, alt: 'Spiller klar til kamp' },
                 ].map((img, i) => (
                   <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
                     <Image

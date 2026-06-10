@@ -1,87 +1,130 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useMemo, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import ProductCard from './ProductCard'
+import { CATEGORY_LABELS } from './categories'
 import type { Database } from '@/lib/supabase/types'
 
 type Product = Database['public']['Tables']['products']['Row']
 
-export default function ProductGrid({ products, initialCategory = '', initialBrand = '' }: { products: Product[], initialCategory?: string, initialBrand?: string }) {
-  const [brandFilter, setBrandFilter] = useState(initialBrand)
-  const [categoryFilter, setCategoryFilter] = useState(initialCategory)
+function ProductGridInner({ products }: { products: Product[] }) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const brandFilter = searchParams.get('brand') ?? ''
+  const categoryFilter = searchParams.get('category') ?? ''
 
-  const brands = useMemo(() =>
-    [...new Set(products.map(p => p.brand))].sort(), [products])
+  const categories = useMemo(
+    () => [...new Set(products.map((p) => p.category))].sort(),
+    [products]
+  )
 
-  const categories = useMemo(() =>
-    [...new Set(products.map(p => p.category))].sort(), [products])
+  const filtered = useMemo(
+    () =>
+      products.filter(
+        (p) =>
+          (!brandFilter || p.brand === brandFilter) &&
+          (!categoryFilter || p.category === categoryFilter)
+      ),
+    [products, brandFilter, categoryFilter]
+  )
 
-  const filtered = useMemo(() =>
-    products.filter(p =>
-      (!brandFilter || p.brand === brandFilter) &&
-      (!categoryFilter || p.category === categoryFilter)
-    ), [products, brandFilter, categoryFilter])
-
-  const categoryLabels: Record<string, string> = {
-    racket: 'Racketer', shoes: 'Sko', bag: 'Vesker',
-    balls: 'Baller', clothing: 'Klær', accessories: 'Tilbehør',
+  function setFilter(key: 'brand' | 'category', value: string) {
+    const params = new URLSearchParams(searchParams)
+    if (value) params.set(key, value)
+    else params.delete(key)
+    router.replace(params.size ? `/shop?${params}` : '/shop', { scroll: false })
   }
 
   return (
     <>
-      {/* Filter bar */}
       <div className="bg-white border-b border-(--color-border) sticky top-14 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap gap-3 items-center">
-          <select
-            value={brandFilter}
-            onChange={e => setBrandFilter(e.target.value)}
-            className="border border-(--color-border) rounded-full px-4 py-1.5 text-sm text-(--color-subtle) bg-white focus:outline-none focus:border-(--color-gold)"
-          >
-            <option value="">Alle merker</option>
-            {brands.map(b => <option key={b} value={b}>{b}</option>)}
-          </select>
-          <select
-            value={categoryFilter}
-            onChange={e => setCategoryFilter(e.target.value)}
-            className="border border-(--color-border) rounded-full px-4 py-1.5 text-sm text-(--color-subtle) bg-white focus:outline-none focus:border-(--color-gold)"
-          >
-            <option value="">Alle kategorier</option>
-            {categories.map(c => (
-              <option key={c} value={c}>{categoryLabels[c] ?? c}</option>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div className="flex flex-wrap gap-2">
+            <FilterPill active={!categoryFilter} onClick={() => setFilter('category', '')}>
+              Alle
+            </FilterPill>
+            {categories.map((c) => (
+              <FilterPill
+                key={c}
+                active={categoryFilter === c}
+                onClick={() => setFilter('category', categoryFilter === c ? '' : c)}
+              >
+                {CATEGORY_LABELS[c] ?? c}
+              </FilterPill>
             ))}
-          </select>
-          {(brandFilter || categoryFilter) && (
+          </div>
+
+          {brandFilter && (
             <button
-              onClick={() => { setBrandFilter(''); setCategoryFilter('') }}
-              className="text-(--color-cta) text-sm hover:underline"
+              onClick={() => setFilter('brand', '')}
+              className="text-(--color-cta) text-xs font-medium hover:underline underline-offset-4"
             >
-              Nullstill filter
+              {brandFilter} ✕
             </button>
           )}
-          <span className="ml-auto text-sm text-(--color-muted)">
+
+          <span className="ml-auto text-sm text-(--color-muted) tabular-nums">
             {filtered.length} produkter
           </span>
         </div>
       </div>
 
-      {/* Grid */}
       <div className="bg-(--color-bg) min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {filtered.length === 0 ? (
-            <div className="text-center py-20 text-(--color-muted)">
-              Ingen produkter passer filteret
+            <div className="text-center py-24">
+              <p className="font-display text-xl text-(--color-text) mb-3">
+                Ingen produkter passer filteret
+              </p>
+              <button
+                onClick={() => router.replace('/shop')}
+                className="text-(--color-cta) text-sm font-medium underline underline-offset-4"
+              >
+                Nullstill filter
+              </button>
             </div>
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-px bg-(--color-border)">
-              {filtered.map(p => (
-                <div key={p.id} className="bg-white p-4">
-                  <ProductCard product={p} />
-                </div>
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
+              {filtered.map((p) => (
+                <ProductCard key={p.id} product={p} />
               ))}
             </div>
           )}
         </div>
       </div>
     </>
+  )
+}
+
+function FilterPill({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean
+  onClick: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <button
+      onClick={onClick}
+      aria-pressed={active}
+      className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-colors focus-visible:outline-2 focus-visible:outline-(--color-cta) ${
+        active
+          ? 'bg-(--color-dark) text-white border-(--color-dark)'
+          : 'border-(--color-border) text-(--color-subtle) hover:border-(--color-dark) hover:text-(--color-text)'
+      }`}
+    >
+      {children}
+    </button>
+  )
+}
+
+export default function ProductGrid({ products }: { products: Product[] }) {
+  return (
+    <Suspense fallback={<div className="min-h-screen" />}>
+      <ProductGridInner products={products} />
+    </Suspense>
   )
 }
