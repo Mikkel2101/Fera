@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { Playfair_Display } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Playfair_Display, Archivo } from 'next/font/google'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -34,18 +33,15 @@ const playfair = Playfair_Display({
   variable: '--font-playfair',
 })
 
-const hankenGrotesk = localFont({
-  src: [
-    { path: '../public/fonts/static/static/HankenGrotesk-Regular.ttf', weight: '400', style: 'normal' },
-    { path: '../public/fonts/static/static/HankenGrotesk-Medium.ttf', weight: '500', style: 'normal' },
-    { path: '../public/fonts/static/static/HankenGrotesk-SemiBold.ttf', weight: '600', style: 'normal' },
-  ],
-  variable: '--font-hanken-grotesk',
+const archivo = Archivo({
+  subsets: ['latin'],
+  weight: ['100', '400'],
+  variable: '--font-archivo',
 })
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="nb" className={`${playfair.variable} ${hankenGrotesk.variable}`}>
+    <html lang="nb" className={`${playfair.variable} ${archivo.variable}`}>
       <body className="antialiased">{children}</body>
     </html>
   )

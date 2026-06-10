@@ -76,31 +76,18 @@ export default async function HomePage() {
           {/* Gradient only at left/bottom so text is readable */}
           <div className="absolute inset-0 bg-gradient-to-r from-(--color-dark)/75 via-(--color-dark)/30 to-transparent" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
-            <p className="text-white/50 text-xs tracking-[0.35em] uppercase font-sans mb-6">
-              PADEL · SOL · SOSIALT
-            </p>
-            <h1 className="font-display italic font-bold text-white text-5xl sm:text-6xl lg:text-7xl leading-tight max-w-3xl mb-6">
-              Profesjonelle<br />
-              <em className="not-italic text-(--color-sand)">padelopplevelser</em><br />
-              fra Norge
+            <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl lg:text-7xl leading-none max-w-3xl mb-6">
+              Padel essentials for <span className="font-display italic">every match</span>
             </h1>
             <p className="text-white/70 text-lg max-w-xl leading-relaxed mb-10">
-              Vi kombinerer eksklusive padelreiser til Spania med premium utstyr direkte fra Padelpoint. Du møter opp — vi ordner resten.
+              Premium padelwear med fokus på passform, komfort og tidløse detaljer — laget for spill, bevegelse og hverdager mellom kampene.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/travels"
-                className="bg-white text-(--color-dark) font-semibold text-sm px-7 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors"
-              >
-                Se kommende turer →
-              </Link>
-              <Link
-                href="/shop"
-                className="border border-white/40 text-white font-semibold text-sm px-7 py-3.5 rounded-full hover:border-white/80 transition-colors"
-              >
-                Shop utstyr
-              </Link>
-            </div>
+            <Link
+              href="/shop"
+              className="bg-white text-(--color-dark) font-sans font-normal text-sm px-7 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors"
+            >
+              Oppdag nyhetene →
+            </Link>
           </div>
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
             <div className="w-px h-10 bg-gradient-to-b from-white/30 to-transparent" />
@@ -195,7 +182,7 @@ export default async function HomePage() {
 
             {/* Heading */}
             <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-2xl mb-5">
-              <span className="font-sans font-medium">Minnerike padelopplevelser i </span>
+              <span className="font-sans font-medium">Sportsturer til </span>
               <span className="font-display italic font-bold">Spania</span>
             </h2>
 

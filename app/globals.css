@@ -29,7 +29,7 @@
 
   /* Fonter — variablene settes av next/font i hvert layout */
   --font-display: var(--font-playfair);
-  --font-sans:    var(--font-hanken-grotesk);
+  --font-sans:    var(--font-archivo);
 }
 
 * {
@@ -37,7 +37,11 @@
 }
 
 body {
-  @apply bg-(--color-bg) text-(--color-text) font-sans;
+  @apply bg-(--color-bg) text-(--color-text) font-sans font-thin;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-normal;
 }
 
 /* Scroll-driven fade-in animation */
