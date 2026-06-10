@@ -1,20 +1,29 @@
-type Extra = { name: string; price_eur: number }
+type Extra = { name: string; price_eur: number; description?: string }
 
 export default function TripExtras({ extras }: { extras: Extra[] }) {
   if (!extras.length) return null
 
   return (
-    <section className="bg-(--color-surface) px-4 sm:px-6 lg:px-8 py-10">
+    <section className="px-4 sm:px-6 lg:px-8 py-16">
       <div className="max-w-4xl mx-auto">
-        <h2 className="font-display text-2xl font-bold text-(--color-text) mb-6">Tilvalg</h2>
-        <ul className="flex flex-col gap-3">
+        <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Tilvalg</p>
+        <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-4">Legg til ekstra</h2>
+        <p className="text-(--color-muted) text-sm mb-8">Valgfrie tillegg bestilles underveis i booking-prosessen.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {extras.map((extra, i) => (
-            <li key={i} className="flex items-center justify-between border-b border-(--color-border) pb-3">
-              <span className="text-(--color-text)">{extra.name}</span>
-              <span className="text-(--color-gold) font-semibold">+ {extra.price_eur} EUR</span>
-            </li>
+            <div key={i} className="bg-(--color-ice-light) border border-(--color-border) rounded-xl p-5 flex items-start justify-between gap-4">
+              <div>
+                <p className="font-medium text-(--color-text) mb-1">{extra.name}</p>
+                {extra.description && (
+                  <p className="text-(--color-muted) text-xs leading-relaxed">{extra.description}</p>
+                )}
+              </div>
+              <span className="shrink-0 font-display font-bold text-(--color-dark) text-lg whitespace-nowrap">
+                + {extra.price_eur} EUR
+              </span>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   )
