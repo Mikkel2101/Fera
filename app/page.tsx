@@ -286,7 +286,7 @@ export default async function HomePage() {
                       </svg>
                     ))}
                   </div>
-                  <p className="text-(--color-text) text-sm leading-relaxed mb-6 italic">"{t.quote}"</p>
+                  <p className="text-(--color-text) text-sm leading-relaxed mb-6 italic">&ldquo;{t.quote}&rdquo;</p>
                   <div>
                     <p className="font-semibold text-(--color-text) text-sm">{t.name}</p>
                     <p className="text-(--color-muted) text-xs">{t.role}</p>
