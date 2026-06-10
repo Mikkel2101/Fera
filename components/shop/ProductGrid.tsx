@@ -6,9 +6,9 @@ import type { Database } from '@/lib/supabase/types'
 
 type Product = Database['public']['Tables']['products']['Row']
 
-export default function ProductGrid({ products }: { products: Product[] }) {
-  const [brandFilter, setBrandFilter] = useState('')
-  const [categoryFilter, setCategoryFilter] = useState('')
+export default function ProductGrid({ products, initialCategory = '', initialBrand = '' }: { products: Product[], initialCategory?: string, initialBrand?: string }) {
+  const [brandFilter, setBrandFilter] = useState(initialBrand)
+  const [categoryFilter, setCategoryFilter] = useState(initialCategory)
 
   const brands = useMemo(() =>
     [...new Set(products.map(p => p.brand))].sort(), [products])

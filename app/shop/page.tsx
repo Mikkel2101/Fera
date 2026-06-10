@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import ProductGrid from '@/components/shop/ProductGrid'
 
@@ -7,7 +8,21 @@ export const metadata = {
   description: 'Offisiell Padelpoint-partner. Racketer, sko, vesker og tilbehør levert til Norge.',
 }
 
-export default async function ShopPage() {
+const categoryMap: Record<string, string> = {
+  'Racketer': 'racket',
+  'Sko': 'shoes',
+  'Vesker': 'bag',
+  'Baller': 'balls',
+  'Tilbehør': 'accessories',
+}
+
+export default async function ShopPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; brand?: string }>
+}) {
+  const { category, brand } = await searchParams
+
   const supabase = await createClient()
   const { data: products } = await supabase
     .from('products')
@@ -42,11 +57,22 @@ export default async function ShopPage() {
             Offisiell Padelpoint-partner — racketer, sko, vesker og tilbehør levert raskt til Norge.
           </p>
           <div className="flex flex-wrap gap-3">
-            {['Racketer', 'Sko', 'Vesker', 'Baller', 'Tilbehør'].map((cat) => (
-              <span key={cat} className="border border-white/20 text-white/70 text-xs font-medium px-3 py-1.5 rounded-full">
-                {cat}
-              </span>
-            ))}
+            {Object.entries(categoryMap).map(([label, value]) => {
+              const isActive = category === value
+              return (
+                <Link
+                  key={label}
+                  href={isActive ? '/shop' : `/shop?category=${value}`}
+                  className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-colors ${
+                    isActive
+                      ? 'bg-white text-(--color-dark) border-white'
+                      : 'border-white/20 text-white/70 hover:border-white/60 hover:text-white'
+                  }`}
+                >
+                  {label}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -56,16 +82,27 @@ export default async function ShopPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <p className="text-center text-(--color-muted) text-xs uppercase tracking-widest mb-4">Vi fører merker som</p>
           <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-            {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Babolat', 'Dunlop'].map((brand) => (
-              <span key={brand} className="font-display font-bold text-(--color-dark) text-base md:text-lg opacity-60 hover:opacity-100 transition-opacity">
-                {brand}
-              </span>
-            ))}
+            {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Babolat', 'Dunlop'].map((b) => {
+              const isActive = brand === b
+              return (
+                <Link
+                  key={b}
+                  href={isActive ? '/shop' : `/shop?brand=${b}`}
+                  className={`font-display font-bold text-base md:text-lg transition-all ${
+                    isActive
+                      ? 'text-(--color-cta) opacity-100 underline underline-offset-4'
+                      : 'text-(--color-dark) opacity-60 hover:opacity-100'
+                  }`}
+                >
+                  {b}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </div>
 
-      <ProductGrid products={products ?? []} />
+      <ProductGrid products={products ?? []} initialCategory={category ?? ''} initialBrand={brand ?? ''} />
     </>
   )
 }
