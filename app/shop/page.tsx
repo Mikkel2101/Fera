@@ -51,6 +51,20 @@ export default async function ShopPage() {
         </div>
       </section>
 
+      {/* Brand bar */}
+      <div className="border-b border-(--color-border) bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+          <p className="text-center text-(--color-muted) text-xs uppercase tracking-widest mb-4">Vi fører merker som</p>
+          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+            {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Babolat', 'Dunlop'].map((brand) => (
+              <span key={brand} className="font-display font-bold text-(--color-dark) text-base md:text-lg opacity-60 hover:opacity-100 transition-opacity">
+                {brand}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <ProductGrid products={products ?? []} />
     </>
   )
