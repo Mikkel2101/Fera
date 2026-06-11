@@ -12,7 +12,7 @@ export default function TripFaq({ faq }: { faq: FaqItem[] }) {
   return (
     <section className="px-4 sm:px-6 lg:px-8 py-16 bg-(--color-ice-light)">
       <div className="max-w-4xl mx-auto">
-        <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">FAQ</p>
+        <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">FAQ</p>
         <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-10">Ofte stilte spørsmål</h2>
         <div className="space-y-2">
           {faq.map((item, i) => (

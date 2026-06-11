@@ -10,7 +10,7 @@ export default function NotFound() {
       <div className="mb-8">
         <img src="/fera-logo.svg" alt="Fera" className="h-10 w-auto brightness-0 invert mx-auto mb-10" />
       </div>
-      <p className="text-(--color-sand) text-xs uppercase tracking-widest font-sans mb-4">404</p>
+      <p className="text-(--color-overline) text-xs uppercase tracking-widest font-sans mb-4">404</p>
       <h1 className="font-display italic font-bold text-white text-4xl sm:text-5xl lg:text-6xl mb-4">
         Siden finnes ikke
       </h1>

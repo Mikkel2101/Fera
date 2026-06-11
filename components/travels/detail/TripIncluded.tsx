@@ -4,7 +4,7 @@ export default function TripIncluded({ included }: { included: string[] }) {
   return (
     <section className="px-4 sm:px-6 lg:px-8 py-16">
       <div className="max-w-4xl mx-auto">
-        <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Alt inkludert</p>
+        <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Alt inkludert</p>
         <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-10">Hva er med i prisen?</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {included.map((item, i) => (

@@ -62,7 +62,7 @@ export default function ForBedrifterPage() {
       {/* Hva vi leverer */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
-          <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3 text-center">Hva vi leverer</p>
+          <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3 text-center">Hva vi leverer</p>
           <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-4 text-center">Mer enn bare padel</h2>
           <p className="text-(--color-muted) text-center max-w-2xl mx-auto mb-12">
             Fera kombinerer profesjonell padel-coaching med eksklusive opplevelser og genuin lokalkunnskap. Resultatet? En tur gruppen snakker om i årevis.

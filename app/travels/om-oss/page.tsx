@@ -56,7 +56,7 @@ export default function OmOssPage() {
               />
             </div>
             <div>
-              <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Grunnlegger</p>
+              <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Grunnlegger</p>
               <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-6">Petter Skimmeland</h2>
               <div className="space-y-4 text-(--color-muted) leading-relaxed">
                 <p>
@@ -82,7 +82,7 @@ export default function OmOssPage() {
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div className="order-2 lg:order-1">
-              <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Partner & Coach</p>
+              <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Partner & Coach</p>
               <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-2">André Schlyter</h2>
               <p className="text-(--color-muted) text-sm italic mb-6">Coach i verdensklasse</p>
               <div className="space-y-4 text-(--color-muted) leading-relaxed">

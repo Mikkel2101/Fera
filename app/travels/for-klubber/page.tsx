@@ -52,7 +52,7 @@ export default function ForKlubberPage() {
       {/* Hvorfor Fera */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-3xl mx-auto">
-          <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Hvorfor Fera</p>
+          <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Hvorfor Fera</p>
           <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-6">Opplevelser som samler</h2>
           <p className="text-(--color-muted) text-lg leading-relaxed">
             Vi har arrangert turer for klubber fra hele Norge. Resultatet er alltid det samme: grupper som kommer hjem bedre, sterkere og mer samkjørt enn før.
@@ -63,7 +63,7 @@ export default function ForKlubberPage() {
       {/* Slik fungerer det */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
         <div className="max-w-4xl mx-auto">
-          <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3 text-center">Slik fungerer det</p>
+          <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3 text-center">Slik fungerer det</p>
           <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-12 text-center">Tre enkle steg fra idé til opplevelse</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {steps.map((step) => (

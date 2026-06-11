@@ -63,7 +63,7 @@ export default function InspirasjonPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="mb-10 text-center">
-            <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Høydepunkter</p>
+            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Høydepunkter</p>
             <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Fra våre reiser</h2>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 auto-rows-[200px]">
@@ -94,7 +94,7 @@ export default function InspirasjonPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
         <div className="max-w-6xl mx-auto">
           <div className="mb-10">
-            <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Reiseblogg</p>
+            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Reiseblogg</p>
             <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Historier fra banen</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -140,7 +140,7 @@ export default function InspirasjonPage() {
       {/* Instagram CTA */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-xl mx-auto">
-          <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-3">Mer innhold</p>
+          <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Mer innhold</p>
           <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-4">
             Følg oss på Instagram
           </h2>

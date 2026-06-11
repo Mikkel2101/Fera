@@ -39,7 +39,7 @@ function ProductGridInner({ products }: { products: Product[] }) {
   return (
     <>
       <div className="bg-white border-b border-(--color-border) sticky top-14 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="max-w-[1600px] mx-auto px-4 py-3 flex flex-wrap items-center gap-x-4 gap-y-2">
           <div className="flex flex-wrap gap-2">
             <FilterPill active={!categoryFilter} onClick={() => setFilter('category', '')}>
               Alle
@@ -71,7 +71,7 @@ function ProductGridInner({ products }: { products: Product[] }) {
       </div>
 
       <div className="bg-(--color-bg) min-h-screen">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {filtered.length === 0 ? (
             <div className="text-center py-24">
               <p className="font-display text-xl text-(--color-text) mb-3">

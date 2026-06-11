@@ -183,7 +183,7 @@ export default async function ProductPage({
           <div className="max-w-6xl mx-auto">
             <div className="flex items-end justify-between mb-8">
               <div>
-                <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Mer fra samme kategori</p>
+                <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Mer fra samme kategori</p>
                 <h2 className="font-display font-bold text-(--color-text) text-2xl sm:text-3xl">Du vil kanskje også like</h2>
               </div>
               <Link href="/shop" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block">
@@ -205,7 +205,7 @@ export default async function ProductPage({
       <div className="border-t border-(--color-border) bg-(--color-ice-light) py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-1">Planlegger du padel-reise?</p>
+            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-1">Planlegger du padel-reise?</p>
             <p className="font-display font-bold text-(--color-text) text-xl">Bruk utstyret i Spania. Med Fera.</p>
           </div>
           <Link

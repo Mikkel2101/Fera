@@ -11,7 +11,7 @@ export default function TravelsLoading() {
       </div>
       {/* Trip grid skeleton */}
       <div className="bg-(--color-sand)">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="bg-(--color-dark-card) rounded-[14px] overflow-hidden">
