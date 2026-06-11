@@ -33,6 +33,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(REDIRECT_MAP[cleanHost], 301)
   }
 
+  // Coming soon — send all public traffic to placeholder, keep admin intact
+  if (process.env.COMING_SOON === 'true') {
+    if (!pathname.startsWith('/admin') && !cleanHost.startsWith('admin.')) {
+      const url = new URL('/coming-soon', request.url)
+      return NextResponse.rewrite(url)
+    }
+  }
+
   if (
     cleanHost.startsWith('admin.') ||
     pathname.startsWith('/admin') ||
