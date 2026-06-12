@@ -3,15 +3,26 @@ import { updateSession } from '@/lib/supabase/proxy'
 
 const BRAND_MAP: Record<string, string> = {}
 
+// Primærdomene er ferapadel.com — alt annet redirecter dit.
+// Aktiver ved å legge domenene til i Vercel og peke DNS.
+const PRIMARY = 'https://ferapadel.com'
+
 const REDIRECT_MAP: Record<string, string> = {
-  'padeltur.no': 'https://ferabrand.com',
-  'padelreise.no': 'https://ferabrand.com',
-  'ferashop.no': 'https://ferabrand.com',
-  'www.ferashop.no': 'https://ferabrand.com',
-  'feratravels.no': 'https://ferabrand.com',
-  'www.feratravels.no': 'https://ferabrand.com',
-  'feratravels.com': 'https://ferabrand.com',
-  'www.feratravels.com': 'https://ferabrand.com',
+  // Gamle ferabrand-domener → ferapadel.com
+  'ferabrand.com':             PRIMARY,
+  'www.ferabrand.com':         PRIMARY,
+  // Norsk inngang → norsk kanonisk URL
+  'ferapadel.no':              `${PRIMARY}/no`,
+  'www.ferapadel.no':          `${PRIMARY}/no`,
+  // Nisjedomener → riktig seksjon
+  'ferashop.no':               `${PRIMARY}/shop`,
+  'www.ferashop.no':           `${PRIMARY}/shop`,
+  'feratravels.no':            `${PRIMARY}/travels`,
+  'www.feratravels.no':        `${PRIMARY}/travels`,
+  'feratravels.com':           `${PRIMARY}/travels`,
+  'www.feratravels.com':       `${PRIMARY}/travels`,
+  'padeltur.no':               `${PRIMARY}/travels`,
+  'padelreise.no':             `${PRIMARY}/travels`,
 }
 
 export async function proxy(request: NextRequest) {
@@ -31,6 +42,15 @@ export async function proxy(request: NextRequest) {
 
   if (REDIRECT_MAP[cleanHost]) {
     return NextResponse.redirect(REDIRECT_MAP[cleanHost], 301)
+  }
+
+  // /no er norsk kanonisk rot — rewriter til / uten redirect (URL beholdes)
+  if (pathname === '/no' || pathname === '/no/') {
+    return NextResponse.rewrite(new URL('/', request.url))
+  }
+  // /no/shop, /no/travels etc. → strip /no-prefixet
+  if (pathname.startsWith('/no/')) {
+    return NextResponse.rewrite(new URL(pathname.replace('/no/', '/'), request.url))
   }
 
   // Coming soon — send all public traffic to placeholder, keep admin intact
