@@ -3,7 +3,6 @@ import type { PadelpointAdapter, PadelpointProduct } from './types'
 import { TIENDA_BASE } from './types'
 
 // Kategori-URLer på tiendapadelpoint.com (OpenCart med SEO-URLer)
-// Sjekk mot live site hvis en kategori returnerer 0 produkter — sluggen kan ha endret seg
 const CATEGORY_URLS: { path: string; category: PadelpointProduct['category'] }[] = [
   { path: '/palas-de-padel',      category: 'racket' },
   { path: '/zapatillas-de-padel', category: 'shoes' },
@@ -13,21 +12,22 @@ const CATEGORY_URLS: { path: string; category: PadelpointProduct['category'] }[]
   { path: '/accesorios-padel',    category: 'accessories' },
 ]
 
+// Kjente merkevare-navn for å utlede brand fra produktnavn
+const KNOWN_BRANDS = [
+  'Bullpadel','Head','Nox','Siux','Star Vie','Wilson','Adidas','Babolat',
+  'Joma','Vibora','Drop Shot','Black Crown','Prince','Puma','Munich',
+  'Softee','Tecnifibre','Vairo','Alacran','Royal Padel','Dunlop','Cartri',
+  'Enebe','Star-Vie','StarVie','Starvie',
+]
+
+// Maks sider per kategori per synk.
+// Default 5 — med listing-only er 5 sider × 2 kategorier < 10 sekunder.
+const MAX_PAGES = parseInt(process.env.PADELPOINT_MAX_PAGES ?? '5', 10)
+
 const FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (compatible; FeraPadelBot/1.0; +https://ferapadel.com)',
   'Accept': 'text/html,application/xhtml+xml',
   'Accept-Language': 'es-ES,es;q=0.9',
-}
-
-const DELAY_MS = 300
-
-// Maks sider per kategori per synk-kjøring.
-// Sett PADELPOINT_MAX_PAGES i Vercel for å justere (default: 3 = ~72 produkter/kategori/dag).
-// Full import krever mange kjøringer — cron holder katalogen à jour over tid.
-const MAX_PAGES = parseInt(process.env.PADELPOINT_MAX_PAGES ?? '3', 10)
-
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 async function fetchHtml(url: string): Promise<string | null> {
@@ -51,120 +51,99 @@ function toAbsolute(href: string): string {
   return `${TIENDA_BASE}/${href}`
 }
 
-async function scrapeProductUrls(categoryPath: string): Promise<string[]> {
-  const urls: string[] = []
-  let page = 1
-
-  while (true) {
-    const url = `${TIENDA_BASE}${categoryPath}${page > 1 ? `?page=${page}` : ''}`
-    const html = await fetchHtml(url)
-    if (!html) break
-
-    const $ = cheerio.load(html)
-
-    // Produktkort i OpenCart har alltid bildelenke + tittellekne → samme URL vises 2x
-    // Navigasjons- og brand-filterlenker vises kun 1x
-    // Strategi: tell forekomster av alle lenker — produkt-URL har count >= 2
-    const linkCounts = new Map<string, number>()
-
-    $('a[href]').each((_, el) => {
-      const href = $(el).attr('href') ?? ''
-      if (!href || href.startsWith('javascript:') || href.startsWith('#')) return
-
-      const abs = toAbsolute(href)
-      if (!abs.startsWith(TIENDA_BASE + '/')) return
-      if (abs.includes('?') || abs.includes('index.php')) return
-      if (abs === TIENDA_BASE || abs === TIENDA_BASE + '/') return
-
-      linkCounts.set(abs, (linkCounts.get(abs) ?? 0) + 1)
-    })
-
-    const pageLinks: string[] = []
-    for (const [u, count] of linkCounts) {
-      if (count >= 2) pageLinks.push(u)
-    }
-
-    if (pageLinks.length === 0) break
-    urls.push(...pageLinks)
-
-    const hasNext = $(`a[href*="page=${page + 1}"]`).length > 0
-    if (!hasNext || page >= MAX_PAGES) break
-
-    page++
-    await sleep(DELAY_MS)
+function extractBrand(productName: string): string {
+  for (const brand of KNOWN_BRANDS) {
+    if (productName.toLowerCase().includes(brand.toLowerCase())) return brand
   }
-
-  return [...new Set(urls)]
+  // Fallback: første ord etter "Pala(s)/Zapatilla(s)/Bolsa(s)/..." er ofte merket
+  const withoutType = productName.replace(/^(palas?|zapatillas?|bolsas?|pelotas?|ropa|accesorios?)\s+/i, '')
+  return withoutType.split(' ')[0] ?? 'Unknown'
 }
 
-async function scrapeProduct(
-  url: string,
+// Henter alle produkter fra én listingside uten å besøke enkeltprodukt-sider
+async function scrapeListingPage(
+  categoryPath: string,
   category: PadelpointProduct['category'],
-): Promise<PadelpointProduct | null> {
+  page: number,
+): Promise<{ products: PadelpointProduct[]; hasNextPage: boolean }> {
+  const url = `${TIENDA_BASE}${categoryPath}${page > 1 ? `?page=${page}` : ''}`
   const html = await fetchHtml(url)
-  if (!html) return null
+  if (!html) return { products: [], hasNextPage: false }
 
   const $ = cheerio.load(html)
+  const products: PadelpointProduct[] = []
 
-  const name = $('h1').first().text().trim()
-  if (!name) return null
+  // Finn produktlenker som vises 2+ ganger (bilde + navn = samme URL i hvert produktkort)
+  const linkCounts = new Map<string, number>()
+  $('a[href]').each((_, el) => {
+    const href = $(el).attr('href') ?? ''
+    if (!href || href.startsWith('javascript:') || href.startsWith('#')) return
+    const abs = toAbsolute(href)
+    if (!abs.startsWith(TIENDA_BASE + '/')) return
+    if (abs.includes('?') || abs.includes('index.php')) return
+    if (abs === TIENDA_BASE || abs === TIENDA_BASE + '/') return
+    linkCounts.set(abs, (linkCounts.get(abs) ?? 0) + 1)
+  })
 
-  // OpenCart: .price-new = rabattert, .price-normal = fullpris
-  let price_eur = 0
-  const priceNew = $('.price-new, .special-price').first().text().trim()
-  const priceNormal = $('.price-normal, .regular-price').first().text().trim()
+  const productUrls = [...linkCounts.entries()]
+    .filter(([, count]) => count >= 2)
+    .map(([u]) => u)
 
-  if (priceNew) price_eur = parsePrice(priceNew)
-  else if (priceNormal) price_eur = parsePrice(priceNormal)
+  for (const productUrl of productUrls) {
+    // Bildelenken → navn (alt-tekst) + bilde-URL
+    const imageAnchor = $(`a[href="${productUrl}"]`)
+      .filter((_, el) => $(el).find('img').length > 0)
+      .first()
 
-  // Fallback: finn første €-beløp i sidetekst, hopp over SIN IVA-linjen
-  if (!price_eur) {
-    const priceBlock = $('.price, #price-display, #product-price').first().text()
-    const match = priceBlock.replace(/SIN IVA.*/gi, '').match(/[\d.,]+€/)
-    if (match) price_eur = parsePrice(match[0])
-  }
+    const img = imageAnchor.find('img').first()
+    const name = img.attr('alt')?.trim() ?? ''
+    if (!name) continue
 
-  if (!price_eur) return null
+    const rawSrc = img.attr('src') ?? img.attr('data-src') ?? ''
+    const imageSrc = rawSrc && !rawSrc.includes('50x50') && !rawSrc.includes('160x160')
+      ? toAbsolute(rawSrc)
+      : ''
 
-  // Brand — finn "Marca:"-labelen og hent lenketeksten
-  let brand = 'Unknown'
-  $('li, tr, p').each((_, el) => {
-    if (brand !== 'Unknown') return
-    const text = $(el).text()
-    if (text.includes('Marca:')) {
-      const a = $(el).find('a').first().text().trim()
-      if (a) brand = a
+    // Tekstlenken → bekreft navn
+    const nameAnchor = $(`a[href="${productUrl}"]`)
+      .filter((_, el) => $(el).find('img').length === 0)
+      .first()
+    const confirmedName = nameAnchor.text().trim() || name
+
+    // Pris: finn første €-beløp etter bildeankeret i DOM
+    // Vi søker i foreldrenes tekst-innhold og finner tall med €
+    let price_eur = 0
+    const parentText = imageAnchor.parent().parent().text()
+    const priceMatches = parentText.match(/(\d+[.,]\d{2})€/g)
+    if (priceMatches) {
+      // Ta den laveste prisen (= gjeldende pris ved rabatt, ellers fullpris)
+      const prices = priceMatches.map(p => parsePrice(p)).filter(p => p > 0)
+      if (prices.length > 0) price_eur = Math.min(...prices)
     }
-  })
 
-  // Lagerstatus
-  const pageText = $('body').text()
-  const stock_status: PadelpointProduct['stock_status'] =
-    pageText.includes('PROXIMAMENTE') || pageText.includes('PRÓXIMAMENTE') ? 'out_of_stock'
-    : pageText.includes('últimas unidades') || pageText.includes('Últimas Unidades') ? 'low_stock'
-    : 'in_stock'
+    if (!price_eur) continue
 
-  // Bilder: /image/cache/catalog/ men ikke thumbnails (50x50, 160x160)
-  const image_urls: string[] = []
-  $('img[src*="/image/cache/catalog/"]').each((_, el) => {
-    const src = $(el).attr('src') ?? ''
-    if (!src) return
-    if (src.includes('50x50') || src.includes('160x160') || src.includes('placeholder')) return
-    image_urls.push(src.startsWith('http') ? src : `${TIENDA_BASE}${src}`)
-  })
+    // Lagerstatus: sjekk tekst nær produktkortet
+    const cardText = imageAnchor.parent().parent().text()
+    const stock_status: PadelpointProduct['stock_status'] =
+      cardText.includes('PROXIMAMENTE') || cardText.includes('PRÓXIMAMENTE') ? 'out_of_stock'
+      : cardText.includes('últimas') || cardText.includes('Últimas') ? 'low_stock'
+      : 'in_stock'
 
-  const description = $('#tab-description, .product-description').first().text().trim() || undefined
-
-  return {
-    padelpoint_url: url,
-    name,
-    brand,
-    category,
-    price_eur,
-    stock_status,
-    description,
-    image_urls: [...new Set(image_urls)].slice(0, 5),
+    products.push({
+      padelpoint_url: productUrl,
+      name: confirmedName,
+      brand: extractBrand(confirmedName),
+      category,
+      price_eur,
+      stock_status,
+      image_urls: imageSrc ? [imageSrc] : [],
+    })
   }
+
+  const hasNextPage = $(`a[href*="page=${page + 1}"]`).length > 0
+
+  return { products, hasNextPage }
 }
 
 export const tiendaPadelpointAdapter: PadelpointAdapter = {
@@ -172,12 +151,10 @@ export const tiendaPadelpointAdapter: PadelpointAdapter = {
     const products: PadelpointProduct[] = []
 
     for (const { path, category } of CATEGORY_URLS) {
-      const productUrls = await scrapeProductUrls(path)
-
-      for (const productUrl of productUrls) {
-        await sleep(DELAY_MS)
-        const product = await scrapeProduct(productUrl, category)
-        if (product) products.push(product)
+      for (let page = 1; page <= MAX_PAGES; page++) {
+        const { products: pageProducts, hasNextPage } = await scrapeListingPage(path, category, page)
+        products.push(...pageProducts)
+        if (!hasNextPage) break
       }
     }
 
