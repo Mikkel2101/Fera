@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+
+export const maxDuration = 60
 import { createServiceClient } from '@/lib/supabase/service'
 import { syncProducts } from '@/lib/padelpoint/sync'
 import { fixturesAdapter } from '@/lib/padelpoint/fixtures'

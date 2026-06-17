@@ -32,7 +32,10 @@ const FETCH_HEADERS = {
 
 async function fetchHtml(url: string): Promise<string | null> {
   try {
-    const res = await fetch(url, { headers: FETCH_HEADERS })
+    const res = await fetch(url, {
+      headers: FETCH_HEADERS,
+      signal: AbortSignal.timeout(8000),
+    })
     if (!res.ok) return null
     return res.text()
   } catch {
