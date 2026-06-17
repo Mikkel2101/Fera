@@ -35,7 +35,6 @@ async function fetchHtml(url: string): Promise<string | null> {
   }
 }
 
-// "64,95 €" / "64.95€" / content="64.95" → 64.95
 function parsePrice(raw: string): number {
   const n = parseFloat(raw.replace(/[^\d,.]/g, '').replace(',', '.'))
   return isNaN(n) ? 0 : n
@@ -57,31 +56,33 @@ async function scrapeProductUrls(categoryPath: string): Promise<string[]> {
     if (!html) break
 
     const $ = cheerio.load(html)
-    const pageLinks: string[] = []
 
-    // OpenCart: produkt-lenker ligger i .product-thumb og .product-layout
-    // Hvert produkt har to lenker (bilde + tittel) som peker til samme URL → Set deduplicerer
-    $('.product-thumb a, .product-layout a').each((_, el) => {
+    // Produktkort i OpenCart har alltid bildelenke + tittellekne → samme URL vises 2x
+    // Navigasjons- og brand-filterlenker vises kun 1x
+    // Strategi: tell forekomster av alle lenker — produkt-URL har count >= 2
+    const linkCounts = new Map<string, number>()
+
+    $('a[href]').each((_, el) => {
       const href = $(el).attr('href') ?? ''
-      if (!href || href.startsWith('javascript') || href === '#') return
+      if (!href || href.startsWith('javascript:') || href.startsWith('#')) return
 
       const abs = toAbsolute(href)
+      if (!abs.startsWith(TIENDA_BASE + '/')) return
+      if (abs.includes('?') || abs.includes('index.php')) return
+      if (abs === TIENDA_BASE || abs === TIENDA_BASE + '/') return
 
-      // Utelat underkategori-sider (inneholder kategori-stien som prefix)
-      if (abs.includes(`${categoryPath}/`)) return
-      // Utelat index.php-ruter (filter/sortering)
-      if (abs.includes('index.php')) return
-      // Utelat kjente ikke-produkt-ruter
-      if (abs.endsWith(categoryPath) || abs === TIENDA_BASE + '/') return
-
-      pageLinks.push(abs)
+      linkCounts.set(abs, (linkCounts.get(abs) ?? 0) + 1)
     })
+
+    const pageLinks: string[] = []
+    for (const [u, count] of linkCounts) {
+      if (count >= 2) pageLinks.push(u)
+    }
 
     if (pageLinks.length === 0) break
     urls.push(...pageLinks)
 
-    // OpenCart paginering: ?page=2
-    const hasNext = $(`a[href*="${categoryPath}?page=${page + 1}"], a[href*="page=${page + 1}"]`).length > 0
+    const hasNext = $(`a[href*="page=${page + 1}"]`).length > 0
     if (!hasNext) break
 
     page++
@@ -100,56 +101,54 @@ async function scrapeProduct(
 
   const $ = cheerio.load(html)
 
-  // Navn
   const name = $('h1').first().text().trim()
   if (!name) return null
 
-  // Pris — OpenCart: .price-new (rabattert) > .price-normal (fullpris)
-  // Fallback: første €-beløp på siden
+  // OpenCart: .price-new = rabattert, .price-normal = fullpris
   let price_eur = 0
   const priceNew = $('.price-new, .special-price').first().text().trim()
   const priceNormal = $('.price-normal, .regular-price').first().text().trim()
+
   if (priceNew) price_eur = parsePrice(priceNew)
   else if (priceNormal) price_eur = parsePrice(priceNormal)
 
-  // Fallback: finn første €-tall i .price-blokken, men ikke "SIN IVA"-prisen
+  // Fallback: finn første €-beløp i sidetekst, hopp over SIN IVA-linjen
   if (!price_eur) {
-    const priceBlock = $('.price').first().text()
-    const matches = priceBlock.match(/(\d+[.,]\d{2})€/g)
-    if (matches && matches.length > 0) {
-      price_eur = parsePrice(matches[0])
-    }
+    const priceBlock = $('.price, #price-display, #product-price').first().text()
+    const match = priceBlock.replace(/SIN IVA.*/gi, '').match(/[\d.,]+€/)
+    if (match) price_eur = parsePrice(match[0])
   }
 
   if (!price_eur) return null
 
-  // Brand — OpenCart: "Marca:" label i produkt-attributter
+  // Brand — finn "Marca:"-labelen og hent lenketeksten
   let brand = 'Unknown'
-  $('li, tr').each((_, el) => {
+  $('li, tr, p').each((_, el) => {
+    if (brand !== 'Unknown') return
     const text = $(el).text()
     if (text.includes('Marca:')) {
-      const brandLink = $(el).find('a').first().text().trim()
-      if (brandLink) brand = brandLink
+      const a = $(el).find('a').first().text().trim()
+      if (a) brand = a
     }
   })
 
-  // Lagerstatus — "EN STOCK" = in_stock, "PROXIMAMENTE" = out_of_stock
+  // Lagerstatus
   const pageText = $('body').text()
   const stock_status: PadelpointProduct['stock_status'] =
-    pageText.includes('PROXIMAMENTE') ? 'out_of_stock'
+    pageText.includes('PROXIMAMENTE') || pageText.includes('PRÓXIMAMENTE') ? 'out_of_stock'
     : pageText.includes('últimas unidades') || pageText.includes('Últimas Unidades') ? 'low_stock'
     : 'in_stock'
 
-  // Bilder — OpenCart: /image/cache/catalog/ mønster
+  // Bilder: /image/cache/catalog/ men ikke thumbnails (50x50, 160x160)
   const image_urls: string[] = []
   $('img[src*="/image/cache/catalog/"]').each((_, el) => {
     const src = $(el).attr('src') ?? ''
-    if (src && !src.includes('placeholder') && !src.includes('50x50') && !src.includes('160x160')) {
-      image_urls.push(src.startsWith('http') ? src : `${TIENDA_BASE}${src}`)
-    }
+    if (!src) return
+    if (src.includes('50x50') || src.includes('160x160') || src.includes('placeholder')) return
+    image_urls.push(src.startsWith('http') ? src : `${TIENDA_BASE}${src}`)
   })
 
-  const description = $('.product-description, #tab-description').first().text().trim() || undefined
+  const description = $('#tab-description, .product-description').first().text().trim() || undefined
 
   return {
     padelpoint_url: url,
