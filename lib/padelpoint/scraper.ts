@@ -19,7 +19,12 @@ const FETCH_HEADERS = {
   'Accept-Language': 'es-ES,es;q=0.9',
 }
 
-const DELAY_MS = 700
+const DELAY_MS = 300
+
+// Maks sider per kategori per synk-kjøring.
+// Sett PADELPOINT_MAX_PAGES i Vercel for å justere (default: 3 = ~72 produkter/kategori/dag).
+// Full import krever mange kjøringer — cron holder katalogen à jour over tid.
+const MAX_PAGES = parseInt(process.env.PADELPOINT_MAX_PAGES ?? '3', 10)
 
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -83,7 +88,7 @@ async function scrapeProductUrls(categoryPath: string): Promise<string[]> {
     urls.push(...pageLinks)
 
     const hasNext = $(`a[href*="page=${page + 1}"]`).length > 0
-    if (!hasNext) break
+    if (!hasNext || page >= MAX_PAGES) break
 
     page++
     await sleep(DELAY_MS)
