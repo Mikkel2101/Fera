@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { syncProducts } from '@/lib/padelpoint/sync'
 import { fixturesAdapter } from '@/lib/padelpoint/fixtures'
-import { scraperStubAdapter } from '@/lib/padelpoint/scraper-stub'
+import { tiendaPadelpointAdapter } from '@/lib/padelpoint/scraper'
 
 // NOTE: PADELPOINT_SYNC_ENABLED=true aktiverer sync mot fixtures (eller live scraper).
-// Scraping-target: racketstore.com (engelsk Padelpoint-storefront, ingen kall gjøres når flagget er av).
+// Scraping-target: tiendapadelpoint.com (bekreftet av Willie Lizier 2026-06-15 som primær kilde).
+// PADELPOINT_USE_FIXTURES=false bytter fra fixtures til live scraper.
 // Endepunktet beskyttes av CRON_SECRET (Vercel Cron eller manuell kall via curl).
 export async function POST(request: NextRequest) {
   if (process.env.PADELPOINT_SYNC_ENABLED !== 'true') {
@@ -18,7 +19,7 @@ export async function POST(request: NextRequest) {
   }
 
   const useFixtures = process.env.PADELPOINT_USE_FIXTURES !== 'false'
-  const adapter = useFixtures ? fixturesAdapter : scraperStubAdapter
+  const adapter = useFixtures ? fixturesAdapter : tiendaPadelpointAdapter
 
   const supabase = createServiceClient()
 

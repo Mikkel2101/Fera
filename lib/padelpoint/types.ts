@@ -1,5 +1,6 @@
-// Primær scraping-target: engelsk storefront, samme backend som tiendapadelpoint.com
-export const RACKETSTORE_BASE = 'https://www.racketstore.com'
+// Primær scraping-target: tiendapadelpoint.com (bekreftet av Willie Lizier 2025-06-15)
+// Øvrige storefronts (racketstore.com, internationalpadelshop.com) legges ned
+export const TIENDA_BASE = 'https://www.tiendapadelpoint.com'
 
 export type PadelpointProduct = {
   padelpoint_url:  string

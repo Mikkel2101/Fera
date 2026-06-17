@@ -1,8 +1,12 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/supabase/types'
-import type { PadelpointAdapter, SyncResult } from './types'
+import type { PadelpointAdapter, PadelpointProduct, SyncResult } from './types'
 
 const PRICE_CHANGE_THRESHOLD = 0.40 // 40 %
+
+// Kategorier som faktisk importeres — racketer og tilbehør først.
+// Legg til 'shoes' | 'bag' | 'balls' | 'clothing' når vi er klare.
+const SYNC_CATEGORIES = new Set<PadelpointProduct['category']>(['racket', 'accessories'])
 
 type Supabase = SupabaseClient<Database>
 
@@ -30,6 +34,12 @@ export async function syncProducts(
 
   for (const product of products) {
     try {
+      // Kategoriguard — kun aktiverte kategorier importeres
+      if (!SYNC_CATEGORIES.has(product.category)) {
+        result.skipped++
+        continue
+      }
+
       // Brand guard
       if (restrictedBrands.has(product.brand.toLowerCase())) {
         result.skipped++
