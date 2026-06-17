@@ -2,14 +2,11 @@ import * as cheerio from 'cheerio'
 import type { PadelpointAdapter, PadelpointProduct } from './types'
 import { TIENDA_BASE } from './types'
 
-// Kategori-URLer på tiendapadelpoint.com (OpenCart med SEO-URLer)
+// Aktive kategorier — kun de som er aktivert i sync.ts (SYNC_CATEGORIES).
+// Legg til flere kategorier her og i sync.ts når vi er klare for dem.
 const CATEGORY_URLS: { path: string; category: PadelpointProduct['category'] }[] = [
-  { path: '/palas-de-padel',      category: 'racket' },
-  { path: '/zapatillas-de-padel', category: 'shoes' },
-  { path: '/bolsas-padel',        category: 'bag' },
-  { path: '/pelotas-padel',       category: 'balls' },
-  { path: '/ropa-padel',          category: 'clothing' },
-  { path: '/accesorios-padel',    category: 'accessories' },
+  { path: '/palas-de-padel',   category: 'racket' },
+  { path: '/accesorios-padel', category: 'accessories' },
 ]
 
 // Kjente merkevare-navn for å utlede brand fra produktnavn
@@ -20,9 +17,9 @@ const KNOWN_BRANDS = [
   'Enebe','Star-Vie','StarVie','Starvie',
 ]
 
-// Maks sider per kategori per synk.
-// Default 5 — med listing-only er 5 sider × 2 kategorier < 10 sekunder.
-const MAX_PAGES = parseInt(process.env.PADELPOINT_MAX_PAGES ?? '5', 10)
+// Maks sider per kategori per synk. 1 side = 24 produkter.
+// Øk PADELPOINT_MAX_PAGES i Vercel når vi vet at én side fungerer.
+const MAX_PAGES = parseInt(process.env.PADELPOINT_MAX_PAGES ?? '1', 10)
 
 const FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (compatible; FeraPadelBot/1.0; +https://ferapadel.com)',
