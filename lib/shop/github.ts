@@ -12,9 +12,9 @@ export type PadelpointOrderPayload = {
 }
 
 export async function triggerPadelpointOrder(payload: PadelpointOrderPayload): Promise<void> {
-  const token = process.env.GITHUB_DISPATCH_TOKEN
-  const owner = process.env.GITHUB_OWNER
-  const repo  = process.env.GITHUB_REPO
+  const token = process.env.FERAGIT_DISPATCH_TOKEN
+  const owner = process.env.FERAGIT_OWNER
+  const repo  = process.env.FERAGIT_REPO
 
   if (!token || !owner || !repo) {
     console.warn('[github-dispatch] env vars missing — skipping auto-order for', payload.order_id)
