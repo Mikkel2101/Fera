@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "sync:padelpoint": "npx tsx scripts/padelpoint-sync.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
@@ -33,6 +34,7 @@
     "jsdom": "^29.1.1",
     "supabase": "^2.105.0",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5",
     "vitest": "^4.1.8"
   }

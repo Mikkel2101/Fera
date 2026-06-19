@@ -19,15 +19,17 @@ export async function syncProducts(
   // Hent restricted brands og eksisterende produkter i én runde
   const [{ data: restrictedRows }, { data: existingProducts }] = await Promise.all([
     supabase.from('restricted_brands').select('brand'),
-    supabase.from('products').select('padelpoint_url, price_eur, name'),
+    supabase.from('products').select('slug, padelpoint_url, price_eur, name'),
   ])
 
   const restrictedBrands = new Set(
     (restrictedRows ?? []).map(r => r.brand.toLowerCase()),
   )
 
-  const existingByUrl = new Map(
-    (existingProducts ?? []).map(p => [p.padelpoint_url, p]),
+  // Keyet på slug (avledet fra padelpoint_url) — tillater også oppslag for manuelle produkter
+  // som mangler padelpoint_url men har matchende slug fra en tidligere migrering.
+  const existingBySlug = new Map(
+    (existingProducts ?? []).map(p => [p.slug, p]),
   )
 
   const products = await adapter.fetchProducts()
@@ -46,13 +48,17 @@ export async function syncProducts(
         continue
       }
 
+      // Slug avledet fra URL — beregnes tidlig for å kunne slå opp eksisterende produkt
+      const slug = product.padelpoint_url.split('/').pop() ?? product.name.toLowerCase().replace(/\s+/g, '-')
+      const existing = existingBySlug.get(slug)
+
       // Pris-sanity: avvis pris ≤ 0
       if (product.price_eur <= 0) {
         result.flagged++
         await supabase.from('price_review_queue').insert({
           padelpoint_url: product.padelpoint_url,
           product_name:   product.name,
-          current_price:  existingByUrl.get(product.padelpoint_url)?.price_eur ?? null,
+          current_price:  existing?.price_eur ?? null,
           proposed_price: product.price_eur,
           reason:         'Pris er 0 eller negativ — avvist automatisk',
         })
@@ -60,7 +66,6 @@ export async function syncProducts(
       }
 
       // Pris-sanity: avvis endringer > 40 % mot eksisterende pris
-      const existing = existingByUrl.get(product.padelpoint_url)
       if (existing?.price_eur != null) {
         const change = Math.abs(product.price_eur - existing.price_eur) / existing.price_eur
         if (change > PRICE_CHANGE_THRESHOLD) {
@@ -79,10 +84,7 @@ export async function syncProducts(
       // Last ned bilder til Supabase Storage
       const storedImages = await downloadImages(product.image_urls, product.padelpoint_url, supabase)
 
-      // Slug fra URL
-      const slug = product.padelpoint_url.split('/').pop() ?? product.name.toLowerCase().replace(/\s+/g, '-')
-
-      // Upsert på padelpoint_url
+      // Upsert på slug — håndterer også manuelle produkter som mangler padelpoint_url
       const { error } = await supabase.from('products').upsert(
         {
           slug,
@@ -96,7 +98,7 @@ export async function syncProducts(
           images:         storedImages.length > 0 ? storedImages : (existing ? undefined : []),
           published:      true,
         },
-        { onConflict: 'padelpoint_url', ignoreDuplicates: false },
+        { onConflict: 'slug', ignoreDuplicates: false },
       )
 
       if (error) {

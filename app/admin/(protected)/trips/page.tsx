@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { deleteTrip, setPublished } from '@/lib/actions/trips'
+import { setPublished } from '@/lib/actions/trips'
+import DeleteTripButton from '@/components/admin/DeleteTripButton'
 
 export default async function AdminTripsPage() {
   const supabase = await createClient()
@@ -59,15 +60,7 @@ export default async function AdminTripsPage() {
             >
               Rediger
             </Link>
-            <form action={deleteTrip.bind(null, trip.id)}>
-              <button
-                type="submit"
-                className="text-sm text-(--color-muted) hover:text-red-500 transition-colors"
-                onClick={e => { if (!confirm(`Slett "${trip.name}"?`)) e.preventDefault() }}
-              >
-                Slett
-              </button>
-            </form>
+            <DeleteTripButton tripId={trip.id} tripName={trip.name} />
           </div>
         ))}
       </div>

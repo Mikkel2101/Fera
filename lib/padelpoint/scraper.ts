@@ -17,9 +17,6 @@ const KNOWN_BRANDS = [
   'Enebe','Star-Vie','StarVie','Starvie',
 ]
 
-// Maks sider per kategori per synk. 1 side = 24 produkter.
-// Øk PADELPOINT_MAX_PAGES i Vercel når vi vet at én side fungerer.
-const MAX_PAGES = parseInt(process.env.PADELPOINT_MAX_PAGES ?? '1', 10)
 
 const FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (compatible; FeraPadelBot/1.0; +https://ferapadel.com)',
@@ -79,9 +76,9 @@ async function scrapeListingPage(
     const href = $(el).attr('href') ?? ''
     if (!href || href.startsWith('javascript:') || href.startsWith('#')) return
     const abs = toAbsolute(href)
-    if (!abs.startsWith(TIENDA_BASE + '/')) return
+    // Kun lenker innenfor denne kategorien (unngår kryss-lenker til andre kategorier)
+    if (!abs.startsWith(TIENDA_BASE + categoryPath + '/')) return
     if (abs.includes('?') || abs.includes('index.php')) return
-    if (abs === TIENDA_BASE || abs === TIENDA_BASE + '/') return
     linkCounts.set(abs, (linkCounts.get(abs) ?? 0) + 1)
   })
 
@@ -148,10 +145,12 @@ async function scrapeListingPage(
 
 export const tiendaPadelpointAdapter: PadelpointAdapter = {
   async fetchProducts(): Promise<PadelpointProduct[]> {
+    // Leses ved kall-tidspunkt slik at lokalt script og Vercel kan overstyre via env
+    const maxPages = parseInt(process.env.PADELPOINT_MAX_PAGES ?? '1', 10)
     const products: PadelpointProduct[] = []
 
     for (const { path, category } of CATEGORY_URLS) {
-      for (let page = 1; page <= MAX_PAGES; page++) {
+      for (let page = 1; page <= maxPages; page++) {
         const { products: pageProducts, hasNextPage } = await scrapeListingPage(path, category, page)
         products.push(...pageProducts)
         if (!hasNextPage) break
