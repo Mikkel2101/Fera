@@ -1,0 +1,35 @@
+name: Padelpoint Auto-Reorder
+
+on:
+  repository_dispatch:
+    types: [padelpoint-order]
+
+jobs:
+  place-order:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Installer avhengigheter
+        run: npm ci
+
+      - name: Installer Playwright-nettleser
+        run: npx playwright install chromium --with-deps
+
+      - name: Kjør Padelpoint order-bot
+        run: npx tsx scripts/padelpoint-order.ts
+        env:
+          ORDER_JSON:                    ${{ toJson(github.event.client_payload) }}
+          PADELPOINT_WHOLESALE_EMAIL:    ${{ secrets.PADELPOINT_WHOLESALE_EMAIL }}
+          PADELPOINT_WHOLESALE_PASSWORD: ${{ secrets.PADELPOINT_WHOLESALE_PASSWORD }}
+          RESEND_API_KEY:                ${{ secrets.RESEND_API_KEY }}
+          OPS_EMAIL:                     ${{ secrets.OPS_EMAIL }}
+          NEXT_PUBLIC_SUPABASE_URL:      ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY:     ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
