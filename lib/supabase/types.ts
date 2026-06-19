@@ -361,6 +361,8 @@ export type Database = {
           published: boolean
           created_at: string
           updated_at: string
+          is_on_sale: boolean
+          previous_price_eur: number | null
         }
         Insert: {
           id?: string
@@ -377,6 +379,8 @@ export type Database = {
           published?: boolean
           created_at?: string
           updated_at?: string
+          is_on_sale?: boolean
+          previous_price_eur?: number | null
         }
         Update: {
           id?: string
@@ -392,6 +396,8 @@ export type Database = {
           padelpoint_url?: string | null
           published?: boolean
           updated_at?: string
+          is_on_sale?: boolean
+          previous_price_eur?: number | null
         }
         Relationships: []
       }
