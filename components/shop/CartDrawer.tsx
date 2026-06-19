@@ -4,9 +4,12 @@ import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart/context'
+import { useNokRate } from '@/lib/currency/context'
+import { eurToNok, formatNok } from '@/lib/currency'
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, totalEur } = useCart()
+  const nokRate = useNokRate()
 
   // Close on Escape
   useEffect(() => {
@@ -86,7 +89,7 @@ export default function CartDrawer() {
                     <p className="text-sm font-medium text-(--color-text) truncate">{item.name}</p>
                     <p className="text-xs text-(--color-muted)">{item.brand}</p>
                     <p className="text-sm font-semibold text-(--color-gold) mt-0.5">
-                      € {(item.price_eur * item.quantity).toFixed(2)}
+                      {formatNok(eurToNok(item.price_eur * item.quantity, nokRate))}
                     </p>
                   </div>
 
@@ -126,10 +129,10 @@ export default function CartDrawer() {
           <div className="px-5 py-4 border-t border-(--color-border) flex flex-col gap-3">
             <div className="flex justify-between items-center">
               <span className="text-(--color-muted) text-sm">
-                Varer {totalEur >= 200 ? '— gratis frakt!' : `(+ €20 frakt)`}
+                {totalEur >= 200 ? 'Gratis frakt!' : `+ ${formatNok(eurToNok(20, nokRate))} frakt`}
               </span>
               <span className="text-(--color-gold) font-bold text-lg">
-                € {totalEur.toFixed(2)}
+                {formatNok(eurToNok(totalEur, nokRate))}
               </span>
             </div>
             <Link

@@ -7,6 +7,8 @@ import CartDrawer from '@/components/shop/CartDrawer'
 import HomeCartProvider from '@/components/home/HomeCartProvider'
 import Footer from '@/components/shared/Footer'
 import NewsletterSignup from '@/components/shared/NewsletterSignup'
+import { fetchEurNokRate } from '@/lib/currency'
+import { CurrencyProvider } from '@/lib/currency/context'
 
 export const metadata = {
   title: 'Fera Padel | Reiser og utstyr',
@@ -56,10 +58,11 @@ const blogPosts = [
 export default async function HomePage() {
   const supabase = await createClient()
 
-  const [{ data: newProducts }, { data: trips }, { data: bestSellers }] = await Promise.all([
+  const [{ data: newProducts }, { data: trips }, { data: bestSellers }, nokRate] = await Promise.all([
     supabase.from('products').select('*').eq('published', true).order('created_at', { ascending: false }).limit(4),
     supabase.from('trips').select('*').eq('published', true).order('start_date', { ascending: true }).limit(4),
     supabase.from('products').select('*').eq('published', true).order('name').range(4, 7),
+    fetchEurNokRate(),
   ])
 
   return (
@@ -152,13 +155,15 @@ export default async function HomePage() {
                   Se alle produkter →
                 </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {newProducts.map((product) => (
-                  <div key={product.id} className="bg-white p-4 rounded-xl">
-                    <ProductCard product={product} />
-                  </div>
-                ))}
-              </div>
+              <CurrencyProvider rate={nokRate}>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {newProducts.map((product) => (
+                    <div key={product.id} className="bg-white p-4 rounded-xl">
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
+                </div>
+              </CurrencyProvider>
             </div>
           </section>
         )}
@@ -280,11 +285,13 @@ export default async function HomePage() {
                   Se hele sortimentet →
                 </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
-                {bestSellers.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
+              <CurrencyProvider rate={nokRate}>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
+                  {bestSellers.map((product) => (
+                    <ProductCard key={product.id} product={product} />
+                  ))}
+                </div>
+              </CurrencyProvider>
             </div>
           </section>
         )}

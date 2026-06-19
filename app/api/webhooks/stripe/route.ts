@@ -3,6 +3,7 @@ import Stripe from 'stripe'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { sendOpsOrderEmail, type OpsOrderPayload } from '@/lib/shop/email'
+import { triggerPadelpointOrder } from '@/lib/shop/github'
 import type { CartItemData } from '@/lib/shop/schema'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -117,6 +118,27 @@ async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string
     await supabase.from('pending_notifications').insert({
       order_id: orderId,
       payload:  JSON.parse(JSON.stringify(payload)),
+    })
+  }
+
+  // Trigger Playwright auto-order via GitHub Actions
+  const dispatchItems = (order.items as CartItemData[]).map((item) => ({
+    product_id:     item.product_id,
+    name:           item.name,
+    quantity:       item.quantity,
+    price_eur:      item.price_eur,
+    padelpoint_url: item.padelpoint_url ?? null,
+  }))
+
+  try {
+    await triggerPadelpointOrder({ order_id: orderId, items: dispatchItems })
+  } catch (dispatchErr) {
+    console.error('[github-dispatch] trigger failed:', dispatchErr)
+    await supabase.from('pending_order_automations').insert({
+      order_id: orderId,
+      payload:  { order_id: orderId, items: dispatchItems },
+      status:   'failed',
+      last_error: String(dispatchErr),
     })
   }
 }

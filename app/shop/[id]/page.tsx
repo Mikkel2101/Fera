@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import AddToCartButton from '@/components/shop/AddToCartButton'
 import ProductCard from '@/components/shop/ProductCard'
+import { fetchEurNokRate, eurToNok, formatNok } from '@/lib/currency'
 import type { Metadata } from 'next'
 
 export async function generateMetadata({
@@ -36,12 +37,10 @@ export default async function ProductPage({
   const { id } = await params
   const supabase = await createClient()
 
-  const { data: product } = await supabase
-    .from('products')
-    .select('*')
-    .eq('id', id)
-    .eq('published', true)
-    .single()
+  const [{ data: product }, nokRate] = await Promise.all([
+    supabase.from('products').select('*').eq('id', id).eq('published', true).single(),
+    fetchEurNokRate(),
+  ])
 
   if (!product) notFound()
 
@@ -126,8 +125,18 @@ export default async function ProductPage({
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-4">
               <span className="text-(--color-gold) font-bold text-3xl">
-                € {product.price_eur.toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
+                {formatNok(eurToNok(product.price_eur, nokRate))}
               </span>
+              {product.is_on_sale && product.previous_price_eur != null && (
+                <span className="text-(--color-muted) text-xl line-through">
+                  {formatNok(eurToNok(product.previous_price_eur, nokRate))}
+                </span>
+              )}
+              {product.is_on_sale && (
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-500 text-white">
+                  Salg
+                </span>
+              )}
             </div>
 
             {/* Stock */}

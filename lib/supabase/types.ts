@@ -470,6 +470,39 @@ export type Database = {
         }
         Relationships: []
       }
+      pending_order_automations: {
+        Row: {
+          id:         string
+          order_id:   string | null
+          payload:    Json
+          status:     string
+          attempts:   number
+          last_error: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?:         string
+          order_id?:   string | null
+          payload:     Json
+          status?:     string
+          attempts?:   number
+          last_error?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?:         string
+          order_id?:   string | null
+          payload?:    Json
+          status?:     string
+          attempts?:   number
+          last_error?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pending_notifications: {
         Row: {
           id: string
