@@ -30,8 +30,16 @@ export type TripFormData = {
   faq:                     Array<{ question: string; answer: string }>
 }
 
-export async function createTrip(data: TripFormData): Promise<{ id: string }> {
+async function requireAdmin() {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Unauthorized')
+  if (user.app_metadata?.role !== 'admin') throw new Error('Forbidden')
+  return supabase
+}
+
+export async function createTrip(data: TripFormData): Promise<{ id: string }> {
+  const supabase = await requireAdmin()
   const { data: trip, error } = await supabase
     .from('trips')
     .insert({
@@ -49,7 +57,7 @@ export async function createTrip(data: TripFormData): Promise<{ id: string }> {
 }
 
 export async function updateTrip(id: string, data: TripFormData): Promise<void> {
-  const supabase = await createClient()
+  const supabase = await requireAdmin()
   const { error } = await supabase
     .from('trips')
     .update({
@@ -67,7 +75,7 @@ export async function updateTrip(id: string, data: TripFormData): Promise<void> 
 }
 
 export async function deleteTrip(id: string): Promise<void> {
-  const supabase = await createClient()
+  const supabase = await requireAdmin()
   const { error } = await supabase.from('trips').delete().eq('id', id)
   if (error) throw new Error(error.message)
   revalidatePath('/admin/trips')
@@ -75,7 +83,7 @@ export async function deleteTrip(id: string): Promise<void> {
 }
 
 export async function setPublished(id: string, published: boolean): Promise<void> {
-  const supabase = await createClient()
+  const supabase = await requireAdmin()
   const { error } = await supabase
     .from('trips')
     .update({ published })

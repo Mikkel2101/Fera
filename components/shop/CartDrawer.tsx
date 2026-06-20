@@ -127,9 +127,30 @@ export default function CartDrawer() {
         {/* Footer */}
         {items.length > 0 && (
           <div className="px-5 py-4 border-t border-(--color-border) flex flex-col gap-3">
+            {/* Frakt-progress */}
+            {totalEur < 200 ? (
+              <div className="flex flex-col gap-1.5">
+                <p className="text-xs text-(--color-muted) text-center">
+                  Legg til{' '}
+                  <span className="font-semibold text-(--color-text)">
+                    {formatNok(eurToNok(200 - totalEur, nokRate))}
+                  </span>
+                  {' '}for gratis frakt!
+                </p>
+                <div className="w-full h-1.5 bg-(--color-border) rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-(--color-cta) rounded-full transition-all duration-500"
+                    style={{ width: `${Math.min((totalEur / 200) * 100, 100)}%` }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs text-(--color-success) font-semibold text-center">Gratis frakt! 🎉</p>
+            )}
+
             <div className="flex justify-between items-center">
               <span className="text-(--color-muted) text-sm">
-                {totalEur >= 200 ? 'Gratis frakt!' : `+ ${formatNok(eurToNok(20, nokRate))} frakt`}
+                {totalEur >= 200 ? 'Frakt' : `+ ${formatNok(eurToNok(20, nokRate))} frakt`}
               </span>
               <span className="text-(--color-gold) font-bold text-lg">
                 {formatNok(eurToNok(totalEur, nokRate))}
@@ -142,8 +163,29 @@ export default function CartDrawer() {
             >
               Gå til kasse →
             </Link>
+            {/* Betalingslogoer */}
+            <div className="flex items-center justify-center gap-2">
+              {/* Visa */}
+              <svg viewBox="0 0 60 20" className="h-5 w-auto" aria-label="Visa">
+                <text x="0" y="16" fontFamily="Arial,sans-serif" fontWeight="bold" fontSize="18" fill="#1a1f71">VISA</text>
+              </svg>
+              {/* Mastercard */}
+              <svg viewBox="0 0 38 24" className="h-5 w-auto" aria-label="Mastercard">
+                <circle cx="14" cy="12" r="10" fill="#eb001b"/>
+                <circle cx="24" cy="12" r="10" fill="#f79e1b"/>
+                <path d="M19 5.3a10 10 0 0 1 0 13.4A10 10 0 0 1 19 5.3z" fill="#ff5f00"/>
+              </svg>
+              {/* Vipps */}
+              <span className="text-[11px] font-bold text-white bg-[#ff5b24] px-1.5 py-0.5 rounded" aria-label="Vipps">Vipps</span>
+            </div>
+            <p className="text-xs text-(--color-muted) text-center bg-(--color-sand) rounded-lg px-3 py-2">
+              Merk: Toll og mva. (25 %) betales til UPS ved levering.{' '}
+              <Link href="/shop/levering-og-retur" className="underline hover:text-(--color-text)" onClick={closeCart}>
+                Les mer
+              </Link>
+            </p>
             <p className="text-xs text-(--color-subtle) text-center">
-              Levering 3–5 virkedager ·{' '}
+              14 dagers angrerett ·{' '}
               <Link href="/shop/levering-og-retur" className="underline hover:text-(--color-text)" onClick={closeCart}>
                 Vilkår
               </Link>

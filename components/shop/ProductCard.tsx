@@ -32,9 +32,11 @@ function ImagePlaceholder() {
 }
 
 export default function ProductCard({ product }: { product: Product }) {
-  const badge        = stockBadge(product.stock_status)
-  const primaryImage = product.images[0] ?? null
-  const [imgError, setImgError] = useState(false)
+  const badge          = stockBadge(product.stock_status)
+  const primaryImage   = product.images[0] ?? null
+  const secondaryImage = product.images[1] ?? null
+  const [imgError,  setImgError]  = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
   const { addItem }  = useCart()
   const nokRate      = useNokRate()
   const isOutOfStock = product.stock_status === 'out_of_stock'
@@ -42,6 +44,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const isNew  = new Date(product.created_at) > new Date(Date.now() - NEW_DAYS * 86_400_000)
   const isSale = product.is_on_sale === true
   const nokPrice = formatNok(eurToNok(product.price_eur, nokRate))
+  const showSecondary = isHovered && !!secondaryImage && !imgError
 
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault()
@@ -58,20 +61,43 @@ export default function ProductCard({ product }: { product: Product }) {
   }
 
   return (
-    <Link href={`/shop/${product.id}`} className="group flex flex-col">
+    <Link
+      href={`/shop/${product.id}`}
+      className="group flex flex-col"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="relative aspect-square bg-gray-100 overflow-hidden">
         {primaryImage && !imgError ? (
-          <Image
-            src={primaryImage}
-            alt={product.name}
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className={`object-contain p-4 transition-transform duration-500 ease-out ${
-              isOutOfStock ? 'opacity-40 grayscale' : 'group-hover:scale-105'
-            }`}
-            unoptimized
-            onError={() => setImgError(true)}
-          />
+          <>
+            <Image
+              src={primaryImage}
+              alt={product.name}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              className={`object-contain p-4 transition-all duration-500 ease-out absolute inset-0 ${
+                isOutOfStock
+                  ? 'opacity-40 grayscale'
+                  : showSecondary
+                  ? 'opacity-0'
+                  : 'opacity-100 group-hover:scale-105'
+              }`}
+              unoptimized
+              onError={() => setImgError(true)}
+            />
+            {secondaryImage && (
+              <Image
+                src={secondaryImage}
+                alt={`${product.name} — alternativt bilde`}
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className={`object-contain p-4 transition-opacity duration-300 absolute inset-0 ${
+                  showSecondary ? 'opacity-100' : 'opacity-0'
+                }`}
+                unoptimized
+              />
+            )}
+          </>
         ) : (
           <ImagePlaceholder />
         )}

@@ -16,7 +16,8 @@ export async function POST(request: NextRequest) {
   }
 
   const cronSecret = request.headers.get('x-cron-secret')
-  if (process.env.CRON_SECRET && cronSecret !== process.env.CRON_SECRET) {
+  // Alltid sjekk — hvis CRON_SECRET ikke er satt er endepunktet åpent, noe vi aldri vil
+  if (!process.env.CRON_SECRET || cronSecret !== process.env.CRON_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

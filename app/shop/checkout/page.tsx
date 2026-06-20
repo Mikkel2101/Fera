@@ -81,7 +81,6 @@ export default function ShopCheckoutPage() {
         return
       }
 
-      clearCart()
       window.location.href = data.url
     } catch {
       setServerError('Noe gikk galt. Prøv igjen.')
@@ -207,7 +206,7 @@ export default function ShopCheckoutPage() {
           </button>
 
           <p className="text-xs text-(--color-subtle) text-center">
-            Betaling håndteres sikkert av Stripe i EUR (ca. € {grandTotal.toFixed(0)}). Adressen oppgis på neste side.
+            Betaling håndteres sikkert via Stripe i norske kroner (NOK). Leveringsadresse oppgis på neste side.
           </p>
         </form>
 

@@ -174,6 +174,56 @@ export type Database = {
         }
         Relationships: []
       }
+      addresses: {
+        Row: {
+          id:          string
+          user_id:     string
+          label:       string | null
+          full_name:   string
+          address1:    string
+          address2:    string | null
+          postal_code: string
+          city:        string
+          country:     string
+          is_default:  boolean
+          created_at:  string
+        }
+        Insert: {
+          id?:          string
+          user_id:      string
+          label?:       string | null
+          full_name:    string
+          address1:     string
+          address2?:    string | null
+          postal_code:  string
+          city:         string
+          country?:     string
+          is_default?:  boolean
+          created_at?:  string
+        }
+        Update: {
+          id?:          string
+          user_id?:     string
+          label?:       string | null
+          full_name?:   string
+          address1?:    string
+          address2?:    string | null
+          postal_code?: string
+          city?:        string
+          country?:     string
+          is_default?:  boolean
+          created_at?:  string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addresses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       bookings: {
         Row: {
           id: string
@@ -241,7 +291,22 @@ export type Database = {
           terms_accepted?: boolean
           created_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "bookings_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       referrals: {
         Row: {
