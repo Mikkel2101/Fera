@@ -133,7 +133,7 @@ export default async function HomePage() {
           <div className="max-w-[1600px] mx-auto px-4 py-5">
             <p className="text-center text-(--color-muted) text-xs uppercase tracking-widest mb-4">Vi fører merker som</p>
             <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-              {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Babolat', 'Dunlop'].map((brand) => (
+              {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Dunlop'].map((brand) => (
                 <span key={brand} className="font-display font-bold text-(--color-dark) text-lg md:text-xl opacity-60 hover:opacity-100 transition-opacity">
                   {brand}
                 </span>
