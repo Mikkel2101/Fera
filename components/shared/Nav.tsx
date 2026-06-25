@@ -1,235 +1,410 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { useCart } from '@/lib/cart/context'
 
-const navLinks = [
-  { label: 'Nyheter', href: '/shop' },
-  { label: 'Utstyr', href: '/shop?kategori=racket' },
-  { label: 'Tilbehør', href: '/shop?kategori=accessories' },
-  { label: 'Salg', href: '/shop?salg=true' },
-  { label: 'Reiser', href: '/travels' },
-  { label: 'Inspirasjon', href: '/travels/inspirasjon' },
+const SHOP_CATEGORIES = [
+  { label: 'Racketer',  href: '/shop?category=racket' },
+  { label: 'Sko',       href: '/shop?category=shoes' },
+  { label: 'Vesker',    href: '/shop?category=bag' },
+  { label: 'Baller',    href: '/shop?category=balls' },
+  { label: 'Klær',      href: '/shop?category=clothing' },
+  { label: 'Tilbehør',  href: '/shop?category=accessories' },
 ]
 
-const searchActions = [
-  { label: 'Se status på din ordre', href: '/ordre-status' },
-  { label: 'Bli med i Fera Community', href: '/#nyhetsbrev' },
-  { label: 'Betaling', href: '/hjelp/betaling' },
-  { label: 'Levering', href: '/hjelp/levering' },
-  { label: 'Bytte og retur', href: '/hjelp/retur' },
-]
-
-function Tooltip({ label }: { label: string }) {
+// SVG icons — inline, consistent 18×18 stroke style
+function IconSearch() {
   return (
-    <span className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-(--color-text) text-white text-[11px] rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-10">
-      {label}
-    </span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+  )
+}
+function IconUser() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </svg>
+  )
+}
+function IconCart() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+  )
+}
+function IconClose() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  )
+}
+function IconMenu() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="17" x2="21" y2="17"/>
+    </svg>
+  )
+}
+function IconChevronDown() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
+  )
+}
+function IconArrow() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
   )
 }
 
 export default function Nav() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [searchOpen, setSearchOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
+  const pathname = usePathname()
   const { totalItems, openCart } = useCart()
+
+  const [announcementVisible, setAnnouncementVisible] = useState(true)
+  const [shopDropdownOpen, setShopDropdownOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileShopOpen, setMobileShopOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Scroll-listener: kompakt nav etter 40px
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Steng dropdown ved klikk utenfor
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setShopDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  // Lås scroll når mobil-meny er åpen
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileOpen])
+
+  // Steng mobil-meny på rute-endring
+  useEffect(() => { setMobileOpen(false) }, [pathname])
+
+  const isShop    = pathname.startsWith('/shop')
+  const isTravels = pathname.startsWith('/travels')
 
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-(--color-bg)/95 backdrop-blur border-b border-(--color-border)">
-        <div className="max-w-[1600px] mx-auto px-4">
-          <div className="flex items-center justify-between h-14">
+      {/* ── Announcement bar ── */}
+      {announcementVisible && (
+        <div className="bg-(--color-dark) text-white text-xs py-2 px-4 flex items-center justify-center gap-6 relative">
+          <span className="hidden sm:inline">Offisiell Padelpoint-partner</span>
+          <span className="text-white/40 hidden sm:inline">·</span>
+          <span>Gratis frakt over 2 000 kr</span>
+          <span className="text-white/40 hidden sm:inline">·</span>
+          <span className="hidden sm:inline">14 dagers angrerett</span>
+          <button
+            onClick={() => setAnnouncementVisible(false)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+            aria-label="Lukk"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      )}
 
-            {/* Logo */}
-            <Link href="/" className="flex items-center leading-none shrink-0 mr-8">
-              <img src="/fera-logo.svg" alt="Fera" className="h-7 w-auto" />
+      {/* ── Main nav ── */}
+      <nav className={`sticky top-0 z-40 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/98 backdrop-blur-md shadow-sm border-b border-(--color-border)'
+          : 'bg-white border-b border-(--color-border)'
+      }`}>
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between h-16">
+
+            {/* ── Logo ── */}
+            <Link href="/" className="shrink-0 mr-10" aria-label="Fera — til forsiden">
+              <Image src="/fera-logo.svg" alt="Fera" width={80} height={28} style={{ height: '28px', width: 'auto' }} />
             </Link>
 
-            {/* Desktop nav links */}
-            <div className="hidden md:flex items-center gap-6 flex-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="text-(--color-subtle) text-[14px] hover:text-(--color-text) transition-colors whitespace-nowrap"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
+            {/* ── Desktop nav ── */}
+            <div className="hidden md:flex items-center gap-1 flex-1">
 
-            {/* Desktop icon group */}
-            <div className="hidden md:flex items-center gap-1">
-
-              {/* Search */}
-              <div className="relative group">
+              {/* Utstyr med dropdown */}
+              <div ref={dropdownRef} className="relative">
                 <button
-                  onClick={() => setSearchOpen(true)}
-                  className="p-2 text-(--color-subtle) hover:text-(--color-text) transition-colors"
-                  aria-label="Søk"
+                  onClick={() => setShopDropdownOpen(v => !v)}
+                  onMouseEnter={() => setShopDropdownOpen(true)}
+                  className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    isShop
+                      ? 'text-(--color-text)'
+                      : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
+                  }`}
+                  aria-expanded={shopDropdownOpen}
+                  aria-haspopup="true"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                  </svg>
-                </button>
-                <Tooltip label="Søk" />
-              </div>
-
-              {/* User */}
-              <div className="relative group">
-                <button className="p-2 text-(--color-subtle) hover:text-(--color-text) transition-colors" aria-label="Logg inn">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                  </svg>
-                </button>
-                <Tooltip label="Logg inn" />
-              </div>
-
-              {/* Favorites */}
-              <div className="relative group">
-                <button className="p-2 text-(--color-subtle) hover:text-(--color-text) transition-colors" aria-label="Favoritter">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                  </svg>
-                </button>
-                <Tooltip label="Favoritter" />
-              </div>
-
-              {/* Cart */}
-              <div className="relative group">
-                <button
-                  onClick={openCart}
-                  className="relative p-2 text-(--color-subtle) hover:text-(--color-text) transition-colors"
-                  aria-label="Handlekurv"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                  </svg>
-                  {totalItems > 0 && (
-                    <span className="absolute top-0.5 right-0.5 bg-(--color-cta) text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                      {totalItems}
-                    </span>
+                  Utstyr
+                  <span className={`transition-transform duration-200 ${shopDropdownOpen ? 'rotate-180' : ''}`}>
+                    <IconChevronDown />
+                  </span>
+                  {isShop && (
+                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
                   )}
                 </button>
-                <Tooltip label="Handlekurv" />
+
+                {/* Dropdown */}
+                {shopDropdownOpen && (
+                  <div
+                    className="absolute top-full left-0 mt-1 w-72 bg-white border border-(--color-border) rounded-2xl shadow-xl overflow-hidden"
+                    onMouseLeave={() => setShopDropdownOpen(false)}
+                  >
+                    <div className="p-4">
+                      <p className="text-[10px] uppercase tracking-widest text-(--color-muted) font-medium mb-3">Kategorier</p>
+                      <div className="grid grid-cols-2 gap-1">
+                        {SHOP_CATEGORIES.map((cat) => (
+                          <Link
+                            key={cat.href}
+                            href={cat.href}
+                            onClick={() => setShopDropdownOpen(false)}
+                            className="px-3 py-2.5 text-sm text-(--color-text) hover:bg-(--color-ice-light) rounded-lg transition-colors font-medium"
+                          >
+                            {cat.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="border-t border-(--color-border) px-4 py-3">
+                      <Link
+                        href="/shop"
+                        onClick={() => setShopDropdownOpen(false)}
+                        className="flex items-center justify-between text-sm text-(--color-cta) font-semibold hover:opacity-80 transition-opacity group"
+                      >
+                        Se hele sortimentet
+                        <span className="group-hover:translate-x-1 transition-transform">
+                          <IconArrow />
+                        </span>
+                      </Link>
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {/* Salg */}
+              <Link
+                href="/shop?sort=sale"
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  pathname === '/shop' && false
+                    ? 'text-(--color-text)'
+                    : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
+                }`}
+              >
+                Salg
+                <span className="ml-1.5 inline-flex items-center text-[10px] font-bold bg-red-500 text-white px-1.5 py-0.5 rounded-full leading-none">
+                  %
+                </span>
+              </Link>
+
+              {/* Reiser */}
+              <Link
+                href="/travels"
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isTravels
+                    ? 'text-(--color-text)'
+                    : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
+                }`}
+              >
+                Reiser
+                {isTravels && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
+                )}
+              </Link>
             </div>
 
-            {/* Mobile: search + cart + hamburger */}
-            <div className="flex md:hidden items-center gap-1">
-              <button onClick={() => setSearchOpen(true)} className="p-2 text-(--color-subtle)" aria-label="Søk">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                </svg>
-              </button>
-              <button onClick={openCart} className="relative p-2 text-(--color-subtle)" aria-label="Handlekurv">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                </svg>
+            {/* ── Desktop ikoner ── */}
+            <div className="hidden md:flex items-center gap-0.5">
+              <Link
+                href="/account"
+                className="p-2.5 text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light) rounded-lg transition-colors"
+                aria-label="Min konto"
+              >
+                <IconUser />
+              </Link>
+
+              <button
+                onClick={openCart}
+                className="relative p-2.5 text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light) rounded-lg transition-colors"
+                aria-label={`Handlekurv${totalItems > 0 ? ` — ${totalItems} varer` : ''}`}
+              >
+                <IconCart />
                 {totalItems > 0 && (
-                  <span className="absolute top-0.5 right-0.5 bg-(--color-cta) text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute top-1 right-1 bg-(--color-cta) text-white text-[9px] font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center leading-none">
                     {totalItems}
                   </span>
                 )}
               </button>
-              <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 text-(--color-subtle)" aria-label="Meny">
-                {menuOpen ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                  </svg>
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/>
-                  </svg>
+            </div>
+
+            {/* ── Mobil: cart + hamburger ── */}
+            <div className="flex md:hidden items-center gap-1">
+              <button
+                onClick={openCart}
+                className="relative p-2.5 text-(--color-subtle)"
+                aria-label="Handlekurv"
+              >
+                <IconCart />
+                {totalItems > 0 && (
+                  <span className="absolute top-1 right-1 bg-(--color-cta) text-white text-[9px] font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center leading-none">
+                    {totalItems}
+                  </span>
                 )}
               </button>
+              <button
+                onClick={() => setMobileOpen(true)}
+                className="p-2.5 text-(--color-subtle)"
+                aria-label="Åpne meny"
+                aria-expanded={mobileOpen}
+              >
+                <IconMenu />
+              </button>
             </div>
+
           </div>
         </div>
-
-        {/* Mobile menu */}
-        {menuOpen && (
-          <div className="md:hidden border-t border-(--color-border) bg-white">
-            <div className="px-4 py-4 flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="text-(--color-subtle) text-[14px] py-2.5 hover:text-(--color-text) transition-colors border-b border-(--color-border) last:border-0"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
       </nav>
 
-      {/* Search panel */}
-      {searchOpen && (
+      {/* ── Mobil overlay ── */}
+      {mobileOpen && (
         <div className="fixed inset-0 z-50 flex">
           {/* Backdrop */}
           <div
-            className="flex-1 bg-black/40 backdrop-blur-sm"
-            onClick={() => setSearchOpen(false)}
+            className="flex-1 bg-black/50 backdrop-blur-sm"
+            onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
           />
-          {/* Panel — slides in from right */}
-          <div className="w-full max-w-[420px] bg-white h-full flex flex-col shadow-2xl animate-[slideInRight_0.25s_ease-out]">
 
-            {/* Header */}
-            <div className="flex items-center justify-between px-6 pt-7 pb-5 border-b border-(--color-border)">
-              <h2 className="font-sans font-normal text-(--color-text) text-xl">Søk</h2>
+          {/* Panel */}
+          <div className="w-80 max-w-[85vw] bg-white h-full flex flex-col shadow-2xl animate-[slideInRight_0.25s_ease-out]">
+
+            {/* Panel header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-(--color-border)">
+              <Link href="/" className="shrink-0" onClick={() => setMobileOpen(false)}>
+                <Image src="/fera-logo.svg" alt="Fera" width={70} height={24} style={{ height: '24px', width: 'auto' }} />
+              </Link>
               <button
-                onClick={() => setSearchOpen(false)}
+                onClick={() => setMobileOpen(false)}
                 className="p-1.5 text-(--color-muted) hover:text-(--color-text) transition-colors"
-                aria-label="Lukk søk"
+                aria-label="Lukk meny"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
+                <IconClose />
               </button>
             </div>
 
-            {/* Search input */}
-            <div className="px-6 py-5">
-              <div className="relative">
-                <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-(--color-muted) pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-                </svg>
-                <input
-                  type="text"
-                  autoFocus
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Søk etter produkter, reiser…"
-                  className="w-full pl-10 pr-4 py-3 bg-(--color-sand-light) border border-(--color-border) rounded-full text-sm text-(--color-text) focus:outline-none focus:border-(--color-text)/30 transition-colors"
-                />
+            {/* Nav innhold */}
+            <div className="flex-1 overflow-y-auto">
+
+              {/* UTSTYR-seksjon */}
+              <div className="px-5 pt-6 pb-2">
+                <button
+                  onClick={() => setMobileShopOpen(v => !v)}
+                  className="w-full flex items-center justify-between text-left"
+                >
+                  <span className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted)">Utstyr</span>
+                  <span className={`text-(--color-muted) transition-transform duration-200 ${mobileShopOpen ? 'rotate-180' : ''}`}>
+                    <IconChevronDown />
+                  </span>
+                </button>
+
+                {mobileShopOpen && (
+                  <div className="mt-3 grid grid-cols-2 gap-1">
+                    {SHOP_CATEGORIES.map((cat) => (
+                      <Link
+                        key={cat.href}
+                        href={cat.href}
+                        className="px-3 py-2.5 text-sm text-(--color-text) bg-(--color-ice-light) hover:bg-(--color-ice) rounded-xl transition-colors font-medium text-center"
+                      >
+                        {cat.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+
+                <Link
+                  href="/shop"
+                  className={`flex items-center justify-between mt-3 py-3 text-sm font-semibold border-b border-(--color-border) group ${
+                    isShop ? 'text-(--color-cta)' : 'text-(--color-text)'
+                  }`}
+                >
+                  Se alle produkter
+                  <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
+                    <IconArrow />
+                  </span>
+                </Link>
+              </div>
+
+              {/* Salg */}
+              <div className="px-5 py-2">
+                <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Tilbud</p>
+                <Link
+                  href="/shop?sort=sale"
+                  className="flex items-center justify-between py-3 text-sm font-medium text-(--color-text) border-b border-(--color-border) group"
+                >
+                  <span className="flex items-center gap-2">
+                    Salg
+                    <span className="text-[10px] font-bold bg-red-500 text-white px-1.5 py-0.5 rounded-full">%</span>
+                  </span>
+                  <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
+                    <IconArrow />
+                  </span>
+                </Link>
+              </div>
+
+              {/* REISER-seksjon */}
+              <div className="px-5 py-2">
+                <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Reiser</p>
+                <Link
+                  href="/travels"
+                  className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
+                    isTravels ? 'text-(--color-cta)' : 'text-(--color-text)'
+                  }`}
+                >
+                  Se kommende reiser
+                  <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
+                    <IconArrow />
+                  </span>
+                </Link>
               </div>
             </div>
 
-            {/* Suggested actions */}
-            <div className="px-6 flex-1">
-              <p className="text-(--color-overline) text-[11px] uppercase tracking-widest font-medium mb-3">Forslag</p>
-              <ul>
-                {searchActions.map((action) => (
-                  <li key={action.label}>
-                    <Link
-                      href={action.href}
-                      onClick={() => setSearchOpen(false)}
-                      className="flex items-center justify-between py-3.5 text-(--color-text) text-sm hover:text-(--color-cta) transition-colors group border-b border-(--color-border)"
-                    >
-                      <span>{action.label}</span>
-                      <svg className="w-4 h-4 text-(--color-border) group-hover:text-(--color-cta) transition-colors shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                      </svg>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+            {/* Panel footer */}
+            <div className="px-5 py-4 border-t border-(--color-border) flex flex-col gap-2">
+              <Link
+                href="/account"
+                className="flex items-center gap-3 py-2.5 text-sm text-(--color-text) hover:text-(--color-cta) transition-colors font-medium"
+              >
+                <IconUser />
+                Min konto
+              </Link>
+              <p className="text-xs text-(--color-muted) text-center pt-1">
+                Offisiell Padelpoint-partner · Gratis frakt over 2 000 kr
+              </p>
             </div>
 
           </div>
