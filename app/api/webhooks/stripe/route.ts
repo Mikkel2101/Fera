@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
-import { sendOpsOrderEmail, type OpsOrderPayload } from '@/lib/shop/email'
+import { sendOpsOrderEmail, sendCustomerOrderConfirmation, type OpsOrderPayload } from '@/lib/shop/email'
+import { triggerPadelpointOrder } from '@/lib/shop/github'
 import type { CartItemData } from '@/lib/shop/schema'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -29,9 +29,9 @@ export async function POST(request: NextRequest) {
     const bookingId = session.metadata?.booking_id
     const orderId   = session.metadata?.order_id
 
-    // FeraTravels-booking
+    // FeraTravels-booking — bruk serviceClient (ingen cookie-sesjon i webhook)
     if (bookingId) {
-      const supabase = await createClient()
+      const supabase = createServiceClient()
       await supabase
         .from('bookings')
         .update({
@@ -66,6 +66,23 @@ type SessionWithShipping = Stripe.Checkout.Session & {
 
 async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string) {
   const supabase = createServiceClient()
+
+  // Idempotens: sjekk om ordren allerede er markert som betalt
+  const { data: existingOrder } = await supabase
+    .from('orders')
+    .select('id, status')
+    .eq('id', orderId)
+    .maybeSingle()
+
+  if (!existingOrder) {
+    console.error('Order not found in webhook for orderId:', orderId, 'session:', session.id)
+    return
+  }
+
+  if (existingOrder.status === 'paid') {
+    console.log('Order already processed, skipping:', orderId)
+    return
+  }
 
   const s = session as SessionWithShipping
   const shipping = s.shipping_details
@@ -113,10 +130,47 @@ async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string
   try {
     await sendOpsOrderEmail(payload)
   } catch (emailErr) {
-    console.error('Resend send failed, logging to pending_notifications:', emailErr)
+    console.error('Resend ops email failed, logging to pending_notifications:', emailErr)
     await supabase.from('pending_notifications').insert({
       order_id: orderId,
       payload:  JSON.parse(JSON.stringify(payload)),
+    })
+  }
+
+  // Send ordrebekreftelse til kunden (NOK-beløp fra Stripe)
+  const totalNok = (session.amount_total ?? 0) / 100
+  try {
+    await sendCustomerOrderConfirmation({
+      order_id:         orderId,
+      first_name:       order.first_name ?? '',
+      last_name:        order.last_name  ?? '',
+      email:            order.email,
+      items:            order.items as CartItemData[],
+      total_nok:        totalNok,
+      shipping_address: shippingAddress,
+    })
+  } catch (confirmErr) {
+    console.error('Resend customer confirmation failed:', confirmErr)
+  }
+
+  // Trigger Playwright auto-order via GitHub Actions
+  const dispatchItems = (order.items as CartItemData[]).map((item) => ({
+    product_id:     item.product_id,
+    name:           item.name,
+    quantity:       item.quantity,
+    price_eur:      item.price_eur,
+    padelpoint_url: item.padelpoint_url ?? null,
+  }))
+
+  try {
+    await triggerPadelpointOrder({ order_id: orderId, items: dispatchItems })
+  } catch (dispatchErr) {
+    console.error('[github-dispatch] trigger failed:', dispatchErr)
+    await supabase.from('pending_order_automations').insert({
+      order_id: orderId,
+      payload:  { order_id: orderId, items: dispatchItems },
+      status:   'failed',
+      last_error: String(dispatchErr),
     })
   }
 }

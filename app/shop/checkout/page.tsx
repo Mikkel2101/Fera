@@ -5,6 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useCart } from '@/lib/cart/context'
+import { useNokRate } from '@/lib/currency/context'
+import { eurToNok, formatNok } from '@/lib/currency'
 
 type FormState = {
   first_name:     string
@@ -18,7 +20,8 @@ type FieldError = Partial<Record<keyof FormState, string>>
 
 export default function ShopCheckoutPage() {
   const { items, totalEur, clearCart } = useCart()
-  const router = useRouter()
+  const router  = useRouter()
+  const nokRate = useNokRate()
 
   const [form, setForm] = useState<FormState>({
     first_name:     '',
@@ -78,7 +81,6 @@ export default function ShopCheckoutPage() {
         return
       }
 
-      clearCart()
       window.location.href = data.url
     } catch {
       setServerError('Noe gikk galt. Prøv igjen.')
@@ -199,12 +201,12 @@ export default function ShopCheckoutPage() {
                 Åpner betaling…
               </>
             ) : (
-              `Betal € ${grandTotal.toFixed(2)} →`
+              `Betal ${formatNok(eurToNok(grandTotal, nokRate))} →`
             )}
           </button>
 
           <p className="text-xs text-(--color-subtle) text-center">
-            Betaling håndteres sikkert av Stripe. Adressen oppgis på neste side.
+            Betaling håndteres sikkert via Stripe i norske kroner (NOK). Leveringsadresse oppgis på neste side.
           </p>
         </form>
 
@@ -228,7 +230,7 @@ export default function ShopCheckoutPage() {
                     <p className="text-xs text-(--color-muted)">{item.brand} · ×{item.quantity}</p>
                   </div>
                   <p className="text-sm font-semibold text-(--color-gold) shrink-0">
-                    € {(item.price_eur * item.quantity).toFixed(2)}
+                    {formatNok(eurToNok(item.price_eur * item.quantity, nokRate))}
                   </p>
                 </li>
               ))}
@@ -237,15 +239,15 @@ export default function ShopCheckoutPage() {
             <div className="border-t border-(--color-border) pt-4 flex flex-col gap-2 text-sm">
               <div className="flex justify-between text-(--color-muted)">
                 <span>Varer</span>
-                <span>€ {totalEur.toFixed(2)}</span>
+                <span>{formatNok(eurToNok(totalEur, nokRate))}</span>
               </div>
               <div className="flex justify-between text-(--color-muted)">
                 <span>Frakt (UPS, {shippingEur === 0 ? 'gratis over €200' : 'Norge'})</span>
-                <span>{shippingEur === 0 ? 'Gratis' : `€ ${shippingEur.toFixed(2)}`}</span>
+                <span>{shippingEur === 0 ? 'Gratis' : formatNok(eurToNok(shippingEur, nokRate))}</span>
               </div>
               <div className="flex justify-between font-bold text-(--color-text) text-base mt-1">
                 <span>Totalt</span>
-                <span>€ {grandTotal.toFixed(2)}</span>
+                <span>{formatNok(eurToNok(grandTotal, nokRate))}</span>
               </div>
             </div>
 

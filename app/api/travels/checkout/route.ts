@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createClient } from '@/lib/supabase/server'
+import { createServiceClient } from '@/lib/supabase/service'
 import { bookingSchema } from '@/lib/booking/schema'
+import { fetchEurNokRate, eurToNok } from '@/lib/currency'
 
+// vipps_preview=v1 krever at preview-flagget er en del av Stripe-Version-headeren
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2026-05-27.dahlia',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  apiVersion: '2026-05-27.dahlia; vipps_preview=v1' as any,
 })
 
 export async function POST(request: NextRequest) {
@@ -16,6 +20,7 @@ export async function POST(request: NextRequest) {
     }
     const data = parsed.data
 
+    // Lese trip-info med brukersesjon (pub-safe read)
     const supabase = await createClient()
 
     const { data: trip } = await supabase
@@ -28,7 +33,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Tur ikke tilgjengelig' }, { status: 422 })
     }
 
-    const { data: booking, error: bookingError } = await supabase
+    // Bruk serviceClient for insert — bypasser RLS, booking-API validerer selv
+    const serviceSupabase = createServiceClient()
+    const { data: booking, error: bookingError } = await serviceSupabase
       .from('bookings')
       .insert({
         trip_id:         data.trip_id,
@@ -58,14 +65,17 @@ export async function POST(request: NextRequest) {
     }, 0)
     const totalEur = trip.deposit_eur + extrasTotal
 
+    // Konverter depositum til NOK for Stripe — Vipps støtter kun NOK
+    const nokRate  = await fetchEurNokRate()
+    const totalNok = eurToNok(totalEur, nokRate)
+
     const session = await stripe.checkout.sessions.create({
-      mode:     'payment',
-      currency: 'eur',
+      mode: 'payment',
       line_items: [{
         quantity:   1,
         price_data: {
-          currency:     'eur',
-          unit_amount:  Math.round(totalEur * 100),
+          currency:    'nok',
+          unit_amount: totalNok * 100, // øre
           product_data: { name: `Depositum — ${trip.name}` },
         },
       }],

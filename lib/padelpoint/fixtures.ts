@@ -1,5 +1,5 @@
 import type { PadelpointAdapter, PadelpointProduct } from './types'
-import { RACKETSTORE_BASE } from './types'
+import { TIENDA_BASE as RACKETSTORE_BASE } from './types'
 
 const FIXTURES: PadelpointProduct[] = [
   {

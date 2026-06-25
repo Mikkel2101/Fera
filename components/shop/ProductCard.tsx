@@ -5,13 +5,16 @@ import Image from 'next/image'
 import { useState } from 'react'
 import type { Database } from '@/lib/supabase/types'
 import { useCart } from '@/lib/cart/context'
-import { formatPriceEur } from './format'
+import { useNokRate } from '@/lib/currency/context'
+import { eurToNok, formatNok } from '@/lib/currency'
 
 type Product = Database['public']['Tables']['products']['Row']
 
+const NEW_DAYS = 30
+
 function stockBadge(status: string) {
   if (status === 'out_of_stock') return { label: 'Utsolgt', className: 'bg-(--color-border) text-(--color-muted)' }
-  if (status === 'low_stock') return { label: 'Få igjen', className: 'bg-(--color-cta) text-white' }
+  if (status === 'low_stock')    return { label: 'Få igjen', className: 'bg-(--color-cta) text-white' }
   return null
 }
 
@@ -29,11 +32,19 @@ function ImagePlaceholder() {
 }
 
 export default function ProductCard({ product }: { product: Product }) {
-  const badge = stockBadge(product.stock_status)
-  const primaryImage = product.images[0] ?? null
-  const [imgError, setImgError] = useState(false)
-  const { addItem } = useCart()
+  const badge          = stockBadge(product.stock_status)
+  const primaryImage   = product.images[0] ?? null
+  const secondaryImage = product.images[1] ?? null
+  const [imgError,  setImgError]  = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
+  const { addItem }  = useCart()
+  const nokRate      = useNokRate()
   const isOutOfStock = product.stock_status === 'out_of_stock'
+
+  const isNew  = new Date(product.created_at) > new Date(Date.now() - NEW_DAYS * 86_400_000)
+  const isSale = product.is_on_sale === true
+  const nokPrice = formatNok(eurToNok(product.price_eur, nokRate))
+  const showSecondary = isHovered && !!secondaryImage && !imgError
 
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault()
@@ -50,32 +61,65 @@ export default function ProductCard({ product }: { product: Product }) {
   }
 
   return (
-    <Link href={`/shop/${product.id}`} className="group flex flex-col">
-      {/* Image */}
+    <Link
+      href={`/shop/${product.id}`}
+      className="group flex flex-col"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="relative aspect-square bg-gray-100 overflow-hidden">
         {primaryImage && !imgError ? (
-          <Image
-            src={primaryImage}
-            alt={product.name}
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-            className={`object-contain p-4 transition-transform duration-500 ease-out ${
-              isOutOfStock ? 'opacity-40 grayscale' : 'group-hover:scale-105'
-            }`}
-            unoptimized
-            onError={() => setImgError(true)}
-          />
+          <>
+            <Image
+              src={primaryImage}
+              alt={product.name}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              className={`object-contain p-4 transition-all duration-500 ease-out absolute inset-0 ${
+                isOutOfStock
+                  ? 'opacity-40 grayscale'
+                  : showSecondary
+                  ? 'opacity-0'
+                  : 'opacity-100 group-hover:scale-105'
+              }`}
+              unoptimized
+              onError={() => setImgError(true)}
+            />
+            {secondaryImage && (
+              <Image
+                src={secondaryImage}
+                alt={`${product.name} — alternativt bilde`}
+                fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className={`object-contain p-4 transition-opacity duration-300 absolute inset-0 ${
+                  showSecondary ? 'opacity-100' : 'opacity-0'
+                }`}
+                unoptimized
+              />
+            )}
+          </>
         ) : (
           <ImagePlaceholder />
         )}
 
-        {badge && (
-          <span className={`absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full ${badge.className}`}>
-            {badge.label}
-          </span>
-        )}
+        <div className="absolute top-2 right-2 flex flex-col gap-1 items-end">
+          {isSale && (
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500 text-white">
+              Salg
+            </span>
+          )}
+          {isNew && !isSale && (
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-(--color-ice) text-(--color-text)">
+              Ny
+            </span>
+          )}
+          {badge && (
+            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${badge.className}`}>
+              {badge.label}
+            </span>
+          )}
+        </div>
 
-        {/* Cart-knapp: alltid synlig på mobil, hover-overlay på desktop */}
         {!isOutOfStock && (
           <div className="absolute inset-x-0 bottom-0 p-3 lg:translate-y-full lg:group-hover:translate-y-0 lg:group-focus-within:translate-y-0 transition-transform duration-300">
             <button
@@ -88,7 +132,6 @@ export default function ProductCard({ product }: { product: Product }) {
         )}
       </div>
 
-      {/* Info */}
       <div className="pt-3 pb-1">
         <p className="text-[10px] text-(--color-muted) uppercase tracking-widest font-medium mb-0.5">
           {product.brand}
@@ -96,9 +139,16 @@ export default function ProductCard({ product }: { product: Product }) {
         <p className="text-(--color-text) text-sm leading-snug line-clamp-2 mb-2">
           {product.name}
         </p>
-        <span className="text-(--color-gold) font-bold text-base tabular-nums">
-          {formatPriceEur(product.price_eur)}
-        </span>
+        <div className="flex items-baseline gap-2">
+          <span className="text-(--color-gold) font-bold text-base tabular-nums">
+            {nokPrice}
+          </span>
+          {isSale && product.previous_price_eur != null && (
+            <span className="text-(--color-muted) text-sm line-through tabular-nums">
+              {formatNok(eurToNok(product.previous_price_eur, nokRate))}
+            </span>
+          )}
+        </div>
       </div>
     </Link>
   )

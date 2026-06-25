@@ -174,6 +174,56 @@ export type Database = {
         }
         Relationships: []
       }
+      addresses: {
+        Row: {
+          id:          string
+          user_id:     string
+          label:       string | null
+          full_name:   string
+          address1:    string
+          address2:    string | null
+          postal_code: string
+          city:        string
+          country:     string
+          is_default:  boolean
+          created_at:  string
+        }
+        Insert: {
+          id?:          string
+          user_id:      string
+          label?:       string | null
+          full_name:    string
+          address1:     string
+          address2?:    string | null
+          postal_code:  string
+          city:         string
+          country?:     string
+          is_default?:  boolean
+          created_at?:  string
+        }
+        Update: {
+          id?:          string
+          user_id?:     string
+          label?:       string | null
+          full_name?:   string
+          address1?:    string
+          address2?:    string | null
+          postal_code?: string
+          city?:        string
+          country?:     string
+          is_default?:  boolean
+          created_at?:  string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addresses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       bookings: {
         Row: {
           id: string
@@ -241,7 +291,22 @@ export type Database = {
           terms_accepted?: boolean
           created_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "bookings_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       referrals: {
         Row: {
@@ -361,6 +426,8 @@ export type Database = {
           published: boolean
           created_at: string
           updated_at: string
+          is_on_sale: boolean
+          previous_price_eur: number | null
         }
         Insert: {
           id?: string
@@ -377,6 +444,8 @@ export type Database = {
           published?: boolean
           created_at?: string
           updated_at?: string
+          is_on_sale?: boolean
+          previous_price_eur?: number | null
         }
         Update: {
           id?: string
@@ -392,6 +461,8 @@ export type Database = {
           padelpoint_url?: string | null
           published?: boolean
           updated_at?: string
+          is_on_sale?: boolean
+          previous_price_eur?: number | null
         }
         Relationships: []
       }
@@ -461,6 +532,39 @@ export type Database = {
           brand?: string
           reason?: string
           restricted_at?: string
+        }
+        Relationships: []
+      }
+      pending_order_automations: {
+        Row: {
+          id:         string
+          order_id:   string | null
+          payload:    Json
+          status:     string
+          attempts:   number
+          last_error: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?:         string
+          order_id?:   string | null
+          payload:     Json
+          status?:     string
+          attempts?:   number
+          last_error?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?:         string
+          order_id?:   string | null
+          payload?:    Json
+          status?:     string
+          attempts?:   number
+          last_error?: string | null
+          created_at?: string
+          updated_at?: string
         }
         Relationships: []
       }

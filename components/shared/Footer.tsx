@@ -89,9 +89,14 @@ export default function Footer() {
 
         {/* Divider */}
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="text-white/30 text-xs">
-            © {new Date().getFullYear()} Fera Padel AS · Alle rettigheter forbeholdt
-          </p>
+          <div className="flex flex-col gap-1">
+            <p className="text-white/30 text-xs">
+              © {new Date().getFullYear()} Fera Padel AS · Alle rettigheter forbeholdt
+            </p>
+            <p className="text-white/20 text-xs">
+              Org.nr: [FYLL INN] · post@ferabrand.com
+            </p>
+          </div>
           <div className="flex items-center gap-4 text-xs text-white/30">
             <span>Offisiell Padelpoint-partner</span>
             <span className="hidden sm:inline">·</span>

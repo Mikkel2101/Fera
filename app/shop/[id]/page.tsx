@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import AddToCartButton from '@/components/shop/AddToCartButton'
 import ProductCard from '@/components/shop/ProductCard'
+import ProductImageGallery from '@/components/shop/ProductImageGallery'
+import StickyAddToCartBar from '@/components/shop/StickyAddToCartBar'
+import { fetchEurNokRate, eurToNok, formatNok } from '@/lib/currency'
 import type { Metadata } from 'next'
 
 export async function generateMetadata({
@@ -36,12 +38,10 @@ export default async function ProductPage({
   const { id } = await params
   const supabase = await createClient()
 
-  const { data: product } = await supabase
-    .from('products')
-    .select('*')
-    .eq('id', id)
-    .eq('published', true)
-    .single()
+  const [{ data: product }, nokRate] = await Promise.all([
+    supabase.from('products').select('*').eq('id', id).eq('published', true).single(),
+    fetchEurNokRate(),
+  ])
 
   if (!product) notFound()
 
@@ -52,8 +52,6 @@ export default async function ProductPage({
     .eq('category', product.category)
     .neq('id', product.id)
     .limit(4)
-
-  const primaryImage = product.images[0] ?? null
 
   const stockLabel =
     product.stock_status === 'out_of_stock' ? 'Utsolgt'
@@ -71,7 +69,7 @@ export default async function ProductPage({
     : 'bg-(--color-success)'
 
   return (
-    <div>
+    <div className="pb-20 lg:pb-0">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-(--color-muted) mb-8">
@@ -83,36 +81,8 @@ export default async function ProductPage({
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-          {/* Image */}
-          <div className="space-y-3">
-            <div className="relative aspect-square bg-(--color-ice-light) rounded-2xl overflow-hidden">
-              {primaryImage ? (
-                <Image
-                  src={primaryImage}
-                  alt={product.name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-contain p-8 transition-transform duration-700 hover:scale-105"
-                  priority
-                  unoptimized
-                />
-              ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                  <span className="text-8xl opacity-20">🏓</span>
-                  <p className="text-(--color-muted) text-sm">Bilde kommer snart</p>
-                </div>
-              )}
-            </div>
-            {product.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-2">
-                {product.images.slice(0, 4).map((img, i) => (
-                  <div key={i} className="relative aspect-square bg-(--color-ice-light) rounded-lg overflow-hidden border-2 border-(--color-border)">
-                    <Image src={img} alt={`${product.name} ${i + 1}`} fill sizes="100px" className="object-contain p-2" unoptimized />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Interactive image gallery */}
+          <ProductImageGallery images={product.images} name={product.name} />
 
           {/* Info */}
           <div className="flex flex-col">
@@ -126,8 +96,18 @@ export default async function ProductPage({
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-4">
               <span className="text-(--color-gold) font-bold text-3xl">
-                € {product.price_eur.toLocaleString('nb-NO', { minimumFractionDigits: 0 })}
+                {formatNok(eurToNok(product.price_eur, nokRate))}
               </span>
+              {product.is_on_sale && product.previous_price_eur != null && (
+                <span className="text-(--color-muted) text-xl line-through">
+                  {formatNok(eurToNok(product.previous_price_eur, nokRate))}
+                </span>
+              )}
+              {product.is_on_sale && (
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-500 text-white">
+                  Salg
+                </span>
+              )}
             </div>
 
             {/* Stock */}
@@ -144,11 +124,17 @@ export default async function ProductPage({
 
             <AddToCartButton product={product} />
 
+            {/* Toll-advarsel */}
+            <div className="mt-4 bg-(--color-sand) border border-(--color-border) rounded-xl px-4 py-3 text-sm text-(--color-muted)">
+              Merk: Toll og mva. (25 %) betales til UPS ved levering fra Spania.{' '}
+              <Link href="/shop/levering-og-retur" className="text-(--color-cta) hover:underline">Les mer</Link>
+            </div>
+
             {/* Trust badges */}
-            <div className="mt-6 grid grid-cols-3 gap-3 border-t border-(--color-border) pt-6">
+            <div className="mt-4 grid grid-cols-3 gap-3 border-t border-(--color-border) pt-4">
               {[
-                { icon: '🚚', label: 'Frakt til Norge', sub: '3–5 virkedager' },
-                { icon: '🔒', label: 'Trygg betaling', sub: 'Via Stripe' },
+                { icon: '↩️', label: '14 dagers', sub: 'angrerett' },
+                { icon: '🔒', label: 'Trygg betaling', sub: 'Vipps / Kort' },
                 { icon: '🏓', label: 'Padelpoint', sub: 'Offisiell partner' },
               ].map((badge) => (
                 <div key={badge.label} className="text-center p-3 bg-(--color-ice-light) rounded-xl">
@@ -216,6 +202,9 @@ export default async function ProductPage({
           </Link>
         </div>
       </div>
+
+      {/* Sticky buy bar — mobil only */}
+      <StickyAddToCartBar product={product} />
     </div>
   )
 }
