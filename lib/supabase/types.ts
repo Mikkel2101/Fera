@@ -477,6 +477,8 @@ export type Database = {
           id_passport: string | null
           status: string
           total_eur: number
+          total_nok: number | null
+          nok_rate: number | null
           stripe_session_id: string | null
           shipping_address: Json | null
           items: Json
@@ -492,6 +494,8 @@ export type Database = {
           id_passport?: string | null
           status?: string
           total_eur: number
+          total_nok?: number | null
+          nok_rate?: number | null
           stripe_session_id?: string | null
           shipping_address?: Json | null
           items: Json
@@ -507,6 +511,8 @@ export type Database = {
           id_passport?: string | null
           status?: string
           total_eur?: number
+          total_nok?: number | null
+          nok_rate?: number | null
           stripe_session_id?: string | null
           shipping_address?: Json | null
           items?: Json

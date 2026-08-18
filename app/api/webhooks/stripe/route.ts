@@ -86,12 +86,18 @@ async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string
   // (Stripe retries) kan aldri begge vinne — kun én får raden tilbake.
   // Ingen separat "les status først"-steg, som ville latt begge passere
   // sjekken før noen rakk å skrive.
+  // Bruk Stripes faktiske belastede beløp som endelig NOK-fasit — dette er
+  // autoritativt uansett hvordan checkout-siden regnet det ut, og fjerner
+  // enhver drift fra kurssvingninger etterpå (se migrasjon 020).
+  const totalNok = (session.amount_total ?? 0) / 100
+
   const { data: order, error: updateError } = await supabase
     .from('orders')
     .update({
       status:           'paid',
       stripe_session_id: session.id,
       shipping_address:  shippingAddress,
+      total_nok:         totalNok,
     })
     .eq('id', orderId)
     .neq('status', 'paid')
@@ -127,8 +133,7 @@ async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string
     })
   }
 
-  // Send ordrebekreftelse til kunden (NOK-beløp fra Stripe)
-  const totalNok = (session.amount_total ?? 0) / 100
+  // Send ordrebekreftelse til kunden (samme NOK-beløp som ble lagret over)
   try {
     await sendCustomerOrderConfirmation({
       order_id:         orderId,
