@@ -67,23 +67,6 @@ type SessionWithShipping = Stripe.Checkout.Session & {
 async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string) {
   const supabase = createServiceClient()
 
-  // Idempotens: sjekk om ordren allerede er markert som betalt
-  const { data: existingOrder } = await supabase
-    .from('orders')
-    .select('id, status')
-    .eq('id', orderId)
-    .maybeSingle()
-
-  if (!existingOrder) {
-    console.error('Order not found in webhook for orderId:', orderId, 'session:', session.id)
-    return
-  }
-
-  if (existingOrder.status === 'paid') {
-    console.log('Order already processed, skipping:', orderId)
-    return
-  }
-
   const s = session as SessionWithShipping
   const shipping = s.shipping_details
 
@@ -98,7 +81,11 @@ async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string
       }
     : null
 
-  // Oppdater ordre til 'paid'
+  // Atomisk idempotens: oppdater KUN rader som ikke allerede er 'paid'.
+  // Postgres radlåser UPDATE-en, så to nesten-samtidige webhook-leveranser
+  // (Stripe retries) kan aldri begge vinne — kun én får raden tilbake.
+  // Ingen separat "les status først"-steg, som ville latt begge passere
+  // sjekken før noen rakk å skrive.
   const { data: order, error: updateError } = await supabase
     .from('orders')
     .update({
@@ -107,11 +94,14 @@ async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string
       shipping_address:  shippingAddress,
     })
     .eq('id', orderId)
+    .neq('status', 'paid')
     .select('*')
     .single()
 
   if (updateError || !order) {
-    console.error('order update error:', updateError)
+    // Enten fantes ikke ordren, eller den var allerede markert 'paid'
+    // av en annen webhook-levering — begge er trygge å hoppe over.
+    console.log('Order update skipped (not found or already paid):', orderId, updateError?.code)
     return
   }
 
