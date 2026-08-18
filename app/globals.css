@@ -34,6 +34,9 @@
   --color-overline:  #927665;
   --color-overline-light: #F7DDB7;
 
+  /* Betalingsleverandør-merkevarefarger (låst av leverandørens designguide, ikke Fera-paletten) */
+  --color-vipps: #FF5B24;
+
   /* Fonter — variablene settes av next/font i hvert layout */
   --font-display: var(--font-playfair);
   --font-sans:    var(--font-archivo);

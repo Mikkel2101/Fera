@@ -176,7 +176,7 @@ export default function CartDrawer() {
                 <path d="M19 5.3a10 10 0 0 1 0 13.4A10 10 0 0 1 19 5.3z" fill="#ff5f00"/>
               </svg>
               {/* Vipps */}
-              <span className="text-[11px] font-bold text-white bg-[#ff5b24] px-1.5 py-0.5 rounded" aria-label="Vipps">Vipps</span>
+              <span className="text-[11px] font-bold text-white bg-(--color-vipps) px-1.5 py-0.5 rounded" aria-label="Vipps">Vipps</span>
             </div>
             <p className="text-xs text-(--color-muted) text-center bg-(--color-sand) rounded-lg px-3 py-2">
               Merk: Toll og mva. (25 %) betales til UPS ved levering.{' '}
