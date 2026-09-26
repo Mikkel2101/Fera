@@ -1,5 +1,6 @@
 export const metadata = {
-  title: 'Fera Padel — Kommer snart',
+  // absolute, ellers legger rot-layoutens mal på "— Fera Padel" en gang til
+  title: { absolute: 'Fera Padel — Kommer snart' },
   description: 'Vi jobber med noe nytt. Fera Padel lanserer snart.',
 }
 
