@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { bookingStatusLabel } from '@/lib/booking/status'
 
 export const metadata: Metadata = { title: 'Oversikt' }
 
@@ -12,16 +13,10 @@ const STATUS_LABEL: Record<string, string> = {
   cancelled:             'Avlyst',
 }
 
-const BOOKING_LABEL: Record<string, string> = {
-  Ventende: 'Venter betaling',
-  Betalt:   'Depositum betalt',
-  Refundert:'Refundert',
-}
-
 type BookingWithTrip = {
   id: string
   created_at: string
-  deposit_status: string
+  status: string
   trips: { id: string; name: string; destination: string; start_date: string } | null
 }
 
@@ -39,7 +34,7 @@ export default async function AccountPage() {
       .limit(3),
     supabase
       .from('bookings')
-      .select('id, deposit_status, created_at, trips(id, name, destination, start_date)')
+      .select('id, status, created_at, trips(id, name, destination, start_date)')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(3),
@@ -154,7 +149,7 @@ export default async function AccountPage() {
                     </p>
                   </div>
                   <span className="text-xs px-2 py-1 rounded-full bg-(--color-ice-light) text-(--color-text)">
-                    {BOOKING_LABEL[booking.deposit_status] ?? booking.deposit_status}
+                    {bookingStatusLabel(booking.status)}
                   </span>
                 </div>
               )

@@ -18,6 +18,7 @@ export const bookingSchema = step1Schema.merge(step2Schema).extend({
   trip_id:        z.string().uuid(),
   gdpr_consent:   z.boolean().refine(v => v, 'GDPR-samtykke er påkrevd'),
   terms_accepted: z.boolean().refine(v => v, 'Vilkår må aksepteres'),
+  newsletter_consent: z.boolean().default(false),
 })
 
 export type Step1Data = z.infer<typeof step1Schema>

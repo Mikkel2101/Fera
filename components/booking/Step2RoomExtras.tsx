@@ -9,7 +9,6 @@ type Extra = { name: string; price_eur: number }
 type Props = {
   trip: {
     extras: Extra[]
-    deposit_eur: number
     price_double_eur: number
     price_single_eur: number
   }
@@ -42,7 +41,8 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
     const extra = trip.extras.find(e => e.name === name)
     return sum + (extra?.price_eur ?? 0)
   }, 0)
-  const totalDeposit = trip.deposit_eur + extrasTotal
+  const roomPrice  = roomType === 'Dobbel' ? trip.price_double_eur : trip.price_single_eur
+  const totalPrice = roomPrice + extrasTotal
 
   return (
     <div className="space-y-8">
@@ -62,7 +62,7 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
               key={value}
               className={`flex items-center justify-between border rounded-lg p-4 cursor-pointer transition-colors
                 ${roomType === value
-                  ? 'border-(--color-cta) bg-orange-50'
+                  ? 'border-(--color-cta) bg-(--color-sand-light)'
                   : 'border-(--color-border) hover:border-(--color-muted)'
                 }`}
             >
@@ -126,10 +126,10 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
 
       {/* Prisoppsummering */}
       <div className="bg-(--color-sand) rounded-xl p-5 space-y-2">
-        <p className="text-sm font-medium text-(--color-text) mb-3">Prisoppsummering</p>
+        <p className="text-sm font-medium text-(--color-text) mb-3">Prisoversikt per person</p>
         <div className="flex justify-between text-sm text-(--color-subtle)">
-          <span>Depositum (betales nå)</span>
-          <span>{trip.deposit_eur} EUR</span>
+          <span>{roomType === 'Dobbel' ? 'Dobbeltrom' : 'Enkeltrom'}</span>
+          <span>{roomPrice} EUR</span>
         </div>
         {selectedExtras.map(name => {
           const extra = trip.extras.find(e => e.name === name)
@@ -141,9 +141,12 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
           ) : null
         })}
         <div className="border-t border-(--color-border) pt-2 flex justify-between font-bold text-(--color-gold)">
-          <span>Total depositum</span>
-          <span>{totalDeposit} EUR</span>
+          <span>Totalpris</span>
+          <span>{totalPrice} EUR</span>
         </div>
+        <p className="text-xs text-(--color-subtle) pt-1">
+          Ingen betaling nå. Vi tar kontakt med betalingsinformasjon før reservasjonen blir bindende.
+        </p>
       </div>
 
       {/* Knapper */}
@@ -160,7 +163,7 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
           onClick={handleSubmit}
           className="flex-1 bg-(--color-cta) text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
         >
-          Gå til betaling →
+          Neste: Bekreft →
         </button>
       </div>
     </div>
