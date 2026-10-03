@@ -3,13 +3,14 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { SHOP_ENABLED } from '@/lib/flags'
 
 const navLinks = [
   { href: '/account',           label: 'Oversikt'   },
-  { href: '/account/orders',    label: 'Ordrer'     },
+  ...(SHOP_ENABLED ? [{ href: '/account/orders', label: 'Ordrer' }] : []),
   { href: '/account/trips',     label: 'Reiser'     },
   { href: '/account/profile',   label: 'Profil'     },
-  { href: '/account/addresses', label: 'Adresser'   },
+  ...(SHOP_ENABLED ? [{ href: '/account/addresses', label: 'Adresser' }] : []),
 ]
 
 export default function AccountSidebar() {

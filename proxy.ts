@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { updateSession } from '@/lib/supabase/proxy'
+import { SHOP_ENABLED } from '@/lib/flags'
+import { isRootAppPath, shopGate } from '@/lib/routing/shop-gate'
 
 const BRAND_MAP: Record<string, string> = {}
 
@@ -54,6 +56,16 @@ export async function proxy(request: NextRequest) {
     }
   }
 
+  // FeraShop er skjult til lansering — må ligge før /api-bypassen og
+  // /no-rewritene under, ellers slipper /api/shop og /no/shop forbi.
+  const gate = shopGate(pathname, SHOP_ENABLED)
+  if (gate?.type === 'not_found') {
+    return new NextResponse(null, { status: 404 })
+  }
+  if (gate?.type === 'redirect') {
+    return NextResponse.redirect(new URL(gate.to, request.url), 307)
+  }
+
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
@@ -80,6 +92,7 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith('/admin') ||
     pathname.startsWith('/shop') ||
     pathname.startsWith('/travels') ||
+    isRootAppPath(pathname) ||
     pathname === '/'
   ) {
     return response

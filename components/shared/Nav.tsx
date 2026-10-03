@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useCart } from '@/lib/cart/context'
+import { SHOP_ENABLED } from '@/lib/flags'
 
 const SHOP_CATEGORIES = [
   { label: 'Racketer',  href: '/shop?category=racket' },
@@ -112,7 +113,7 @@ export default function Nav() {
   return (
     <>
       {/* ── Announcement bar ── */}
-      {announcementVisible && (
+      {SHOP_ENABLED && announcementVisible && (
         <div className="bg-(--color-dark) text-white text-xs py-2 px-4 flex items-center justify-center gap-6 relative">
           <span className="hidden sm:inline">Offisiell Padelpoint-partner</span>
           <span className="text-white/40 hidden sm:inline">·</span>
@@ -148,6 +149,7 @@ export default function Nav() {
             {/* ── Desktop nav ── */}
             <div className="hidden md:flex items-center gap-1 flex-1">
 
+              {SHOP_ENABLED && (<>
               {/* Utstyr med dropdown */}
               <div ref={dropdownRef} className="relative">
                 <button
@@ -221,6 +223,7 @@ export default function Nav() {
                   %
                 </span>
               </Link>
+              </>)}
 
               {/* Reiser */}
               <Link
@@ -248,6 +251,7 @@ export default function Nav() {
                 <IconUser />
               </Link>
 
+              {SHOP_ENABLED && (
               <button
                 onClick={openCart}
                 className="relative p-2.5 text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light) rounded-lg transition-colors"
@@ -260,10 +264,12 @@ export default function Nav() {
                   </span>
                 )}
               </button>
+              )}
             </div>
 
             {/* ── Mobil: cart + hamburger ── */}
             <div className="flex md:hidden items-center gap-1">
+              {SHOP_ENABLED && (
               <button
                 onClick={openCart}
                 className="relative p-2.5 text-(--color-subtle)"
@@ -276,6 +282,7 @@ export default function Nav() {
                   </span>
                 )}
               </button>
+              )}
               <button
                 onClick={() => setMobileOpen(true)}
                 className="p-2.5 text-(--color-subtle)"
@@ -320,6 +327,7 @@ export default function Nav() {
             {/* Nav innhold */}
             <div className="flex-1 overflow-y-auto">
 
+              {SHOP_ENABLED && (<>
               {/* UTSTYR-seksjon */}
               <div className="px-5 pt-6 pb-2">
                 <button
@@ -375,9 +383,10 @@ export default function Nav() {
                   </span>
                 </Link>
               </div>
+              </>)}
 
               {/* REISER-seksjon */}
-              <div className="px-5 py-2">
+              <div className={`px-5 ${SHOP_ENABLED ? 'py-2' : 'pt-6 pb-2'}`}>
                 <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Reiser</p>
                 <Link
                   href="/travels"
@@ -402,9 +411,11 @@ export default function Nav() {
                 <IconUser />
                 Min konto
               </Link>
+              {SHOP_ENABLED && (
               <p className="text-xs text-(--color-muted) text-center pt-1">
                 Offisiell Padelpoint-partner · Gratis frakt over 2 000 kr
               </p>
+              )}
             </div>
 
           </div>

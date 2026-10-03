@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { SHOP_ENABLED } from '@/lib/flags'
 
 export default function EnUkeIAlbir() {
   return (
@@ -46,7 +47,7 @@ export default function EnUkeIAlbir() {
         <li><strong>Reisetid fra Oslo:</strong> 3,5 timer til Alicante</li>
         <li><strong>Nivå:</strong> Alle nivåer er velkomne — coaching tilpasses gruppen</li>
         <li><strong>Inkludert:</strong> Hotell (halvpensjon), transport, baneleie og all coaching</li>
-        <li><strong>Utstyr:</strong> Vi anbefaler å ta med egen racket — <Link href="/shop" className="text-(--color-cta) hover:underline">se vårt sortiment</Link></li>
+        <li><strong>Utstyr:</strong> Vi anbefaler å ta med egen racket{SHOP_ENABLED && <> — <Link href="/shop" className="text-(--color-cta) hover:underline">se vårt sortiment</Link></>}</li>
         <li><strong>Tidspunkt:</strong> Oktober–april er ideelt — 22–26 grader, ingen hete</li>
       </ul>
 
