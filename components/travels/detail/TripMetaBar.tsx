@@ -74,7 +74,7 @@ export default function TripMetaBar({ trip }: { trip: TripRow }) {
             href={`/travels/${trip.id}/book`}
             className="shrink-0 bg-(--color-cta) text-white px-6 py-3 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity"
           >
-            Book din plass
+            Reserver plass
           </Link>
         )}
       </div>

@@ -22,12 +22,12 @@ const faqs = [
     a: 'Banene på Costa Blanca og Gran Canaria er i all overveiende grad utendørs, men vi har alltid innendørsalternativer tilgjengelig. Dårlig vær er sjeldent et problem på våre destinasjoner.',
   },
   {
-    q: 'Hvordan fungerer betalingen?',
-    a: 'Du betaler et depositum på €250 for å sikre plassen din. Restbeløpet forfaller 60 dager før avreise. All betaling skjer trygt via Stripe.',
+    q: 'Hvordan reserverer jeg plass?',
+    a: 'Du reserverer plass med en Fera-konto direkte på turen — det koster ingenting og er uforpliktende. Vi holder av plassen din og tar kontakt med betalingsinformasjon før påmeldingen blir bindende.',
   },
   {
     q: 'Hva er avbestillingsreglene?',
-    a: 'Avbestilling mer enn 60 dager før avreise: fullt depositum refunderes. 30–60 dager: 50% refusjon. Under 30 dager: ingen refusjon. Vi anbefaler reiseforsikring.',
+    a: 'En reservasjon kan avbestilles kostnadsfritt — send oss en e-post. Avbestillingsreglene for bindende påmelding får du sammen med betalingsinformasjonen. Vi anbefaler reiseforsikring.',
   },
   {
     q: 'Kan dere skreddersy tur for vår klubb eller bedrift?',

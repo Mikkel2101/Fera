@@ -69,7 +69,7 @@ export default async function BookPage({
             <span>/</span>
             <Link href={`/travels/${id}`} className="hover:text-(--color-text) transition-colors line-clamp-1">{trip.name}</Link>
             <span>/</span>
-            <span className="text-(--color-text)">Booking</span>
+            <span className="text-(--color-text)">Reservasjon</span>
           </nav>
         </div>
       </div>
