@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useCart } from '@/lib/cart/context'
 import { useNokRate } from '@/lib/currency/context'
 import { eurToNok, formatNok } from '@/lib/currency'
+import { SHOP_ENABLED } from '@/lib/flags'
 
 export default function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, totalEur } = useCart()
@@ -23,6 +24,9 @@ export default function CartDrawer() {
     document.body.style.overflow = isOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
+
+  // Shop er skjult — ikke render skuffen (ellers ligger den usynlig i DOM-en)
+  if (!SHOP_ENABLED) return null
 
   return (
     <>

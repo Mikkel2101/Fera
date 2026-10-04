@@ -66,7 +66,8 @@ function detailRows(p: ReservationEmailPayload): string {
 
 export async function sendReservationConfirmation(p: ReservationEmailPayload): Promise<void> {
   const shortId = p.booking_id.slice(0, 8).toUpperCase()
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? ''
+  // E-postlenker må være absolutte; NEXT_PUBLIC_BASE_URL er ikke satt i Vercel
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ferapadel.com'
 
   const html = `
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#1C0008;">
