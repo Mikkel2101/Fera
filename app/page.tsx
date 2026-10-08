@@ -204,7 +204,7 @@ export default async function HomePage() {
             className="absolute inset-0 w-full h-full object-cover"
             src="https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/trips/videos/fera-travels.mp4"
           />
-          <div className="absolute inset-0 bg-(--color-overlay)/80" />
+          <div className="absolute inset-0 bg-(--color-overlay-deep)/75" />
 
           <div className="relative max-w-[1600px] mx-auto px-4 py-24 w-full">
             {/* Overline */}
