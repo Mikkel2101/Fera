@@ -16,7 +16,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     ...(SHOP_ENABLED ? [{ url: baseUrl, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 1 }] : []),
     { url: `${baseUrl}/travels`, lastModified: new Date(), changeFrequency: 'weekly', priority: SHOP_ENABLED ? 0.9 : 1 },
-    ...(SHOP_ENABLED ? [{ url: `${baseUrl}/shop`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.9 }] : []),
+    SHOP_ENABLED
+      ? { url: `${baseUrl}/shop`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 }
+      : { url: `${baseUrl}/kolleksjon`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: `${baseUrl}/travels/om-oss`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/travels/for-klubber`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/travels/for-bedrifter`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },

@@ -1,9 +1,24 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import Image from 'next/image'
+import type { NewsletterList } from '@/lib/newsletter/subscribe'
 
-export default function NewsletterSignup() {
+type Props = {
+  list?:        NewsletterList
+  eyebrow?:     string
+  heading?:     ReactNode
+  body?:        string
+  successText?: string
+}
+
+export default function NewsletterSignup({
+  list,
+  eyebrow     = 'Meld deg på vårt nyhetsbrev',
+  heading     = <>Bli med i<br />FERA Community</>,
+  body        = 'Få tilgang til prelanseringer, eksklusive tilbud og utvalgte padelreiser før alle andre. Et fellesskap for deg som vil være først ute når nye opplevelser åpner.',
+  successText = 'Du er med i FERA Select. Velkommen!',
+}: Props) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
@@ -14,7 +29,7 @@ export default function NewsletterSignup() {
       const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, list }),
       })
       const data = await res.json()
       setStatus(data.success ? 'success' : 'error')
@@ -42,13 +57,13 @@ export default function NewsletterSignup() {
         {/* Right — content (2/5) */}
         <div className="bg-(--color-community) flex flex-col justify-center px-10 py-16 lg:px-12 lg:col-span-2">
           <p className="text-white text-xs uppercase tracking-widest font-medium mb-4">
-            Meld deg på vårt nyhetsbrev
+            {eyebrow}
           </p>
           <h2 className="font-sans font-normal text-white text-4xl sm:text-5xl leading-tight mb-6">
-            Bli med i<br />FERA Community
+            {heading}
           </h2>
           <p className="font-sans text-[16px] text-white leading-relaxed mb-10">
-            Få tilgang til prelanseringer, eksklusive tilbud og utvalgte padelreiser før alle andre. Et fellesskap for deg som vil være først ute når nye opplevelser åpner.
+            {body}
           </p>
 
           {status === 'success' ? (
@@ -56,7 +71,7 @@ export default function NewsletterSignup() {
               <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="font-sans font-normal text-base">Du er med i FERA Select. Velkommen!</span>
+              <span className="font-sans font-normal text-base">{successText}</span>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">

@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { getStripe } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase/service'
 import { sendOpsOrderEmail, sendCustomerOrderConfirmation, type OpsOrderPayload } from '@/lib/shop/email'
 import { triggerPadelpointOrder } from '@/lib/shop/github'
 import type { CartItemData } from '@/lib/shop/schema'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2026-05-27.dahlia',
-})
 
 export async function POST(request: NextRequest) {
   const body = await request.text()
@@ -15,7 +13,7 @@ export async function POST(request: NextRequest) {
 
   let event: Stripe.Event
   try {
-    event = await stripe.webhooks.constructEventAsync(
+    event = await getStripe('webhook').webhooks.constructEventAsync(
       body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET!,

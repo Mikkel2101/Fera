@@ -1,15 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Stripe from 'stripe'
+import { getStripe } from '@/lib/stripe'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { bookingSchema } from '@/lib/booking/schema'
 import { fetchEurNokRate, eurToNok } from '@/lib/currency'
 
-// vipps_preview=v1 krever at preview-flagget er en del av Stripe-Version-headeren
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  apiVersion: '2026-05-27.dahlia; vipps_preview=v1' as any,
-})
 
 export async function POST(request: NextRequest) {
   try {
@@ -69,7 +64,7 @@ export async function POST(request: NextRequest) {
     const nokRate  = await fetchEurNokRate()
     const totalNok = eurToNok(totalEur, nokRate)
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe('checkout').checkout.sessions.create({
       mode: 'payment',
       line_items: [{
         quantity:   1,

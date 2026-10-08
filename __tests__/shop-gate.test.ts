@@ -11,10 +11,10 @@ describe('shopGate (shop skjult)', () => {
     expect(shopGate('/no/', false)).toEqual({ type: 'redirect', to: '/travels' })
   })
 
-  it('sender shop-sider til /travels', () => {
-    expect(shopGate('/shop', false)).toEqual({ type: 'redirect', to: '/travels' })
-    expect(shopGate('/shop/abc-123', false)).toEqual({ type: 'redirect', to: '/travels' })
-    expect(shopGate('/no/shop/abc', false)).toEqual({ type: 'redirect', to: '/travels' })
+  it('sender shop-sider til ventelista for FERA-kolleksjonen', () => {
+    expect(shopGate('/shop', false)).toEqual({ type: 'redirect', to: '/kolleksjon' })
+    expect(shopGate('/shop/abc-123', false)).toEqual({ type: 'redirect', to: '/kolleksjon' })
+    expect(shopGate('/no/shop/abc', false)).toEqual({ type: 'redirect', to: '/kolleksjon' })
   })
 
   it('gir 404 for shop-API-et', () => {
@@ -44,6 +44,7 @@ describe('isRootAppPath', () => {
     expect(isRootAppPath('/logg-inn')).toBe(true)
     expect(isRootAppPath('/personvern')).toBe(true)
     expect(isRootAppPath('/vilkar')).toBe(true)
+    expect(isRootAppPath('/kolleksjon')).toBe(true)
   })
 
   it('matcher ikke stier som bare starter likt', () => {
