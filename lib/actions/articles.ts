@@ -13,6 +13,7 @@ import {
 
 const MAX_CONTENT_CHARS = 500_000
 const BUCKET = 'articles'
+const STORAGE_LIST_LIMIT = 1000
 
 function revalidateArticle(...slugs: string[]) {
   revalidatePath('/admin/articles')
@@ -62,16 +63,30 @@ export async function saveArticle(
     return { ok: false, error: 'Artikkelen er for lang til å lagres' }
   }
 
-  const { data: previous } = await supabase.from('articles').select('slug').eq('id', id).maybeSingle()
+  const { data: previous, error: previousError } = await supabase
+    .from('articles')
+    .select('slug')
+    .eq('id', id)
+    .maybeSingle()
+  if (previousError) {
+    console.error('[articles] lagring: oppslag feilet', id, previousError)
+    return { ok: false, error: 'Noe gikk galt. Prøv igjen.' }
+  }
 
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from('articles')
     .update({ ...parsed.data, content: doc as unknown as Json })
     .eq('id', id)
+    .select('id')
+    .maybeSingle()
 
   if (error) {
     console.error('[articles] lagring feilet', id, error)
     return { ok: false, ...mapDbError(error) }
+  }
+  if (!updated) {
+    console.error('[articles] lagring: fant ikke', id)
+    return { ok: false, error: 'Fant ikke artikkelen. Den kan være slettet.' }
   }
 
   const oldSlugs = previous && previous.slug !== parsed.data.slug ? [previous.slug] : []
@@ -132,18 +147,20 @@ export async function unpublishArticle(id: string): Promise<ActionResult> {
 export async function deleteArticle(id: string): Promise<ActionResult> {
   const { supabase } = await requireAdmin()
 
-  const { data: files, error: listError } = await supabase.storage.from(BUCKET).list(id)
+  const { data, error } = await supabase.from('articles').delete().eq('id', id).select('slug').maybeSingle()
+  if (error || !data) {
+    console.error('[articles] sletting feilet', id, error)
+    return { ok: false, error: 'Kunne ikke slette artikkelen. Prøv igjen.' }
+  }
+
+  // Rad slettes først; feil i opprydding gir bare foreldreløse filer, ikke tapte bilder.
+  const { data: files, error: listError } = await supabase.storage.from(BUCKET).list(id, { limit: STORAGE_LIST_LIMIT })
   if (listError) console.error('[articles] kunne ikke liste bilder', id, listError)
   if (files && files.length > 0) {
     const { error: removeError } = await supabase.storage.from(BUCKET).remove(files.map((f) => `${id}/${f.name}`))
     if (removeError) console.error('[articles] kunne ikke slette bilder', id, removeError)
   }
 
-  const { data, error } = await supabase.from('articles').delete().eq('id', id).select('slug').maybeSingle()
-  if (error || !data) {
-    console.error('[articles] sletting feilet', id, error)
-    return { ok: false, error: 'Kunne ikke slette artikkelen. Prøv igjen.' }
-  }
   revalidateArticle(data.slug)
   return { ok: true, data: undefined }
 }
