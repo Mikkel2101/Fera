@@ -1,15 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomUUID } from 'crypto'
 import Stripe from 'stripe'
+import { getStripe } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase/service'
 import { shopCheckoutSchema } from '@/lib/shop/schema'
 import { fetchEurNokRate, eurToNok } from '@/lib/currency'
-
-// vipps_preview=v1 krever at preview-flagget er en del av Stripe-Version-headeren
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  apiVersion: '2026-05-27.dahlia; vipps_preview=v1' as any,
-})
 
 const SHIPPING_COST_EUR = 20
 const FREE_SHIPPING_THRESHOLD_EUR = 200
@@ -124,7 +119,7 @@ export async function POST(request: NextRequest) {
     // Opprett Stripe-sesjon FØRST — unngår foreldreløse DB-rader hvis Stripe feiler.
     // Kaster den, fanges det opp av try/catch-en rundt hele handleren, som
     // frigjør ev. lagerklaim før 500 returneres.
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe('checkout').checkout.sessions.create({
       mode:       'payment',
       line_items: lineItems,
       customer_email: data.email,
