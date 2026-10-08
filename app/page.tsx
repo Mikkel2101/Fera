@@ -27,13 +27,12 @@ export const metadata = {
 
 export default async function HomePage() {
   const supabase = await createClient()
-  const blogPosts = await getPublishedArticles(3)
-
-  const [{ data: newProducts }, { data: trips }, { data: bestSellers }, nokRate] = await Promise.all([
+  const [{ data: newProducts }, { data: trips }, { data: bestSellers }, nokRate, blogPosts] = await Promise.all([
     supabase.from('products').select('*').eq('published', true).order('created_at', { ascending: false }).limit(4),
     supabase.from('trips').select('*').eq('published', true).order('start_date', { ascending: true }).limit(4),
     supabase.from('products').select('*').eq('published', true).order('name').range(4, 7),
     fetchEurNokRate(),
+    getPublishedArticles(3),
   ])
 
   return (

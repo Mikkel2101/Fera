@@ -1,10 +1,11 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { EditorContent, useEditor, useEditorState, type Editor } from '@tiptap/react'
 import { articleExtensions } from '@/lib/articles/extensions'
 import { isSafeHref } from '@/lib/articles/content'
 import { uploadArticleImage } from '@/lib/articles/upload'
+import { stripExternalImages, removedImagesMessage } from '@/lib/articles/paste'
 import type { ArticleDoc } from '@/lib/articles/types'
 
 type Props = {
@@ -98,12 +99,22 @@ function Toolbar({ editor, articleId, onError }: { editor: Editor; articleId: st
 }
 
 export default function ArticleEditor({ articleId, initialContent, onChange, onError }: Props) {
+  // useEditor beholder første versjon av editorProps; refen gir alltid siste onError.
+  const onErrorRef = useRef(onError)
+  useEffect(() => { onErrorRef.current = onError }, [onError])
+
   const editor = useEditor({
     extensions: articleExtensions,
     content: initialContent,
     immediatelyRender: false,
     editorProps: {
       attributes: { class: 'prose-fera min-h-[420px] px-5 py-4 focus:outline-none' },
+      // Gjelder både innliming og dra-og-slipp av HTML.
+      transformPastedHTML: (html) => {
+        const { html: clean, removed } = stripExternalImages(html)
+        if (removed > 0) onErrorRef.current(removedImagesMessage(removed))
+        return clean
+      },
     },
     onUpdate: ({ editor: e }) => onChange(e.getJSON() as ArticleDoc),
   })

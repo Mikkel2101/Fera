@@ -89,6 +89,7 @@ export default function ArticleForm({ article, teamNames }: { article: Article; 
       return
     }
     setStatus('published')
+    setMeta((current) => ({ ...current, published_date: toDateInput(result.data.published_at) }))
     isSlugLocked.current = true
     setMessage({ tone: 'success', text: 'Publisert! Artikkelen er nå synlig på nettsiden.' })
     router.refresh()
@@ -155,6 +156,7 @@ export default function ArticleForm({ article, teamNames }: { article: Article; 
             <ArticleMetaFields
               articleId={article.id}
               value={meta}
+              isPublished={isPublished}
               teamNames={teamNames}
               errors={errors}
               onChange={updateMeta}
