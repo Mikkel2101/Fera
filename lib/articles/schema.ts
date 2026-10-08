@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ARTICLE_CATEGORIES, type ArticleDoc } from './types'
+import { ARTICLE_CATEGORIES, type ArticleDoc, type DocNode } from './types'
 import { isAllowedImageSrc } from './content'
 
 export const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/
@@ -61,6 +61,21 @@ export function fieldErrors(error: z.ZodError): FieldErrors {
   return result as FieldErrors
 }
 
+function hasMeaningfulContent(nodes: DocNode[]): boolean {
+  for (const node of nodes) {
+    if (node.type === 'text' && typeof node.text === 'string' && node.text.trim() !== '') {
+      return true
+    }
+    if (node.type === 'image') {
+      return true
+    }
+    if (node.content && hasMeaningfulContent(node.content)) {
+      return true
+    }
+  }
+  return false
+}
+
 export function missingForPublish(article: {
   excerpt: string
   cover_image: string | null
@@ -69,7 +84,7 @@ export function missingForPublish(article: {
   return [
     article.excerpt.trim() === '' ? 'ingress' : null,
     article.cover_image ? null : 'forsidebilde',
-    article.content.content.length === 0 ? 'innhold' : null,
+    !hasMeaningfulContent(article.content.content) ? 'innhold' : null,
   ].filter((item): item is string => item !== null)
 }
 

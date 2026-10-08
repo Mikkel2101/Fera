@@ -92,6 +92,50 @@ describe('missingForPublish', () => {
     expect(missingForPublish({ excerpt: '  ', cover_image: null, content: { type: 'doc', content: [] } }))
       .toEqual(['ingress', 'forsidebilde', 'innhold'])
   })
+
+  it('behandler tom editor (enkelt avsnitt uten tekst) som manglende innhold', () => {
+    expect(missingForPublish({ excerpt: 'Ingress', cover_image: IMG, content: { type: 'doc', content: [{ type: 'paragraph' }] } }))
+      .toEqual(['innhold'])
+  })
+
+  it('behandler avsnitt med bare whitespace som manglende innhold', () => {
+    expect(missingForPublish({
+      excerpt: 'Ingress',
+      cover_image: IMG,
+      content: { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text: '   ' }] }] }
+    }))
+      .toEqual(['innhold'])
+  })
+
+  it('godtar bilde som meningsfullt innhold', () => {
+    expect(missingForPublish({
+      excerpt: 'Ingress',
+      cover_image: IMG,
+      content: { type: 'doc', content: [{ type: 'image', attrs: { src: IMG, alt: '' } }] }
+    }))
+      .toEqual([])
+  })
+
+  it('godtar tekst nestet i bulletList → listItem → paragraph som meningsfullt innhold', () => {
+    expect(missingForPublish({
+      excerpt: 'Ingress',
+      cover_image: IMG,
+      content: {
+        type: 'doc',
+        content: [{
+          type: 'bulletList',
+          content: [{
+            type: 'listItem',
+            content: [{
+              type: 'paragraph',
+              content: [{ type: 'text', text: 'Punkt' }]
+            }]
+          }]
+        }]
+      }
+    }))
+      .toEqual([])
+  })
 })
 
 describe('mapDbError', () => {
