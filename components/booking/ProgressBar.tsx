@@ -3,7 +3,7 @@
 const STEPS = [
   { n: 1, label: 'Opplysninger' },
   { n: 2, label: 'Rom & tilvalg' },
-  { n: 3, label: 'Betaling' },
+  { n: 3, label: 'Bekreft' },
 ] as const
 
 export default function ProgressBar({ currentStep }: { currentStep: 1 | 2 | 3 }) {

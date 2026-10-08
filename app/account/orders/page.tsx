@@ -28,7 +28,7 @@ export default async function OrdersPage() {
 
   const { data: orders } = await supabase
     .from('orders')
-    .select('id, status, total_eur, created_at, items, shipping_address, first_name, last_name')
+    .select('id, status, total_eur, total_nok, nok_rate, created_at, items, shipping_address, first_name, last_name')
     .order('created_at', { ascending: false })
 
   return (
@@ -50,7 +50,16 @@ export default async function OrdersPage() {
           {orders.map((order) => {
             const items = (Array.isArray(order.items) ? order.items : []) as CartItem[]
             const address = order.shipping_address as { city?: string; country?: string } | null
-            const totalDisplay = order.total_eur ? formatNok(eurToNok(Number(order.total_eur), nokRate)) : '—'
+            // Bruk lagret NOK-snapshot fra kjøpstidspunktet (faktisk belastet
+            // beløp) fremfor å regne om total_eur med dagens kurs — unngår
+            // avvik fra det kunden faktisk betalte. Eldre ordre uten snapshot
+            // (fra før migrasjon 020) faller tilbake til dagens kurs.
+            const itemNokRate = order.nok_rate ? Number(order.nok_rate) : nokRate
+            const totalDisplay = order.total_nok != null
+              ? formatNok(Number(order.total_nok))
+              : order.total_eur
+                ? formatNok(eurToNok(Number(order.total_eur), nokRate))
+                : '—'
 
             return (
               <div key={order.id} className="rounded-2xl border border-(--color-border) bg-white overflow-hidden">
@@ -95,7 +104,7 @@ export default async function OrdersPage() {
                         <p className="text-xs text-(--color-muted)">{item.brand} · Antall: {item.quantity}</p>
                       </div>
                       <p className="text-sm font-semibold text-(--color-text) shrink-0">
-                        {item.price_eur != null ? formatNok(eurToNok(item.price_eur * item.quantity, nokRate)) : '—'}
+                        {item.price_eur != null ? formatNok(eurToNok(item.price_eur * item.quantity, itemNokRate)) : '—'}
                       </p>
                     </li>
                   ))}

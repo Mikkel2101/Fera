@@ -28,7 +28,7 @@ export default function WaitlistForm({ tripId }: { tripId: string }) {
   }
 
   return (
-    <section className="bg-(--color-sand) px-4 sm:px-6 lg:px-8 py-12 border-t border-(--color-border)">
+    <section id="venteliste" className="bg-(--color-sand) px-4 sm:px-6 lg:px-8 py-12 border-t border-(--color-border)">
       <div className="max-w-md mx-auto text-center">
         <h2 className="font-display text-2xl font-bold text-(--color-text) mb-3">
           Meld deg på venteliste

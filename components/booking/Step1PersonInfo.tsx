@@ -6,6 +6,8 @@ import type { Step1Data } from '@/lib/booking/schema'
 
 type Props = {
   data: Partial<Step1Data>
+  // E-posten kommer fra Fera-kontoen og kan ikke endres i skjemaet
+  lockedEmail: string
   onNext: (data: Step1Data) => void
 }
 
@@ -16,11 +18,11 @@ const LEVELS = [
   { value: 'elite', label: 'Elite' },
 ]
 
-export default function Step1PersonInfo({ data, onNext }: Props) {
+export default function Step1PersonInfo({ data, lockedEmail, onNext }: Props) {
   const [formData, setFormData] = useState({
     first_name:  data.first_name  ?? '',
     last_name:   data.last_name   ?? '',
-    email:       data.email       ?? '',
+    email:       lockedEmail,
     phone:       data.phone       ?? '',
     padel_level: data.padel_level ?? '',
   })
@@ -95,17 +97,20 @@ export default function Step1PersonInfo({ data, onNext }: Props) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-(--color-text) mb-1">
-          E-post <span className="text-red-500">*</span>
+        <label htmlFor="booking-email" className="block text-sm font-medium text-(--color-text) mb-1">
+          E-post
         </label>
         <input
+          id="booking-email"
           type="email"
-          value={formData.email}
-          onChange={e => setFormData(p => ({ ...p, email: e.target.value }))}
-          onBlur={() => handleBlur('email')}
-          className={inputClass('email')}
+          value={lockedEmail}
+          readOnly
+          aria-describedby="booking-email-hint"
+          className="border border-(--color-border) bg-(--color-sand-light) text-(--color-subtle) rounded-lg px-4 py-3 w-full"
         />
-        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+        <p id="booking-email-hint" className="text-xs text-(--color-muted) mt-1">
+          E-posten fra Fera-kontoen din. Bekreftelsen sendes hit.
+        </p>
       </div>
 
       <div>

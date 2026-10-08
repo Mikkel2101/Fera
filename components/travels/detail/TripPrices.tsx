@@ -35,7 +35,7 @@ export default function TripPrices({ trip }: { trip: TripRow }) {
                 href={`/travels/${trip.id}/book`}
                 className="shrink-0 bg-(--color-cta) text-white text-xs font-bold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity whitespace-nowrap"
               >
-                Spar nå →
+                Reserver nå →
               </Link>
             )}
           </div>
@@ -52,7 +52,7 @@ export default function TripPrices({ trip }: { trip: TripRow }) {
             <p className="text-(--color-muted) text-xs">Per person, delt rom</p>
             <div className="border-t border-(--color-border) my-4" />
             <ul className="space-y-1.5 text-sm text-(--color-muted)">
-              <li className="flex items-center gap-2"><span className="text-(--color-success)">✓</span> Depositum kun {trip.deposit_eur.toLocaleString('nb-NO')} EUR nå</li>
+              <li className="flex items-center gap-2"><span className="text-(--color-success)">✓</span> Uforpliktende reservasjon</li>
               <li className="flex items-center gap-2"><span className="text-(--color-success)">✓</span> Frokost inkludert</li>
               <li className="flex items-center gap-2"><span className="text-(--color-success)">✓</span> Alt coaching og baneleie</li>
             </ul>
@@ -75,33 +75,33 @@ export default function TripPrices({ trip }: { trip: TripRow }) {
             </div>
           )}
 
-          {/* Depositum */}
+          {/* Reservasjon */}
           <div className="bg-(--color-dark) rounded-2xl p-6 text-white">
-            <p className="text-xs uppercase tracking-widest text-white/50 font-medium mb-2">Sett plassen nå</p>
+            <p className="text-xs uppercase tracking-widest text-white/50 font-medium mb-2">Sikre plassen nå</p>
             <p className="font-display font-bold text-white text-3xl mb-1">
-              {trip.deposit_eur.toLocaleString('nb-NO')} EUR
+              0 kr i dag
             </p>
-            <p className="text-white/50 text-xs">Depositum — betales i dag</p>
+            <p className="text-white/50 text-xs">Uforpliktende reservasjon</p>
             <div className="border-t border-white/10 my-4" />
             <p className="text-white/70 text-xs leading-relaxed mb-5">
-              Resten av beløpet faktureres senest 60 dager før avreise. Ingen skjulte kostnader.
+              Vi holder av plassen din og tar kontakt med betalingsinformasjon før påmeldingen blir bindende.
             </p>
             {isBookable && (
               <Link
                 href={`/travels/${trip.id}/book`}
                 className="block text-center bg-white text-(--color-dark) font-bold text-xs px-4 py-3 rounded-full hover:bg-(--color-sand) transition-colors"
               >
-                Book med depositum →
+                Reserver plass →
               </Link>
             )}
             {!isBookable && (
-              <p className="text-center text-white/50 text-xs font-medium">Ikke tilgjengelig for booking</p>
+              <p className="text-center text-white/50 text-xs font-medium">Ikke åpen for reservasjon</p>
             )}
           </div>
         </div>
 
         <p className="text-center text-(--color-muted) text-xs">
-          Sikker betaling via Stripe — din kortinformasjon behandles aldri av Fera
+          Reserver med en Fera-konto — ingen betaling nå, og ingenting er bindende før vi har snakket sammen
         </p>
       </div>
     </section>

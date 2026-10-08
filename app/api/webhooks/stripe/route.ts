@@ -67,23 +67,6 @@ type SessionWithShipping = Stripe.Checkout.Session & {
 async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string) {
   const supabase = createServiceClient()
 
-  // Idempotens: sjekk om ordren allerede er markert som betalt
-  const { data: existingOrder } = await supabase
-    .from('orders')
-    .select('id, status')
-    .eq('id', orderId)
-    .maybeSingle()
-
-  if (!existingOrder) {
-    console.error('Order not found in webhook for orderId:', orderId, 'session:', session.id)
-    return
-  }
-
-  if (existingOrder.status === 'paid') {
-    console.log('Order already processed, skipping:', orderId)
-    return
-  }
-
   const s = session as SessionWithShipping
   const shipping = s.shipping_details
 
@@ -98,20 +81,33 @@ async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string
       }
     : null
 
-  // Oppdater ordre til 'paid'
+  // Atomisk idempotens: oppdater KUN rader som ikke allerede er 'paid'.
+  // Postgres radlåser UPDATE-en, så to nesten-samtidige webhook-leveranser
+  // (Stripe retries) kan aldri begge vinne — kun én får raden tilbake.
+  // Ingen separat "les status først"-steg, som ville latt begge passere
+  // sjekken før noen rakk å skrive.
+  // Bruk Stripes faktiske belastede beløp som endelig NOK-fasit — dette er
+  // autoritativt uansett hvordan checkout-siden regnet det ut, og fjerner
+  // enhver drift fra kurssvingninger etterpå (se migrasjon 020).
+  const totalNok = (session.amount_total ?? 0) / 100
+
   const { data: order, error: updateError } = await supabase
     .from('orders')
     .update({
       status:           'paid',
       stripe_session_id: session.id,
       shipping_address:  shippingAddress,
+      total_nok:         totalNok,
     })
     .eq('id', orderId)
+    .neq('status', 'paid')
     .select('*')
     .single()
 
   if (updateError || !order) {
-    console.error('order update error:', updateError)
+    // Enten fantes ikke ordren, eller den var allerede markert 'paid'
+    // av en annen webhook-levering — begge er trygge å hoppe over.
+    console.log('Order update skipped (not found or already paid):', orderId, updateError?.code)
     return
   }
 
@@ -137,8 +133,7 @@ async function handleShopOrder(session: Stripe.Checkout.Session, orderId: string
     })
   }
 
-  // Send ordrebekreftelse til kunden (NOK-beløp fra Stripe)
-  const totalNok = (session.amount_total ?? 0) / 100
+  // Send ordrebekreftelse til kunden (samme NOK-beløp som ble lagret over)
   try {
     await sendCustomerOrderConfirmation({
       order_id:         orderId,

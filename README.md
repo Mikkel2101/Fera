@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fera Padel
 
-## Getting Started
+Nettside for **FeraTravels** (padelreiser) og **FeraShop** (padelutstyr). Next.js 16, Tailwind v4, Supabase.
 
-First, run the development server:
+Regler for kode, design-tokens og hvem som eier hvilke mapper står i [AGENTS.md](AGENTS.md) — les den først.
+
+## Kom i gang
+
+Krever Node 24 og tilgang til repoet på GitHub.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone git@github.com:Mikkel2101/Fera.git   # hopp over hvis du allerede har repoet
+cd Fera
+npm install
+cp .env.example .env.local                      # fyll inn verdiene du får fra Mikkel
+npm run dev                                     # åpne http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+VSCode foreslår anbefalte utvidelser (Tailwind IntelliSense, ESLint) første gang du åpner mappa — trykk «Install».
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Slik jobber vi
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`main` er beskyttet. Alle endringer går via egen branch og pull request.
 
-## Learn More
+```bash
+git checkout main && git pull                   # start alltid fra oppdatert main
+git checkout -b design/kort-beskrivelse         # f.eks. design/forside-hero
+# … gjør endringer …
+git add -A && git commit -m "design: kort beskrivelse av endringen"
+git push -u origin design/kort-beskrivelse
+```
 
-To learn more about Next.js, take a look at the following resources:
+Åpne PR-en på GitHub. Vercel lager automatisk en preview-lenke i PR-en, og Mikkel reviewer og merger.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Tips:** små PR-er ofte gir færre konflikter enn én stor. Har `main` endret seg mens du jobber: `git pull origin main` i din branch.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Kommandoer
 
-## Deploy on Vercel
+| Kommando | Hva |
+|---|---|
+| `npm run dev` | Dev-server på localhost:3000 |
+| `npm run build` | Produksjonsbygg (kjør før PR hvis du har endret mye) |
+| `npm run lint` | ESLint |
+| `npm run test` | Enhetstester (Vitest) |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Design-tokens
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Alle farger ligger som CSS-variabler i [`app/globals.css`](app/globals.css). Bruk `bg-(--color-dark)`, aldri hardkodede hex-verdier.

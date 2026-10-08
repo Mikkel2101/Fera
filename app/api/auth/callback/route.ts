@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { safeNextPath } from '@/lib/auth/next-path'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
-  const rawNext = searchParams.get('next') ?? '/'
-  // Forhindre åpen redirect — aksepter bare interne stier
-  const next = rawNext.startsWith('/') && !rawNext.startsWith('//') ? rawNext : '/'
+  const next = safeNextPath(searchParams.get('next'))
 
   const origin = request.headers.get('origin') ?? request.nextUrl.origin
 
   if (!code) {
-    return NextResponse.redirect(`${origin}/?error=missing_code`)
+    return NextResponse.redirect(`${origin}/logg-inn?error=missing_code&next=${encodeURIComponent(next)}`)
   }
 
   const supabase = await createClient()
@@ -19,7 +18,7 @@ export async function GET(request: NextRequest) {
 
   if (error || !data.user) {
     console.error('Auth callback error:', error?.message)
-    return NextResponse.redirect(`${origin}/?error=auth_failed`)
+    return NextResponse.redirect(`${origin}/logg-inn?error=auth_failed&next=${encodeURIComponent(next)}`)
   }
 
   await supabase.from('users').upsert(

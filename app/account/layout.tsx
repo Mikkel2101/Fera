@@ -20,7 +20,7 @@ export default async function AccountLayout({ children }: { children: React.Reac
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) redirect('/?error=not_authenticated')
+  if (!user) redirect('/logg-inn?next=/account')
 
   const nokRate = await fetchEurNokRate()
 

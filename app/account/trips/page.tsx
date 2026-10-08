@@ -2,20 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import Image from 'next/image'
+import { bookingStatusColor, bookingStatusLabel } from '@/lib/booking/status'
 
 export const metadata: Metadata = { title: 'Reiser' }
-
-const DEPOSIT_LABEL: Record<string, string> = {
-  Ventende: 'Depositum venter',
-  Betalt:   'Depositum betalt',
-  Refundert:'Refundert',
-}
-
-const DEPOSIT_COLOR: Record<string, string> = {
-  Ventende: 'bg-(--color-sand) text-(--color-text)',
-  Betalt:   'bg-(--color-ice) text-(--color-text)',
-  Refundert:'bg-gray-100 text-gray-600',
-}
 
 type TripSummary = {
   id: string
@@ -29,7 +18,7 @@ type TripSummary = {
 type BookingWithTrip = {
   id: string
   created_at: string
-  deposit_status: string
+  status: string
   room_type: string | null
   trips: TripSummary | null
 }
@@ -41,7 +30,7 @@ export default async function TripsPage() {
 
   const { data: rawBookings } = await supabase
     .from('bookings')
-    .select('id, created_at, deposit_status, room_type, trips(id, name, destination, start_date, end_date, main_image)')
+    .select('id, created_at, status, room_type, trips(id, name, destination, start_date, end_date, main_image)')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 
@@ -54,7 +43,7 @@ export default async function TripsPage() {
       {!bookings?.length ? (
         <div className="rounded-2xl border border-(--color-border) p-12 text-center">
           <p className="text-(--color-muted) mb-4">
-            Du har ingen registrerte reiser. Reiser booket uten å være innlogget vises ikke her.
+            Du har ingen reservasjoner ennå.
           </p>
           <Link
             href="/travels"
@@ -100,8 +89,8 @@ export default async function TripsPage() {
                         <h2 className="font-display text-lg font-semibold text-(--color-text)">{trip.name}</h2>
                         <p className="text-sm text-(--color-muted)">{trip.destination}</p>
                       </div>
-                      <span className={`text-xs font-semibold px-3 py-1 rounded-full ${DEPOSIT_COLOR[booking.deposit_status] ?? 'bg-gray-100 text-gray-600'}`}>
-                        {DEPOSIT_LABEL[booking.deposit_status] ?? booking.deposit_status}
+                      <span className={`text-xs font-semibold px-3 py-1 rounded-full ${bookingStatusColor(booking.status)}`}>
+                        {bookingStatusLabel(booking.status)}
                       </span>
                     </div>
 

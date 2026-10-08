@@ -238,6 +238,7 @@ export type Database = {
           padel_level: string | null
           selected_extras: string[]
           deposit_status: string
+          status: string
           deposit_date: string | null
           rest_paid: boolean
           stripe_session_id: string | null
@@ -261,6 +262,7 @@ export type Database = {
           selected_extras?: string[]
           deposit_status?: string
           deposit_date?: string | null
+          status?: string
           rest_paid?: boolean
           stripe_session_id?: string | null
           referral_code?: string | null
@@ -283,6 +285,7 @@ export type Database = {
           selected_extras?: string[]
           deposit_status?: string
           deposit_date?: string | null
+          status?: string
           rest_paid?: boolean
           stripe_session_id?: string | null
           referral_code?: string | null
@@ -477,6 +480,8 @@ export type Database = {
           id_passport: string | null
           status: string
           total_eur: number
+          total_nok: number | null
+          nok_rate: number | null
           stripe_session_id: string | null
           shipping_address: Json | null
           items: Json
@@ -492,6 +497,8 @@ export type Database = {
           id_passport?: string | null
           status?: string
           total_eur: number
+          total_nok?: number | null
+          nok_rate?: number | null
           stripe_session_id?: string | null
           shipping_address?: Json | null
           items: Json
@@ -507,6 +514,8 @@ export type Database = {
           id_passport?: string | null
           status?: string
           total_eur?: number
+          total_nok?: number | null
+          nok_rate?: number | null
           stripe_session_id?: string | null
           shipping_address?: Json | null
           items?: Json
@@ -624,6 +633,27 @@ export type Database = {
     Functions: {
       is_admin: {
         Args: Record<string, never>
+        Returns: boolean
+      }
+      reserve_trip_spot: {
+        Args: {
+          p_user_id: string
+          p_trip_id: string
+          p_first_name: string
+          p_last_name: string
+          p_email: string
+          p_phone: string | null
+          p_padel_level: string | null
+          p_room_type: string
+          p_roommate_name: string | null
+          p_selected_extras: string[]
+          p_gdpr_consent: boolean
+          p_terms_accepted: boolean
+        }
+        Returns: string
+      }
+      cancel_booking: {
+        Args: { p_booking_id: string }
         Returns: boolean
       }
     }

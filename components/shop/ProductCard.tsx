@@ -42,7 +42,6 @@ export default function ProductCard({ product }: { product: Product }) {
   const isOutOfStock = product.stock_status === 'out_of_stock'
 
   const isNew  = new Date(product.created_at) > new Date(Date.now() - NEW_DAYS * 86_400_000)
-  const isSale = product.is_on_sale === true
   const nokPrice = formatNok(eurToNok(product.price_eur, nokRate))
   const showSecondary = isHovered && !!secondaryImage && !imgError
 
@@ -103,12 +102,7 @@ export default function ProductCard({ product }: { product: Product }) {
         )}
 
         <div className="absolute top-2 right-2 flex flex-col gap-1 items-end">
-          {isSale && (
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-red-500 text-white">
-              Salg
-            </span>
-          )}
-          {isNew && !isSale && (
+          {isNew && (
             <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-(--color-ice) text-(--color-text)">
               Ny
             </span>
@@ -143,11 +137,6 @@ export default function ProductCard({ product }: { product: Product }) {
           <span className="text-(--color-gold) font-bold text-base tabular-nums">
             {nokPrice}
           </span>
-          {isSale && product.previous_price_eur != null && (
-            <span className="text-(--color-muted) text-sm line-through tabular-nums">
-              {formatNok(eurToNok(product.previous_price_eur, nokRate))}
-            </span>
-          )}
         </div>
       </div>
     </Link>

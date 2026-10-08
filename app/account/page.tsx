@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { bookingStatusLabel } from '@/lib/booking/status'
+import { SHOP_ENABLED } from '@/lib/flags'
 
 export const metadata: Metadata = { title: 'Oversikt' }
 
@@ -12,16 +14,10 @@ const STATUS_LABEL: Record<string, string> = {
   cancelled:             'Avlyst',
 }
 
-const BOOKING_LABEL: Record<string, string> = {
-  Ventende: 'Venter betaling',
-  Betalt:   'Depositum betalt',
-  Refundert:'Refundert',
-}
-
 type BookingWithTrip = {
   id: string
   created_at: string
-  deposit_status: string
+  status: string
   trips: { id: string; name: string; destination: string; start_date: string } | null
 }
 
@@ -39,7 +35,7 @@ export default async function AccountPage() {
       .limit(3),
     supabase
       .from('bookings')
-      .select('id, deposit_status, created_at, trips(id, name, destination, start_date)')
+      .select('id, status, created_at, trips(id, name, destination, start_date)')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(3),
@@ -56,17 +52,17 @@ export default async function AccountPage() {
           Hei, {displayName}
         </h1>
         <p className="mt-1 text-sm text-(--color-muted)">
-          Her finner du ordre, reiser og kontoinformasjon.
+          {SHOP_ENABLED ? 'Her finner du ordre, reiser og kontoinformasjon.' : 'Her finner du reiser og kontoinformasjon.'}
         </p>
       </div>
 
       {/* Hurtiglenker */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className={`grid grid-cols-2 gap-3 ${SHOP_ENABLED ? 'sm:grid-cols-4' : ''}`}>
         {[
-          { href: '/account/orders',    label: 'Ordrer',   desc: 'Se handlehistorikk' },
+          ...(SHOP_ENABLED ? [{ href: '/account/orders', label: 'Ordrer', desc: 'Se handlehistorikk' }] : []),
           { href: '/account/trips',     label: 'Reiser',   desc: 'Dine padel-turer' },
           { href: '/account/profile',   label: 'Profil',   desc: 'Rediger kontoen din' },
-          { href: '/account/addresses', label: 'Adresser', desc: 'Leveringsadresser' },
+          ...(SHOP_ENABLED ? [{ href: '/account/addresses', label: 'Adresser', desc: 'Leveringsadresser' }] : []),
         ].map(({ href, label, desc }) => (
           <Link
             key={href}
@@ -80,6 +76,7 @@ export default async function AccountPage() {
       </div>
 
       {/* Siste ordrer */}
+      {SHOP_ENABLED && (
       <section aria-labelledby="orders-heading">
         <div className="flex items-center justify-between mb-3">
           <h2 id="orders-heading" className="font-display text-xl font-semibold text-(--color-text)">Siste ordrer</h2>
@@ -124,6 +121,7 @@ export default async function AccountPage() {
           </div>
         )}
       </section>
+      )}
 
       {/* Kommende reiser */}
       <section aria-labelledby="trips-heading">
@@ -154,7 +152,7 @@ export default async function AccountPage() {
                     </p>
                   </div>
                   <span className="text-xs px-2 py-1 rounded-full bg-(--color-ice-light) text-(--color-text)">
-                    {BOOKING_LABEL[booking.deposit_status] ?? booking.deposit_status}
+                    {bookingStatusLabel(booking.status)}
                   </span>
                 </div>
               )

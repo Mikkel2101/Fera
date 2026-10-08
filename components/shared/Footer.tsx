@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { SHOP_ENABLED } from '@/lib/flags'
 
 export default function Footer() {
   return (
@@ -46,6 +47,7 @@ export default function Footer() {
 
           {/* Shop & Om oss */}
           <div>
+            {SHOP_ENABLED && (<>
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Nettbutikk</h4>
             <ul className="space-y-3 mb-8">
               <li><Link href="/shop" className="text-white/50 text-sm hover:text-white transition-colors">Alle produkter</Link></li>
@@ -55,6 +57,7 @@ export default function Footer() {
               <li><Link href="/shop?kategori=balls" className="text-white/50 text-sm hover:text-white transition-colors">Baller</Link></li>
               <li><Link href="/shop/levering-og-retur" className="text-white/50 text-sm hover:text-white transition-colors">Levering og retur</Link></li>
             </ul>
+            </>)}
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Om oss</h4>
             <ul className="space-y-3">
               <li><Link href="/travels/om-oss" className="text-white/50 text-sm hover:text-white transition-colors">Teamet</Link></li>
@@ -98,9 +101,15 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex items-center gap-4 text-xs text-white/30">
-            <span>Offisiell Padelpoint-partner</span>
-            <span className="hidden sm:inline">·</span>
-            <span className="hidden sm:inline">Trygg betaling via Stripe</span>
+            {SHOP_ENABLED ? (<>
+              <span>Offisiell Padelpoint-partner</span>
+              <span className="hidden sm:inline">·</span>
+              <span className="hidden sm:inline">Trygg betaling via Stripe</span>
+            </>) : (<>
+              <Link href="/personvern" className="hover:text-white transition-colors">Personvern</Link>
+              <span>·</span>
+              <Link href="/vilkar" className="hover:text-white transition-colors">Vilkår for reservasjon</Link>
+            </>)}
           </div>
         </div>
 
