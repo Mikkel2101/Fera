@@ -8,14 +8,13 @@ import type { Database } from '@/lib/supabase/types'
 
 type Product = Database['public']['Tables']['products']['Row']
 
-type SortKey = 'default' | 'price_asc' | 'price_desc' | 'newest' | 'sale'
+type SortKey = 'default' | 'price_asc' | 'price_desc' | 'newest'
 
 const SORT_OPTIONS: { value: SortKey; label: string }[] = [
   { value: 'default',    label: 'Anbefalt' },
   { value: 'price_asc',  label: 'Pris: lav → høy' },
   { value: 'price_desc', label: 'Pris: høy → lav' },
   { value: 'newest',     label: 'Nyeste' },
-  { value: 'sale',       label: 'Salg' },
 ]
 
 function ProductGridInner({ products }: { products: Product[] }) {
@@ -52,7 +51,6 @@ function ProductGridInner({ products }: { products: Product[] }) {
       case 'price_asc':  return [...list].sort((a, b) => a.price_eur - b.price_eur)
       case 'price_desc': return [...list].sort((a, b) => b.price_eur - a.price_eur)
       case 'newest':     return [...list].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-      case 'sale':       return [...list].sort((a, b) => (b.is_on_sale ? 1 : 0) - (a.is_on_sale ? 1 : 0))
       default:           return list
     }
   }, [products, brandFilter, categoryFilter, query, sort])

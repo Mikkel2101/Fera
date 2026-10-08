@@ -98,16 +98,6 @@ export default async function ProductPage({
               <span className="text-(--color-gold) font-bold text-3xl">
                 {formatNok(eurToNok(product.price_eur, nokRate))}
               </span>
-              {product.is_on_sale && product.previous_price_eur != null && (
-                <span className="text-(--color-muted) text-xl line-through">
-                  {formatNok(eurToNok(product.previous_price_eur, nokRate))}
-                </span>
-              )}
-              {product.is_on_sale && (
-                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-red-500 text-white">
-                  Salg
-                </span>
-              )}
             </div>
 
             {/* Stock */}
