@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
 import type { Article, ArticleCategory, ArticleDoc, ArticleStatus, ArticleSummary } from './types'
@@ -23,11 +24,14 @@ export function toArticle(row: ArticleRow): Article {
   }
 }
 
+// content hentes bare for å regne ut lesetid.
+const SUMMARY_COLUMNS = 'slug, title, excerpt, category, cover_image, cover_image_alt, published_at, content'
+
 export async function getPublishedArticles(limit?: number): Promise<ArticleSummary[]> {
   const supabase = await createClient()
   const base = supabase
     .from('articles')
-    .select('*')
+    .select(SUMMARY_COLUMNS)
     .eq('status', 'published')
     .order('published_at', { ascending: false })
   const { data, error } = await (limit ? base.limit(limit) : base)
@@ -35,23 +39,16 @@ export async function getPublishedArticles(limit?: number): Promise<ArticleSumma
     console.error('[articles] getPublishedArticles feilet', error)
     return []
   }
-  return data.map((row) => {
-    const article = toArticle(row)
-    return {
-      slug: article.slug,
-      title: article.title,
-      excerpt: article.excerpt,
-      category: article.category,
-      cover_image: article.cover_image,
-      cover_image_alt: article.cover_image_alt,
-      published_at: article.published_at,
-      reading_minutes: readingTimeMinutes(article.content),
-    }
-  })
+  return data.map(({ content, ...row }) => ({
+    ...row,
+    category: row.category as ArticleCategory,
+    reading_minutes: readingTimeMinutes(content as unknown as ArticleDoc),
+  }))
 }
 
 // Filtrerer eksplisitt på status: RLS slipper admin gjennom til utkast.
-export async function getPublishedArticle(slug: string): Promise<Article | null> {
+// cache(): generateMetadata og siden deler samme oppslag i én forespørsel.
+export const getPublishedArticle = cache(async (slug: string): Promise<Article | null> => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('articles')
@@ -61,7 +58,7 @@ export async function getPublishedArticle(slug: string): Promise<Article | null>
     .maybeSingle()
   if (error) console.error('[articles] getPublishedArticle feilet', slug, error)
   return data ? toArticle(data) : null
-}
+})
 
 export async function getArticleForAdmin(id: string): Promise<Article | null> {
   const supabase = await createClient()

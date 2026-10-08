@@ -6,6 +6,7 @@ import { requireAdmin } from '@/lib/auth/require-admin'
 import type { Json } from '@/lib/supabase/types'
 import type { ArticleDoc } from '@/lib/articles/types'
 import { sanitizeDoc } from '@/lib/articles/content'
+import { keepPublishedTime } from '@/lib/articles/format'
 import {
   articleMetaSchema, fieldErrors, mapDbError, missingForPublish,
   type ActionResult, type ArticleMetaInput,
@@ -14,6 +15,8 @@ import {
 const MAX_CONTENT_CHARS = 500_000
 const BUCKET = 'articles'
 const STORAGE_LIST_LIMIT = 1000
+const NOT_FOUND = 'Fant ikke artikkelen. Den kan være slettet.'
+const SLUG_LOCKED = 'Adressen kan ikke endres mens artikkelen er publisert. Avpubliser for å endre adressen.'
 
 function revalidateArticle(...slugs: string[]) {
   revalidatePath('/admin/articles')
@@ -65,17 +68,27 @@ export async function saveArticle(
 
   const { data: previous, error: previousError } = await supabase
     .from('articles')
-    .select('slug')
+    .select('slug, status, published_at')
     .eq('id', id)
     .maybeSingle()
   if (previousError) {
     console.error('[articles] lagring: oppslag feilet', id, previousError)
     return { ok: false, error: 'Noe gikk galt. Prøv igjen.' }
   }
+  if (!previous) {
+    console.error('[articles] lagring: fant ikke', id)
+    return { ok: false, error: NOT_FOUND }
+  }
 
+  // Ny adresse på en publisert artikkel ville gitt 404 for alle som har lenket til den.
+  if (previous.status === 'published' && previous.slug !== parsed.data.slug) {
+    return { ok: false, error: SLUG_LOCKED, fieldErrors: { slug: SLUG_LOCKED } }
+  }
+
+  const published_at = keepPublishedTime(parsed.data.published_at, previous.published_at)
   const { data: updated, error } = await supabase
     .from('articles')
-    .update({ ...parsed.data, content: doc as unknown as Json })
+    .update({ ...parsed.data, published_at, content: doc as unknown as Json })
     .eq('id', id)
     .select('id')
     .maybeSingle()
@@ -86,16 +99,16 @@ export async function saveArticle(
   }
   if (!updated) {
     console.error('[articles] lagring: fant ikke', id)
-    return { ok: false, error: 'Fant ikke artikkelen. Den kan være slettet.' }
+    return { ok: false, error: NOT_FOUND }
   }
 
-  const oldSlugs = previous && previous.slug !== parsed.data.slug ? [previous.slug] : []
+  const oldSlugs = previous.slug !== parsed.data.slug ? [previous.slug] : []
   revalidateArticle(parsed.data.slug, ...oldSlugs)
   revalidatePath(`/admin/articles/${id}`)
   return { ok: true, data: { slug: parsed.data.slug } }
 }
 
-export async function publishArticle(id: string): Promise<ActionResult> {
+export async function publishArticle(id: string): Promise<ActionResult<{ published_at: string }>> {
   const { supabase } = await requireAdmin()
 
   const { data: article, error } = await supabase
@@ -113,9 +126,10 @@ export async function publishArticle(id: string): Promise<ActionResult> {
     return { ok: false, error: `Mangler før publisering: ${missing.join(', ')}` }
   }
 
+  const published_at = article.published_at ?? new Date().toISOString()
   const { error: updateError } = await supabase
     .from('articles')
-    .update({ status: 'published', published_at: article.published_at ?? new Date().toISOString() })
+    .update({ status: 'published', published_at })
     .eq('id', id)
   if (updateError) {
     console.error('[articles] publisering feilet', id, updateError)
@@ -124,7 +138,7 @@ export async function publishArticle(id: string): Promise<ActionResult> {
 
   revalidateArticle(article.slug)
   revalidatePath(`/admin/articles/${id}`)
-  return { ok: true, data: undefined }
+  return { ok: true, data: { published_at } }
 }
 
 export async function unpublishArticle(id: string): Promise<ActionResult> {

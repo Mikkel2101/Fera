@@ -20,6 +20,7 @@ export type MetaState = {
 type Props = {
   articleId: string
   value: MetaState
+  isPublished: boolean
   teamNames: string[]
   errors: FieldErrors
   onChange: (patch: Partial<MetaState>) => void
@@ -41,7 +42,7 @@ function Field({ label, hint, error, children }: { label: string; hint?: string;
   )
 }
 
-export default function ArticleMetaFields({ articleId, value, teamNames, errors, onChange, onSlugEdited, onError }: Props) {
+export default function ArticleMetaFields({ articleId, value, isPublished, teamNames, errors, onChange, onSlugEdited, onError }: Props) {
   return (
     <div className="space-y-5">
       <Field label="Tittel" error={errors.title}>
@@ -58,10 +59,15 @@ export default function ArticleMetaFields({ articleId, value, teamNames, errors,
           {teamNames.map((name) => <option key={name} value={name} />)}
         </datalist>
       </Field>
-      <Field label="Adresse" hint={`/travels/inspirasjon/${value.slug}`} error={errors.slug}>
+      <Field
+        label="Adresse"
+        hint={`/travels/inspirasjon/${value.slug}${isPublished ? ' · Avpubliser for å endre adressen' : ''}`}
+        error={errors.slug}
+      >
         <input
-          className={INPUT}
+          className={`${INPUT} read-only:bg-(--color-ice-light) read-only:text-(--color-muted) read-only:cursor-not-allowed`}
           value={value.slug}
+          readOnly={isPublished}
           onChange={(e) => { onSlugEdited(); onChange({ slug: e.target.value }) }}
         />
       </Field>

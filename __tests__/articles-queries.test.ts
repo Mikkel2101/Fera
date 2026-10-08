@@ -46,6 +46,15 @@ describe('offentlige artikkelspørringer', () => {
     expect(articles[0]).toMatchObject({ slug: 'utkast', reading_minutes: 1 })
   })
 
+  it('getPublishedArticles henter bare kolonnene kortene trenger', async () => {
+    nextResult = { data: [row], error: null }
+    await getPublishedArticles()
+    const select = calls.find(([method]) => method === 'select')
+    expect(select?.[1][0]).not.toBe('*')
+    expect(select?.[1][0]).not.toContain('meta_description')
+    expect(select?.[1][0]).toContain('content')
+  })
+
   it('getPublishedArticles gir tom liste ved databasefeil', async () => {
     nextResult = { data: null, error: { message: 'nede' } }
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
