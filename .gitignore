@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -45,6 +46,14 @@ next-env.d.ts
 
 # sensitive
 recovery-codes.txt
+
+# konfidensielt (repoet er public): avtaler, møtereferater, leverandør-API
+/Meetings/
+/API/
+/docs/padelpoint-mote-*.md
+/docs/PadePoint Meeting*
+/docs/claude-code-prompt-padelpoint-fase1.md
+/Logo Design Presentation_Fera-komprimert.pdf
 
 # local image assets (already in Supabase Storage)
 /Bilder/
