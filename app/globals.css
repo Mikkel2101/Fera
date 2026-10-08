@@ -183,3 +183,34 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.05rem;
   line-height: 1.7;
 }
+.prose-fera > p:first-child {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: var(--color-subtle);
+}
+.prose-fera h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 2rem 0 0.75rem;
+}
+.prose-fera ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.4rem;
+}
+.prose-fera ol li {
+  margin-bottom: 0.6rem;
+}
+.prose-fera li > p {
+  margin-bottom: 0;
+}
+.prose-fera blockquote > p:last-child {
+  margin-bottom: 0;
+}
+.prose-fera a {
+  color: var(--color-cta);
+}
+.prose-fera a:hover {
+  text-decoration: underline;
+}
