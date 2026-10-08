@@ -10,10 +10,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Hva er dette prosjektet?
 
-**Fera Padel** er en norsk netthandel- og reiseplattform for padel-entusiaster. To produkter under samme merkevare:
+**Fera Padel** er en norsk plattform for padel-entusiaster.
 
-- **FeraTravels** (`/travels`) — padelreiser til Spania. Booking med Stripe-betaling.
-- **FeraShop** (`/shop`) — padelutstyr (racketer, sko, vesker, baller etc.). Handlekurv med localStorage-persistering.
+> **FOKUS (besluttet okt 2026): Travels + community.** All ny utvikling og design går til FeraTravels og (etter hvert) et medlemsområde. FeraShop ligger i dvale til lanseringen av egne FERA-varer og Padelpoint-API-et (2027). **Ikke bygg nye shop-funksjoner, og ikke slett shop-koden** — den skal brukes igjen.
+
+- **FeraTravels** (`/travels`) — padelreiser til Spania. Uforpliktende reservasjon (Stripe-depositum kommer senere).
+- **FeraShop** (`/shop`) — i dvale bak `NEXT_PUBLIC_SHOP_ENABLED`. `/shop/*` sender til `/kolleksjon`: venteliste for egne FERA-varer (påmeldinger i `newsletter_subscribers` med `brands = ['kolleksjon']`).
 
 Målgruppe: norske padel-spillere. Alle brukervendte tekster er på norsk.
 
@@ -21,7 +23,7 @@ Målgruppe: norske padel-spillere. Alle brukervendte tekster er på norsk.
 
 ## Nåværende status (per 8. oktober 2026)
 
-**Siden er stengt bak coming-soon:** `COMING_SOON=true` i Vercel Production. Sjekken ligger øverst i `proxy()` i `proxy.ts` — nye rewrites/redirects MÅ ligge etter den blokka. Preview-deployer har `COMING_SOON=false` så designendringer kan sees i PR-previews.
+**Siden er stengt bak coming-soon:** `COMING_SOON=true` i Vercel Production. Sjekken ligger øverst i `proxy()` i `proxy.ts` — nye rewrites/redirects MÅ ligge etter den blokka. `COMING_SOON` er ikke satt for Preview, så designendringer kan sees i PR-previews.
 
 **Ferdig:**
 - FeraTravels: turlisteside `/travels`, turdetaljside `/travels/[id]`, booking er nå **uforpliktende reservasjon** (ingen Stripe-depositum ennå), admin-panel `/admin` med bekreft/kanseller/CSV-eksport
@@ -32,7 +34,7 @@ Målgruppe: norske padel-spillere. Alle brukervendte tekster er på norsk.
 - Delt Nav (`components/shared/Nav.tsx`) med cart-ikon og badge
 - Hjemmeside `/` med hero, nyeste produkter, kommende turer, blogg-teaser
 
-**FeraShop er skjult** bak `NEXT_PUBLIC_SHOP_ENABLED` (av som standard). Ingen salgs-/rabattvisning (avtale med Padelpoint), og Bullpadel kan ikke selges (`restricted_brands`, migrasjon 022).
+**FeraShop er skjult** bak `NEXT_PUBLIC_SHOP_ENABLED` (av som standard). Nattlig Padelpoint-sync er slått av (`.github/workflows/padelpoint-sync.yml`, kan kjøres manuelt). Ingen salgs-/rabattvisning (avtale med Padelpoint), og Bullpadel kan ikke selges (`restricted_brands`, migrasjon 022).
 
 **Fikset oktober 2026:** webhook-idempotens, atomisk lagerlås + NOK-kurssnapshot på ordre, fokus-trap i AuthModal, Vipps-badge som CSS-token.
 

@@ -1,8 +1,10 @@
 name: Padelpoint Product Sync
 
 on:
-  schedule:
-    - cron: '0 2 * * *'   # 02:00 UTC = 03:00/04:00 norsk tid
+  # Nattlig kjøring er av mens shop ligger i dvale (Travels-fokus, okt 2026).
+  # Slå på igjen før shop-lanseringen:
+  # schedule:
+  #   - cron: '0 2 * * *'   # 02:00 UTC = 03:00/04:00 norsk tid
   workflow_dispatch:        # Manuell kjøring fra GitHub UI
 
 jobs:
