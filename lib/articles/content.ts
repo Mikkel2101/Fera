@@ -6,12 +6,13 @@ const ALLOWED_NODES = new Set([
 ])
 const ALLOWED_MARKS = new Set(['bold', 'italic', 'link'])
 const SAFE_PROTOCOLS = new Set(['http:', 'https:', 'mailto:'])
+const INTERNAL_PATH_PATTERN = /^\/(?![\/\\])[^\s\\]*$/
 const WORDS_PER_MINUTE = 200
 
 export function isSafeHref(href: unknown): href is string {
   if (typeof href !== 'string') return false
   const value = href.trim()
-  if (value.startsWith('/')) return !value.startsWith('//')
+  if (value.startsWith('/')) return INTERNAL_PATH_PATTERN.test(value)
   try {
     return SAFE_PROTOCOLS.has(new URL(value).protocol)
   } catch {

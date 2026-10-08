@@ -12,7 +12,7 @@ describe('isSafeHref', () => {
   it.each(['https://ferapadel.com', 'http://example.com/x', 'mailto:hei@fera.no', '/travels', '/travels/inspirasjon'])(
     'godtar %s', (href) => expect(isSafeHref(href)).toBe(true),
   )
-  it.each(['javascript:alert(1)', ' JavaScript:alert(1)', 'data:text/html,hi', '//evil.com', 'vbscript:x', '', 'ikke en url', 42, null])(
+  it.each(['javascript:alert(1)', ' JavaScript:alert(1)', 'data:text/html,hi', '//evil.com', 'vbscript:x', '', 'ikke en url', 42, null, '/\\evil.com', '/\t/evil.com', '/\n/evil.com', '/\\\\evil.com'])(
     'avviser %s', (href) => expect(isSafeHref(href)).toBe(false),
   )
 })
