@@ -6,11 +6,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://ferabrand.com'
   const supabase = await createClient()
 
-  const [{ data: trips }, { data: products }] = await Promise.all([
+  const [{ data: trips }, { data: products }, { data: articles }] = await Promise.all([
     supabase.from('trips').select('id, start_date').eq('published', true),
     SHOP_ENABLED
       ? supabase.from('products').select('id, updated_at').eq('published', true)
       : Promise.resolve({ data: [] as Array<{ id: string; updated_at: string | null }> }),
+    supabase.from('articles').select('slug, updated_at').eq('status', 'published'),
   ])
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -42,5 +43,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...tripPages, ...productPages]
+  const articlePages: MetadataRoute.Sitemap = (articles ?? []).map((article) => ({
+    url: `${baseUrl}/travels/inspirasjon/${article.slug}`,
+    lastModified: new Date(article.updated_at),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
+
+  return [...staticPages, ...tripPages, ...productPages, ...articlePages]
 }

@@ -33,6 +33,60 @@ export type Database = {
         }
         Relationships: []
       }
+      articles: {
+        Row: {
+          id: string
+          slug: string
+          title: string
+          excerpt: string
+          category: string
+          cover_image: string | null
+          cover_image_alt: string | null
+          meta_description: string | null
+          content: Json
+          status: string
+          published_at: string | null
+          author_id: string | null
+          author_name: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          slug: string
+          title: string
+          excerpt?: string
+          category?: string
+          cover_image?: string | null
+          cover_image_alt?: string | null
+          meta_description?: string | null
+          content?: Json
+          status?: string
+          published_at?: string | null
+          author_id?: string | null
+          author_name?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          slug?: string
+          title?: string
+          excerpt?: string
+          category?: string
+          cover_image?: string | null
+          cover_image_alt?: string | null
+          meta_description?: string | null
+          content?: Json
+          status?: string
+          published_at?: string | null
+          author_id?: string | null
+          author_name?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           id: string
@@ -634,6 +688,10 @@ export type Database = {
       is_admin: {
         Args: Record<string, never>
         Returns: boolean
+      }
+      team_members: {
+        Args: Record<string, never>
+        Returns: { full_name: string }[]
       }
       reserve_trip_spot: {
         Args: {

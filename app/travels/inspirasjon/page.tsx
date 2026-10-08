@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { posts } from './posts'
+import { getPublishedArticles } from '@/lib/articles/queries'
+import { formatArticleDate } from '@/lib/articles/format'
 
 export const metadata = {
   title: 'Inspirasjon — Fera Travels',
@@ -19,7 +20,9 @@ const highlights = [
   { src: `${PHOTOS}/beer-court.jpg`, alt: 'Sosialt etter kamp', label: 'Sosialt', span: '' },
 ]
 
-export default function InspirasjonPage() {
+export default async function InspirasjonPage() {
+  const articles = await getPublishedArticles()
+
   return (
     <>
       {/* Hero */}
@@ -98,21 +101,23 @@ export default function InspirasjonPage() {
             <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Historier fra banen</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {posts.map((post) => (
+            {articles.map((post) => (
               <Link
                 key={post.slug}
                 href={`/travels/inspirasjon/${post.slug}`}
                 className="group bg-white rounded-2xl overflow-hidden border border-(--color-border) hover:shadow-lg transition-shadow"
               >
                 <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.imageAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    unoptimized
-                  />
+                  {post.cover_image && (
+                    <Image
+                      src={post.cover_image}
+                      alt={post.cover_image_alt ?? ''}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      unoptimized
+                    />
+                  )}
                   <div className="absolute top-3 left-3">
                     <span className="bg-white/90 backdrop-blur text-[10px] font-semibold px-2.5 py-1 rounded-full text-(--color-cta) uppercase tracking-widest">
                       {post.category}
@@ -121,9 +126,9 @@ export default function InspirasjonPage() {
                 </div>
                 <div className="p-5">
                   <div className="flex items-center gap-3 text-xs text-(--color-muted) mb-2">
-                    <span>{post.date}</span>
+                    <span>{formatArticleDate(post.published_at)}</span>
                     <span>·</span>
-                    <span>{post.readTime}</span>
+                    <span>{post.reading_minutes} min</span>
                   </div>
                   <h3 className="font-display font-bold text-(--color-text) text-lg leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
                     {post.title}
@@ -134,6 +139,9 @@ export default function InspirasjonPage() {
               </Link>
             ))}
           </div>
+          {articles.length === 0 && (
+            <p className="text-(--color-muted) text-sm">Nye historier kommer snart.</p>
+          )}
         </div>
       </section>
 

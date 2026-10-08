@@ -2,92 +2,75 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getPost, posts } from '../posts'
+import ArticleBody from '@/components/articles/ArticleBody'
+import { getPublishedArticle } from '@/lib/articles/queries'
+import { readingTimeMinutes } from '@/lib/articles/content'
+import { formatArticleDate } from '@/lib/articles/format'
 
-import EnUkeIAlbir from '../content/en-uke-i-albir'
-import CoachingMedAndre from '../content/coaching-med-andre'
-import DerforElskerViCostaBlanca from '../content/derfor-elsker-vi-costa-blanca'
-
-const contentMap: Record<string, React.FC> = {
-  'en-uke-i-albir': EnUkeIAlbir,
-  'coaching-med-andre': CoachingMedAndre,
-  'derfor-elsker-vi-costa-blanca': DerforElskerViCostaBlanca,
-}
-
-export async function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }))
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const post = getPost(slug)
-  if (!post) return { title: 'Ikke funnet' }
+  const article = await getPublishedArticle(slug)
+  if (!article) return { title: 'Ikke funnet' }
+  const description = article.meta_description ?? article.excerpt
   return {
-    title: `${post.title} — Fera Padel`,
-    description: post.metaDescription,
+    title: `${article.title} — Fera Padel`,
+    description,
     openGraph: {
-      title: post.title,
-      description: post.metaDescription,
-      images: [{ url: post.image }],
+      title: article.title,
+      description,
+      images: article.cover_image ? [{ url: article.cover_image }] : [],
       type: 'article',
       locale: 'nb_NO',
+      publishedTime: article.published_at ?? undefined,
     },
   }
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post = getPost(slug)
-  if (!post) notFound()
-
-  const Content = contentMap[slug]
-  if (!Content) notFound()
+  const article = await getPublishedArticle(slug)
+  if (!article) notFound()
 
   return (
     <article>
-      {/* Hero */}
       <div className="relative aspect-[21/9] max-h-[520px] w-full overflow-hidden bg-(--color-dark)">
-        <Image
-          src={post.image}
-          alt={post.imageAlt}
-          fill
-          sizes="100vw"
-          className="object-cover opacity-80"
-          priority
-          unoptimized
-        />
+        {article.cover_image && (
+          <Image
+            src={article.cover_image}
+            alt={article.cover_image_alt ?? ''}
+            fill
+            sizes="100vw"
+            className="object-cover opacity-80"
+            priority
+            unoptimized
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-(--color-dark)/70 via-transparent to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 px-4 sm:px-6 lg:px-8 pb-10 max-w-3xl mx-auto w-full">
           <span className="inline-block text-[10px] font-semibold uppercase tracking-widest bg-white/90 text-(--color-cta) px-3 py-1 rounded-full mb-4">
-            {post.category}
+            {article.category}
           </span>
           <h1 className="font-display text-white font-bold text-3xl sm:text-4xl lg:text-5xl leading-tight">
-            {post.title}
+            {article.title}
           </h1>
         </div>
       </div>
 
-      {/* Article body */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        {/* Meta */}
-        <div className="flex items-center gap-4 text-sm text-(--color-muted) mb-10 border-b border-(--color-border) pb-6">
-          <span>{post.date}</span>
+        <div className="flex flex-wrap items-center gap-4 text-sm text-(--color-muted) mb-10 border-b border-(--color-border) pb-6">
+          {article.author_name && (
+            <>
+              <span>{article.author_name}</span>
+              <span>·</span>
+            </>
+          )}
+          <span>{formatArticleDate(article.published_at)}</span>
           <span>·</span>
-          <span>{post.readTime} lesing</span>
+          <span>{readingTimeMinutes(article.content)} min lesing</span>
         </div>
 
-        {/* Content */}
-        <Content />
+        <ArticleBody doc={article.content} />
 
-        {/* CTA */}
         <div className="mt-16 border-t border-(--color-border) pt-10">
           <p className="text-(--color-gold) text-xs uppercase tracking-widest font-medium mb-2">Klar for turen?</p>
           <p className="font-display font-bold text-(--color-text) text-2xl mb-5">
