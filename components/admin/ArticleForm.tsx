@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useTransition } from 'react'
+import { useRef, useState, useTransition, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
 import ArticleBody from '@/components/articles/ArticleBody'
 import ArticleEditor from './ArticleEditor'
@@ -34,7 +34,9 @@ function toMetaInput(meta: MetaState): ArticleMetaInput {
 const PRIMARY = 'bg-(--color-cta) text-white font-sans font-semibold rounded-full px-5 py-2.5 text-sm hover:bg-(--color-dark-mid) transition-colors disabled:opacity-50'
 const SECONDARY = 'border border-(--color-border) text-(--color-text) font-sans font-medium rounded-full px-5 py-2.5 text-sm hover:border-(--color-cta) disabled:opacity-50'
 
-export default function ArticleForm({ article, teamNames }: { article: Article; teamNames: string[] }) {
+type Props = { article: Article; teamNames: string[]; newsletterPanel?: ReactNode }
+
+export default function ArticleForm({ article, teamNames, newsletterPanel }: Props) {
   const router = useRouter()
   const [meta, setMeta] = useState<MetaState>(() => toMetaState(article))
   const [content, setContent] = useState<ArticleDoc>(article.content)
@@ -103,6 +105,7 @@ export default function ArticleForm({ article, teamNames }: { article: Article; 
     }
     setStatus('draft')
     setMessage({ tone: 'success', text: 'Avpublisert. Artikkelen er skjult fra nettsiden.' })
+    router.refresh()
   })
 
   const handleDelete = () => {
@@ -163,6 +166,7 @@ export default function ArticleForm({ article, teamNames }: { article: Article; 
               onSlugEdited={() => { isSlugLocked.current = true }}
               onError={showError}
             />
+            {newsletterPanel}
             <button type="button" onClick={handleDelete} disabled={isPending} className="mt-8 text-sm text-(--color-muted) hover:text-(--color-cta)">
               Slett artikkel
             </button>
