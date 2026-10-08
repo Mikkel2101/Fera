@@ -79,3 +79,14 @@ export async function listArticlesForAdmin() {
   if (error) console.error('[articles] listArticlesForAdmin feilet', error)
   return (data ?? []).map((row) => ({ ...row, status: row.status as ArticleStatus }))
 }
+
+// Forslag i forfatterfeltet. Feiler den, kan man fortsatt skrive navnet selv.
+export async function getTeamNames(): Promise<string[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase.rpc('team_members')
+  if (error) {
+    console.error('[articles] getTeamNames feilet', error)
+    return []
+  }
+  return (data ?? []).map((row) => row.full_name)
+}

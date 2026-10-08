@@ -38,6 +38,10 @@ export const articleMetaSchema = z
     cover_image_alt: optionalText(200, 'Bildebeskrivelsen kan ha maks 200 tegn'),
     meta_description: optionalText(200, 'Meta-beskrivelsen kan ha maks 200 tegn'),
     published_at: z.preprocess(emptyToNull, z.iso.datetime({ offset: true }).nullable()),
+    // Fritekst så noen kan skrive på vegne av andre (ghostwriting) eller gjesteforfattere.
+    author_name: z.string().trim()
+      .min(1, 'Velg eller skriv inn en forfatter')
+      .max(100, 'Forfatternavnet kan ha maks 100 tegn'),
   })
   .superRefine((value, ctx) => {
     if (value.cover_image && !isAllowedImageSrc(value.cover_image)) {

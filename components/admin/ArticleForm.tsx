@@ -22,6 +22,7 @@ function toMetaState(article: Article): MetaState {
     cover_image_alt: article.cover_image_alt ?? '',
     meta_description: article.meta_description ?? '',
     published_date: toDateInput(article.published_at),
+    author_name: article.author_name ?? '',
   }
 }
 
@@ -33,7 +34,7 @@ function toMetaInput(meta: MetaState): ArticleMetaInput {
 const PRIMARY = 'bg-(--color-cta) text-white font-sans font-semibold rounded-full px-5 py-2.5 text-sm hover:bg-(--color-dark-mid) transition-colors disabled:opacity-50'
 const SECONDARY = 'border border-(--color-border) text-(--color-text) font-sans font-medium rounded-full px-5 py-2.5 text-sm hover:border-(--color-cta) disabled:opacity-50'
 
-export default function ArticleForm({ article }: { article: Article }) {
+export default function ArticleForm({ article, teamNames }: { article: Article; teamNames: string[] }) {
   const router = useRouter()
   const [meta, setMeta] = useState<MetaState>(() => toMetaState(article))
   const [content, setContent] = useState<ArticleDoc>(article.content)
@@ -154,6 +155,7 @@ export default function ArticleForm({ article }: { article: Article }) {
             <ArticleMetaFields
               articleId={article.id}
               value={meta}
+              teamNames={teamNames}
               errors={errors}
               onChange={updateMeta}
               onSlugEdited={() => { isSlugLocked.current = true }}

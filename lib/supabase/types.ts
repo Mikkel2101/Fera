@@ -689,6 +689,10 @@ export type Database = {
         Args: Record<string, never>
         Returns: boolean
       }
+      team_members: {
+        Args: Record<string, never>
+        Returns: { full_name: string }[]
+      }
       reserve_trip_spot: {
         Args: {
           p_user_id: string

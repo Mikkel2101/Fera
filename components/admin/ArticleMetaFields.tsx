@@ -14,11 +14,13 @@ export type MetaState = {
   cover_image_alt: string
   meta_description: string
   published_date: string
+  author_name: string
 }
 
 type Props = {
   articleId: string
   value: MetaState
+  teamNames: string[]
   errors: FieldErrors
   onChange: (patch: Partial<MetaState>) => void
   onSlugEdited: () => void
@@ -39,11 +41,22 @@ function Field({ label, hint, error, children }: { label: string; hint?: string;
   )
 }
 
-export default function ArticleMetaFields({ articleId, value, errors, onChange, onSlugEdited, onError }: Props) {
+export default function ArticleMetaFields({ articleId, value, teamNames, errors, onChange, onSlugEdited, onError }: Props) {
   return (
     <div className="space-y-5">
       <Field label="Tittel" error={errors.title}>
         <input className={INPUT} value={value.title} onChange={(e) => onChange({ title: e.target.value })} />
+      </Field>
+      <Field label="Forfatter" hint="Velg fra teamet eller skriv et annet navn (f.eks. gjesteskribent)" error={errors.author_name}>
+        <input
+          className={INPUT}
+          list="article-team-names"
+          value={value.author_name}
+          onChange={(e) => onChange({ author_name: e.target.value })}
+        />
+        <datalist id="article-team-names">
+          {teamNames.map((name) => <option key={name} value={name} />)}
+        </datalist>
       </Field>
       <Field label="Adresse" hint={`/travels/inspirasjon/${value.slug}`} error={errors.slug}>
         <input

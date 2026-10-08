@@ -17,6 +17,7 @@ const valid = {
   cover_image_alt: 'Spillere på bane',
   meta_description: '',
   published_at: '',
+  author_name: 'Petter Skimmeland',
 }
 
 describe('slugify', () => {
@@ -40,6 +41,23 @@ describe('articleMetaSchema', () => {
     const result = articleMetaSchema.parse(valid)
     expect(result.meta_description).toBeNull()
     expect(result.published_at).toBeNull()
+  })
+
+  it('godtar valgfritt forfatternavn (ghostwriting) og trimmer det', () => {
+    const result = articleMetaSchema.parse({ ...valid, author_name: '  André Schlyter ' })
+    expect(result.author_name).toBe('André Schlyter')
+  })
+
+  it('krever forfatter', () => {
+    const result = articleMetaSchema.safeParse({ ...valid, author_name: '   ' })
+    expect(result.success).toBe(false)
+    if (!result.success) expect(fieldErrors(result.error).author_name).toBe('Velg eller skriv inn en forfatter')
+  })
+
+  it('avviser forfatternavn over 100 tegn', () => {
+    const result = articleMetaSchema.safeParse({ ...valid, author_name: 'x'.repeat(101) })
+    expect(result.success).toBe(false)
+    if (!result.success) expect(fieldErrors(result.error).author_name).toBe('Forfatternavnet kan ha maks 100 tegn')
   })
 
   it('godtar ISO-dato', () => {
