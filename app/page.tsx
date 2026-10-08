@@ -9,6 +9,8 @@ import Footer from '@/components/shared/Footer'
 import NewsletterSignup from '@/components/shared/NewsletterSignup'
 import { fetchEurNokRate } from '@/lib/currency'
 import { CurrencyProvider } from '@/lib/currency/context'
+import { getPublishedArticles } from '@/lib/articles/queries'
+import { formatArticleDate } from '@/lib/articles/format'
 
 export const metadata = {
   title: 'Fera Padel | Reiser og utstyr',
@@ -23,40 +25,9 @@ export const metadata = {
   },
 }
 
-const PHOTOS = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
-
-const blogPosts = [
-  {
-    category: 'Inspirasjon',
-    title: 'Costa Blanca: Spanias beste padeldestinasjon',
-    excerpt: 'Hvorfor tusenvis av norske padel-entusiaster velger Costa Blanca som sin neste reisedestinasjon.',
-    date: '5. juni 2026',
-    href: '/travels/inspirasjon',
-    src: `${PHOTOS}/palm-sunset.jpg`,
-    alt: 'Padelbane med palmer og solnedgang',
-  },
-  {
-    category: 'Utstyr',
-    title: 'Slik velger du riktig racket for ditt nivå',
-    excerpt: 'Fra nybegynner til avansert. Vår guide hjelper deg å finne den perfekte padelracket.',
-    date: '1. juni 2026',
-    href: '/shop',
-    src: `${PHOTOS}/player-fence.jpg`,
-    alt: 'Spiller med padelracket',
-  },
-  {
-    category: 'Event',
-    title: 'Bedriftstur til Albir, perfekt teambuilding',
-    excerpt: 'Se hvorfor Fera Padel er det naturlige valget for bedrifter som vil kombinere sport og sosialt.',
-    date: '28. mai 2026',
-    href: '/travels/for-bedrifter',
-    src: `${PHOTOS}/group-photo.jpg`,
-    alt: 'Hele Fera-gruppen på padelbane',
-  },
-]
-
 export default async function HomePage() {
   const supabase = await createClient()
+  const blogPosts = await getPublishedArticles(3)
 
   const [{ data: newProducts }, { data: trips }, { data: bestSellers }, nokRate] = await Promise.all([
     supabase.from('products').select('*').eq('published', true).order('created_at', { ascending: false }).limit(4),
@@ -297,6 +268,7 @@ export default async function HomePage() {
         )}
 
         {/* ── 5. NYHETER & INSPIRASJON ─────────────────────────── */}
+        {blogPosts.length > 0 && (
         <section className="py-28 overflow-hidden bg-(--color-sand-light)">
           <div className="max-w-[1600px] mx-auto px-4">
             {/* Header */}
@@ -318,25 +290,27 @@ export default async function HomePage() {
               <div className="flex gap-6">
                 {blogPosts.map((post) => (
                   <Link
-                    key={post.title}
-                    href={post.href}
+                    key={post.slug}
+                    href={`/travels/inspirasjon/${post.slug}`}
                     className="group flex-none w-[85vw] sm:w-[560px] lg:w-[640px] [scroll-snap-align:start]"
                   >
                     <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
-                      <Image
-                        src={post.src}
-                        alt={post.alt}
-                        fill
-                        sizes="640px"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        unoptimized
-                      />
+                      {post.cover_image && (
+                        <Image
+                          src={post.cover_image}
+                          alt={post.cover_image_alt ?? ''}
+                          fill
+                          sizes="640px"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                          unoptimized
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                       <span className="absolute bottom-5 left-5 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-3 py-1 rounded-full">
                         {post.category}
                       </span>
                     </div>
-                    <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
+                    <p className="text-(--color-muted) text-xs mb-2">{formatArticleDate(post.published_at)}</p>
                     <h3 className="font-sans font-normal text-(--color-text) text-2xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
                       {post.title}
                     </h3>
@@ -348,6 +322,7 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+        )}
 
         {/* ── 6. SOSIALE MEDIER + INSTAGRAM — skjult
         <section className="py-20 bg-white">

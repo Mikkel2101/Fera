@@ -136,13 +136,6 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.85;
   color: var(--color-text);
 }
-.prose-fera .lead {
-  font-size: 1.2rem;
-  line-height: 1.7;
-  color: var(--color-subtle);
-  margin-bottom: 1.75rem;
-  font-weight: 300;
-}
 .prose-fera h2 {
   font-family: var(--font-display);
   font-size: 1.6rem;
@@ -187,6 +180,8 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.2rem;
   line-height: 1.7;
   color: var(--color-subtle);
+  margin-bottom: 1.75rem;
+  font-weight: 300;
 }
 .prose-fera h3 {
   font-family: var(--font-display);
