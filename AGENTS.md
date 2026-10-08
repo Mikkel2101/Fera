@@ -19,17 +19,26 @@ Målgruppe: norske padel-spillere. Alle brukervendte tekster er på norsk.
 
 ---
 
-## Nåværende status (per 9. juni 2026)
+## Nåværende status (per 8. oktober 2026)
 
-**Ferdig og i produksjon:**
-- FeraTravels: turlisteside `/travels`, turdetaljside `/travels/[id]`, booking-flyt (3 steg + Stripe), admin-panel `/admin`
-- FeraShop: produktliste `/shop`, produktdetaljside `/shop/[id]`, cart-drawer med React Context + localStorage
+**Siden er stengt bak coming-soon:** `COMING_SOON=true` i Vercel Production. Sjekken ligger øverst i `proxy()` i `proxy.ts` — nye rewrites/redirects MÅ ligge etter den blokka. Preview-deployer har `COMING_SOON=false` så designendringer kan sees i PR-previews.
+
+**Ferdig:**
+- FeraTravels: turlisteside `/travels`, turdetaljside `/travels/[id]`, booking er nå **uforpliktende reservasjon** (ingen Stripe-depositum ennå), admin-panel `/admin` med bekreft/kanseller/CSV-eksport
+- FeraShop: produktliste `/shop`, produktdetaljside `/shop/[id]`, cart-drawer med React Context + localStorage, fritekst-søk på produkt/merke (`components/shop/ProductGrid.tsx`)
+- FeraShop checkout: `app/shop/checkout/` — ett-stegs skjema (ikke 3-stegs som travels) → Stripe-hostet Checkout med server-side prisverifisering, fraktadresse (NO/SE/DK/FI), betalingslogoer (Visa/Mastercard/Vipps) i `CartDrawer.tsx`
+- Stripe webhook (`app/api/webhooks/stripe/route.ts`, 176 linjer) — **ikke lenger stub**: håndterer `checkout.session.completed` for både bookings og shop-orders, sender bekreftelses-e-post (Resend), trigger auto-bestilling hos Padelpoint via GitHub Actions-dispatch
+- Konto-sider: `/account/orders`, `/account/addresses`, `/account/profile`
 - Delt Nav (`components/shared/Nav.tsx`) med cart-ikon og badge
 - Hjemmeside `/` med hero, nyeste produkter, kommende turer, blogg-teaser
 
-**Under arbeid / neste prioritet:**
-- Stripe webhook for shop-checkout (`/api/webhooks/stripe` — stub finnes)
-- FeraShop checkout-flyt
+**FeraShop er skjult** bak `NEXT_PUBLIC_SHOP_ENABLED` (av som standard). Ingen salgs-/rabattvisning (avtale med Padelpoint), og Bullpadel kan ikke selges (`restricted_brands`, migrasjon 022).
+
+**Fikset oktober 2026:** webhook-idempotens, atomisk lagerlås + NOK-kurssnapshot på ordre, fokus-trap i AuthModal, Vipps-badge som CSS-token.
+
+**Bekreftet fortsatt ikke bygget:**
+- Ordresporing (ingen trackingnummer-felt eller fraktintegrasjon)
+- Klarna (kun nevnt i docs/TODO, ikke implementert i Stripe checkout)
 
 ---
 
@@ -185,7 +194,7 @@ app/
   api/
     auth/callback/        ← Supabase auth-callback
     travels/checkout/     ← Stripe checkout for reiser
-    webhooks/stripe/      ← Stripe webhook (stub)
+    webhooks/stripe/      ← Stripe webhook (bookings + shop-orders)
 
 components/
   shared/
@@ -395,10 +404,16 @@ fix/[bug]             ← bugfiks
 
 ### Workflow
 
-1. Designer lager branch: `git checkout -b design/feature-navn`
-2. Gjør endringer, commit med beskrivende melding
-3. Push og lag PR på GitHub
-4. Mikkel reviewer og merger
+1. Start alltid fra oppdatert main: `git checkout main && git pull`
+2. Designer lager branch: `git checkout -b design/feature-navn`
+3. Gjør endringer, commit med beskrivende melding
+4. Push og lag PR på GitHub (`main` er beskyttet — direkte push avvises)
+5. Mikkel reviewer og merger
+6. Små, hyppige PR-er er bedre enn én stor — mindre konflikter
+
+### Lokalt oppsett
+
+Se «Kom i gang» i `README.md`. Kort: `npm install`, kopier `.env.example` til `.env.local` og fyll inn verdiene du får fra Mikkel, `npm run dev`. Designer trenger kun `NEXT_PUBLIC_*`-variablene — aldri service role-, Stripe- eller Resend-nøkler.
 
 ---
 
