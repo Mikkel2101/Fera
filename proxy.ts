@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { updateSession } from '@/lib/supabase/proxy'
 import { SHOP_ENABLED } from '@/lib/flags'
 import { isRootAppPath, shopGate } from '@/lib/routing/shop-gate'
+import { isOpenDuringComingSoon } from '@/lib/routing/coming-soon'
 
 const BRAND_MAP: Record<string, string> = {}
 
@@ -37,23 +38,13 @@ export async function proxy(request: NextRequest) {
   // Coming soon må sjekkes FØR alt annet. Ligger den lenger ned slipper både
   // /api-bypassen under og /no-rewritene nedenfor trafikk rett forbi
   // placeholderen — ferapadel.no redirecter til /no, som rewriter til / .
-  if (process.env.COMING_SOON === 'true') {
-    const isStaticAsset = pathname.startsWith('/_next') || pathname.includes('.')
-    const isAdmin = pathname.startsWith('/admin') || cleanHost.startsWith('admin.')
-    // Supabase-proxyen og auth-callbacken holder /admin i live. Stripe-webhooken
-    // må kunne svare på ekte leveranser selv mens siden er skjult.
-    const isAllowedApi =
-      pathname.startsWith('/api/supabase') ||
-      pathname.startsWith('/api/auth') ||
-      pathname.startsWith('/api/webhooks')
-
-    if (!isStaticAsset && !isAdmin && !isAllowedApi) {
-      // Rewrite til en HTML-placeholder gir mening for sider, ikke for API-er.
-      if (pathname.startsWith('/api')) {
-        return new NextResponse(null, { status: 404 })
-      }
-      return NextResponse.rewrite(new URL('/coming-soon', request.url))
+  // Unntakene (admin, webhooks, avmelding fra nyhetsbrev …) ligger i isOpenDuringComingSoon.
+  if (process.env.COMING_SOON === 'true' && !isOpenDuringComingSoon(pathname, cleanHost)) {
+    // Rewrite til en HTML-placeholder gir mening for sider, ikke for API-er.
+    if (pathname.startsWith('/api')) {
+      return new NextResponse(null, { status: 404 })
     }
+    return NextResponse.rewrite(new URL('/coming-soon', request.url))
   }
 
   // FeraShop er skjult til lansering — må ligge før /api-bypassen og
