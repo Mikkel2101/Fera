@@ -2,9 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { parseSubscribeRequest, addList } from '@/lib/newsletter/subscribe'
 
 describe('parseSubscribeRequest', () => {
-  it('godtar e-post uten liste (vanlig nyhetsbrev)', () => {
+  it('legger e-post uten liste på det vanlige nyhetsbrevet', () => {
     expect(parseSubscribeRequest({ email: 'ida@fera.no' })).toEqual({
-      ok: true, email: 'ida@fera.no', list: null,
+      ok: true, email: 'ida@fera.no', list: 'nyhetsbrev',
     })
   })
 
@@ -16,7 +16,7 @@ describe('parseSubscribeRequest', () => {
 
   it('normaliserer e-post til små bokstaver uten mellomrom', () => {
     const result = parseSubscribeRequest({ email: '  Ida@Fera.NO ' })
-    expect(result).toEqual({ ok: true, email: 'ida@fera.no', list: null })
+    expect(result).toEqual({ ok: true, email: 'ida@fera.no', list: 'nyhetsbrev' })
   })
 
   it('avviser ugyldig e-post', () => {

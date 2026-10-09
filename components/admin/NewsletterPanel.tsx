@@ -58,11 +58,16 @@ export default function NewsletterPanel({ articleId, isPublished, status }: Prop
     setMessage({ tone: 'success', text: `Test sendt til ${result.data.to}. Sjekk innboksen før du sender.` })
   })
 
+  // Også når kallet kaster (f.eks. tidsavbrudd) kan utsendingen ha startet,
+  // så hent alltid ny status fra serveren.
   const handleSend = (action: typeof startNewsletter) => run(async () => {
-    const result = await action(articleId)
-    setStep('start')
-    setMessage(result.ok ? SUMMARY_MESSAGES[result.data.status] : { tone: 'error', text: result.error })
-    router.refresh()
+    try {
+      const result = await action(articleId)
+      setMessage(result.ok ? SUMMARY_MESSAGES[result.data.status] : { tone: 'error', text: result.error })
+    } finally {
+      setStep('start')
+      router.refresh()
+    }
   })
 
   function body() {
