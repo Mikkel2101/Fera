@@ -29,5 +29,10 @@ export async function unsubscribe(
   }
   const email = verifyUnsubscribe(encodedEmail, token, secret)
   if (!email) return 'invalid'
-  return (await (deps.remove ?? removeWithServiceRole)(email)) ? 'ok' : 'error'
+  try {
+    return (await (deps.remove ?? removeWithServiceRole)(email)) ? 'ok' : 'error'
+  } catch (error) {
+    console.error('[newsletter] avmelding kastet', error)
+    return 'error'
+  }
 }

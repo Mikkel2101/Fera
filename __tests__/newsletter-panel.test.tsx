@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen, fireEvent, cleanup } from '@testing-library/react'
+import { render, screen, fireEvent, cleanup, waitFor } from '@testing-library/react'
 import NewsletterPanel from '@/components/admin/NewsletterPanel'
 import type { NewsletterStatus } from '@/lib/newsletter/status'
 
@@ -9,9 +9,17 @@ const actions = vi.hoisted(() => ({
   resumeNewsletter: vi.fn(),
 }))
 vi.mock('@/lib/actions/newsletter', () => actions)
-vi.mock('next/navigation', () => ({ useRouter: () => ({ refresh: vi.fn() }) }))
+const refresh = vi.hoisted(() => vi.fn())
+vi.mock('next/navigation', () => ({ useRouter: () => ({ refresh }) }))
 
 const notSent = (recipientCount: number): NewsletterStatus => ({ kind: 'not_sent', recipientCount })
+
+// Knappene er deaktivert til transisjonen er ferdig; klikk først når de er aktive.
+async function clickWhenEnabled(name: string) {
+  const button = await screen.findByRole('button', { name })
+  await waitFor(() => expect((button as HTMLButtonElement).disabled).toBe(false))
+  fireEvent.click(button)
+}
 
 beforeEach(() => {
   actions.sendNewsletterTest.mockResolvedValue({ ok: true, data: { to: 'mikkel@ferabrand.com' } })
@@ -43,7 +51,7 @@ describe('NewsletterPanel', () => {
     expect(await screen.findByText(/Test sendt til mikkel@ferabrand.com/)).toBeTruthy()
     expect(actions.sendNewsletterTest).toHaveBeenCalledWith('a1')
 
-    fireEvent.click(screen.getByRole('button', { name: 'Send til 3 mottakere' }))
+    await clickWhenEnabled('Send til 3 mottakere')
     expect(screen.getByText(/kan ikke angres/)).toBeTruthy()
     expect(actions.startNewsletter).not.toHaveBeenCalled()
 
@@ -76,6 +84,19 @@ describe('NewsletterPanel', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Fortsett utsending' }))
     expect(await screen.findByText('Nyhetsbrevet er sendt.')).toBeTruthy()
     expect(actions.resumeNewsletter).toHaveBeenCalledWith('a1')
+  })
+
+  it('henter ny status når utsendingen kaster (f.eks. tidsavbrudd)', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    actions.startNewsletter.mockRejectedValue(new Error('504'))
+    render(<NewsletterPanel articleId="a1" isPublished status={notSent(3)} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Send test til meg' }))
+    await clickWhenEnabled('Send til 3 mottakere')
+    fireEvent.click(screen.getByRole('button', { name: 'Ja, send nå' }))
+    expect(await screen.findByText(/Noe gikk galt/)).toBeTruthy()
+    expect(refresh).toHaveBeenCalled()
+    expect(screen.queryByRole('button', { name: 'Ja, send nå' })).toBeNull()
+    spy.mockRestore()
   })
 
   it('viser ferdig utsending uten knapper', () => {

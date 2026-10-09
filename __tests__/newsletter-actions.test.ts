@@ -26,7 +26,7 @@ vi.mock('@/lib/newsletter/runtime', () => ({
   findSendIdForArticle: async () => 'send-1',
 }))
 
-import { sendNewsletterTest, startNewsletter } from '@/lib/actions/newsletter'
+import { sendNewsletterTest, startNewsletter, resumeNewsletter } from '@/lib/actions/newsletter'
 
 const published = {
   id: 'a1', slug: 'tur', title: 'Tur til Albir', excerpt: 'Ingress', category: 'Reiserapport',
@@ -91,5 +91,22 @@ describe('startNewsletter', () => {
     expect(result).toEqual({ ok: true, data: { status: 'done', sent: 2, failed: 0 } })
     expect(sentMessages.map((m) => m.to)).toEqual(['a@x.no', 'b@x.no'])
     expect(sentMessages[0].subject).toBe('Tur til Albir')
+  })
+})
+
+describe('resumeNewsletter', () => {
+  it('fortsetter ikke hvis artikkelen er avpublisert', async () => {
+    article = { ...published, status: 'draft' }
+    pending = ['a@x.no']
+    const result = await resumeNewsletter('a1')
+    expect(result).toEqual({ ok: false, error: 'Bare publiserte artikler kan sendes som nyhetsbrev.' })
+    expect(sentMessages).toEqual([])
+  })
+
+  it('sender til resten av de frosne mottakerne', async () => {
+    pending = ['b@x.no']
+    const result = await resumeNewsletter('a1')
+    expect(result).toEqual({ ok: true, data: { status: 'done', sent: 1, failed: 0 } })
+    expect(sentMessages.map((m) => m.to)).toEqual(['b@x.no'])
   })
 })

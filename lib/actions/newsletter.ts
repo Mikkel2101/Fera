@@ -98,8 +98,8 @@ export async function resumeNewsletter(articleId: string): Promise<ActionResult<
   const { supabase } = await requireAdmin()
   const setup = readSetup()
   if (typeof setup === 'string') return { ok: false, error: setup }
-  const article = await getArticleForAdmin(articleId)
-  if (!article) return { ok: false, error: 'Fant ikke artikkelen.' }
+  const article = await loadPublished(articleId)
+  if (typeof article === 'string') return { ok: false, error: article }
 
   try {
     const sendId = await findSendIdForArticle(supabase, articleId)

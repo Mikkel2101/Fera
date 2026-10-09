@@ -34,6 +34,13 @@ describe('unsubscribe', () => {
   it('gir feil når databasen feiler', async () => {
     expect(await unsubscribe(e, t, { secret: SECRET, remove: async () => false })).toBe('error')
   })
+
+  it('gir feil (kaster ikke) når databasekallet kaster', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const remove = async () => { throw new Error('supabaseKey is required') }
+    expect(await unsubscribe(e, t, { secret: SECRET, remove })).toBe('error')
+    spy.mockRestore()
+  })
 })
 
 describe('POST /api/nyhetsbrev/avmeld (one-click)', () => {
@@ -68,6 +75,14 @@ describe('POST /api/nyhetsbrev/avmeld (one-click)', () => {
     const { POST } = await import('@/app/api/nyhetsbrev/avmeld/route')
     const response = await POST(new NextRequest('https://ferapadel.com/api/nyhetsbrev/avmeld?e=x&t=y', { method: 'POST' }))
     expect(response.status).toBe(400)
+    expect(remove).not.toHaveBeenCalled()
+  })
+
+  it('sender GET videre til bekreftelsessiden uten å melde av', async () => {
+    const { GET } = await import('@/app/api/nyhetsbrev/avmeld/route')
+    const response = await GET(new NextRequest(link.oneClick))
+    expect(response.status).toBe(303)
+    expect(response.headers.get('location')).toBe(link.page)
     expect(remove).not.toHaveBeenCalled()
   })
 })
