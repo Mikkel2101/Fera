@@ -10,6 +10,8 @@ type Props = {
   heading?:     ReactNode
   body?:        string
   successText?: string
+  imageSrc?:    string
+  imageAlt?:    string
 }
 
 export default function NewsletterSignup({
@@ -18,6 +20,8 @@ export default function NewsletterSignup({
   heading     = <>Bli med i<br />FERA Community</>,
   body        = 'Få tilgang til prelanseringer, eksklusive tilbud og utvalgte padelreiser før alle andre. Et fellesskap for deg som vil være først ute når nye opplevelser åpner.',
   successText = 'Du er med i FERA Select. Velkommen!',
+  imageSrc    = '/fonts/static/manuel-pappacena-zTwzxr4BbTA-unsplash.jpg',
+  imageAlt    = 'Padel utendørs i solen',
 }: Props) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -45,8 +49,8 @@ export default function NewsletterSignup({
         {/* Left — image (3/5) */}
         <div className="relative min-h-[320px] lg:min-h-0 lg:col-span-3">
           <Image
-            src="/fonts/static/manuel-pappacena-zTwzxr4BbTA-unsplash.jpg"
-            alt="Padel utendørs i solen"
+            src={imageSrc}
+            alt={imageAlt}
             fill
             sizes="(max-width: 1024px) 100vw, 66vw"
             className="object-cover"

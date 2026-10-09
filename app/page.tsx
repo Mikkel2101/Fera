@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import ProductCard from '@/components/shop/ProductCard'
 import Nav from '@/components/shared/Nav'
@@ -9,53 +8,41 @@ import Footer from '@/components/shared/Footer'
 import NewsletterSignup from '@/components/shared/NewsletterSignup'
 import { fetchEurNokRate } from '@/lib/currency'
 import { CurrencyProvider } from '@/lib/currency/context'
+import { SHOP_ENABLED } from '@/lib/flags'
+import TravelCommunityHome from '@/components/home/TravelCommunityHome'
+import HomeInspirationSection from '@/components/home/HomeInspirationSection'
+import CommunitySignupSection from '@/components/home/CommunitySignupSection'
 
 export const metadata = {
-  title: 'Fera Padel | Reiser og utstyr',
-  description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint. Alt på ett sted.',
+  title: SHOP_ENABLED ? 'Fera Padel | Reiser og utstyr' : 'Fera Travels | Padelreiser til Costa Blanca',
+  description: SHOP_ENABLED
+    ? 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint. Alt på ett sted.'
+    : 'Padelreiser til Costa Blanca med coaching, gode opplevelser og et sosialt fellesskap.',
   openGraph: {
-    title: 'Fera Padel | Reiser og utstyr',
-    description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.',
-    url: 'https://ferabrand.com',
-    siteName: 'Fera Padel',
+    title: SHOP_ENABLED ? 'Fera Padel | Reiser og utstyr' : 'Fera Travels | Padelreiser til Costa Blanca',
+    description: SHOP_ENABLED
+      ? 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.'
+      : 'Padelreiser til Costa Blanca med coaching, gode opplevelser og et sosialt fellesskap.',
+    url: 'https://ferapadel.com',
+    siteName: SHOP_ENABLED ? 'Fera Padel' : 'Fera Travels',
     locale: 'nb_NO',
     type: 'website',
   },
 }
 
-const PHOTOS = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
-
-const blogPosts = [
-  {
-    category: 'Inspirasjon',
-    title: 'Costa Blanca: Spanias beste padeldestinasjon',
-    excerpt: 'Hvorfor tusenvis av norske padel-entusiaster velger Costa Blanca som sin neste reisedestinasjon.',
-    date: '5. juni 2026',
-    href: '/travels/inspirasjon',
-    src: `${PHOTOS}/palm-sunset.jpg`,
-    alt: 'Padelbane med palmer og solnedgang',
-  },
-  {
-    category: 'Utstyr',
-    title: 'Slik velger du riktig racket for ditt nivå',
-    excerpt: 'Fra nybegynner til avansert. Vår guide hjelper deg å finne den perfekte padelracket.',
-    date: '1. juni 2026',
-    href: '/shop',
-    src: `${PHOTOS}/player-fence.jpg`,
-    alt: 'Spiller med padelracket',
-  },
-  {
-    category: 'Event',
-    title: 'Bedriftstur til Albir, perfekt teambuilding',
-    excerpt: 'Se hvorfor Fera Padel er det naturlige valget for bedrifter som vil kombinere sport og sosialt.',
-    date: '28. mai 2026',
-    href: '/travels/for-bedrifter',
-    src: `${PHOTOS}/group-photo.jpg`,
-    alt: 'Hele Fera-gruppen på padelbane',
-  },
-]
-
 export default async function HomePage() {
+  if (!SHOP_ENABLED) {
+    return (
+      <HomeCartProvider>
+        <Nav />
+        <CartDrawer />
+        <TravelCommunityHome />
+        <CommunitySignupSection />
+        <Footer />
+      </HomeCartProvider>
+    )
+  }
+
   const supabase = await createClient()
 
   const [{ data: newProducts }, { data: trips }, { data: bestSellers }, nokRate] = await Promise.all([
@@ -297,57 +284,7 @@ export default async function HomePage() {
         )}
 
         {/* ── 5. NYHETER & INSPIRASJON ─────────────────────────── */}
-        <section className="py-28 overflow-hidden bg-(--color-sand-light)">
-          <div className="max-w-[1600px] mx-auto px-4">
-            {/* Header */}
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
-                <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
-                <p className="font-sans text-[18px] text-(--color-text) max-w-xl leading-relaxed">
-                  Les om tidligere padelreiser, få våre utstyrsanbefalinger og finn inspirasjon til deg som vil få mer ut av padel.
-                </p>
-              </div>
-              <Link href="/travels/inspirasjon" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block self-start">
-                Se mer →
-              </Link>
-            </div>
-
-            {/* Slider — calc(-50vw + 50%) extends to viewport right edge on all screen widths */}
-            <div className="overflow-x-auto pb-6 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ marginRight: 'calc(-50vw + 50%)' }}>
-              <div className="flex gap-6">
-                {blogPosts.map((post) => (
-                  <Link
-                    key={post.title}
-                    href={post.href}
-                    className="group flex-none w-[85vw] sm:w-[560px] lg:w-[640px] [scroll-snap-align:start]"
-                  >
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
-                      <Image
-                        src={post.src}
-                        alt={post.alt}
-                        fill
-                        sizes="640px"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        unoptimized
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                      <span className="absolute bottom-5 left-5 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-3 py-1 rounded-full">
-                        {post.category}
-                      </span>
-                    </div>
-                    <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
-                    <h3 className="font-sans font-normal text-(--color-text) text-2xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
-                  </Link>
-                ))}
-                <div className="flex-none w-4 sm:w-6 lg:w-8" />
-              </div>
-            </div>
-          </div>
-        </section>
+        <HomeInspirationSection variant="shop" />
 
         {/* ── 6. SOSIALE MEDIER + INSTAGRAM — skjult
         <section className="py-20 bg-white">

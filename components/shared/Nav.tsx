@@ -109,6 +109,8 @@ export default function Nav() {
 
   const isShop    = pathname.startsWith('/shop')
   const isTravels = pathname.startsWith('/travels')
+  const isAboutFera = pathname.startsWith('/travels/om-oss')
+  const isTrips = isTravels && !isAboutFera
 
   return (
     <>
@@ -148,6 +150,20 @@ export default function Nav() {
 
             {/* ── Desktop nav ── */}
             <div className="hidden md:flex items-center gap-1 flex-1">
+
+              <Link
+                href="/"
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  pathname === '/'
+                    ? 'text-(--color-text)'
+                    : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
+                }`}
+              >
+                Hjem
+                {pathname === '/' && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
+                )}
+              </Link>
 
               {SHOP_ENABLED && (<>
               {/* Utstyr med dropdown */}
@@ -229,13 +245,26 @@ export default function Nav() {
               <Link
                 href="/travels"
                 className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                  isTravels
+                  isTrips
                     ? 'text-(--color-text)'
                     : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
                 }`}
               >
-                Reiser
-                {isTravels && (
+                Våre reiser
+                {isTrips && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
+                )}
+              </Link>
+              <Link
+                href="/travels/om-oss"
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isAboutFera
+                    ? 'text-(--color-text)'
+                    : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
+                }`}
+              >
+                Om Fera
+                {isAboutFera && (
                   <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
                 )}
               </Link>
@@ -385,16 +414,41 @@ export default function Nav() {
               </div>
               </>)}
 
-              {/* REISER-seksjon */}
+              {/* HOVEDLENKER */}
               <div className={`px-5 ${SHOP_ENABLED ? 'py-2' : 'pt-6 pb-2'}`}>
-                <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Reiser</p>
+                <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Utforsk Fera</p>
                 <Link
-                  href="/travels"
+                  href="/"
+                  onClick={() => setMobileOpen(false)}
                   className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
-                    isTravels ? 'text-(--color-cta)' : 'text-(--color-text)'
+                    pathname === '/' ? 'text-(--color-cta)' : 'text-(--color-text)'
                   }`}
                 >
-                  Se kommende reiser
+                  Hjem
+                  <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
+                    <IconArrow />
+                  </span>
+                </Link>
+                <Link
+                  href="/travels"
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
+                    isTrips ? 'text-(--color-cta)' : 'text-(--color-text)'
+                  }`}
+                >
+                  Våre reiser
+                  <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
+                    <IconArrow />
+                  </span>
+                </Link>
+                <Link
+                  href="/travels/om-oss"
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
+                    isAboutFera ? 'text-(--color-cta)' : 'text-(--color-text)'
+                  }`}
+                >
+                  Om Fera
                   <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
                     <IconArrow />
                   </span>

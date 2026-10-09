@@ -2,8 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import TripListClient from '@/components/travels/TripListClient'
 
 export const metadata = {
-  title: 'Padelreiser til Spania',
-  description: 'Kurerte padel-reisepakker til Costa Blanca for norske padel-entusiaster. Alt inkludert.',
+  title: 'Våre reiser',
+  description: 'Utforsk våre padelreiser på Costa Blanca, med spill, gode opplevelser og alt det praktiske ivaretatt.',
 }
 
 export default async function TravelsPage() {
@@ -17,7 +17,7 @@ export default async function TravelsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-(--color-community) overflow-hidden px-4 pt-20 pb-0 md:pt-32 min-h-[55vh] md:min-h-[65vh] flex flex-col justify-center pb-8 md:pb-12">
+      <section className="relative bg-(--color-community) overflow-hidden px-4 pt-20 pb-16 md:pt-28 md:pb-20 min-h-[44vh] md:min-h-[52vh] flex flex-col justify-center">
         <div
           className="absolute inset-0"
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
@@ -25,28 +25,12 @@ export default async function TravelsPage() {
         <div className="absolute inset-0 bg-(--color-overlay)/80" />
         <div className="relative max-w-[1600px] mx-auto w-full">
           <div className="pb-16 md:pb-24">
-            <p className="text-(--color-overline-light) text-xs tracking-widest uppercase font-sans mb-4">
-              Fera Travel
-            </p>
             <h1 className="font-sans font-normal text-white text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
-              Padelopplevelser på <span className="font-display italic">Costa Blanca</span>
+              Våre reiser
             </h1>
-            <p className="text-white text-lg max-w-xl leading-relaxed mb-10">
-              Skreddersydde opphold for bedrifter, klubber, skoler og private grupper — med trening, opplevelser og alt det praktiske ivaretatt.
+            <p className="text-white text-lg max-w-xl leading-relaxed">
+              Utforsk våre padelreiser på Costa Blanca - med spill, gode opplevelser og alt det praktiske ivaretatt.
             </p>
-            {/* Trust signals */}
-            <div className="flex flex-wrap gap-x-10 gap-y-4 pt-10 border-t border-white/15">
-              {[
-                { stat: '100+', label: 'Fornøyde reisende' },
-                { stat: '5-stjernes', label: 'Coach: André Schlyter' },
-                { stat: 'Costa Blanca', label: 'Destinasjon' },
-              ].map((item) => (
-                <div key={item.stat}>
-                  <p className="text-white font-sans font-semibold text-2xl leading-none mb-1">{item.stat}</p>
-                  <p className="text-white/50 text-[11px] uppercase tracking-widest">{item.label}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
