@@ -8,7 +8,7 @@ import type { ArticleDoc } from '@/lib/articles/types'
 import { sanitizeDoc } from '@/lib/articles/content'
 import { keepPublishedTime } from '@/lib/articles/format'
 import {
-  articleMetaSchema, fieldErrors, mapDbError, missingForPublish,
+  articleMetaSchema, fieldErrors, invalidFieldsMessage, mapDbError, missingForPublish,
   type ActionResult, type ArticleMetaInput,
 } from '@/lib/articles/schema'
 
@@ -58,7 +58,8 @@ export async function saveArticle(
 
   const parsed = articleMetaSchema.safeParse(meta)
   if (!parsed.success) {
-    return { ok: false, error: 'Sjekk feltene som er markert', fieldErrors: fieldErrors(parsed.error) }
+    const errors = fieldErrors(parsed.error)
+    return { ok: false, error: invalidFieldsMessage(errors), fieldErrors: errors }
   }
 
   const doc = sanitizeDoc(content)

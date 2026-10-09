@@ -79,6 +79,19 @@ describe('saveArticle', () => {
     expect(result).toEqual({ ok: true, data: { slug: 'min-artikkel' } })
   })
 
+  it('navngir feltene som mangler, så redaktøren ser hva som må fikses', async () => {
+    const result = await saveArticle('1', {
+      ...meta,
+      author_name: '',
+      cover_image: 'https://evil.com/x.jpg',
+      cover_image_alt: '',
+    }, doc)
+    expect(result.ok).toBe(false)
+    if (result.ok) return
+    expect(result.error).toBe('Sjekk feltene som er markert: Forfatter, Forsidebilde, Bildebeskrivelse (alt-tekst)')
+    expect(updates).toHaveLength(0)
+  })
+
   it('svarer at artikkelen ikke finnes når oppslaget er tomt', async () => {
     results = [{ data: null, error: null }]
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
