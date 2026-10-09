@@ -138,6 +138,38 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_sends: {
+        Row: {
+          id: string
+          article_id: string | null
+          subject: string
+          sent_by: string | null
+          status: string
+          recipient_count: number
+          sent_count: number
+          failed_count: number
+          locked_until: string | null
+          created_at: string
+          completed_at: string | null
+        }
+        // Skrives kun via funksjonene i migrasjon 026.
+        Insert: never
+        Update: never
+        Relationships: []
+      }
+      newsletter_deliveries: {
+        Row: {
+          send_id: string
+          email: string
+          status: string
+          resend_id: string | null
+          error: string | null
+          updated_at: string
+        }
+        Insert: never
+        Update: never
+        Relationships: []
+      }
       trips: {
         Row: {
           id: string
@@ -713,6 +745,34 @@ export type Database = {
       cancel_booking: {
         Args: { p_booking_id: string }
         Returns: boolean
+      }
+      newsletter_recipients: {
+        Args: Record<string, never>
+        Returns: { email: string }[]
+      }
+      newsletter_recipient_count: {
+        Args: Record<string, never>
+        Returns: number
+      }
+      start_newsletter_send: {
+        Args: { p_article_id: string }
+        Returns: string
+      }
+      claim_newsletter_send: {
+        Args: { p_send_id: string }
+        Returns: boolean
+      }
+      record_newsletter_batch: {
+        Args: { p_send_id: string; p_results: Json }
+        Returns: undefined
+      }
+      release_newsletter_send: {
+        Args: { p_send_id: string }
+        Returns: undefined
+      }
+      newsletter_unsubscribe: {
+        Args: { p_email: string }
+        Returns: undefined
       }
     }
     Enums: Record<string, never>

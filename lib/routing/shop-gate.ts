@@ -22,7 +22,7 @@ export function shopGate(pathname: string, shopEnabled: boolean): ShopGateResult
 
 // Sider som ligger direkte under app/ og ikke skal omskrives til /travels/*
 // av brand-fallbacken nederst i proxy.ts.
-const ROOT_APP_PATHS = ['/account', '/logg-inn', '/personvern', '/vilkar', '/coming-soon', '/kolleksjon']
+const ROOT_APP_PATHS = ['/account', '/logg-inn', '/personvern', '/vilkar', '/coming-soon', '/kolleksjon', '/nyhetsbrev']
 
 export function isRootAppPath(pathname: string): boolean {
   return ROOT_APP_PATHS.some(p => pathname === p || pathname.startsWith(`${p}/`))
