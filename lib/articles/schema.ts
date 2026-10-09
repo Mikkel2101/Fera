@@ -65,6 +65,25 @@ export function fieldErrors(error: z.ZodError): FieldErrors {
   return result as FieldErrors
 }
 
+// Samme navn og rekkefølge som feltene i ArticleMetaFields.
+const FIELD_LABELS: ReadonlyArray<[keyof ArticleMeta, string]> = [
+  ['title', 'Tittel'],
+  ['author_name', 'Forfatter'],
+  ['slug', 'Adresse'],
+  ['category', 'Kategori'],
+  ['excerpt', 'Ingress'],
+  ['cover_image', 'Forsidebilde'],
+  ['cover_image_alt', 'Bildebeskrivelse (alt-tekst)'],
+  ['meta_description', 'Beskrivelse for Google'],
+  ['published_at', 'Publiseringsdato'],
+]
+
+// Feltene kan ligge utenfor skjermen (eller skjult i forhåndsvisning), så meldingen sier hvilke.
+export function invalidFieldsMessage(errors: FieldErrors): string {
+  const labels = FIELD_LABELS.filter(([key]) => errors[key]).map(([, label]) => label)
+  return labels.length > 0 ? `Sjekk feltene som er markert: ${labels.join(', ')}` : 'Sjekk feltene som er markert'
+}
+
 function hasMeaningfulContent(nodes: DocNode[]): boolean {
   for (const node of nodes) {
     if (node.type === 'text' && typeof node.text === 'string' && node.text.trim() !== '') {
