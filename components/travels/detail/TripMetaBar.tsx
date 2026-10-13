@@ -37,13 +37,25 @@ const IconUsers = () => (
     <path d="M9.5 13.5c0-2 1.5-3.5 3-3.5"/>
   </svg>
 )
+const IconClock = () => (
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="8" cy="8" r="6.5"/>
+    <path d="M8 4.5v4l2.5 2"/>
+  </svg>
+)
+
+function nightCount(start: string, end: string) {
+  const diff = new Date(end).getTime() - new Date(start).getTime()
+  return Math.round(diff / (1000 * 60 * 60 * 24))
+}
 
 export default function TripMetaBar({ trip }: { trip: TripRow }) {
   const spotsLeft =
     trip.max_participants != null
       ? trip.max_participants - trip.registered_count
       : null
-  const isFull = trip.status === 'Fullbooket'
+  const isBookable = trip.status !== 'Fullbooket' && trip.status !== 'Avlyst' && trip.status !== 'Gjennomført' && trip.status !== 'Utkast'
+  const nights = nightCount(trip.start_date, trip.end_date)
 
   return (
     <div className="bg-white border-b border-(--color-border) py-4 px-4 sm:px-6 lg:px-8 sticky top-14 z-40">
@@ -58,6 +70,10 @@ export default function TripMetaBar({ trip }: { trip: TripRow }) {
             {trip.destination}
           </span>
           <span className="flex items-center gap-1.5">
+            <IconClock />
+            {nights} netter
+          </span>
+          <span className="flex items-center gap-1.5">
             <IconEuro />
             Fra {trip.price_double_eur.toLocaleString('nb-NO')} EUR
           </span>
@@ -69,7 +85,7 @@ export default function TripMetaBar({ trip }: { trip: TripRow }) {
           )}
         </div>
 
-        {!isFull && (
+        {isBookable && (
           <Link
             href={`/travels/${trip.id}/book`}
             className="shrink-0 bg-(--color-cta) text-white px-6 py-3 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity"
