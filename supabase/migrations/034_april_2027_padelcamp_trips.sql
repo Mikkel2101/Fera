@@ -7,9 +7,9 @@
 insert into public.trips
   (name, destination, start_date, end_date, price_double_eur, deposit_eur, trip_type, status, max_participants, published)
 values
-  ('Interpadel',         'Albir, Costa Blanca', '2027-04-06', '2027-04-10', 950, 300, 'Padelcamp', 'Få plasser', 20,   true),
-  ('Stord Padel',        'Albir, Costa Blanca', '2027-04-10', '2027-04-14', 950, 300, 'Padelcamp', 'Åpen',       null, true),
-  ('Sotra Padelklubb',   'Albir, Costa Blanca', '2027-04-14', '2027-04-18', 950, 300, 'Padelcamp', 'Åpen',       null, true),
+  ('PadelCamp',          'Albir, Costa Blanca', '2027-04-06', '2027-04-10', 950, 300, 'Padelcamp', 'Få plasser', 20,   true),
+  ('PadelCamp',          'Albir, Costa Blanca', '2027-04-10', '2027-04-14', 950, 300, 'Padelcamp', 'Åpen',       null, true),
+  ('PadelCamp',          'Albir, Costa Blanca', '2027-04-14', '2027-04-18', 950, 300, 'Padelcamp', 'Åpen',       null, true),
   ('Haugesund',          'Albir, Costa Blanca', '2027-04-17', '2027-04-21', 950, 300, 'Padelcamp', 'Fullbooket', null, true);
 
 update public.trips
