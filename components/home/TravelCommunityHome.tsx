@@ -123,7 +123,7 @@ export default async function TravelCommunityHome() {
             poster="/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png"
             className="aspect-[3/2] w-[95%] mx-auto rounded-2xl bg-black object-cover"
           >
-            <source src="https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/trips/videos/fera-travels.mp4" type="video/mp4" />
+            <source src="/fera-travels.mp4" type="video/mp4" />
             Nettleseren din støtter ikke videoavspilling.
           </video>
         </div>
