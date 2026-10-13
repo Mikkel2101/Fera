@@ -75,14 +75,14 @@ export default async function TravelCommunityHome() {
         </div>
       </section>
 
-      <section id="turer" className="scroll-mt-20 py-20 sm:py-24">
+      <section id="turer" className="scroll-mt-20 pt-20 sm:pt-24 pb-28 sm:pb-32">
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6">
           <div className="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-(--color-overline) text-xs uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
               <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Finn reisen som passer deg</h2>
             </div>
-            <Link href="/travels" className="inline-flex min-h-11 items-center text-base font-semibold text-(--color-cta) hover:underline">
+            <Link href="/travels" className="hidden self-end text-lg font-semibold leading-relaxed text-(--color-dark-mid) underline decoration-(--color-border) underline-offset-4 transition-colors hover:decoration-(--color-dark-mid) sm:block">
               Se alle reiser <span aria-hidden="true">→</span>
             </Link>
           </div>
@@ -101,24 +101,27 @@ export default async function TravelCommunityHome() {
         </div>
       </section>
 
-      <section className="bg-(--color-community) text-white md:min-h-[600px]">
-        <div className="mx-auto grid max-w-[1450px] gap-8 px-4 py-16 sm:px-6 md:min-h-[600px] md:grid-cols-2 md:items-center md:gap-14 md:py-20">
+      <section className="bg-(--color-community) text-white md:min-h-[720px]">
+        <div className="mx-auto grid max-w-[1450px] gap-8 px-4 py-16 sm:px-6 md:min-h-[720px] md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14 md:py-20">
           <div>
             <p className="text-(--color-overline-light) text-xs uppercase tracking-[0.18em] font-medium mb-3">Mer enn timer på banen</p>
-            <h2 className="font-sans font-normal text-4xl sm:text-5xl leading-tight mb-5">Gode dager blir enda bedre sammen.</h2>
+            <h2 className="font-sans font-normal text-5xl sm:text-6xl leading-tight mb-5">Det er menneskene som gjør opplevelsen.</h2>
             <p className="max-w-xl text-white/80 leading-relaxed mb-7">
-              Bli kjent med Fera og måten vi setter sammen padel, nye steder og et sosialt fellesskap på.
+              Padel har alltid handlet om mer enn selve spillet. Det handler om menneskene du møter, og alt det gode som skjer på og utenfor banen.
             </p>
-            <Link href="/travels/om-oss" className="inline-flex min-h-11 items-center text-sm font-semibold text-(--color-overline-light) underline decoration-(--color-overline-light)/50 underline-offset-4 hover:decoration-(--color-overline-light)">
-              Les om Fera Travel <span aria-hidden="true" className="ml-2">→</span>
+            <Link href="/travels/om-oss" className="inline-block min-h-11 text-lg font-semibold text-(--color-overline-light) underline decoration-(--color-overline-light)/50 underline-offset-4 hover:decoration-(--color-overline-light)">
+              Les om Fera Travel <span aria-hidden="true">→</span>
             </Link>
           </div>
           <video
             controls
+            autoPlay
+            loop
+            muted
             playsInline
-            preload="none"
+            preload="auto"
             poster="/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png"
-            className="aspect-video w-full rounded-2xl bg-black object-cover"
+            className="aspect-[3/2] w-[95%] mx-auto rounded-2xl bg-black object-cover"
           >
             <source src="https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/trips/videos/fera-travels.mp4" type="video/mp4" />
             Nettleseren din støtter ikke videoavspilling.
