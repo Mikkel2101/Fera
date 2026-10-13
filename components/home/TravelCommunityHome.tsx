@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import HomeInspirationSection from '@/components/home/HomeInspirationSection'
 import TripCard from '@/components/travels/TripCard'
 import { createClient } from '@/lib/supabase/server'
@@ -113,19 +114,15 @@ export default async function TravelCommunityHome() {
               Les om Fera Travel <span aria-hidden="true">→</span>
             </Link>
           </div>
-          <video
-            controls
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            poster="/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png"
-            className="aspect-[3/2] w-[95%] mx-auto rounded-2xl bg-black object-cover"
-          >
-            <source src="/fera-travels.mp4" type="video/mp4" />
-            Nettleseren din støtter ikke videoavspilling.
-          </video>
+          <div className="relative aspect-[3/2] w-[95%] mx-auto rounded-2xl overflow-hidden bg-black">
+            <Image
+              src="/Bilder%20fra%20tur/DSC02287-2.JPG"
+              alt="Gjeng fra en Fera-padeltur samlet ved nettet etter spill"
+              fill
+              sizes="(max-width: 768px) 95vw, 50vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </section>
 
