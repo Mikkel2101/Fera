@@ -44,7 +44,7 @@ export default function TripHero({ trip }: { trip: TripRow }) {
               {trip.status}
             </span>
             {trip.trip_type && (
-              <span className="bg-white/10 text-white/80 text-xs font-medium px-3 py-1.5 rounded-full border border-white/20">
+              <span className="bg-white/10 text-white/80 text-xs font-medium uppercase tracking-wider px-3 py-1.5 rounded-full border border-white/20">
                 {trip.trip_type}
               </span>
             )}
