@@ -60,14 +60,15 @@ export async function POST(request: NextRequest) {
 
     // bookings.user_id peker på public.users — sørg for at raden finnes
     // (auth-callbacken oppretter den, men stol ikke på det alene).
-    // newsletter_consent settes bare når kunden krysser av, så et tidligere
-    // samtykke aldri overskrives med false.
+    // newsletter_consent og preferred_side settes bare når kunden har valgt dem,
+    // så et tidligere valg i profilen aldri overskrives med tomt.
     const { error: userError } = await service.from('users').upsert(
       {
         id:          user.id,
         full_name:   `${data.first_name} ${data.last_name}`,
         phone:       data.phone,
         padel_level: data.padel_level,
+        ...(data.preferred_side ? { preferred_side: data.preferred_side } : {}),
         ...(data.newsletter_consent ? { newsletter_consent: true } : {}),
       },
       { onConflict: 'id' },
@@ -111,6 +112,7 @@ export async function POST(request: NextRequest) {
       email:             user.email,
       phone:             data.phone,
       padel_level:       data.padel_level,
+      preferred_side:    data.preferred_side ?? null,
       room_type:         roomType,
       room_preference:   data.room_preference,
       roommate_name:     roommateName,

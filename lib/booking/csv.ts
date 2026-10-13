@@ -1,7 +1,7 @@
 // CSV-eksport av bookinger for admin. Semikolon + BOM så filen åpnes
 // riktig i Excel med norsk oppsett (æøå og komma som desimaltegn).
 
-import { padelLevelLabel, tripGoalLabel } from './levels'
+import { courtSideLabel, padelLevelLabel, tripGoalLabel } from './levels'
 import { ROOM_SHARE_GENDERS, roomPreferenceLabel } from './rooms'
 
 export type BookingCsvRow = {
@@ -13,6 +13,7 @@ export type BookingCsvRow = {
   email:             string
   phone:             string | null
   padel_level:       string | null
+  preferred_side:    string | null
   room_type:         string | null
   room_preference:   string | null
   roommate_name:     string | null
@@ -26,7 +27,7 @@ export type BookingCsvRow = {
 
 const HEADERS = [
   'Reservert dato', 'Status', 'Tur', 'Fornavn', 'Etternavn', 'E-post',
-  'Telefon', 'Padelnivå', 'Romtype', 'Romønske', 'Reisepartner', 'Kjønn (romdeling)',
+  'Telefon', 'Padelnivå', 'Banehalvdel', 'Romtype', 'Romønske', 'Reisepartner', 'Kjønn (romdeling)',
   'Romstatus', 'Tillegg', 'Mål for turen', 'Ønsker', 'Totalpris (EUR)',
 ]
 
@@ -57,6 +58,7 @@ export function bookingsToCsv(rows: BookingCsvRow[]): string {
     r.email,
     r.phone,
     padelLevelLabel(r.padel_level),
+    courtSideLabel(r.preferred_side),
     r.room_type,
     roomPreferenceLabel(r.room_preference),
     r.roommate_name,

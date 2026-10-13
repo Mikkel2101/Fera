@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { normalizePhone } from '@/lib/booking/phone'
-import { padelLevelLabel, tripGoalLabel } from '@/lib/booking/levels'
+import { courtSideLabel, padelLevelLabel, tripGoalLabel } from '@/lib/booking/levels'
 import { roomTypeFor, roomStatus, roomStatusesByTrip, type RoomStatusBooking } from '@/lib/booking/rooms'
 import { parseTripExtras, resolveExtras } from '@/lib/booking/extras'
 import { calculatePrice } from '@/lib/booking/pricing'
@@ -34,6 +34,8 @@ describe('nivå- og målnavn', () => {
   it('gir klartekst for kjente verdier', () => {
     expect(padelLevelLabel('middels_pluss')).toBe('Middels +')
     expect(tripGoalLabel('jevne_kamper')).toBe('Jevne kamper')
+    expect(courtSideLabel('venstre')).toBe('Venstre')
+    expect(courtSideLabel('begge')).toBe('Begge går fint')
   })
 
   it('viser ukjente verdier uendret og null som tom', () => {
@@ -218,6 +220,12 @@ describe('step1Schema', () => {
 
   it('godtar mål og ønsker som valgfrie felt', () => {
     expect(step1Schema.parse({ ...valid, trip_goal: 'sosialt', special_requests: 'Vil øve på bandeja' }).trip_goal).toBe('sosialt')
+  })
+
+  it('godtar foretrukket banehalvdel som valgfritt felt', () => {
+    expect(step1Schema.parse({ ...valid, preferred_side: 'hoyre' }).preferred_side).toBe('hoyre')
+    expect(step1Schema.parse(valid).preferred_side).toBeUndefined()
+    expect(step1Schema.safeParse({ ...valid, preferred_side: 'midten' }).success).toBe(false)
   })
 
   it('avviser for lange ønsker', () => {

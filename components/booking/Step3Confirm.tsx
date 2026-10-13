@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Step1Data, Step2Data, BookingData } from '@/lib/booking/schema'
-import { padelLevelLabel, tripGoalLabel } from '@/lib/booking/levels'
+import { courtSideLabel, padelLevelLabel, tripGoalLabel } from '@/lib/booking/levels'
 import { previewExtras, formatBookedExtra } from '@/lib/booking/extras'
 import { calculatePrice } from '@/lib/booking/pricing'
 import { ROOM_SHARE_GENDERS, roomPreferenceLabel, roomTypeFor } from '@/lib/booking/rooms'
@@ -28,6 +28,7 @@ function summaryRows(trip: BookingTrip, step1: Step1Data, step2: Step2Data, extr
     ['Padelnivå',  padelLevelLabel(step1.padel_level)],
     ['Romønske',   roomPreferenceLabel(step2.room_preference)],
   ]
+  if (step1.preferred_side) rows.push(['Banehalvdel', courtSideLabel(step1.preferred_side)])
   if (step2.roommate_name) rows.push(['Reisepartner', step2.roommate_name])
   if (gender)              rows.push(['Kjønn (romdeling)', gender])
   if (step1.trip_goal)     rows.push(['Mål for turen', tripGoalLabel(step1.trip_goal)])

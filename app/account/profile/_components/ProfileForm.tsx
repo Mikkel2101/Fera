@@ -2,12 +2,13 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { PADEL_LEVELS } from '@/lib/booking/levels'
+import { COURT_SIDES, PADEL_LEVELS } from '@/lib/booking/levels'
 
 type ProfileData = {
   full_name:  string | null
   phone:      string | null
   padel_level: string | null
+  preferred_side: string | null
   newsletter_consent: boolean
 }
 
@@ -39,6 +40,7 @@ export default function ProfileForm({ initial }: { initial: ProfileData }) {
         full_name:          form.full_name?.trim() || null,
         phone:              form.phone?.trim() || null,
         padel_level:        form.padel_level || null,
+        preferred_side:     form.preferred_side || null,
         newsletter_consent: form.newsletter_consent,
       }, { onConflict: 'id' })
 
@@ -93,6 +95,24 @@ export default function ProfileForm({ initial }: { initial: ProfileData }) {
           <option value="">Ikke oppgitt</option>
           {PADEL_LEVELS.map(level => (
             <option key={level.value} value={level.value}>{level.label}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Banehalvdel */}
+      <div>
+        <label htmlFor="profile-side" className="block text-sm font-medium text-(--color-text) mb-1.5">
+          Foretrukket banehalvdel
+        </label>
+        <select
+          id="profile-side"
+          value={form.preferred_side ?? ''}
+          onChange={e => update('preferred_side', e.target.value)}
+          className="w-full rounded-xl border border-(--color-border) bg-white px-4 py-3 text-sm text-(--color-text) focus:outline-none focus:ring-2 focus:ring-(--color-dark) transition"
+        >
+          <option value="">Ikke oppgitt</option>
+          {COURT_SIDES.map(side => (
+            <option key={side.value} value={side.value}>{side.label}</option>
           ))}
         </select>
       </div>

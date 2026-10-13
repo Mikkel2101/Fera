@@ -1,5 +1,5 @@
 import { Resend } from 'resend'
-import { padelLevelLabel, tripGoalLabel } from './levels'
+import { courtSideLabel, padelLevelLabel, tripGoalLabel } from './levels'
 import { ROOM_SHARE_GENDERS, roomPreferenceLabel } from './rooms'
 import type { PriceBreakdown } from './pricing'
 
@@ -18,6 +18,7 @@ export type ReservationEmailPayload = {
   email:             string
   phone:             string
   padel_level:       string
+  preferred_side:    string | null
   room_type:         string
   room_preference:   string
   roommate_name:     string | null
@@ -132,6 +133,7 @@ export async function sendOpsReservationEmail(p: ReservationEmailPayload): Promi
     ['Telefon',   p.phone],
     ['Padelnivå', padelLevelLabel(p.padel_level)],
   ]
+  if (p.preferred_side)   contactRows.push(['Banehalvdel', courtSideLabel(p.preferred_side)])
   if (gender)             contactRows.push(['Kjønn (romdeling)', gender])
   if (p.trip_goal)        contactRows.push(['Mål for turen', tripGoalLabel(p.trip_goal)])
   if (p.special_requests) contactRows.push(['Ønsker', p.special_requests])

@@ -12,6 +12,7 @@ export type Database = {
           full_name: string | null
           phone: string | null
           padel_level: string | null
+          preferred_side: string | null
           newsletter_consent: boolean
           created_at: string
         }
@@ -20,6 +21,7 @@ export type Database = {
           full_name?: string | null
           phone?: string | null
           padel_level?: string | null
+          preferred_side?: string | null
           newsletter_consent?: boolean
           created_at?: string
         }
@@ -28,6 +30,7 @@ export type Database = {
           full_name?: string | null
           phone?: string | null
           padel_level?: string | null
+          preferred_side?: string | null
           newsletter_consent?: boolean
           created_at?: string
         }

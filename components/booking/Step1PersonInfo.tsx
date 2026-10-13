@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { step1Schema } from '@/lib/booking/schema'
 import type { Step1Data } from '@/lib/booking/schema'
-import { PADEL_LEVELS, TRIP_GOALS } from '@/lib/booking/levels'
+import { COURT_SIDES, PADEL_LEVELS, TRIP_GOALS } from '@/lib/booking/levels'
 
 type Props = {
   data: Partial<Step1Data>
@@ -18,6 +18,7 @@ type FormState = {
   email:            string
   phone:            string
   padel_level:      string
+  preferred_side:   string
   trip_goal:        string
   special_requests: string
 }
@@ -27,9 +28,48 @@ function toSchemaInput(form: FormState) {
   return {
     ...form,
     padel_level:      form.padel_level || undefined,
+    preferred_side:   form.preferred_side || undefined,
     trip_goal:        form.trip_goal || undefined,
     special_requests: form.special_requests.trim() || undefined,
   }
+}
+
+type ChipOption = { value: string; label: string }
+
+// Valgfritt enkeltvalg som knapperad. Klikk på valgt knapp fjerner valget.
+function ChipGroup({ legend, options, value, onChange }: {
+  legend:   string
+  options:  ReadonlyArray<ChipOption>
+  value:    string
+  onChange: (value: string) => void
+}) {
+  return (
+    <fieldset>
+      <legend className="block text-sm font-medium text-(--color-text) mb-3">
+        {legend} <span className="font-normal text-(--color-muted)">(valgfritt)</span>
+      </legend>
+      <div className="flex flex-wrap gap-2">
+        {options.map(option => {
+          const isSelected = value === option.value
+          return (
+            <button
+              key={option.value}
+              type="button"
+              aria-pressed={isSelected}
+              onClick={() => onChange(isSelected ? '' : option.value)}
+              className={`rounded-full border px-4 py-2 text-sm transition-colors ${
+                isSelected
+                  ? 'border-(--color-cta) bg-(--color-cta) text-white'
+                  : 'border-(--color-border) text-(--color-text) hover:border-(--color-muted)'
+              }`}
+            >
+              {option.label}
+            </button>
+          )
+        })}
+      </div>
+    </fieldset>
+  )
 }
 
 function fieldErrorsOf(form: FormState): Record<string, string> {
@@ -46,6 +86,7 @@ export default function Step1PersonInfo({ data, lockedEmail, onNext }: Props) {
     email:            lockedEmail,
     phone:            data.phone            ?? '',
     padel_level:      data.padel_level      ?? '',
+    preferred_side:   data.preferred_side   ?? '',
     trip_goal:        data.trip_goal        ?? '',
     special_requests: data.special_requests ?? '',
   })
@@ -189,31 +230,19 @@ export default function Step1PersonInfo({ data, lockedEmail, onNext }: Props) {
         {errors.padel_level && <p className="text-red-500 text-sm mt-1">{errors.padel_level}</p>}
       </fieldset>
 
-      <fieldset>
-        <legend className="block text-sm font-medium text-(--color-text) mb-3">
-          Hva vil du helst få ut av turen? <span className="font-normal text-(--color-muted)">(valgfritt)</span>
-        </legend>
-        <div className="flex flex-wrap gap-2">
-          {TRIP_GOALS.map(goal => {
-            const isSelected = form.trip_goal === goal.value
-            return (
-              <button
-                key={goal.value}
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => update('trip_goal', isSelected ? '' : goal.value)}
-                className={`rounded-full border px-4 py-2 text-sm transition-colors ${
-                  isSelected
-                    ? 'border-(--color-cta) bg-(--color-cta) text-white'
-                    : 'border-(--color-border) text-(--color-text) hover:border-(--color-muted)'
-                }`}
-              >
-                {goal.label}
-              </button>
-            )
-          })}
-        </div>
-      </fieldset>
+      <ChipGroup
+        legend="Hvilken banehalvdel spiller du helst på?"
+        options={COURT_SIDES}
+        value={form.preferred_side}
+        onChange={value => update('preferred_side', value)}
+      />
+
+      <ChipGroup
+        legend="Hva vil du helst få ut av turen?"
+        options={TRIP_GOALS}
+        value={form.trip_goal}
+        onChange={value => update('trip_goal', value)}
+      />
 
       <div>
         <label htmlFor="booking-wishes" className="block text-sm font-medium text-(--color-text) mb-1">
