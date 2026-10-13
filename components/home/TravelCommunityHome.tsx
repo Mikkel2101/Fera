@@ -89,7 +89,7 @@ export default async function TravelCommunityHome() {
           </div>
           {trips.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {trips.map((trip) => <TripCard key={trip.id} trip={trip} headingFont="sans" />)}
+              {trips.map((trip) => <TripCard key={trip.id} trip={trip} />)}
             </div>
           ) : (
             <div className="border-y border-(--color-border) py-8">
