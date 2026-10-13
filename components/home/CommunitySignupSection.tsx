@@ -16,7 +16,7 @@ export default function CommunitySignupSection() {
           <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-transparent to-(--color-overlay)/20" />
         </div>
 
-        <div className="flex flex-col justify-center bg-(--color-community) px-8 py-14 sm:px-10 lg:col-span-2 lg:px-12 lg:py-16">
+        <div className="flex flex-col justify-center bg-(--color-community) px-10 py-16 sm:px-12 lg:col-span-2 lg:px-16 lg:py-20">
           <p className="mb-4 text-xs font-medium uppercase tracking-widest text-white">Fera Travel</p>
           <h2 className="mb-6 font-sans text-4xl font-normal leading-tight text-white sm:text-5xl">
             Bli med i<br />FERA Community
