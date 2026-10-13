@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import HomeInspirationSection from '@/components/home/HomeInspirationSection'
 import TripCard from '@/components/travels/TripCard'
 import { createClient } from '@/lib/supabase/server'
@@ -24,17 +23,18 @@ export default async function TravelCommunityHome() {
   return (
     <main>
       <section className="relative min-h-[calc(88svh-4rem)] md:min-h-[calc(92svh-4rem)] flex items-center overflow-hidden bg-(--color-community)">
-        <Image
-          src="/Solrik%20padelglede%20i%20resortmiljø%20FINAL%202%20MOBIL.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png"
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/fera-travels.mp4"
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-(--color-overlay-neutral)/95 via-(--color-overlay-neutral)/80 to-(--color-overlay-neutral)/45"
+          className="absolute inset-0 bg-(--color-overlay-neutral)/75"
         />
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-6xl">
