@@ -27,9 +27,9 @@ describe('triggerPadelpointOrder', () => {
   })
 
   it('does nothing and logs when env vars are missing', async () => {
-    delete process.env.GITHUB_DISPATCH_TOKEN
-    delete process.env.GITHUB_OWNER
-    delete process.env.GITHUB_REPO
+    delete process.env.FERAGIT_DISPATCH_TOKEN
+    delete process.env.FERAGIT_OWNER
+    delete process.env.FERAGIT_REPO
 
     const spy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const fetchSpy = vi.spyOn(global, 'fetch')
@@ -41,9 +41,9 @@ describe('triggerPadelpointOrder', () => {
   })
 
   it('calls GitHub API with correct body', async () => {
-    process.env.GITHUB_DISPATCH_TOKEN = 'tok-abc'
-    process.env.GITHUB_OWNER = 'ferabrand'
-    process.env.GITHUB_REPO = 'fera'
+    process.env.FERAGIT_DISPATCH_TOKEN = 'tok-abc'
+    process.env.FERAGIT_OWNER = 'ferabrand'
+    process.env.FERAGIT_REPO = 'fera'
 
     const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(
       new Response(null, { status: 204 }),
@@ -62,9 +62,9 @@ describe('triggerPadelpointOrder', () => {
   })
 
   it('sends correct Authorization header', async () => {
-    process.env.GITHUB_DISPATCH_TOKEN = 'tok-abc'
-    process.env.GITHUB_OWNER = 'ferabrand'
-    process.env.GITHUB_REPO = 'fera'
+    process.env.FERAGIT_DISPATCH_TOKEN = 'tok-abc'
+    process.env.FERAGIT_OWNER = 'ferabrand'
+    process.env.FERAGIT_REPO = 'fera'
 
     const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(
       new Response(null, { status: 204 }),
@@ -78,9 +78,9 @@ describe('triggerPadelpointOrder', () => {
   })
 
   it('throws on non-2xx GitHub response', async () => {
-    process.env.GITHUB_DISPATCH_TOKEN = 'tok-bad'
-    process.env.GITHUB_OWNER = 'ferabrand'
-    process.env.GITHUB_REPO = 'fera'
+    process.env.FERAGIT_DISPATCH_TOKEN = 'tok-bad'
+    process.env.FERAGIT_OWNER = 'ferabrand'
+    process.env.FERAGIT_REPO = 'fera'
 
     vi.spyOn(global, 'fetch').mockResolvedValue(
       new Response('Unauthorized', { status: 401 }),
