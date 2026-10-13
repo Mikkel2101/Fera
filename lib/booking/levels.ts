@@ -1,5 +1,5 @@
 // Padelnivå og mål for turen. Verdiene lagres i bookings og users
-// (migrasjon 028) og deles av booking, profil, admin og e-post.
+// (migrasjon 029) og deles av booking, profil, admin og e-post.
 
 export const PADEL_LEVELS = [
   { value: 'nybegynner',    label: 'Nybegynner',  description: 'Har lite erfaring og lærer grunnslagene og reglene.' },

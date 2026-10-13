@@ -1,4 +1,4 @@
--- Migration 028: Utvidet påmelding (reservasjon fase 1)
+-- Migration 029: Utvidet påmelding (reservasjon fase 1)
 -- Aktivt romvalg, padelnivå med ny skala, mål for turen, ønsker,
 -- tillegg med størrelse og antall, og prisen kunden så ved reservasjon.
 -- Per 2026-10-13 finnes ingen bookinger og ingen brukere med nivå i prod,
