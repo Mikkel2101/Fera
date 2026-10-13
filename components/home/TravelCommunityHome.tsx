@@ -31,7 +31,7 @@ export default async function TravelCommunityHome() {
           playsInline
           poster="/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png"
           className="absolute inset-0 w-full h-full object-cover"
-          src="https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/trips/videos/fera-travels.mp4"
+          src="/fera-travels.mp4"
         />
         <div
           aria-hidden="true"
