@@ -3,6 +3,7 @@ import Image from 'next/image'
 import type { Database } from '@/lib/supabase/types'
 
 type Trip = Database['public']['Tables']['trips']['Row']
+type HeadingFont = 'display' | 'sans'
 
 function getStatusBadge(trip: Trip) {
   if (trip.status === 'Fullbooket') {
@@ -39,7 +40,7 @@ function formatDate(date: string) {
   })
 }
 
-export default function TripCard({ trip }: { trip: Trip }) {
+export default function TripCard({ trip, headingFont = 'display' }: { trip: Trip; headingFont?: HeadingFont }) {
   if (trip.status === 'Utkast') return null
 
   const badge = getStatusBadge(trip)
@@ -48,10 +49,9 @@ export default function TripCard({ trip }: { trip: Trip }) {
     trip.max_participants != null
       ? trip.max_participants - trip.registered_count
       : null
-  const isFull = trip.status === 'Fullbooket'
 
   return (
-    <Link href={`/travels/${trip.id}`} className="group bg-(--color-sand-light) rounded overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-300">
+    <Link href={`/travels/${trip.id}`} className="group bg-(--color-sand-light) rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-300">
       {/* Bildedel */}
       <div className="relative aspect-video overflow-hidden">
         {trip.main_image ? (
@@ -92,7 +92,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
           </p>
         )}
 
-        <h3 className="font-display text-(--color-text) text-xl font-semibold leading-tight">
+        <h3 className={`${headingFont === 'sans' ? 'font-sans' : 'font-display'} text-(--color-text) text-xl font-semibold leading-tight`}>
           {trip.name}
         </h3>
 
@@ -107,7 +107,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
             €{trip.price_double_eur.toLocaleString('nb-NO')}
           </span>
           <span className="bg-(--color-cta) text-white text-sm font-semibold px-4 py-2 rounded-full group-hover:bg-(--color-dark-mid) transition-colors">
-            {isFull ? 'Venteliste →' : 'Se detaljer →'}
+            Se detaljer →
           </span>
         </div>
       </div>

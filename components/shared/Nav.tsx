@@ -109,6 +109,10 @@ export default function Nav() {
 
   const isShop    = pathname.startsWith('/shop')
   const isTravels = pathname.startsWith('/travels')
+  const isAboutFera = pathname.startsWith('/travels/om-oss')
+  const isInspiration = pathname.startsWith('/travels/inspirasjon')
+  const isSkreddersydd = pathname.startsWith('/travels/skreddersydde-reiser')
+  const isTrips = isTravels && !isAboutFera && !isInspiration && !isSkreddersydd
 
   return (
     <>
@@ -138,7 +142,7 @@ export default function Nav() {
           ? 'bg-white/98 backdrop-blur-md shadow-sm border-b border-(--color-border)'
           : 'bg-white border-b border-(--color-border)'
       }`}>
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1450px] mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
 
             {/* ── Logo ── */}
@@ -148,6 +152,20 @@ export default function Nav() {
 
             {/* ── Desktop nav ── */}
             <div className="hidden md:flex items-center gap-1 flex-1">
+
+              <Link
+                href="/"
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  pathname === '/'
+                    ? 'text-(--color-text)'
+                    : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
+                }`}
+              >
+                Hjem
+                {pathname === '/' && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
+                )}
+              </Link>
 
               {SHOP_ENABLED && (<>
               {/* Utstyr med dropdown */}
@@ -229,13 +247,39 @@ export default function Nav() {
               <Link
                 href="/travels"
                 className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                  isTravels
+                  isTrips
                     ? 'text-(--color-text)'
                     : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
                 }`}
               >
-                Reiser
-                {isTravels && (
+                Våre reiser
+                {isTrips && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
+                )}
+              </Link>
+              <Link
+                href="/travels/skreddersydde-reiser"
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isSkreddersydd
+                    ? 'text-(--color-text)'
+                    : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
+                }`}
+              >
+                Tilpassede reiser
+                {isSkreddersydd && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
+                )}
+              </Link>
+              <Link
+                href="/travels/inspirasjon"
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isInspiration
+                    ? 'text-(--color-text)'
+                    : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
+                }`}
+              >
+                Inspirasjon
+                {isInspiration && (
                   <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
                 )}
               </Link>
@@ -385,16 +429,41 @@ export default function Nav() {
               </div>
               </>)}
 
-              {/* REISER-seksjon */}
+              {/* HOVEDLENKER */}
               <div className={`px-5 ${SHOP_ENABLED ? 'py-2' : 'pt-6 pb-2'}`}>
-                <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Reiser</p>
+                <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Utforsk Fera</p>
                 <Link
                   href="/travels"
+                  onClick={() => setMobileOpen(false)}
                   className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
-                    isTravels ? 'text-(--color-cta)' : 'text-(--color-text)'
+                    isTrips ? 'text-(--color-cta)' : 'text-(--color-text)'
                   }`}
                 >
-                  Se kommende reiser
+                  Våre reiser
+                  <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
+                    <IconArrow />
+                  </span>
+                </Link>
+                <Link
+                  href="/travels/skreddersydde-reiser"
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
+                    isSkreddersydd ? 'text-(--color-cta)' : 'text-(--color-text)'
+                  }`}
+                >
+                  Tilpassede reiser
+                  <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
+                    <IconArrow />
+                  </span>
+                </Link>
+                <Link
+                  href="/travels/inspirasjon"
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
+                    isInspiration ? 'text-(--color-cta)' : 'text-(--color-text)'
+                  }`}
+                >
+                  Inspirasjon
                   <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
                     <IconArrow />
                   </span>

@@ -2,13 +2,13 @@ import { describe, it, expect } from 'vitest'
 import { shopGate, isRootAppPath } from '@/lib/routing/shop-gate'
 
 describe('shopGate (shop skjult)', () => {
-  it('sender forsiden til /travels', () => {
-    expect(shopGate('/', false)).toEqual({ type: 'redirect', to: '/travels' })
+  it('slipper gjennom forsiden for den nye reise-landingssiden', () => {
+    expect(shopGate('/', false)).toBeNull()
   })
 
-  it('sender /no og /no/ til /travels', () => {
-    expect(shopGate('/no', false)).toEqual({ type: 'redirect', to: '/travels' })
-    expect(shopGate('/no/', false)).toEqual({ type: 'redirect', to: '/travels' })
+  it('slipper gjennom /no og /no/ til den kanoniske forsiden', () => {
+    expect(shopGate('/no', false)).toBeNull()
+    expect(shopGate('/no/', false)).toBeNull()
   })
 
   it('sender shop-sider til ventelista for FERA-kolleksjonen', () => {

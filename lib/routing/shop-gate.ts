@@ -2,9 +2,9 @@
 
 export type ShopGateResult = { type: 'redirect'; to: string } | { type: 'not_found' } | null
 
-// Mens shop er skjult: forsiden sendes til reiser, shop-sider til ventelista
-// for FERA-kolleksjonen, og shop-API-et svarer 404. /no-prefikset (norsk
-// kanonisk rot) håndteres likt.
+// Mens shop er skjult: shop-sider sendes til ventelista for FERA-kolleksjonen,
+// og shop-API-et svarer 404. Forsiden rendres separat for Travels.
+// /no-prefikset (norsk kanonisk rot) håndteres likt.
 export function shopGate(pathname: string, shopEnabled: boolean): ShopGateResult {
   if (shopEnabled) return null
 
@@ -13,7 +13,6 @@ export function shopGate(pathname: string, shopEnabled: boolean): ShopGateResult
     : pathname.startsWith('/no/') ? pathname.slice(3) : pathname
 
   if (path.startsWith('/api/shop')) return { type: 'not_found' }
-  if (path === '/') return { type: 'redirect', to: '/travels' }
   if (path === '/shop' || path.startsWith('/shop/')) {
     return { type: 'redirect', to: '/kolleksjon' }
   }

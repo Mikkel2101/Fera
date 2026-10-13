@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import ProductCard from '@/components/shop/ProductCard'
 import Nav from '@/components/shared/Nav'
@@ -9,30 +8,47 @@ import Footer from '@/components/shared/Footer'
 import NewsletterSignup from '@/components/shared/NewsletterSignup'
 import { fetchEurNokRate } from '@/lib/currency'
 import { CurrencyProvider } from '@/lib/currency/context'
-import { getPublishedArticles } from '@/lib/articles/queries'
-import { formatArticleDate } from '@/lib/articles/format'
+import { SHOP_ENABLED } from '@/lib/flags'
+import TravelCommunityHome from '@/components/home/TravelCommunityHome'
+import HomeInspirationSection from '@/components/home/HomeInspirationSection'
+import CommunitySignupSection from '@/components/home/CommunitySignupSection'
 
 export const metadata = {
-  title: 'Fera Padel | Reiser og utstyr',
-  description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint. Alt på ett sted.',
+  title: SHOP_ENABLED ? 'Fera Padel | Reiser og utstyr' : 'Fera Travels | Padelreiser til Costa Blanca',
+  description: SHOP_ENABLED
+    ? 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint. Alt på ett sted.'
+    : 'Padelreiser til Costa Blanca med coaching, gode opplevelser og et sosialt fellesskap.',
   openGraph: {
-    title: 'Fera Padel | Reiser og utstyr',
-    description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.',
-    url: 'https://ferabrand.com',
-    siteName: 'Fera Padel',
+    title: SHOP_ENABLED ? 'Fera Padel | Reiser og utstyr' : 'Fera Travels | Padelreiser til Costa Blanca',
+    description: SHOP_ENABLED
+      ? 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.'
+      : 'Padelreiser til Costa Blanca med coaching, gode opplevelser og et sosialt fellesskap.',
+    url: 'https://ferapadel.com',
+    siteName: SHOP_ENABLED ? 'Fera Padel' : 'Fera Travels',
     locale: 'nb_NO',
     type: 'website',
   },
 }
 
 export default async function HomePage() {
+  if (!SHOP_ENABLED) {
+    return (
+      <HomeCartProvider>
+        <Nav />
+        <CartDrawer />
+        <TravelCommunityHome />
+        <CommunitySignupSection />
+        <Footer />
+      </HomeCartProvider>
+    )
+  }
+
   const supabase = await createClient()
-  const [{ data: newProducts }, { data: trips }, { data: bestSellers }, nokRate, blogPosts] = await Promise.all([
+  const [{ data: newProducts }, { data: trips }, { data: bestSellers }, nokRate] = await Promise.all([
     supabase.from('products').select('*').eq('published', true).order('created_at', { ascending: false }).limit(4),
     supabase.from('trips').select('*').eq('published', true).order('start_date', { ascending: true }).limit(4),
     supabase.from('products').select('*').eq('published', true).order('name').range(4, 7),
     fetchEurNokRate(),
-    getPublishedArticles(3),
   ])
 
   return (
@@ -45,13 +61,13 @@ export default async function HomePage() {
         <section className="relative min-h-[60vh] sm:min-h-[88vh] flex items-center bg-(--color-dark) overflow-hidden">
           {/* Hero background image */}
           <div className="absolute inset-0 hero-bg"
-            style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover' }}
+            style={{ backgroundImage: 'url(/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png)', backgroundSize: 'cover' }}
           />
           {/* Mobile + tablet: full overlay */}
           <div className="absolute inset-0 bg-(--color-overlay)/65 lg:hidden" />
           {/* Desktop: gradient from left */}
           <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-(--color-overlay)/75 via-(--color-overlay)/30 to-transparent" />
-          <div className="relative max-w-[1600px] mx-auto px-4 py-24 w-full">
+          <div className="relative max-w-[1450px] mx-auto px-4 py-24 w-full">
             <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl lg:text-7xl leading-none max-w-3xl mb-6">
               Utstyr du elsker.<br />
               <span className="font-display italic">Turer du husker.</span>
@@ -81,7 +97,7 @@ export default async function HomePage() {
 
         {/* ── 1b. TRUST SIGNALS BAR — skjult
         <section className="border-b border-(--color-border)">
-          <div className="max-w-[1600px] mx-auto px-4 py-6">
+          <div className="max-w-[1450px] mx-auto px-4 py-6">
             <div className="grid grid-cols-3 gap-6 md:gap-0 md:divide-x divide-(--color-border)">
               {[
                 { stat: '100+', label: 'Reisende på ett år' },
@@ -100,7 +116,7 @@ export default async function HomePage() {
 
         {/* ── 1c. BRAND BAR ────────────────────────────────────── */}
         <div className="border-b border-(--color-border) bg-white">
-          <div className="max-w-[1600px] mx-auto px-4 py-5">
+          <div className="max-w-[1450px] mx-auto px-4 py-5">
             <p className="text-center text-(--color-muted) text-xs uppercase tracking-widest mb-4">Vi fører merker som</p>
             <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
               {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Dunlop'].map((brand) => (
@@ -115,7 +131,7 @@ export default async function HomePage() {
         {/* ── 2. PRODUKTNYHETER ────────────────────────────────── */}
         {newProducts && newProducts.length > 0 && (
           <section className="py-28">
-            <div className="max-w-[1600px] mx-auto px-4">
+            <div className="max-w-[1450px] mx-auto px-4">
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Padelutstyr</p>
@@ -176,7 +192,7 @@ export default async function HomePage() {
           />
           <div className="absolute inset-0 bg-(--color-overlay-deep)/75" />
 
-          <div className="relative max-w-[1600px] mx-auto px-4 py-24 w-full">
+          <div className="relative max-w-[1450px] mx-auto px-4 py-24 w-full">
             {/* Overline */}
             <p className="text-white text-xs tracking-[0.35em] uppercase font-sans mb-5">
               REIS MED FERA
@@ -217,7 +233,7 @@ export default async function HomePage() {
         {/* ── 3b. KOMMENDE TURER — skjult, kan brukes et annet sted
         {trips && trips.length > 0 && (
           <section className="py-24 px-4 bg-(--color-dark)">
-            <div className="max-w-[1600px] mx-auto">
+            <div className="max-w-[1450px] mx-auto">
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-sand)/60 text-xs uppercase tracking-widest font-medium mb-2">Neste tur</p>
@@ -245,7 +261,7 @@ export default async function HomePage() {
         {/* ── 4. BESTSELGERE ───────────────────────────────────── */}
         {bestSellers && bestSellers.length > 0 && (
           <section className="py-20 bg-white">
-            <div className="max-w-[1600px] mx-auto px-4">
+            <div className="max-w-[1450px] mx-auto px-4">
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Populære valg</p>
@@ -267,65 +283,11 @@ export default async function HomePage() {
         )}
 
         {/* ── 5. NYHETER & INSPIRASJON ─────────────────────────── */}
-        {blogPosts.length > 0 && (
-        <section className="py-28 overflow-hidden bg-(--color-sand-light)">
-          <div className="max-w-[1600px] mx-auto px-4">
-            {/* Header */}
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
-                <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
-                <p className="font-sans text-[18px] text-(--color-text) max-w-xl leading-relaxed">
-                  Les om tidligere padelreiser, få våre utstyrsanbefalinger og finn inspirasjon til deg som vil få mer ut av padel.
-                </p>
-              </div>
-              <Link href="/travels/inspirasjon" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block self-start">
-                Se mer →
-              </Link>
-            </div>
-
-            {/* Slider — calc(-50vw + 50%) extends to viewport right edge on all screen widths */}
-            <div className="overflow-x-auto pb-6 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" style={{ marginRight: 'calc(-50vw + 50%)' }}>
-              <div className="flex gap-6">
-                {blogPosts.map((post) => (
-                  <Link
-                    key={post.slug}
-                    href={`/travels/inspirasjon/${post.slug}`}
-                    className="group flex-none w-[85vw] sm:w-[560px] lg:w-[640px] [scroll-snap-align:start]"
-                  >
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
-                      {post.cover_image && (
-                        <Image
-                          src={post.cover_image}
-                          alt={post.cover_image_alt ?? ''}
-                          fill
-                          sizes="640px"
-                          className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          unoptimized
-                        />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                      <span className="absolute bottom-5 left-5 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-3 py-1 rounded-full">
-                        {post.category}
-                      </span>
-                    </div>
-                    <p className="text-(--color-muted) text-xs mb-2">{formatArticleDate(post.published_at)}</p>
-                    <h3 className="font-sans font-normal text-(--color-text) text-2xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
-                  </Link>
-                ))}
-                <div className="flex-none w-4 sm:w-6 lg:w-8" />
-              </div>
-            </div>
-          </div>
-        </section>
-        )}
+        <HomeInspirationSection variant="shop" />
 
         {/* ── 6. SOSIALE MEDIER + INSTAGRAM — skjult
         <section className="py-20 bg-white">
-          <div className="max-w-[1600px] mx-auto px-4">
+          <div className="max-w-[1450px] mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Sosiale medier</p>

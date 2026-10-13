@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
       { hostname: 'images.unsplash.com' },
     ],
   },
+  async redirects() {
+    return [
+      { source: '/travels/for-klubber', destination: '/travels/skreddersydde-reiser', permanent: true },
+      { source: '/travels/for-bedrifter', destination: '/travels/skreddersydde-reiser', permanent: true },
+    ]
+  },
 }
 
 export default nextConfig

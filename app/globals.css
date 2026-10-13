@@ -14,6 +14,7 @@
   /* Hero / mørk seksjon */
   --color-dark:      #420016;
   --color-overlay:   #110007;
+  --color-overlay-neutral: #190d10;
   --color-overlay-deep: #190108;
   --color-footer:    #160009;
   --color-community: #300415;
@@ -137,7 +138,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
 }
 .prose-fera h2 {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--color-text);
