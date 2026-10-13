@@ -30,7 +30,7 @@ export default async function TravelCommunityHome() {
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-(--color-overlay-neutral)/95 via-(--color-overlay-neutral)/63 to-(--color-overlay-neutral)/23"
+          className="absolute inset-0 bg-gradient-to-r from-(--color-overlay-neutral)/95 via-(--color-overlay-neutral)/63 to-(--color-overlay-neutral)/20"
         />
         <div className="relative w-full max-w-[1600px] mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-6xl">
@@ -58,7 +58,7 @@ export default async function TravelCommunityHome() {
             <div className="mt-12 grid max-w-3xl grid-cols-1 gap-4 border-t border-white/25 pt-6 sm:grid-cols-3 sm:gap-6">
               {[
                 { title: 'Mer enn padel', detail: 'Gode opplevelser på og utenfor banen' },
-                { title: 'Små grupper', detail: 'Personlig og tilpasset alle nivåer' },
+                { title: 'For alle nivåer', detail: 'Personlig og tilpasset oppfølging' },
                 { title: 'Costa Blanca', detail: 'Solfylte dager med sport og fellesskap' },
               ].map((item) => (
                 <div key={item.title}>
@@ -78,13 +78,13 @@ export default async function TravelCommunityHome() {
               <p className="text-(--color-overline) text-xs uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
               <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Finn reisen som passer deg</h2>
             </div>
-            <Link href="/travels" className="text-(--color-cta) text-sm font-semibold hover:underline">
+            <Link href="/travels" className="inline-flex min-h-11 items-center text-base font-semibold text-(--color-cta) hover:underline">
               Se alle reiser <span aria-hidden="true">→</span>
             </Link>
           </div>
           {trips.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {trips.map((trip) => <TripCard key={trip.id} trip={trip} />)}
+              {trips.map((trip) => <TripCard key={trip.id} trip={trip} headingFont="sans" />)}
             </div>
           ) : (
             <div className="border-y border-(--color-border) py-8">
@@ -97,8 +97,8 @@ export default async function TravelCommunityHome() {
         </div>
       </section>
 
-      <section className="bg-(--color-community) text-white">
-        <div className="mx-auto grid max-w-[1600px] gap-8 px-4 py-16 sm:px-6 md:grid-cols-2 md:items-center md:gap-14 md:py-20">
+      <section className="bg-(--color-community) text-white md:min-h-[600px]">
+        <div className="mx-auto grid max-w-[1600px] gap-8 px-4 py-16 sm:px-6 md:min-h-[600px] md:grid-cols-2 md:items-center md:gap-14 md:py-20">
           <div>
             <p className="text-(--color-overline-light) text-xs uppercase tracking-[0.18em] font-medium mb-3">Mer enn timer på banen</p>
             <h2 className="font-sans font-normal text-4xl sm:text-5xl leading-tight mb-5">Gode dager blir enda bedre sammen.</h2>

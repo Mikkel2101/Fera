@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import DateRangePicker from './DateRangePicker'
 
 interface Field {
   name: string
@@ -11,9 +12,16 @@ interface Field {
   fullWidth?: boolean
 }
 
+interface DateRangeField {
+  label: string
+  fromName: string
+  toName: string
+}
+
 interface Props {
   type: string
   fields: Field[]
+  dateRangeField?: DateRangeField
   messageLabel?: string
   messagePlaceholder?: string
   submitLabel?: string
@@ -23,6 +31,7 @@ interface Props {
 export default function ContactForm({
   type,
   fields,
+  dateRangeField,
   messageLabel = 'Melding',
   messagePlaceholder = 'Fortell oss om ønskene dine…',
   submitLabel = 'Send forespørsel →',
@@ -83,10 +92,21 @@ export default function ContactForm({
               placeholder={field.placeholder}
               value={values[field.name] ?? ''}
               onChange={(e) => set(field.name, e.target.value)}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/50 transition-colors"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/65 text-sm focus:outline-none focus:border-white/50 transition-colors [color-scheme:dark]"
             />
           </div>
         ))}
+        {dateRangeField && (
+          <DateRangePicker
+            label={dateRangeField.label}
+            from={values[dateRangeField.fromName] ?? ''}
+            to={values[dateRangeField.toName] ?? ''}
+            onChange={(from, to) => {
+              set(dateRangeField.fromName, from)
+              set(dateRangeField.toName, to)
+            }}
+          />
+        )}
       </div>
       <div>
         <label className="block text-white/70 text-xs mb-1.5 uppercase tracking-widest">{messageLabel}</label>
@@ -96,7 +116,7 @@ export default function ContactForm({
           placeholder={messagePlaceholder}
           value={values.melding ?? ''}
           onChange={(e) => set('melding', e.target.value)}
-          className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/30 text-sm focus:outline-none focus:border-white/50 resize-none transition-colors"
+          className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/65 text-sm focus:outline-none focus:border-white/50 resize-none transition-colors"
         />
       </div>
       {status === 'error' && (

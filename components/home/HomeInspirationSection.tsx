@@ -28,7 +28,7 @@ const homepagePosts: InspirationPost[] = [
     title: 'Ta klubben med til Costa Blanca',
     excerpt: 'Skreddersydd padelreise for klubber med trening, sosialt samvær og nye opplevelser.',
     date: 'For klubber',
-    href: '/travels/for-klubber',
+    href: '/travels/skreddersydde-reiser',
     src: `${photos}/group-photo.jpg`,
     alt: 'Padelspillere samlet etter en kamp',
   },
@@ -37,7 +37,7 @@ const homepagePosts: InspirationPost[] = [
     title: 'Bedriftstur til Albir, perfekt teambuilding',
     excerpt: 'Se hvorfor Fera Padel er det naturlige valget for bedrifter som vil kombinere sport og sosialt.',
     date: '28. mai 2026',
-    href: '/travels/for-bedrifter',
+    href: '/travels/skreddersydde-reiser',
     src: `${photos}/group-photo.jpg`,
     alt: 'Fera-gruppen samlet på padelbanen',
   },
@@ -74,7 +74,7 @@ export default function HomeInspirationSection({ variant = 'travels' }: { varian
                 : 'Les om padelreisene våre, oppdag Costa Blanca og finn inspirasjon til din neste tur.'}
             </p>
           </div>
-          <Link href="/travels/inspirasjon" className="text-(--color-cta) text-sm font-medium hover:underline hidden sm:block self-start">
+          <Link href="/travels/inspirasjon" className="hidden self-end text-lg font-semibold leading-relaxed text-(--color-dark-mid) underline decoration-(--color-border) underline-offset-4 transition-colors hover:decoration-(--color-dark-mid) sm:block">
             Se mer →
           </Link>
         </div>
@@ -87,7 +87,7 @@ export default function HomeInspirationSection({ variant = 'travels' }: { varian
                 href={post.href}
                 className="group flex-none w-[85vw] sm:w-[560px] lg:w-[640px] [scroll-snap-align:start]"
               >
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5">
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 lg:aspect-auto lg:h-[430px]">
                   <Image
                     src={post.src}
                     alt={post.alt}

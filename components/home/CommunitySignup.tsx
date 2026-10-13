@@ -4,6 +4,21 @@ import Link from 'next/link'
 import { useState, type FormEvent } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
+type NudgeState = 'idle' | 'loading' | 'done' | 'error' | 'dismissed'
+
+async function subscribeToNewsletter(email: string): Promise<boolean> {
+  try {
+    const response = await fetch('/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    })
+    return response.ok
+  } catch {
+    return false
+  }
+}
+
 export default function CommunitySignup() {
   const [email, setEmail] = useState('')
   const [newsletterConsent, setNewsletterConsent] = useState(false)
@@ -11,6 +26,7 @@ export default function CommunitySignup() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [newsletterError, setNewsletterError] = useState(false)
+  const [nudge, setNudge] = useState<NudgeState>('idle')
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -31,21 +47,17 @@ export default function CommunitySignup() {
       return
     }
 
-    if (newsletterConsent) {
-      try {
-        const response = await fetch('/api/newsletter', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: normalizedEmail }),
-        })
-        if (!response.ok) setNewsletterError(true)
-      } catch {
-        setNewsletterError(true)
-      }
+    if (newsletterConsent && !(await subscribeToNewsletter(normalizedEmail))) {
+      setNewsletterError(true)
     }
 
     setSent(true)
     setLoading(false)
+  }
+
+  async function handleNudgeAccept() {
+    setNudge('loading')
+    setNudge((await subscribeToNewsletter(email.trim())) ? 'done' : 'error')
   }
 
   if (sent) {
@@ -61,6 +73,36 @@ export default function CommunitySignup() {
             Kontoopprettelsen er i orden, men nyhetsbrev-påmeldingen gikk ikke gjennom. Prøv igjen senere.
           </p>
         )}
+
+        {!newsletterConsent && nudge !== 'dismissed' && nudge !== 'done' && (
+          <div className="mt-6 rounded-2xl border border-white/20 bg-white/5 p-4">
+            <p className="text-sm text-white">Vær først ute når nye turer åpner — vil du også ha det i innboksen?</p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={handleNudgeAccept}
+                disabled={nudge === 'loading'}
+                className="min-h-10 rounded-full bg-white px-4 py-2 text-sm font-semibold text-(--color-community) transition-colors hover:bg-(--color-sand) disabled:opacity-60"
+              >
+                {nudge === 'loading' ? 'Melder på…' : 'Ja takk'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setNudge('dismissed')}
+                className="min-h-10 text-sm text-white/70 underline underline-offset-4 hover:text-white"
+              >
+                Nei takk
+              </button>
+            </div>
+            {nudge === 'error' && (
+              <p className="mt-2 text-xs text-(--color-sand)" role="alert">Noe gikk galt. Prøv igjen senere.</p>
+            )}
+          </div>
+        )}
+        {nudge === 'done' && (
+          <p className="mt-6 text-sm text-(--color-sand)">Takk for din påmelding på vårt nyhetsbrev.</p>
+        )}
+
         <button
           type="button"
           onClick={() => setSent(false)}

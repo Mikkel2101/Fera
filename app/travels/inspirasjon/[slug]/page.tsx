@@ -53,6 +53,16 @@ export default async function BlogPostPage({
 
   return (
     <article>
+      <nav aria-label="Brødsmuler" className="mx-auto max-w-6xl px-4 py-4 text-sm text-(--color-muted) sm:px-6">
+        <ol className="flex flex-wrap items-center gap-2">
+          <li><Link href="/" className="transition-colors hover:text-(--color-text)">Hjem</Link></li>
+          <li aria-hidden="true">/</li>
+          <li><Link href="/travels/inspirasjon" className="transition-colors hover:text-(--color-text)">Aktuelt</Link></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" className="line-clamp-1 text-(--color-text)">{post.title}</li>
+        </ol>
+      </nav>
+
       {/* Hero */}
       <div className="relative aspect-[21/9] max-h-[520px] w-full overflow-hidden bg-(--color-dark)">
         <Image

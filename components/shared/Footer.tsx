@@ -38,10 +38,7 @@ export default function Footer() {
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Reiser</h4>
             <ul className="space-y-3">
               <li><Link href="/travels" className="text-white/50 text-sm hover:text-white transition-colors">Se alle turer</Link></li>
-              <li><Link href="/travels/for-klubber" className="text-white/50 text-sm hover:text-white transition-colors">For klubber & trenere</Link></li>
-              <li><Link href="/travels/for-bedrifter" className="text-white/50 text-sm hover:text-white transition-colors">For bedrifter</Link></li>
-              <li><Link href="/travels/inspirasjon" className="text-white/50 text-sm hover:text-white transition-colors">Inspirasjon</Link></li>
-              <li><Link href="/travels/faq" className="text-white/50 text-sm hover:text-white transition-colors">Vanlige spørsmål</Link></li>
+              <li><Link href="/travels/skreddersydde-reiser" className="text-white/50 text-sm hover:text-white transition-colors">Tilpassede reiser</Link></li>
             </ul>
           </div>
 
@@ -58,9 +55,12 @@ export default function Footer() {
               <li><Link href="/shop/levering-og-retur" className="text-white/50 text-sm hover:text-white transition-colors">Levering og retur</Link></li>
             </ul>
             </>)}
-            <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Om oss</h4>
+            <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Om Fera</h4>
             <ul className="space-y-3">
-              <li><Link href="/travels/om-oss" className="text-white/50 text-sm hover:text-white transition-colors">Teamet</Link></li>
+              <li><Link href="/travels/om-oss" className="text-white/50 text-sm hover:text-white transition-colors">Om oss</Link></li>
+              <li><Link href="/travels/inspirasjon" className="text-white/50 text-sm hover:text-white transition-colors">Aktuelt</Link></li>
+              <li><Link href="/travels/faq" className="text-white/50 text-sm hover:text-white transition-colors">Vanlige spørsmål</Link></li>
+              <li><Link href="/travels/kontakt" className="text-white/50 text-sm hover:text-white transition-colors">Kontakt oss</Link></li>
             </ul>
           </div>
 

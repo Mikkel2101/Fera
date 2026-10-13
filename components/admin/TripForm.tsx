@@ -13,7 +13,7 @@ type Coach   = { name: string; title: string; bio: string; image: string }
 type FaqItem = { question: string; answer: string }
 
 const STATUSES  = ['Utkast', 'Åpen', 'Få plasser', 'Fullbooket', 'Avlyst', 'Gjennomført']
-const TRIP_TYPES = ['Åpen tur', 'Klubbtur', 'Privat', 'Bedrift']
+const TRIP_TYPES = ['Åpen tur', 'Klubbtur', 'Privat', 'Bedrift', 'Padelcamp']
 
 function toNum(v: string): number        { return parseFloat(v) || 0 }
 function toNumOrNull(v: string): number | null { return v ? parseFloat(v) : null }

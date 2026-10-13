@@ -15,7 +15,7 @@ export type BlogPost = {
 export const posts: BlogPost[] = [
   {
     slug: 'en-uke-i-albir',
-    category: 'Reiserapport',
+    category: 'Reiser',
     title: 'En uke i Albir — slik var det',
     excerpt: 'Femten padel-entusiaster fra Oslo. Sju dager med sol, padel og gode minner. Her er alt som skjedde.',
     date: '20. mai 2026',
@@ -37,7 +37,7 @@ export const posts: BlogPost[] = [
   },
   {
     slug: 'derfor-elsker-vi-costa-blanca',
-    category: 'Destinasjon',
+    category: 'Reiser',
     title: 'Derfor elsker vi Costa Blanca',
     excerpt: '300 soldager i året, fantastiske padelsentre og mat som slår alt. Vi forteller deg hvorfor Costa Blanca er det perfekte padelreisemålet.',
     date: '3. mai 2026',

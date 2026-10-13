@@ -110,7 +110,9 @@ export default function Nav() {
   const isShop    = pathname.startsWith('/shop')
   const isTravels = pathname.startsWith('/travels')
   const isAboutFera = pathname.startsWith('/travels/om-oss')
-  const isTrips = isTravels && !isAboutFera
+  const isInspiration = pathname.startsWith('/travels/inspirasjon')
+  const isSkreddersydd = pathname.startsWith('/travels/skreddersydde-reiser')
+  const isTrips = isTravels && !isAboutFera && !isInspiration && !isSkreddersydd
 
   return (
     <>
@@ -256,15 +258,28 @@ export default function Nav() {
                 )}
               </Link>
               <Link
-                href="/travels/om-oss"
+                href="/travels/skreddersydde-reiser"
                 className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
-                  isAboutFera
+                  isSkreddersydd
                     ? 'text-(--color-text)'
                     : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
                 }`}
               >
-                Om Fera
-                {isAboutFera && (
+                Tilpassede reiser
+                {isSkreddersydd && (
+                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
+                )}
+              </Link>
+              <Link
+                href="/travels/inspirasjon"
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  isInspiration
+                    ? 'text-(--color-text)'
+                    : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
+                }`}
+              >
+                Aktuelt
+                {isInspiration && (
                   <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
                 )}
               </Link>
@@ -418,18 +433,6 @@ export default function Nav() {
               <div className={`px-5 ${SHOP_ENABLED ? 'py-2' : 'pt-6 pb-2'}`}>
                 <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Utforsk Fera</p>
                 <Link
-                  href="/"
-                  onClick={() => setMobileOpen(false)}
-                  className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
-                    pathname === '/' ? 'text-(--color-cta)' : 'text-(--color-text)'
-                  }`}
-                >
-                  Hjem
-                  <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
-                    <IconArrow />
-                  </span>
-                </Link>
-                <Link
                   href="/travels"
                   onClick={() => setMobileOpen(false)}
                   className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
@@ -442,13 +445,25 @@ export default function Nav() {
                   </span>
                 </Link>
                 <Link
-                  href="/travels/om-oss"
+                  href="/travels/skreddersydde-reiser"
                   onClick={() => setMobileOpen(false)}
                   className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
-                    isAboutFera ? 'text-(--color-cta)' : 'text-(--color-text)'
+                    isSkreddersydd ? 'text-(--color-cta)' : 'text-(--color-text)'
                   }`}
                 >
-                  Om Fera
+                  Tilpassede reiser
+                  <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
+                    <IconArrow />
+                  </span>
+                </Link>
+                <Link
+                  href="/travels/inspirasjon"
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center justify-between py-3 text-sm font-medium border-b border-(--color-border) group ${
+                    isInspiration ? 'text-(--color-cta)' : 'text-(--color-text)'
+                  }`}
+                >
+                  Aktuelt
                   <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
                     <IconArrow />
                   </span>

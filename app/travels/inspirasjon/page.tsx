@@ -1,165 +1,216 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { posts } from './posts'
 
-export const metadata = {
-  title: 'Inspirasjon — Fera Travels',
-  description: 'Bilder og øyeblikk fra padelreiser vi har arrangert til Costa Blanca og Spania.',
+export const metadata: Metadata = {
+  title: 'Aktuelt — Fera Travels',
+  description: 'Reiserapporter, coaching og tips fra Fera Travels på Costa Blanca.',
 }
 
 const PHOTOS = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
 
-const highlights = [
-  { src: `${PHOTOS}/two-women-action.jpg`, alt: 'To spillere i aksjon', label: 'På banen', span: 'col-span-2 row-span-2' },
-  { src: `${PHOTOS}/group-photo.jpg`, alt: 'Hele gruppen på bane', label: 'Gruppen', span: '' },
-  { src: `${PHOTOS}/coach-bullpadel.jpg`, alt: 'Coach på padelbane', label: 'Coaching', span: '' },
-  { src: `${PHOTOS}/highfive.jpg`, alt: 'High-five etter kamp', label: 'Seier', span: '' },
-  { src: `${PHOTOS}/palm-sunset.jpg`, alt: 'Bane med palmer og solnedgang', label: 'Destinasjon', span: '' },
-  { src: `${PHOTOS}/two-players-sunset.jpg`, alt: 'Spilling ved solnedgang', label: 'Kveldsstemning', span: '' },
-  { src: `${PHOTOS}/beer-court.jpg`, alt: 'Sosialt etter kamp', label: 'Sosialt', span: '' },
-]
+const categories = Array.from(new Set(posts.map((post) => post.category)))
 
-export default function InspirasjonPage() {
+export default async function InspirasjonPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; q?: string }>
+}) {
+  const { category, q } = await searchParams
+  const activeCategory = categories.includes(category ?? '') ? category : null
+  const categoryPosts = activeCategory
+    ? posts.filter((post) => post.category === activeCategory)
+    : posts
+  const query = q?.trim().toLocaleLowerCase('nb-NO') ?? ''
+  const visiblePosts = query
+    ? categoryPosts.filter((post) =>
+        `${post.title} ${post.excerpt} ${post.category}`.toLocaleLowerCase('nb-NO').includes(query)
+      )
+    : categoryPosts
+  const featuredPost = visiblePosts[0]
+  const latestPosts = visiblePosts
+
   return (
     <>
-      {/* Hero */}
-      <section className="relative bg-(--color-community) px-4 sm:px-6 lg:px-8 py-24 md:py-36 text-center overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=1600&q=80"
-            alt="Costa Blanca utsikt"
-            fill
-            sizes="100vw"
-            className="object-cover opacity-20"
-            unoptimized
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-(--color-community)/70 to-(--color-community)" />
-        </div>
-        <div className="relative max-w-3xl mx-auto">
-          <p className="text-white/50 text-xs tracking-widest uppercase font-sans mb-4">Innblikk</p>
-          <h1 className="font-display text-white text-4xl md:text-6xl font-bold leading-tight mb-6">
-            Inspirasjon fra{' '}
-            <em className="italic text-(--color-sand)">våre turer</em>
-          </h1>
-          <p className="text-white/70 text-lg max-w-xl mx-auto leading-relaxed mb-8">
-            Øyeblikk fra banen, hotellet og alle opplevelsene imellom. Slik ser en Fera-tur ut.
+      <section className="bg-white px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
+        <div className="mx-auto max-w-6xl">
+          <h1 className="font-sans text-4xl font-semibold text-(--color-dark) sm:text-5xl">Aktuelt</h1>
+          <p className="mt-2 text-sm text-(--color-subtle)">
+            Få siste nytt fra Fera Travel
           </p>
-          <a
-            href="https://www.instagram.com/feratravels/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white text-(--color-dark) font-semibold text-sm px-7 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-            Følg @feratravels
-          </a>
-        </div>
-      </section>
 
-      {/* Photo grid */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-10 text-center">
-            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Høydepunkter</p>
-            <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Fra våre reiser</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 auto-rows-[200px]">
-            {highlights.map((p, i) => (
-              <div
-                key={i}
-                className={`relative rounded-xl overflow-hidden group ${p.span}`}
-              >
-                <Image
-                  src={p.src}
-                  alt={p.alt}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="absolute bottom-3 left-3 text-white text-xs font-medium uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {p.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stories / Reiserapporter */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-(--color-ice-light)">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-10">
-            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Reiseblogg</p>
-            <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl">Historier fra banen</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {posts.map((post) => (
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <nav aria-label="Filtrer artikler" className="flex flex-wrap gap-1.5">
+            <Link
+              href="/travels/inspirasjon"
+              aria-current={!activeCategory ? 'page' : undefined}
+              className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                !activeCategory
+                  ? 'bg-(--color-cta) text-white'
+                  : 'bg-(--color-sand-light) text-(--color-subtle) hover:bg-(--color-ice-light)'
+              }`}
+            >
+              Utvalgt <span className="ml-1 text-[10px] opacity-70">{posts.length}</span>
+            </Link>
+            {categories.map((item) => (
               <Link
-                key={post.slug}
-                href={`/travels/inspirasjon/${post.slug}`}
-                className="group bg-white rounded-2xl overflow-hidden border border-(--color-border) hover:shadow-lg transition-shadow"
+                key={item}
+                href={`/travels/inspirasjon?category=${encodeURIComponent(item)}`}
+                aria-current={activeCategory === item ? 'page' : undefined}
+                className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  activeCategory === item
+                    ? 'bg-(--color-cta) text-white'
+                    : 'bg-(--color-sand-light) text-(--color-subtle) hover:bg-(--color-ice-light)'
+                }`}
               >
-                <div className="relative aspect-[16/9] overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.imageAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    unoptimized
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="bg-white/90 backdrop-blur text-[10px] font-semibold px-2.5 py-1 rounded-full text-(--color-cta) uppercase tracking-widest">
+                {item} <span className="ml-1 text-[10px] opacity-70">{posts.filter((post) => post.category === item).length}</span>
+              </Link>
+            ))}
+          </nav>
+          <form action="/travels/inspirasjon" method="get" role="search" className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
+            {activeCategory && <input type="hidden" name="category" value={activeCategory} />}
+            <label htmlFor="article-search" className="sr-only">Søk i artikler</label>
+            <input
+              id="article-search"
+              name="q"
+              type="search"
+              defaultValue={q}
+              placeholder="Søk i artikler"
+              className="min-w-0 flex-1 border-b border-(--color-border) bg-transparent px-2 py-2 text-sm text-(--color-text) placeholder:text-(--color-muted) focus:border-(--color-cta) focus:outline-none"
+            />
+            <button
+              type="submit"
+              aria-label="Søk"
+              className="grid size-9 shrink-0 place-items-center rounded-md bg-(--color-sand-light) text-(--color-dark) transition-colors hover:bg-(--color-sand-warm)"
+            >
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-4-4" />
+              </svg>
+            </button>
+          </form>
+          </div>
+        </div>
+      </section>
+
+      {featuredPost && (
+        <section className="px-4 py-10 sm:px-6 sm:py-14">
+          <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.55fr_1fr] lg:items-center">
+            <Link
+              href={`/travels/inspirasjon/${featuredPost.slug}`}
+              className="group relative block aspect-[16/10] overflow-hidden rounded-2xl bg-(--color-sand-light) lg:aspect-auto lg:h-[480px]"
+            >
+              <Image
+                src={featuredPost.image}
+                alt={featuredPost.imageAlt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 62vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                unoptimized
+                priority
+              />
+              <span className="absolute bottom-5 left-5 rounded-full bg-(--color-cta)/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white">
+                {featuredPost.category}
+              </span>
+            </Link>
+            <article className="flex flex-col items-start py-2 lg:h-full lg:py-8">
+              <p className="mb-4 text-xs font-medium uppercase tracking-widest text-(--color-overline)">
+                {featuredPost.date} · {featuredPost.readTime} lesing
+              </p>
+              <Link href={`/travels/inspirasjon/${featuredPost.slug}`} className="group">
+                <h2 className="font-sans text-4xl font-normal leading-tight text-(--color-dark) group-hover:text-(--color-dark-mid) sm:text-5xl">
+                  {featuredPost.title}
+                </h2>
+              </Link>
+              <p className="mt-4 max-w-xl leading-relaxed text-(--color-subtle)">{featuredPost.excerpt}</p>
+              <div className="mt-8 flex w-full flex-wrap items-center justify-between gap-x-5 gap-y-3 lg:mt-auto">
+                <p className="flex items-center gap-3 text-sm font-medium text-(--color-text)">
+                  <span className="grid size-9 place-items-center rounded-full bg-(--color-sand) text-xs font-bold text-(--color-dark)">F</span>
+                  Fera Travel
+                </p>
+                <Link
+                  href={`/travels/inspirasjon/${featuredPost.slug}`}
+                  className="inline-flex min-h-11 items-center text-sm font-semibold text-(--color-cta) underline decoration-(--color-border) underline-offset-4 hover:decoration-(--color-cta)"
+                >
+                  Les artikkelen <span aria-hidden="true" className="ml-2">→</span>
+                </Link>
+              </div>
+            </article>
+          </div>
+        </section>
+      )}
+
+      {latestPosts.length > 0 && (
+        <section className="border-t border-(--color-border) px-4 py-12 sm:px-6 sm:py-16">
+          <div className="mx-auto max-w-6xl">
+            <div className="mb-8 flex items-end justify-between gap-4">
+              <div>
+                <p className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-(--color-subtle)">
+                  <span aria-hidden="true" className="size-1.5 rounded-full bg-(--color-cta)" />
+                  Nyeste artikler
+                </p>
+              </div>
+              {activeCategory && (
+                <Link href="/travels/inspirasjon" className="text-sm font-medium text-(--color-cta) hover:underline">
+                  Vis alle
+                </Link>
+              )}
+            </div>
+            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+              {latestPosts.map((post) => (
+                <Link key={post.slug} href={`/travels/inspirasjon/${post.slug}`} className="group">
+                  <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-2xl bg-(--color-sand-light)">
+                    <Image
+                      src={post.image}
+                      alt={post.imageAlt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      unoptimized
+                    />
+                    <span className="absolute bottom-4 left-4 rounded-full bg-(--color-cta)/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white">
                       {post.category}
                     </span>
                   </div>
-                </div>
-                <div className="p-5">
-                  <div className="flex items-center gap-3 text-xs text-(--color-muted) mb-2">
-                    <span>{post.date}</span>
-                    <span>·</span>
-                    <span>{post.readTime}</span>
-                  </div>
-                  <h3 className="font-display font-bold text-(--color-text) text-lg leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
+                  <p className="mb-2 text-xs text-(--color-muted)">
+                    {post.date} · {post.readTime} lesing
+                  </p>
+                  <h3 className="font-sans text-xl font-normal leading-snug text-(--color-dark) group-hover:text-(--color-dark-mid)">
                     {post.title}
                   </h3>
-                  <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
-                  <p className="text-(--color-cta) text-xs font-semibold mt-3 group-hover:underline">Les mer →</p>
-                </div>
-              </Link>
-            ))}
+                  <p className="mt-2 text-base leading-relaxed text-(--color-subtle)">{post.excerpt}</p>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* Instagram CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-xl mx-auto">
-          <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Mer innhold</p>
-          <h2 className="font-display italic font-bold text-(--color-text) text-3xl sm:text-4xl mb-4">
-            Følg oss på Instagram
-          </h2>
-          <p className="text-(--color-muted) mb-8">
-            Daglige oppdateringer fra banen, turene og alt det fine som skjer mellom kampene.
-          </p>
-          <a
-            href="https://www.instagram.com/feratravels/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-(--color-cta) text-white font-semibold text-sm px-8 py-4 rounded-full hover:opacity-90 transition-opacity"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-            @feratravels på Instagram
-          </a>
-        </div>
-      </section>
+      {!activeCategory && (
+        <section className="bg-(--color-community) px-4 py-12 text-white sm:px-6 sm:py-16">
+          <div className="mx-auto grid max-w-[1600px] gap-8 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14">
+            <div className="max-w-xl">
+              <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-(--color-overline-light)">Neste stopp</p>
+              <h2 className="font-sans text-3xl font-normal leading-tight sm:text-4xl">Opplev Costa Blanca med Fera</h2>
+              <p className="mt-4 leading-relaxed text-white/75">Gode baner, personlig coaching og tid til å nyte livet utenfor banen.</p>
+              <Link href="/travels" className="mt-6 inline-flex min-h-11 items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-(--color-dark) transition-colors hover:bg-(--color-sand)">
+                Se våre reiser <span aria-hidden="true" className="ml-2">→</span>
+              </Link>
+            </div>
+            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
+              <Image
+                src={`${PHOTOS}/palm-sunset.jpg`}
+                alt="Padelbane ved palmer i solnedgang på Costa Blanca"
+                fill
+                sizes="(max-width: 768px) 100vw, 60vw"
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+          </div>
+        </section>
+      )}
     </>
   )
 }
