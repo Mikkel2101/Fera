@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type Testimonial = { quote: string; name: string; role: string }
 
@@ -27,6 +27,13 @@ const testimonials: Testimonial[] = [
 
 function TestimonialCard({ t }: { t: Testimonial }) {
   const [expanded, setExpanded] = useState(false)
+  const [overflowing, setOverflowing] = useState(false)
+  const quoteRef = useRef<HTMLParagraphElement>(null)
+
+  useEffect(() => {
+    const el = quoteRef.current
+    if (el) setOverflowing(el.scrollHeight > el.clientHeight + 1)
+  }, [])
 
   return (
     <div className="bg-white rounded-2xl p-8 border border-(--color-border) flex flex-col">
@@ -39,6 +46,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
       </div>
 
       <p
+        ref={quoteRef}
         className={`text-(--color-text) text-sm leading-relaxed mb-2 italic whitespace-pre-line ${
           expanded ? '' : 'line-clamp-4'
         }`}
@@ -46,13 +54,15 @@ function TestimonialCard({ t }: { t: Testimonial }) {
         &quot;{t.quote}&quot;
       </p>
 
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        className="text-(--color-cta) text-xs font-semibold mb-6 self-start hover:underline"
-      >
-        {expanded ? 'Vis mindre' : 'Les hele'}
-      </button>
+      {(overflowing || expanded) && (
+        <button
+          type="button"
+          onClick={() => setExpanded((v) => !v)}
+          className="text-(--color-dark) text-xs font-semibold mb-6 self-start underline"
+        >
+          {expanded ? 'Vis mindre' : 'Les hele'}
+        </button>
+      )}
 
       <div className="mt-auto">
         <p className="font-semibold text-(--color-text) text-sm">{t.name}</p>
@@ -64,7 +74,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
 
 export default function Testimonials() {
   return (
-    <section className="py-24 bg-(--color-sand-light)">
+    <section className="pt-24 pb-32 bg-(--color-sand-light)">
       <div className="max-w-[1450px] mx-auto px-4">
         <div className="text-center mb-12">
           <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Hva sier våre reisende</p>
