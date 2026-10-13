@@ -188,7 +188,7 @@ export default async function HomePage() {
             loop
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
-            src="https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/trips/videos/fera-travels.mp4"
+            src="/fera-travels.mp4"
           />
           <div className="absolute inset-0 bg-(--color-overlay-deep)/75" />
 
