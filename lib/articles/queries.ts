@@ -20,6 +20,7 @@ export function toArticle(row: ArticleRow): Article {
     status: row.status as ArticleStatus,
     published_at: row.published_at,
     author_name: row.author_name,
+    author_role: row.author_role,
     updated_at: row.updated_at,
   }
 }
