@@ -333,6 +333,11 @@ export type Database = {
           gdpr_consent: boolean
           terms_accepted: boolean
           created_at: string
+          room_preference: string | null
+          room_share_gender: string | null
+          trip_goal: string | null
+          extras_detail: Json
+          price_total_eur: number | null
         }
         Insert: {
           id?: string
@@ -356,6 +361,11 @@ export type Database = {
           gdpr_consent?: boolean
           terms_accepted?: boolean
           created_at?: string
+          room_preference?: string | null
+          room_share_gender?: string | null
+          trip_goal?: string | null
+          extras_detail?: Json
+          price_total_eur?: number | null
         }
         Update: {
           id?: string
@@ -379,6 +389,11 @@ export type Database = {
           gdpr_consent?: boolean
           terms_accepted?: boolean
           created_at?: string
+          room_preference?: string | null
+          room_share_gender?: string | null
+          trip_goal?: string | null
+          extras_detail?: Json
+          price_total_eur?: number | null
         }
         Relationships: [
           {
@@ -735,8 +750,14 @@ export type Database = {
           p_phone: string | null
           p_padel_level: string | null
           p_room_type: string
+          p_room_preference: string
           p_roommate_name: string | null
+          p_room_share_gender: string | null
+          p_trip_goal: string | null
+          p_special_requests: string | null
           p_selected_extras: string[]
+          p_extras_detail: Json
+          p_price_total_eur: number
           p_gdpr_consent: boolean
           p_terms_accepted: boolean
         }

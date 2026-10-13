@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation'
 import { createTrip, updateTrip } from '@/lib/actions/trips'
 import type { TripFormData } from '@/lib/actions/trips'
 import type { Database } from '@/lib/supabase/types'
+import ExtrasEditor, { type EditableExtra } from './ExtrasEditor'
 
 type TripRow = Database['public']['Tables']['trips']['Row']
 
-type Extra   = { name: string; price_eur: number }
 type Coach   = { name: string; title: string; bio: string; image: string }
 type FaqItem = { question: string; answer: string }
 
@@ -52,8 +52,8 @@ export default function TripForm({ trip }: { trip?: TripRow }) {
   // Lister
   const [included,    setIncluded]    = useState<string[]>(trip?.included     ?? [])
   const [notIncluded, setNotIncluded] = useState<string[]>(trip?.not_included ?? [])
-  const [extras,      setExtras]      = useState<Extra[]>(
-    (trip?.extras as Extra[] | null) ?? []
+  const [extras,      setExtras]      = useState<EditableExtra[]>(
+    (trip?.extras as EditableExtra[] | null) ?? []
   )
   const [coaches,     setCoaches]     = useState<Coach[]>(
     (trip?.coaches as Coach[] | null) ?? []
@@ -233,30 +233,11 @@ export default function TripForm({ trip }: { trip?: TripRow }) {
 
       {/* Extras */}
       <div className={sectionClass}>
-        <h2 className="text-sm font-semibold text-(--color-text)">Tilvalg (extras)</h2>
-        {extras.map((e, i) => (
-          <div key={i} className="flex gap-2 items-center">
-            <input
-              type="text"
-              value={e.name}
-              onChange={ev => setExtras(prev => prev.map((x, j) => j === i ? { ...x, name: ev.target.value } : x))}
-              placeholder="Navn"
-              className={inputClass}
-            />
-            <input
-              type="number"
-              value={e.price_eur}
-              onChange={ev => setExtras(prev => prev.map((x, j) => j === i ? { ...x, price_eur: parseFloat(ev.target.value) || 0 } : x))}
-              placeholder="EUR"
-              className="border border-(--color-border) rounded-lg px-3 py-2 w-24 focus:outline-none focus:border-(--color-cta) text-sm"
-              min={0} step={0.01}
-            />
-            <button type="button" onClick={() => setExtras(prev => prev.filter((_, j) => j !== i))}
-              className="text-(--color-muted) hover:text-red-500 text-sm px-2">✕</button>
-          </div>
-        ))}
-        <button type="button" onClick={() => setExtras(prev => [...prev, { name: '', price_eur: 0 }])}
-          className="text-(--color-cta) text-sm hover:underline">+ Legg til tilvalg</button>
+        <h2 className="text-sm font-semibold text-(--color-text)">Tillegg</h2>
+        <p className="text-xs text-(--color-muted)">
+          Gi klær størrelser, så velger kunden størrelse i bestillingen. Tillegg uten tallpris vises ikke for kunden.
+        </p>
+        <ExtrasEditor extras={extras} onChange={setExtras} />
       </div>
 
       {/* Coaches */}

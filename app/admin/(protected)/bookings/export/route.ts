@@ -2,8 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { bookingsToCsv, type BookingCsvRow } from '@/lib/booking/csv'
 import { isBookingStatus } from '@/lib/booking/status'
+import { fetchRoomStatuses } from '@/lib/booking/room-status-query'
 
-type ExportBooking = Omit<BookingCsvRow, 'trip_name'> & { trips: { name: string } | null }
+type ExportBooking = Omit<BookingCsvRow, 'trip_name' | 'room_status'> & {
+  id:      string
+  trip_id: string
+  trips:   { name: string } | null
+}
 
 // Route handlers arver ikke admin-layoutens tilgangssjekk — sjekk her.
 export async function GET(request: NextRequest) {
@@ -18,7 +23,7 @@ export async function GET(request: NextRequest) {
 
   let query = supabase
     .from('bookings')
-    .select('created_at, status, first_name, last_name, email, phone, padel_level, room_type, roommate_name, selected_extras, trips(name)')
+    .select('id, trip_id, created_at, status, first_name, last_name, email, phone, padel_level, room_type, room_preference, roommate_name, room_share_gender, selected_extras, trip_goal, special_requests, price_total_eur, trips(name)')
     .order('created_at', { ascending: true })
   if (tripId) query = query.eq('trip_id', tripId)
   if (isBookingStatus(status)) query = query.eq('status', status)
@@ -29,9 +34,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Eksport feilet' }, { status: 500 })
   }
 
-  const rows: BookingCsvRow[] = (data as unknown as ExportBooking[]).map(({ trips, ...b }) => ({
+  const bookings     = data as unknown as ExportBooking[]
+  const roomStatuses = await fetchRoomStatuses(supabase, bookings.map(b => b.trip_id))
+  const rows: BookingCsvRow[] = bookings.map(({ id, trips, ...b }) => ({
     ...b,
-    trip_name: trips?.name ?? '',
+    trip_name:   trips?.name ?? '',
+    room_status: roomStatuses.get(id)?.label ?? '',
   }))
 
   const date = new Date().toISOString().slice(0, 10)

@@ -9,10 +9,16 @@ const row: BookingCsvRow = {
   last_name:       'Nordmann',
   email:           'kari@example.com',
   phone:           '+47 400 00 000',
-  padel_level:     'intermediate',
-  room_type:       'Dobbel',
-  roommate_name:   null,
-  selected_extras: ['Golfrunde', 'Spa'],
+  padel_level:       'middels_pluss',
+  room_type:         'Dobbel',
+  room_preference:   'match',
+  roommate_name:     null,
+  room_share_gender: 'kvinne',
+  room_status:       'Reiser alene – mangler romkamerat',
+  selected_extras:   ['Golfrunde', 'Spa'],
+  trip_goal:         'sosialt',
+  special_requests:  null,
+  price_total_eur:   1520,
 }
 
 describe('bookingsToCsv', () => {
@@ -20,15 +26,26 @@ describe('bookingsToCsv', () => {
     const csv = bookingsToCsv([])
     expect(csv.startsWith('﻿')).toBe(true)
     expect(csv.slice(1).split('\r\n')[0]).toBe(
-      'Reservert dato;Status;Tur;Fornavn;Etternavn;E-post;Telefon;Padelnivå;Romtype;Deler rom med;Tilvalg',
+      'Reservert dato;Status;Tur;Fornavn;Etternavn;E-post;Telefon;Padelnivå;Romtype;Romønske;Reisepartner;Kjønn (romdeling);Romstatus;Tillegg;Mål for turen;Ønsker;Totalpris (EUR)',
     )
   })
 
   it('skriver én linje per booking med tomme felt for null', () => {
     const line = bookingsToCsv([row]).split('\r\n')[1]
     expect(line).toBe(
-      '2026-10-03;Reservert;Costa Blanca Camp – Påske 2027;Kari;Nordmann;kari@example.com;+47 400 00 000;intermediate;Dobbel;;Golfrunde, Spa',
+      '2026-10-03;Reservert;Costa Blanca Camp – Påske 2027;Kari;Nordmann;kari@example.com;+47 400 00 000;Middels +;Dobbel;Jeg reiser alene og vil dele rom med en annen deltaker av samme kjønn;;Kvinne;Reiser alene – mangler romkamerat;Golfrunde, Spa;Det sosiale;;1520,00',
     )
+  })
+
+  it('viser gamle bookinger uten nye felt med tomme celler', () => {
+    const legacy = { ...row, padel_level: 'intermediate', room_preference: null, room_share_gender: null, trip_goal: null, price_total_eur: null }
+    const line = bookingsToCsv([legacy]).split('\r\n')[1]
+    expect(line).toContain(';intermediate;Dobbel;;;;')
+  })
+
+  it('skriver totalpris med desimalkomma for norsk Excel', () => {
+    const line = bookingsToCsv([{ ...row, price_total_eur: 1234.5 }]).split('\r\n')[1]
+    expect(line.endsWith(';1234,50')).toBe(true)
   })
 
   it('siterer felt med semikolon, anførselstegn eller linjeskift', () => {

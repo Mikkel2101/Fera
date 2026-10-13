@@ -1,4 +1,7 @@
 import { Resend } from 'resend'
+import { padelLevelLabel, tripGoalLabel } from './levels'
+import { ROOM_SHARE_GENDERS, roomPreferenceLabel } from './rooms'
+import type { PriceBreakdown } from './pricing'
 
 // Lazy init — Resend kaster ved tom nøkkel på modulnivå; instansier ved sending.
 function getResend() {
@@ -9,15 +12,20 @@ const OPS_EMAIL  = process.env.OPS_EMAIL ?? 'post@ferabrand.com'
 const FROM_EMAIL = 'Fera Padel <post@ferabrand.com>'
 
 export type ReservationEmailPayload = {
-  booking_id:      string
-  first_name:      string
-  last_name:       string
-  email:           string
-  phone:           string | null
-  padel_level:     string | null
-  room_type:       string
-  roommate_name:   string | null
-  selected_extras: string[]
+  booking_id:        string
+  first_name:        string
+  last_name:         string
+  email:             string
+  phone:             string
+  padel_level:       string
+  room_type:         string
+  room_preference:   string
+  roommate_name:     string | null
+  room_share_gender: string | null
+  trip_goal:         string | null
+  special_requests:  string | null
+  selected_extras:   string[]
+  price:             PriceBreakdown
   trip: {
     id:          string
     name:        string
@@ -25,11 +33,6 @@ export type ReservationEmailPayload = {
     start_date:  string
     end_date:    string
   }
-}
-
-const ROOM_LABELS: Record<string, string> = {
-  Dobbel: 'Dobbeltrom',
-  Single: 'Enkeltrom',
 }
 
 function escapeHtml(value: string): string {
@@ -50,10 +53,15 @@ function detailRows(p: ReservationEmailPayload): string {
     ['Tur',     p.trip.name],
     ['Sted',    p.trip.destination],
     ['Datoer',  `${formatDate(p.trip.start_date)} – ${formatDate(p.trip.end_date)}`],
-    ['Romtype', ROOM_LABELS[p.room_type] ?? p.room_type],
+    ['Romønske', roomPreferenceLabel(p.room_preference)],
   ]
-  if (p.roommate_name) rows.push(['Deler rom med', p.roommate_name])
-  if (p.selected_extras.length > 0) rows.push(['Tilvalg', p.selected_extras.join(', ')])
+  if (p.roommate_name) rows.push(['Reisepartner', p.roommate_name])
+  if (p.selected_extras.length > 0) rows.push(['Tillegg', p.selected_extras.join(', ')])
+  rows.push(
+    ['Totalpris per person', `${p.price.total} EUR`],
+    ['Depositum',            `${p.price.deposit} EUR`],
+    ['Restbeløp',            `${p.price.rest} EUR`],
+  )
 
   return rows
     .map(([label, value]) =>
@@ -117,12 +125,16 @@ export async function sendReservationConfirmation(p: ReservationEmailPayload): P
 }
 
 export async function sendOpsReservationEmail(p: ReservationEmailPayload): Promise<void> {
+  const gender = ROOM_SHARE_GENDERS.find(g => g.value === p.room_share_gender)?.label
   const contactRows: Array<[string, string]> = [
     ['Navn',      `${p.first_name} ${p.last_name}`],
     ['E-post',    p.email],
-    ['Telefon',   p.phone ?? '—'],
-    ['Padelnivå', p.padel_level ?? '—'],
+    ['Telefon',   p.phone],
+    ['Padelnivå', padelLevelLabel(p.padel_level)],
   ]
+  if (gender)             contactRows.push(['Kjønn (romdeling)', gender])
+  if (p.trip_goal)        contactRows.push(['Mål for turen', tripGoalLabel(p.trip_goal)])
+  if (p.special_requests) contactRows.push(['Ønsker', p.special_requests])
 
   const html = `
     <div style="font-family:sans-serif;max-width:600px;color:#1C0008;">

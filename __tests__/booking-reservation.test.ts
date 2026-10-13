@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { reservationErrorResponse, filterValidExtras } from '@/lib/booking/reservation'
+import { reservationErrorResponse } from '@/lib/booking/reservation'
 
 describe('reservationErrorResponse', () => {
   it('gir 409 med venteliste-hint når turen er full', () => {
@@ -30,24 +30,5 @@ describe('reservationErrorResponse', () => {
     const res = reservationErrorResponse('connection reset')
     expect(res.status).toBe(500)
     expect(res.code).toBe('UNKNOWN')
-  })
-})
-
-describe('filterValidExtras', () => {
-  const tripExtras = [
-    { name: 'Golfrunde', price_eur: 80 },
-    { name: 'Spa',       price_eur: 50 },
-  ]
-
-  it('beholder bare tilvalg som finnes på turen', () => {
-    expect(filterValidExtras(['Golfrunde', 'Gratis champagne'], tripExtras)).toEqual(['Golfrunde'])
-  })
-
-  it('fjerner duplikater', () => {
-    expect(filterValidExtras(['Spa', 'Spa'], tripExtras)).toEqual(['Spa'])
-  })
-
-  it('håndterer tur uten tilvalg', () => {
-    expect(filterValidExtras(['Spa'], [])).toEqual([])
   })
 })

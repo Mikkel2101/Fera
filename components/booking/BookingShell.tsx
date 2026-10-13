@@ -6,27 +6,27 @@ import Step1PersonInfo from './Step1PersonInfo'
 import Step2RoomExtras from './Step2RoomExtras'
 import Step3Confirm from './Step3Confirm'
 import type { Step1Data, Step2Data } from '@/lib/booking/schema'
+import type { TripExtra } from '@/lib/booking/extras'
 
-type Extra = { name: string; price_eur: number }
-
-type TripProps = {
-  id: string
-  title: string
-  extras: Extra[]
-  deposit_eur: number
+export type BookingTrip = {
+  id:               string
+  title:            string
+  extras:           TripExtra[]
+  deposit_eur:      number
   price_double_eur: number
   price_single_eur: number
 }
 
-type Prefill = Pick<Step1Data, 'first_name' | 'last_name' | 'email'> & { phone: string }
+type Prefill = Pick<Step1Data, 'first_name' | 'last_name' | 'email'> & {
+  phone:        string
+  padel_level?: Step1Data['padel_level']
+}
 
-export default function BookingShell({ trip, prefill }: { trip: TripProps; prefill: Prefill }) {
+export default function BookingShell({ trip, prefill }: { trip: BookingTrip; prefill: Prefill }) {
   const [step, setStep] = useState<1 | 2 | 3>(1)
   const [step1Data, setStep1Data] = useState<Partial<Step1Data>>(prefill)
-  const [step2Data, setStep2Data] = useState<Partial<Step2Data>>({
-    room_type: 'Dobbel',
-    selected_extras: [],
-  })
+  // Romvalget starter tomt — kunden skal velge aktivt
+  const [step2Data, setStep2Data] = useState<Partial<Step2Data>>({ extras: [] })
 
   return (
     <div className="mt-8">

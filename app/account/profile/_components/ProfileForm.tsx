@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { PADEL_LEVELS } from '@/lib/booking/levels'
 
 type ProfileData = {
   full_name:  string | null
@@ -9,8 +10,6 @@ type ProfileData = {
   padel_level: string | null
   newsletter_consent: boolean
 }
-
-const PADEL_LEVELS = ['Nybegynner', 'Nybegynner+', 'Viderekommen-', 'Viderekommen+', 'Proff']
 
 export default function ProfileForm({ initial }: { initial: ProfileData }) {
   const [form, setForm] = useState<ProfileData>(initial)
@@ -93,7 +92,7 @@ export default function ProfileForm({ initial }: { initial: ProfileData }) {
         >
           <option value="">Ikke oppgitt</option>
           {PADEL_LEVELS.map(level => (
-            <option key={level} value={level}>{level}</option>
+            <option key={level.value} value={level.value}>{level.label}</option>
           ))}
         </select>
       </div>
