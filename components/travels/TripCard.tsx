@@ -24,10 +24,7 @@ function getStatusBadge(trip: Trip) {
     }
   }
 
-  return {
-    label: available != null ? `${available} plasser igjen` : 'Åpen',
-    className: 'bg-(--color-dark) text-white',
-  }
+  return { label: 'Åpen', className: 'bg-(--color-success) text-white' }
 }
 
 function hasEarlyBird(trip: Trip): boolean {
