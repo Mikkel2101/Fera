@@ -38,6 +38,18 @@ describe('ArticleBody', () => {
     expect(container.querySelector('blockquote')?.textContent).toBe('sitat')
   })
 
+  it('rendrer textColor-mark med riktig token-klasse', () => {
+    const { container } = render(<ArticleBody doc={doc([{ type: 'paragraph', content: [
+      { type: 'text', text: 'mørk rød', marks: [{ type: 'bold' }, { type: 'textColor', attrs: { token: 'dark-mid' } }] },
+      { type: 'text', text: 'ukjent token', marks: [{ type: 'textColor', attrs: { token: 'nope' } }] },
+    ] }])} />)
+
+    const span = container.querySelector('span')
+    expect(span?.className).toBe('text-(--color-dark-mid)')
+    expect(span?.querySelector('strong')?.textContent).toBe('mørk rød')
+    expect(container.textContent).toContain('ukjent token')
+  })
+
   it('åpner eksterne lenker i ny fane og holder interne lenker interne', () => {
     const { container } = render(<ArticleBody doc={doc([{ type: 'paragraph', content: [
       { type: 'text', text: 'ekstern', marks: [{ type: 'link', attrs: { href: 'https://example.com' } }] },

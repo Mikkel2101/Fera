@@ -4,12 +4,24 @@ import Link from 'next/link'
 import type { ArticleDoc, DocMark, DocNode } from '@/lib/articles/types'
 import { isAllowedImageSrc, isSafeHref } from '@/lib/articles/content'
 
+// Tailwind v4 trenger statiske klassenavn i kildekoden for å generere CSS — kan ikke interpolere token-navnet.
+const TEXT_COLOR_CLASSES: Record<string, string> = {
+  dark: 'text-(--color-dark)',
+  'dark-mid': 'text-(--color-dark-mid)',
+  gold: 'text-(--color-gold)',
+}
+
 function applyMark(child: ReactNode, mark: DocMark): ReactNode {
   switch (mark.type) {
     case 'bold':
       return <strong>{child}</strong>
     case 'italic':
       return <em>{child}</em>
+    case 'textColor': {
+      const className = TEXT_COLOR_CLASSES[mark.attrs?.token as string]
+      if (!className) return child
+      return <span className={className}>{child}</span>
+    }
     case 'link': {
       const href = mark.attrs?.href
       if (!isSafeHref(href)) return child

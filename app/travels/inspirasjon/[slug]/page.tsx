@@ -19,12 +19,13 @@ function CategoryBadge({ category }: { category: string }) {
   )
 }
 
-// Databasen har foreløpig bare forfatterens navn, ikke rolle/bilde.
-function AuthorBlock({ authorName }: { authorName: string }) {
+// Databasen har foreløpig bare forfatterens navn og rolle, ikke bilde.
+function AuthorBlock({ authorName, authorRole }: { authorName: string; authorRole: string | null }) {
   return (
     <div>
       <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-(--color-muted)">Skrevet av</p>
       <p className="text-sm font-semibold text-(--color-text)">{authorName}</p>
+      {authorRole && <p className="text-xs text-(--color-muted)">{authorRole}</p>}
     </div>
   )
 }
@@ -59,28 +60,36 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     <article className="max-w-[1450px] mx-auto px-4 pt-6 pb-10 sm:px-6 lg:px-8 lg:pt-8 lg:pb-14">
       {/* max-w-[1440px] uten egen mx-auto — holder innholdet venstrejustert med logoen, ikke sentrert i viewporten */}
       <div className="max-w-[1440px]">
+      {/* Mobil/nettbrett — ikke sticky, under 1024px ligger den over innholdet i stedet for i sidekolonnen */}
       <Link
         href="/travels/inspirasjon"
-        className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-(--color-subtle) transition-colors hover:text-(--color-text)"
+        className="mb-6 inline-flex items-center gap-2 text-sm font-medium uppercase tracking-widest text-(--color-subtle) transition-colors hover:text-(--color-text) lg:hidden"
       >
         <span aria-hidden="true" className="size-1.5 rounded-full bg-(--color-cta)" />
         Inspirasjon
       </Link>
 
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[200px_1fr] lg:gap-16">
-        {/* Sidebar — kun desktop, under 1024px flyter kategori/forfatter/del med i hovedkolonnen i stedet */}
-        <aside className="hidden lg:sticky lg:top-24 lg:block lg:self-start">
-          <div className="flex flex-col gap-8">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[160px_1fr] lg:gap-40">
+        {/* Sidebar — kun desktop, under 1024px flyter innholdet over i hovedkolonnen i stedet */}
+        <aside className="hidden lg:sticky lg:top-24 lg:block lg:self-start lg:pt-6">
+          <Link
+            href="/travels/inspirasjon"
+            className="mb-12 inline-flex items-center gap-2 text-base font-medium text-(--color-subtle) transition-colors hover:text-(--color-text)"
+          >
+            <span aria-hidden="true" className="size-1.5 rounded-full bg-(--color-cta)" />
+            Inspirasjon
+          </Link>
+          <div className="flex flex-col gap-12">
             <CategoryBadge category={article.category} />
-            {article.author_name && <AuthorBlock authorName={article.author_name} />}
+            {article.author_name && <AuthorBlock authorName={article.author_name} authorRole={article.author_role} />}
           </div>
-          <div className="mt-6">
+          <div className="mt-10">
             <ArticleShareButtons title={article.title} />
           </div>
         </aside>
 
         {/* Innhold */}
-        <div className="min-w-0 max-w-[900px]">
+        <div className="min-w-0 max-w-[900px] lg:pt-6">
           <div className="mb-4 lg:hidden">
             <CategoryBadge category={article.category} />
           </div>
@@ -107,7 +116,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           )}
 
           <div className="mt-8 space-y-6 lg:hidden">
-            {article.author_name && <AuthorBlock authorName={article.author_name} />}
+            {article.author_name && <AuthorBlock authorName={article.author_name} authorRole={article.author_role} />}
             <ArticleShareButtons title={article.title} />
           </div>
 

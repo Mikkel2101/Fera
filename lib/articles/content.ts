@@ -4,7 +4,8 @@ const ALLOWED_NODES = new Set([
   'paragraph', 'heading', 'text', 'bulletList', 'orderedList',
   'listItem', 'blockquote', 'image', 'hardBreak',
 ])
-const ALLOWED_MARKS = new Set(['bold', 'italic', 'link'])
+const ALLOWED_MARKS = new Set(['bold', 'italic', 'link', 'textColor'])
+const ALLOWED_TEXT_COLOR_TOKENS = new Set(['dark', 'dark-mid', 'gold'])
 const SAFE_PROTOCOLS = new Set(['http:', 'https:', 'mailto:'])
 const INTERNAL_PATH_PATTERN = /^\/(?![\/\\])[^\s\\]*$/
 const WORDS_PER_MINUTE = 200
@@ -32,9 +33,15 @@ function sanitizeMarks(marks: unknown): DocMark[] | undefined {
   if (!Array.isArray(marks)) return undefined
   const kept = marks.flatMap((mark): DocMark[] => {
     if (!mark || typeof mark !== 'object' || !ALLOWED_MARKS.has(mark.type)) return []
-    if (mark.type !== 'link') return [{ type: mark.type }]
-    const href = mark.attrs?.href
-    return isSafeHref(href) ? [{ type: 'link', attrs: { href: href.trim() } }] : []
+    if (mark.type === 'link') {
+      const href = mark.attrs?.href
+      return isSafeHref(href) ? [{ type: 'link', attrs: { href: href.trim() } }] : []
+    }
+    if (mark.type === 'textColor') {
+      const token = mark.attrs?.token
+      return ALLOWED_TEXT_COLOR_TOKENS.has(token as string) ? [{ type: 'textColor', attrs: { token } }] : []
+    }
+    return [{ type: mark.type }]
   })
   return kept.length > 0 ? kept : undefined
 }

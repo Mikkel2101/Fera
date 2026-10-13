@@ -30,6 +30,7 @@ export type Article = {
   status: ArticleStatus
   published_at: string | null
   author_name: string | null
+  author_role: string | null
   updated_at: string
 }
 

@@ -79,6 +79,17 @@ describe('sanitizeDoc', () => {
     })
   })
 
+  it('beholder textColor kun for kjente tokens', () => {
+    const doc = { type: 'doc', content: [{ type: 'paragraph', content: [
+      { type: 'text', text: 'rød', marks: [{ type: 'textColor', attrs: { token: 'dark-mid' } }] },
+      { type: 'text', text: 'ukjent', marks: [{ type: 'textColor', attrs: { token: 'rainbow' } }] },
+    ] }] }
+    expect(sanitizeDoc(doc)).toEqual({ type: 'doc', content: [{ type: 'paragraph', content: [
+      { type: 'text', text: 'rød', marks: [{ type: 'textColor', attrs: { token: 'dark-mid' } }] },
+      { type: 'text', text: 'ukjent' },
+    ] }] })
+  })
+
   it('fjerner farlige lenker men beholder teksten', () => {
     const doc = { type: 'doc', content: [{ type: 'paragraph', content: [
       { type: 'text', text: 'klikk', marks: [{ type: 'link', attrs: { href: 'javascript:alert(1)' } }] },
