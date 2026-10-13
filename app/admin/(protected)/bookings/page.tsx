@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import BookingActions from '@/components/admin/BookingActions'
 import { BOOKING_STATUSES, bookingStatusColor, isBookingStatus } from '@/lib/booking/status'
-import { padelLevelLabel, tripGoalLabel } from '@/lib/booking/levels'
+import { courtSideLabel, padelLevelLabel, tripGoalLabel } from '@/lib/booking/levels'
 import { ROOM_SHARE_GENDERS, type RoomStatus } from '@/lib/booking/rooms'
 import { fetchRoomStatuses } from '@/lib/booking/room-status-query'
 
@@ -38,6 +38,7 @@ type AdminBooking = {
   created_at:        string
   trip_id:           string
   trips:             { name: string } | null
+  users:             { preferred_side: string | null } | null
 }
 
 export default async function AdminBookingsPage({
@@ -50,7 +51,7 @@ export default async function AdminBookingsPage({
 
   let query = supabase
     .from('bookings')
-    .select('id, trip_id, first_name, last_name, email, phone, padel_level, room_type, roommate_name, room_share_gender, selected_extras, trip_goal, special_requests, price_total_eur, status, created_at, trips(name)')
+    .select('id, trip_id, first_name, last_name, email, phone, padel_level, room_type, roommate_name, room_share_gender, selected_extras, trip_goal, special_requests, price_total_eur, status, created_at, trips(name), users(preferred_side)')
     .order('created_at', { ascending: false })
   if (trip_id) query = query.eq('trip_id', trip_id)
   if (isBookingStatus(status)) query = query.eq('status', status)
@@ -116,6 +117,9 @@ export default async function AdminBookingsPage({
                     <p className="text-xs text-(--color-muted)">{b.email}</p>
                     {b.phone && <p className="text-xs text-(--color-muted)">{b.phone}</p>}
                     {b.padel_level && <p className="text-xs text-(--color-muted)">Nivå: {padelLevelLabel(b.padel_level)}</p>}
+                    {b.users?.preferred_side && (
+                      <p className="text-xs text-(--color-muted)">Banehalvdel: {courtSideLabel(b.users.preferred_side)}</p>
+                    )}
                     {b.trip_goal && <p className="text-xs text-(--color-muted)">Mål: {tripGoalLabel(b.trip_goal)}</p>}
                     {b.special_requests && (
                       <p className="text-xs text-(--color-text) mt-1 max-w-xs whitespace-pre-line">«{b.special_requests}»</p>

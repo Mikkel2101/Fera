@@ -19,7 +19,8 @@ export type BookingTrip = {
 
 type Prefill = Pick<Step1Data, 'first_name' | 'last_name' | 'email'> & {
   phone:        string
-  padel_level?: Step1Data['padel_level']
+  padel_level?:    Step1Data['padel_level']
+  preferred_side?: Step1Data['preferred_side']
 }
 
 export default function BookingShell({ trip, prefill }: { trip: BookingTrip; prefill: Prefill }) {

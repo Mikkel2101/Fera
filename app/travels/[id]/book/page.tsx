@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import BookingShell from '@/components/booking/BookingShell'
 import { parseTripExtras } from '@/lib/booking/extras'
-import { PADEL_LEVEL_VALUES, type PadelLevel } from '@/lib/booking/levels'
+import { COURT_SIDE_VALUES, PADEL_LEVEL_VALUES, type CourtSide, type PadelLevel } from '@/lib/booking/levels'
 
 const RESERVABLE_STATUSES = ['Åpen', 'Få plasser']
 
@@ -11,14 +11,22 @@ function isPadelLevel(value: string | null | undefined): value is PadelLevel {
   return PADEL_LEVEL_VALUES.includes(value as PadelLevel)
 }
 
-function buildPrefill(fullName: string | null, email: string, phone: string | null, padelLevel: string | null) {
+function isCourtSide(value: string | null | undefined): value is CourtSide {
+  return COURT_SIDE_VALUES.includes(value as CourtSide)
+}
+
+type ProfilePrefill = { full_name: string | null; phone: string | null; padel_level: string | null; preferred_side: string | null }
+
+function buildPrefill(profile: ProfilePrefill, email: string) {
+  const { full_name: fullName, phone, padel_level: padelLevel, preferred_side: preferredSide } = profile
   const [firstName = '', ...rest] = (fullName ?? '').trim().split(/\s+/)
   return {
-    first_name:  firstName,
-    last_name:   rest.join(' '),
+    first_name:     firstName,
+    last_name:      rest.join(' '),
     email,
-    phone:       phone ?? '',
-    padel_level: isPadelLevel(padelLevel) ? padelLevel : undefined,
+    phone:          phone ?? '',
+    padel_level:    isPadelLevel(padelLevel) ? padelLevel : undefined,
+    preferred_side: isCourtSide(preferredSide) ? preferredSide : undefined,
   }
 }
 
@@ -53,17 +61,17 @@ export default async function BookPage({
       .maybeSingle(),
     supabase
       .from('users')
-      .select('full_name, phone, padel_level')
+      .select('full_name, phone, padel_level, preferred_side')
       .eq('id', user.id)
       .maybeSingle(),
   ])
 
-  const prefill = buildPrefill(
-    profile?.full_name ?? (user.user_metadata?.full_name as string | undefined) ?? null,
-    user.email ?? '',
-    profile?.phone ?? null,
-    profile?.padel_level ?? null,
-  )
+  const prefill = buildPrefill({
+    full_name:      profile?.full_name ?? (user.user_metadata?.full_name as string | undefined) ?? null,
+    phone:          profile?.phone ?? null,
+    padel_level:    profile?.padel_level ?? null,
+    preferred_side: profile?.preferred_side ?? null,
+  }, user.email ?? '')
 
   return (
     <div className="min-h-[80vh] bg-(--color-bg)">

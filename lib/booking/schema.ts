@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { normalizePhone } from './phone'
-import { PADEL_LEVEL_VALUES, TRIP_GOAL_VALUES } from './levels'
+import { COURT_SIDE_VALUES, PADEL_LEVEL_VALUES, TRIP_GOAL_VALUES } from './levels'
 import { ROOM_PREFERENCE_VALUES, ROOM_SHARE_GENDER_VALUES } from './rooms'
 
 const MAX_WISHES_LENGTH = 1000
@@ -22,6 +22,7 @@ export const step1Schema = z.object({
   email:            z.string().email('Ugyldig e-post'),
   phone:            phoneSchema,
   padel_level:      z.enum(PADEL_LEVEL_VALUES, { error: 'Velg padelnivå' }),
+  preferred_side:   z.enum(COURT_SIDE_VALUES).optional(),
   trip_goal:        z.enum(TRIP_GOAL_VALUES).optional(),
   special_requests: z.string().trim().max(MAX_WISHES_LENGTH, `Maks ${MAX_WISHES_LENGTH} tegn`).optional(),
 })

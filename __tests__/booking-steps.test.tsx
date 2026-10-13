@@ -36,11 +36,12 @@ describe('Step1PersonInfo', () => {
 
     fireEvent.change(screen.getByLabelText(/Mobilnummer/), { target: { value: '912 34 567' } })
     fireEvent.click(screen.getByRole('radio', { name: /Middels \+/ }))
+    fireEvent.click(screen.getByRole('button', { name: 'Høyre' }))
     fireEvent.click(screen.getByRole('button', { name: 'Det sosiale' }))
     fireEvent.click(screen.getByRole('button', { name: /Neste/ }))
 
     expect(onNext).toHaveBeenCalledWith(expect.objectContaining({
-      phone: '+4791234567', padel_level: 'middels_pluss', trip_goal: 'sosialt',
+      phone: '+4791234567', padel_level: 'middels_pluss', preferred_side: 'hoyre', trip_goal: 'sosialt',
     }))
   })
 })

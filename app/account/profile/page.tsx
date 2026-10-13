@@ -11,7 +11,7 @@ export default async function ProfilePage() {
 
   const { data: profile } = await supabase
     .from('users')
-    .select('full_name, phone, padel_level, newsletter_consent')
+    .select('full_name, phone, padel_level, preferred_side, newsletter_consent')
     .eq('id', user.id)
     .single()
 
@@ -34,6 +34,7 @@ export default async function ProfilePage() {
           full_name:          profile?.full_name          ?? null,
           phone:              profile?.phone              ?? null,
           padel_level:        profile?.padel_level        ?? null,
+          preferred_side:     profile?.preferred_side     ?? null,
           newsletter_consent: profile?.newsletter_consent ?? false,
         }}
       />
