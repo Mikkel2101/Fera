@@ -26,7 +26,7 @@ function getStatusBadge(trip: Trip) {
 
   return {
     label: available != null ? `${available} plasser igjen` : 'Åpen',
-    className: 'bg-(--color-success) text-white',
+    className: 'bg-(--color-dark) text-white',
   }
 }
 
