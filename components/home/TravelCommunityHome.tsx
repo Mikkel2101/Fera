@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import HomeInspirationSection from '@/components/home/HomeInspirationSection'
 import TripCard from '@/components/travels/TripCard'
 import { createClient } from '@/lib/supabase/server'
@@ -23,10 +24,13 @@ export default async function TravelCommunityHome() {
   return (
     <main>
       <section className="relative min-h-[calc(88svh-4rem)] md:min-h-[calc(92svh-4rem)] flex items-center overflow-hidden bg-(--color-community)">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png')" }}
+        <Image
+          src="/Solrik%20padelglede%20i%20resortmiljø%20FINAL%202%20MOBIL.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div
           aria-hidden="true"
@@ -113,7 +117,7 @@ export default async function TravelCommunityHome() {
             controls
             playsInline
             preload="none"
-            poster="/Hero.png"
+            poster="/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png"
             className="aspect-video w-full rounded-2xl bg-black object-cover"
           >
             <source src="https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/trips/videos/fera-travels.mp4" type="video/mp4" />

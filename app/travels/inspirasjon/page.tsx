@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { posts } from './posts'
+import { getPublishedArticles } from '@/lib/articles/queries'
+import { formatArticleDate } from '@/lib/articles/format'
 
 export const metadata: Metadata = {
   title: 'Inspirasjon — Fera Travels',
@@ -10,15 +11,16 @@ export const metadata: Metadata = {
 
 const PHOTOS = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
 
-const categories = Array.from(new Set(posts.map((post) => post.category)))
-
 export default async function InspirasjonPage({
   searchParams,
 }: {
   searchParams: Promise<{ category?: string; q?: string }>
 }) {
+  const posts = await getPublishedArticles()
+  const categories = Array.from(new Set(posts.map((post) => post.category)))
+
   const { category, q } = await searchParams
-  const activeCategory = categories.includes(category ?? '') ? category : null
+  const activeCategory = categories.find((c) => c === category) ?? null
   const categoryPosts = activeCategory
     ? posts.filter((post) => post.category === activeCategory)
     : posts
@@ -101,22 +103,24 @@ export default async function InspirasjonPage({
               href={`/travels/inspirasjon/${featuredPost.slug}`}
               className="group relative block aspect-[16/10] overflow-hidden rounded-2xl bg-(--color-sand-light) lg:aspect-auto lg:h-[480px]"
             >
-              <Image
-                src={featuredPost.image}
-                alt={featuredPost.imageAlt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 62vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                unoptimized
-                priority
-              />
+              {featuredPost.cover_image && (
+                <Image
+                  src={featuredPost.cover_image}
+                  alt={featuredPost.cover_image_alt ?? ''}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 62vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                  unoptimized
+                  priority
+                />
+              )}
               <span className="absolute bottom-5 left-5 rounded-full bg-(--color-cta)/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white">
                 {featuredPost.category}
               </span>
             </Link>
             <article className="flex flex-col items-start py-2 lg:h-full lg:py-8">
               <p className="mb-4 text-xs font-medium uppercase tracking-widest text-(--color-overline)">
-                {featuredPost.date} · {featuredPost.readTime} lesing
+                {formatArticleDate(featuredPost.published_at)} · {featuredPost.reading_minutes} min lesing
               </p>
               <Link href={`/travels/inspirasjon/${featuredPost.slug}`} className="group">
                 <h2 className="font-sans text-4xl font-normal leading-tight text-(--color-dark) group-hover:text-(--color-dark-mid) sm:text-5xl">
@@ -161,20 +165,22 @@ export default async function InspirasjonPage({
               {latestPosts.map((post) => (
                 <Link key={post.slug} href={`/travels/inspirasjon/${post.slug}`} className="group">
                   <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-2xl bg-(--color-sand-light)">
-                    <Image
-                      src={post.image}
-                      alt={post.imageAlt}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                      unoptimized
-                    />
+                    {post.cover_image && (
+                      <Image
+                        src={post.cover_image}
+                        alt={post.cover_image_alt ?? ''}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        unoptimized
+                      />
+                    )}
                     <span className="absolute bottom-4 left-4 rounded-full bg-(--color-cta)/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white">
                       {post.category}
                     </span>
                   </div>
                   <p className="mb-2 text-xs text-(--color-muted)">
-                    {post.date} · {post.readTime} lesing
+                    {formatArticleDate(post.published_at)} · {post.reading_minutes} min lesing
                   </p>
                   <h3 className="font-sans text-xl font-normal leading-snug text-(--color-dark) group-hover:text-(--color-dark-mid)">
                     {post.title}

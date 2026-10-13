@@ -2,8 +2,11 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { getPost, posts, type Author } from '../posts'
+import ArticleBody from '@/components/articles/ArticleBody'
 import ArticleShareButtons from '@/components/articles/ArticleShareButtons'
+import { getPublishedArticle } from '@/lib/articles/queries'
+import { readingTimeMinutes } from '@/lib/articles/content'
+import { formatArticleDate } from '@/lib/articles/format'
 
 function CategoryBadge({ category }: { category: string }) {
   return (
@@ -16,69 +19,41 @@ function CategoryBadge({ category }: { category: string }) {
   )
 }
 
-function AuthorBlock({ author }: { author: Author }) {
+// Databasen har foreløpig bare forfatterens navn, ikke rolle/bilde.
+function AuthorBlock({ authorName }: { authorName: string }) {
   return (
     <div>
       <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-(--color-muted)">Skrevet av</p>
-      <div className="flex items-center gap-2.5">
-        <div className="relative size-9 shrink-0 overflow-hidden rounded-full">
-          <Image src={author.photo} alt={author.name} fill sizes="36px" className="object-cover" />
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-(--color-text)">{author.name}</p>
-          <p className="text-xs text-(--color-muted)">{author.role}</p>
-        </div>
-      </div>
+      <p className="text-sm font-semibold text-(--color-text)">{authorName}</p>
     </div>
   )
 }
 
-import EnUkeIAlbir from '../content/en-uke-i-albir'
-import CoachingMedAndre from '../content/coaching-med-andre'
-import DerforElskerViCostaBlanca from '../content/derfor-elsker-vi-costa-blanca'
-
-const contentMap: Record<string, React.FC> = {
-  'en-uke-i-albir': EnUkeIAlbir,
-  'coaching-med-andre': CoachingMedAndre,
-  'derfor-elsker-vi-costa-blanca': DerforElskerViCostaBlanca,
-}
-
-export async function generateStaticParams() {
-  return posts.map((p) => ({ slug: p.slug }))
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const post = getPost(slug)
-  if (!post) return { title: 'Ikke funnet' }
+  const article = await getPublishedArticle(slug)
+  if (!article) return { title: 'Ikke funnet' }
+  const description = article.meta_description ?? article.excerpt
   return {
-    title: `${post.title} — Fera Padel`,
-    description: post.metaDescription,
+    title: `${article.title} — Fera Padel`,
+    description,
     openGraph: {
-      title: post.title,
-      description: post.metaDescription,
-      images: [{ url: post.image }],
+      title: article.title,
+      description,
+      images: article.cover_image ? [{ url: article.cover_image }] : [],
       type: 'article',
       locale: 'nb_NO',
+      publishedTime: article.published_at ?? undefined,
     },
   }
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const post = getPost(slug)
-  if (!post) notFound()
+  const article = await getPublishedArticle(slug)
+  if (!article) notFound()
 
-  const Content = contentMap[slug]
-  if (!Content) notFound()
+  const readingMinutes = readingTimeMinutes(article.content)
 
   return (
     <article className="max-w-[1450px] mx-auto px-4 pt-6 pb-10 sm:px-6 lg:px-8 lg:pt-8 lg:pb-14">
@@ -96,46 +71,48 @@ export default async function BlogPostPage({
         {/* Sidebar — kun desktop, under 1024px flyter kategori/forfatter/del med i hovedkolonnen i stedet */}
         <aside className="hidden lg:sticky lg:top-24 lg:block lg:self-start">
           <div className="flex flex-col gap-8">
-            <CategoryBadge category={post.category} />
-            <AuthorBlock author={post.author} />
+            <CategoryBadge category={article.category} />
+            {article.author_name && <AuthorBlock authorName={article.author_name} />}
           </div>
           <div className="mt-6">
-            <ArticleShareButtons title={post.title} />
+            <ArticleShareButtons title={article.title} />
           </div>
         </aside>
 
         {/* Innhold */}
         <div className="min-w-0 max-w-[900px]">
           <div className="mb-4 lg:hidden">
-            <CategoryBadge category={post.category} />
+            <CategoryBadge category={article.category} />
           </div>
 
           <h1 className="font-sans text-(--color-text) text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
-            {post.title}
+            {article.title}
           </h1>
           <p className="mt-4 text-sm text-(--color-muted)">
-            {post.date} — {post.readTime} lesing
+            {formatArticleDate(article.published_at)} — {readingMinutes} min lesing
           </p>
 
-          <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-(--color-sand-light)">
-            <Image
-              src={post.image}
-              alt={post.imageAlt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 70vw"
-              className="object-cover"
-              priority
-              unoptimized
-            />
-          </div>
+          {article.cover_image && (
+            <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-(--color-sand-light)">
+              <Image
+                src={article.cover_image}
+                alt={article.cover_image_alt ?? ''}
+                fill
+                sizes="(max-width: 1024px) 100vw, 70vw"
+                className="object-cover"
+                priority
+                unoptimized
+              />
+            </div>
+          )}
 
           <div className="mt-8 space-y-6 lg:hidden">
-            <AuthorBlock author={post.author} />
-            <ArticleShareButtons title={post.title} />
+            {article.author_name && <AuthorBlock authorName={article.author_name} />}
+            <ArticleShareButtons title={article.title} />
           </div>
 
           <div className="mt-10">
-            <Content />
+            <ArticleBody doc={article.content} />
           </div>
 
           {/* CTA */}

@@ -41,10 +41,10 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient()
     const { error } = await supabase
       .from('newsletter_subscribers')
-      .insert({ email, brands: list ? [list] : [] })
+      .insert({ email, brands: [list] })
 
     if (error?.code === UNIQUE_VIOLATION) {
-      if (list && !(await addListToExisting(email, list))) {
+      if (!(await addListToExisting(email, list))) {
         return NextResponse.json({ error: 'Intern serverfeil' }, { status: 500 })
       }
       return NextResponse.json({ success: true, already: true })

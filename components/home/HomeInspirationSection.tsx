@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { posts as articles } from '@/app/travels/inspirasjon/posts'
+import { getPublishedArticles } from '@/lib/articles/queries'
+import { formatArticleDate } from '@/lib/articles/format'
 
 type InspirationPost = {
   category: string
@@ -8,40 +9,38 @@ type InspirationPost = {
   excerpt: string
   date: string
   href: string
-  src: string
+  src: string | null
   alt: string
 }
 
 const photos = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
 
-// Samme artikler som i Inspirasjon — kortene skal linke videre til faktiske artikler.
-const homepagePosts: InspirationPost[] = articles.map((post) => ({
-  category: post.category,
-  title: post.title,
-  excerpt: post.excerpt,
-  date: post.date,
-  href: `/travels/inspirasjon/${post.slug}`,
-  src: post.image,
-  alt: post.imageAlt,
-}))
+const SHOP_CARD: InspirationPost = {
+  category: 'Utstyr',
+  title: 'Slik velger du riktig racket for ditt nivå',
+  excerpt: 'Fra nybegynner til avansert. Vår guide hjelper deg å finne den perfekte padelracket.',
+  date: '1. juni 2026',
+  href: '/shop',
+  src: `${photos}/player-fence.jpg`,
+  alt: 'Spiller med padelracket',
+}
 
-const shopPosts: InspirationPost[] = [
-  ...homepagePosts.slice(0, 1),
-  {
-    category: 'Utstyr',
-    title: 'Slik velger du riktig racket for ditt nivå',
-    excerpt: 'Fra nybegynner til avansert. Vår guide hjelper deg å finne den perfekte padelracket.',
-    date: '1. juni 2026',
-    href: '/shop',
-    src: `${photos}/player-fence.jpg`,
-    alt: 'Spiller med padelracket',
-  },
-  homepagePosts[2],
-]
-
-export default function HomeInspirationSection({ variant = 'travels' }: { variant?: 'travels' | 'shop' }) {
-  const posts = variant === 'shop' ? shopPosts : homepagePosts
+export default async function HomeInspirationSection({ variant = 'travels' }: { variant?: 'travels' | 'shop' }) {
   const isShop = variant === 'shop'
+  // Henter samme artikler som i Inspirasjon — kortene skal linke videre til faktiske artikler.
+  const articles = await getPublishedArticles(isShop ? 2 : 3)
+  const articlePosts: InspirationPost[] = articles.map((post) => ({
+    category: post.category,
+    title: post.title,
+    excerpt: post.excerpt,
+    date: formatArticleDate(post.published_at),
+    href: `/travels/inspirasjon/${post.slug}`,
+    src: post.cover_image,
+    alt: post.cover_image_alt ?? '',
+  }))
+  const posts = isShop
+    ? [...articlePosts.slice(0, 1), SHOP_CARD, ...articlePosts.slice(1, 2)]
+    : articlePosts
 
   return (
     <section className="py-28 overflow-hidden bg-(--color-sand-light)">
@@ -69,15 +68,17 @@ export default function HomeInspirationSection({ variant = 'travels' }: { varian
                 href={post.href}
                 className="group flex-none w-[85vw] sm:w-[560px] lg:w-[640px] [scroll-snap-align:start]"
               >
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 lg:aspect-auto lg:h-[430px]">
-                  <Image
-                    src={post.src}
-                    alt={post.alt}
-                    fill
-                    sizes="640px"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    unoptimized
-                  />
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 lg:aspect-auto lg:h-[430px] bg-(--color-border)">
+                  {post.src && (
+                    <Image
+                      src={post.src}
+                      alt={post.alt}
+                      fill
+                      sizes="640px"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      unoptimized
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   <span className="absolute bottom-5 left-5 text-[10px] uppercase tracking-widest text-white font-semibold bg-(--color-cta)/90 px-3 py-1 rounded-full">
                     {post.category}

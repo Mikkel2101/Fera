@@ -1,11 +1,13 @@
 import { z } from 'zod'
 
 // Lister lagres i newsletter_subscribers.brands. Uten liste = vanlig nyhetsbrev.
-export const NEWSLETTER_LISTS = ['kolleksjon'] as const
+// Bare 'nyhetsbrev' får artikkel-utsendingene; 'kolleksjon' er ventelista for egne varer.
+export const GENERAL_LIST = 'nyhetsbrev'
+export const NEWSLETTER_LISTS = [GENERAL_LIST, 'kolleksjon'] as const
 export type NewsletterList = (typeof NEWSLETTER_LISTS)[number]
 
 export type SubscribeRequest =
-  | { ok: true; email: string; list: NewsletterList | null }
+  | { ok: true; email: string; list: NewsletterList }
   | { ok: false; error: string }
 
 const bodySchema = z.object({
@@ -18,7 +20,7 @@ export function parseSubscribeRequest(body: unknown): SubscribeRequest {
   if (!parsed.success) return { ok: false, error: 'Ugyldig e-postadresse' }
 
   const { email, list } = parsed.data
-  if (list === undefined) return { ok: true, email, list: null }
+  if (list === undefined) return { ok: true, email, list: GENERAL_LIST }
   if (!(NEWSLETTER_LISTS as readonly string[]).includes(list)) {
     return { ok: false, error: 'Ukjent liste' }
   }

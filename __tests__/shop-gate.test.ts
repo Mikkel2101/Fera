@@ -42,6 +42,7 @@ describe('isRootAppPath', () => {
     expect(isRootAppPath('/account')).toBe(true)
     expect(isRootAppPath('/account/trips')).toBe(true)
     expect(isRootAppPath('/logg-inn')).toBe(true)
+    expect(isRootAppPath('/nyhetsbrev/avmeld')).toBe(true)
     expect(isRootAppPath('/personvern')).toBe(true)
     expect(isRootAppPath('/vilkar')).toBe(true)
     expect(isRootAppPath('/kolleksjon')).toBe(true)

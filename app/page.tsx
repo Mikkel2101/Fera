@@ -44,7 +44,6 @@ export default async function HomePage() {
   }
 
   const supabase = await createClient()
-
   const [{ data: newProducts }, { data: trips }, { data: bestSellers }, nokRate] = await Promise.all([
     supabase.from('products').select('*').eq('published', true).order('created_at', { ascending: false }).limit(4),
     supabase.from('trips').select('*').eq('published', true).order('start_date', { ascending: true }).limit(4),
@@ -62,7 +61,7 @@ export default async function HomePage() {
         <section className="relative min-h-[60vh] sm:min-h-[88vh] flex items-center bg-(--color-dark) overflow-hidden">
           {/* Hero background image */}
           <div className="absolute inset-0 hero-bg"
-            style={{ backgroundImage: 'url(/Hero.png)', backgroundSize: 'cover' }}
+            style={{ backgroundImage: 'url(/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png)', backgroundSize: 'cover' }}
           />
           {/* Mobile + tablet: full overlay */}
           <div className="absolute inset-0 bg-(--color-overlay)/65 lg:hidden" />

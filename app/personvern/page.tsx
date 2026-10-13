@@ -27,7 +27,7 @@ export default function PrivacyPage() {
         <h2>Hvorfor vi lagrer dem</h2>
         <ul>
           <li>For å håndtere reservasjonen din og kontakte deg om turen (avtale, GDPR art. 6 nr. 1 bokstav b).</li>
-          <li>For å sende nyheter om nye turer — bare hvis du har krysset av for det (samtykke, art. 6 nr. 1 bokstav a). Du kan trekke samtykket når som helst.</li>
+          <li>For å sende nyheter om nye turer — bare hvis du har krysset av for det (samtykke, art. 6 nr. 1 bokstav a). Du kan trekke samtykket når som helst med «Meld deg av»-lenken nederst i hver e-post.</li>
         </ul>
       </section>
 
