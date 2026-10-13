@@ -1,66 +1,60 @@
-import Link from 'next/link'
-
 export default function DerforElskerViCostaBlanca() {
   return (
     <div className="prose-fera">
 
       <p className="lead">
-        Vi har arrangert padelreiser til Costa Blanca siden starten. Vi har vurdert andre destinasjoner. Vi har alltid kommet tilbake til den samme konklusjonen: det finnes ingen bedre plass i Europa å dra på padeltur.
-      </p>
-      <p>
-        Her er grunnene — og de er ikke tilfeldige.
+        Det er morgen på Costa Blanca. Solen varmer allerede, og en kort spasertur fra hotellet venter padelbanene. Du møter kjente ansikter, finner fram racketen og gjør deg klar for dagens første økt. Rundt deg er det liv, latter og lyden av baller som treffer glasset.
       </p>
 
-      <h2>Klima som er laget for padel</h2>
+      <p>Det er dette vi vil dele med deg.</p>
+
       <p>
-        Costa Blanca har i gjennomsnitt over 300 soldager i året. Det betyr at du i praksis kan spille padel utendørs hele året — noe som er et konsept man ikke engang kan forestille seg for nordmenn som fryser gjennom ni måneder hjemme.
+        FERA startet med en padelklubb hjemme i Norge som ønsket hjelp til å reise på tur. Etter den første turen var vi solgt. Spillet, samholdet og gleden hos deltakerne ga oss lyst til å gjøre det igjen. Og igjen.
       </p>
       <p>
-        Temperaturen om vinteren (oktober–april) ligger stabilt mellom 18 og 25 grader på dagtid. Det er ikke bare «akseptabelt» — det er ideelt for sport. Varmt nok til at kroppen er løs og klar, kjølig nok til at du ikke er utmattet etter én time på banen.
-      </p>
-      <p>
-        Vi anbefaler alltid å legge turen til denne perioden. Høysesongen sommerstid er for varm for padel. Vinterprogrammet er når Costa Blanca er aller best.
+        Det fineste var å se hvor fort folk fant hverandre. Hvordan en gjeng som knapt kjente hverandre ved ankomst, reiste hjem med interne vitser, nye spillepartnere og planer om neste tur.
       </p>
 
-      <h2>Tetthet av padelbaner du ikke finner andre steder</h2>
+      <p>Den følelsen vil vi at du også skal få.</p>
+
       <p>
-        Padel ble populært i Spania lenge før det slo gjennom i Norge. I Benidorm-Albir-regionen finner du mer enn 40 padelsentre innen 20 kilometers radius. Mange av dem er av en kvalitet som ikke finnes i Norge — asfalterte baner, profesjonell belysning, kantine, treningsvegg og coacher tilgjengelig store deler av dagen.
+        Du kan komme alene, med en venn eller sammen med hele klubben. Hos oss skal du bli møtt med et smil, bli sett og føle deg velkommen fra første øyeblikk. Vi vil at du skal ha det skikkelig gøy på banen, kjenne på mestring og reise hjem med flere relasjoner enn du kom med.
       </p>
       <p>
-        Det betyr at du aldri trenger å vente på bane. Det betyr at du kan spille fire timer om dagen uten problemer. Og det betyr at konkurransen mellom sentrene holder prisnivået lavt — en time på bane koster ofte halvparten av det du betaler hjemme.
+        Vi liker å bli kjent med folk. Høre historiene deres, dele et måltid og finne ut hva som gjør turen god for akkurat dem. Noen vil utfordres på banen. Andre vil finne tilbake til spillegleden eller nyte noen aktive dager i godt selskap. Vi tar oss tid til å følge opp og legge til rette for at alle skal trives.
       </p>
 
-      <h2>Nivået på de lokale spillerne</h2>
+      <p>Og vi har funnet et ganske fint sted å gjøre det.</p>
+
       <p>
-        Et av de mest undervurderte plussene ved å spille padel i Spania er hva du lærer av å møte spanjoler på banen. Det spanske padelmiljøet er på et helt annet nivå enn det norske — og det er ikke ment som kritikk av norsk padel, men som en anerkjennelse av at spanjolene har spilt sporten i generasjoner.
+        Costa Blanca har en kombinasjon vi elsker: flotte hoteller, gode padelanlegg, kystbyer med særpreg og matopplevelser det er verdt å sette av en hel kveld til. Vi kjenner området godt og bruker lokalkunnskapen vår til å sette sammen turer der det er enkelt å være gjest.
       </p>
       <p>
-        Noen av de lokale spillerne du møter er pensjonerte herrer som har spilt padel i 30 år og ler vennlig av backhand-volleyen din — men også viser deg nøyaktig hvordan du skal gjøre det etterpå. Det er en del av kulturen, og det er ubetalelig for utviklingen din.
+        Du blir hentet med buss og kjørt til hotellet. På hotelloppleggene våre med baner under 200 meter unna, er veien kort fra frokostbordet til første ballveksling. Det gir mer tid til å spille, slappe av og nyte dagene sammen.
+      </p>
+      <p>
+        En kort taxitur unna venter Altea, med det som etter vår mening er en av Spanias vakreste gamlebyer. Hvite hus, brosteinsgater og små steder du får lyst til å stoppe ved. En kveld her, med god mat på en takterrasse og utsikt over Middelhavet, kan fort bli et av minnene du tar med deg hjem.
       </p>
 
-      <h2>Mat, kultur og alt det andre</h2>
+      <p>Så er det padelkulturen her nede.</p>
+
       <p>
-        En padeltur er ikke bare padel. Det er den spanske frokosten ute på terrassen. Det er tapas med cerveza etter siste kamp. Det er å vandre langs strandpromenaden i Albir om kvelden, snakke om de beste øyeblikkene fra dagen, og planlegge morgendagens strategi med folk du bare har kjent i tre dager men som allerede føles som gamle venner.
+        Padelsenteret er en møteplass fra morgen til kveld. Folk kommer for å spille, treffe venner og bli værende litt til. Det er musikk, samtaler og liv rundt banene. En kald øl, et glass vin eller en brus etter kampen. Noen følger med på spillet, andre avtaler neste match. Vi elsker den stemningen – og vil at du skal få oppleve den fra innsiden.
       </p>
       <p>
-        Costa Blanca er ikke en turist-fabrikk som Mallorca eller Gran Canaria. Spesielt Albir og L&apos;Alfàs del Pi er rolige, familievennlige byer med autentisk spansk kultur, lave priser og folk som faktisk er glade for at du er der.
+        FERA skal samle det beste fra spansk og norsk padelkultur. Vi vil skape et fellesskap du har lyst til å komme tilbake til, og som fortsetter når turen er over. Med nye venner, flere å spille med og noe å glede seg til.
+      </p>
+      <p>
+        Samtidig skal alt som bærer FERA-navnet, være skikkelig gjennomført. Gode hoteller, god organisering og omtanke i detaljene. Opplevelsen skal kjennes både eksklusiv og personlig, med verter som bryr seg om hvordan du har det.
+      </p>
+      <p>
+        På sikt ønsker vi også å gjøre padel tilgjengelig for flere – barn, mennesker med funksjonsnedsettelser og dem som har mindre økonomisk spillerom. Det er en del av fellesskapet vi ønsker å bygge, og noe vi vil jobbe mot når FERA vokser.
+      </p>
+      <p>
+        Det er fortsatt klemmene på avreisedagen som treffer oss mest. Når noen takker for turen og sier at de skal være med neste gang, får vi gåsehud. Da gleder vi oss allerede til gjensynet.
       </p>
 
-      <h2>Tilgjengelighet fra Norge</h2>
-      <p>
-        Alicante har direktefly fra Oslo (Gardermoen) og Bergen med Norwegian og Wizz Air. Flytid: under fire timer. Prisnivå: du finner gjerne tur-retur for 800–1500 kroner om du booker i god tid.
-      </p>
-      <p>
-        Det er ingen grunn til å velge en dyr og logistisk krevende destinasjon når den beste padel-destinasjonen i Europa er nesten like nær som Praha.
-      </p>
-
-      <h2>Klar for turen?</h2>
-      <p>
-        Vi arrangerer turer til Costa Blanca gjennom hele vinter- og vårsesongen. Alle inkluderer hotell, coaching med André, baneleie og transport fra flyplassen. Du ordner kun flybilletten selv.
-      </p>
-      <p>
-        <Link href="/travels" className="text-(--color-cta) hover:underline font-semibold">Se alle kommende turer →</Link>
-      </p>
+      <p className="text-(--color-text) font-medium">Velkommen til FERA, vi gleder oss til å få deg med!</p>
 
     </div>
   )

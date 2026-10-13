@@ -278,7 +278,7 @@ export default function Nav() {
                     : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
                 }`}
               >
-                Aktuelt
+                Inspirasjon
                 {isInspiration && (
                   <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-(--color-cta) rounded-full" />
                 )}
@@ -463,7 +463,7 @@ export default function Nav() {
                     isInspiration ? 'text-(--color-cta)' : 'text-(--color-text)'
                   }`}
                 >
-                  Aktuelt
+                  Inspirasjon
                   <span className="text-(--color-muted) group-hover:translate-x-1 transition-transform">
                     <IconArrow />
                   </span>

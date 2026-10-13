@@ -20,7 +20,6 @@ export type BlogPost = {
 }
 
 const PETTER: Author = { name: 'Petter Skimmeland', role: 'Reiseleder, Fera Travel', photo: '/Petter_Skimmeland.jpg' }
-const ANDRE: Author = { name: 'André Schlyter', role: 'Hovedcoach, Fera Travel', photo: '/Andre_S.jpg' }
 
 export const posts: BlogPost[] = [
   {
@@ -50,14 +49,14 @@ export const posts: BlogPost[] = [
   {
     slug: 'derfor-elsker-vi-costa-blanca',
     category: 'Reiser',
-    title: 'Derfor elsker vi Costa Blanca',
-    excerpt: '300 soldager i året, fantastiske padelsentre og mat som slår alt. Vi forteller deg hvorfor Costa Blanca er det perfekte padelreisemålet.',
+    title: 'FERA - padel, sol og folk du vil møte igjen',
+    excerpt: 'Det er morgen på Costa Blanca, og padelbanene venter. Dette er historien om hvorfor FERA finnes, og hvorfor vi fortsatt får gåsehud på avreisedagen.',
     date: '3. mai 2026',
     readTime: '6 min',
     image: `${PHOTOS}/palm-sunset.jpg`,
     imageAlt: 'Padelbane med palmer og solnedgang i Costa Blanca',
-    metaDescription: 'Costa Blanca er Europas padel-hovedstad. Her er de viktigste grunnene til at vi alltid kommer tilbake — og hvorfor du bør booke en padelreise til Spania.',
-    author: ANDRE,
+    metaDescription: 'Les historien bak FERA — hvordan det startet, hvorfor vi elsker Costa Blanca, og fellesskapet vi ønsker å bygge rundt padel og reise.',
+    author: PETTER,
   },
 ]
 

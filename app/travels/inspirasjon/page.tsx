@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { posts } from './posts'
 
 export const metadata: Metadata = {
-  title: 'Aktuelt — Fera Travels',
+  title: 'Inspirasjon — Fera Travels',
   description: 'Reiserapporter, coaching og tips fra Fera Travels på Costa Blanca.',
 }
 
@@ -35,7 +35,7 @@ export default async function InspirasjonPage({
     <>
       <section className="bg-white pb-8 pt-10 sm:pt-14">
         <div className="mx-auto max-w-[1450px] px-4 sm:px-6">
-          <h1 className="font-sans text-4xl font-semibold text-(--color-dark) md:text-5xl lg:text-6xl">Aktuelt</h1>
+          <h1 className="font-sans text-4xl font-semibold text-(--color-dark) md:text-5xl lg:text-6xl">Inspirasjon</h1>
           <p className="mt-2 text-sm text-(--color-subtle)">
             Få siste nytt fra Fera Travel
           </p>

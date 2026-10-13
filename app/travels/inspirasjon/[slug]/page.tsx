@@ -89,7 +89,7 @@ export default async function BlogPostPage({
         className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-(--color-subtle) transition-colors hover:text-(--color-text)"
       >
         <span aria-hidden="true" className="size-1.5 rounded-full bg-(--color-cta)" />
-        Aktuelt
+        Inspirasjon
       </Link>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[200px_1fr] lg:gap-16">
@@ -105,7 +105,7 @@ export default async function BlogPostPage({
         </aside>
 
         {/* Innhold */}
-        <div className="min-w-0 max-w-[1070px]">
+        <div className="min-w-0 max-w-[900px]">
           <div className="mb-4 lg:hidden">
             <CategoryBadge category={post.category} />
           </div>
@@ -155,7 +155,7 @@ export default async function BlogPostPage({
                 href="/travels/inspirasjon"
                 className="border border-(--color-border) text-(--color-subtle) text-sm px-6 py-3 rounded-full hover:border-(--color-dark) hover:text-(--color-text) transition-colors"
               >
-                ← Tilbake til aktuelt
+                ← Tilbake til inspirasjon
               </Link>
             </div>
           </div>

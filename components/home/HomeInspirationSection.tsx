@@ -14,7 +14,7 @@ type InspirationPost = {
 
 const photos = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
 
-// Samme artikler som i Aktuelt — kortene skal linke videre til faktiske artikler.
+// Samme artikler som i Inspirasjon — kortene skal linke videre til faktiske artikler.
 const homepagePosts: InspirationPost[] = articles.map((post) => ({
   category: post.category,
   title: post.title,
@@ -48,7 +48,7 @@ export default function HomeInspirationSection({ variant = 'travels' }: { varian
       <div className="max-w-[1450px] mx-auto px-4">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Aktuelt</p>
+            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
             <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
             <p className="font-sans text-[18px] text-(--color-text) max-w-xl leading-relaxed">
               {isShop

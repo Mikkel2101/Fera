@@ -26,7 +26,7 @@ export default async function TravelCommunityHome() {
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202.png')" }}
+          style={{ backgroundImage: "url('/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png')" }}
         />
         <div
           aria-hidden="true"

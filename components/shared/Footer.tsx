@@ -58,7 +58,7 @@ export default function Footer() {
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Om Fera</h4>
             <ul className="space-y-3">
               <li><Link href="/travels/om-oss" className="text-white/50 text-sm hover:text-white transition-colors">Om oss</Link></li>
-              <li><Link href="/travels/inspirasjon" className="text-white/50 text-sm hover:text-white transition-colors">Aktuelt</Link></li>
+              <li><Link href="/travels/inspirasjon" className="text-white/50 text-sm hover:text-white transition-colors">Inspirasjon</Link></li>
               <li><Link href="/travels/faq" className="text-white/50 text-sm hover:text-white transition-colors">Vanlige spørsmål</Link></li>
               <li><Link href="/travels/kontakt" className="text-white/50 text-sm hover:text-white transition-colors">Kontakt oss</Link></li>
             </ul>
