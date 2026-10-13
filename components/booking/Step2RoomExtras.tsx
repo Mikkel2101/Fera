@@ -3,153 +3,152 @@
 import { useState } from 'react'
 import { step2Schema } from '@/lib/booking/schema'
 import type { Step2Data } from '@/lib/booking/schema'
-
-type Extra = { name: string; price_eur: number }
+import { previewExtras, resolveExtras, type ExtraSelection } from '@/lib/booking/extras'
+import { calculatePrice } from '@/lib/booking/pricing'
+import {
+  ROOM_PREFERENCES,
+  ROOM_SHARE_GENDERS,
+  roomTypeFor,
+  type RoomPreference,
+  type RoomShareGender,
+} from '@/lib/booking/rooms'
+import type { BookingTrip } from './BookingShell'
+import ExtrasPicker from './ExtrasPicker'
+import PriceSummary from './PriceSummary'
 
 type Props = {
-  trip: {
-    extras: Extra[]
-    price_double_eur: number
-    price_single_eur: number
-  }
-  data: Partial<Step2Data>
+  trip:   BookingTrip
+  data:   Partial<Step2Data>
   onBack: () => void
   onNext: (data: Step2Data) => void
 }
 
 export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
-  const [roomType, setRoomType] = useState<'Dobbel' | 'Single'>(data.room_type ?? 'Dobbel')
+  const [preference,   setPreference]   = useState<RoomPreference | undefined>(data.room_preference)
   const [roommateName, setRoommateName] = useState(data.roommate_name ?? '')
-  const [selectedExtras, setSelectedExtras] = useState<string[]>(data.selected_extras ?? [])
+  const [gender,       setGender]       = useState<RoomShareGender | undefined>(data.room_share_gender)
+  const [selections,   setSelections]   = useState<ExtraSelection[]>(data.extras ?? [])
+  const [errors,       setErrors]       = useState<Record<string, string>>({})
 
-  function toggleExtra(name: string) {
-    setSelectedExtras(prev =>
-      prev.includes(name) ? prev.filter(e => e !== name) : [...prev, name]
-    )
-  }
+  const singleSupplement = Math.max(trip.price_single_eur - trip.price_double_eur, 0)
+  const extrasPreview    = previewExtras(selections, trip.extras)
+  const price            = calculatePrice(trip, preference ? roomTypeFor(preference) : 'Dobbel', extrasPreview)
 
   function handleSubmit() {
-    const parsed = step2Schema.parse({
-      room_type: roomType,
-      roommate_name: roommateName || undefined,
-      selected_extras: selectedExtras,
+    const parsed = step2Schema.safeParse({
+      room_preference:   preference,
+      roommate_name:     preference === 'partner' ? roommateName.trim() || undefined : undefined,
+      room_share_gender: preference === 'match' ? gender : undefined,
+      extras:            selections,
     })
-    onNext(parsed)
-  }
+    const extrasCheck = resolveExtras(selections, trip.extras)
 
-  const extrasTotal = selectedExtras.reduce((sum, name) => {
-    const extra = trip.extras.find(e => e.name === name)
-    return sum + (extra?.price_eur ?? 0)
-  }, 0)
-  const roomPrice  = roomType === 'Dobbel' ? trip.price_double_eur : trip.price_single_eur
-  const totalPrice = roomPrice + extrasTotal
+    if (!parsed.success || !extrasCheck.ok) {
+      const flat = parsed.success ? {} : parsed.error.flatten().fieldErrors as Record<string, string[] | undefined>
+      setErrors({
+        room_preference:   flat.room_preference?.[0] ?? '',
+        roommate_name:     flat.roommate_name?.[0] ?? '',
+        room_share_gender: flat.room_share_gender?.[0] ?? '',
+        extras:            extrasCheck.ok ? '' : extrasCheck.error,
+      })
+      return
+    }
+    onNext(parsed.data)
+  }
 
   return (
     <div className="space-y-8">
       <h2 className="text-2xl font-display font-semibold text-(--color-text) mt-6">
-        Rom & tilvalg
+        Rom &amp; tillegg
       </h2>
 
-      {/* Romtype */}
-      <div>
-        <p className="text-sm font-medium text-(--color-text) mb-3">Romtype</p>
+      <fieldset>
+        <legend className="text-sm font-medium text-(--color-text) mb-3">
+          Romønske <span className="text-red-500">*</span>
+        </legend>
         <div className="space-y-3">
-          {([
-            { value: 'Dobbel', label: 'Dobbeltrom', price: trip.price_double_eur },
-            { value: 'Single', label: 'Enkeltrom',  price: trip.price_single_eur },
-          ] as const).map(({ value, label, price }) => (
+          {ROOM_PREFERENCES.map(option => (
             <label
-              key={value}
-              className={`flex items-center justify-between border rounded-lg p-4 cursor-pointer transition-colors
-                ${roomType === value
+              key={option.value}
+              className={`flex items-start justify-between gap-4 border rounded-lg p-4 cursor-pointer transition-colors ${
+                preference === option.value
                   ? 'border-(--color-cta) bg-(--color-sand-light)'
                   : 'border-(--color-border) hover:border-(--color-muted)'
-                }`}
+              }`}
             >
-              <div className="flex items-center gap-3">
+              <span className="flex items-start gap-3">
                 <input
                   type="radio"
-                  name="room_type"
-                  value={value}
-                  checked={roomType === value}
-                  onChange={() => setRoomType(value)}
-                  className="accent-(--color-cta)"
+                  name="room_preference"
+                  value={option.value}
+                  checked={preference === option.value}
+                  onChange={() => { setPreference(option.value); setErrors({}) }}
+                  className="accent-(--color-cta) mt-1"
                 />
-                <span className="font-medium text-(--color-text)">{label}</span>
-              </div>
-              <span className="text-(--color-muted)">{price} EUR</span>
+                <span className="font-medium text-(--color-text)">{option.label}</span>
+              </span>
+              {option.value === 'single' && singleSupplement > 0 && (
+                <span className="text-(--color-muted) whitespace-nowrap">+ {singleSupplement} EUR</span>
+              )}
             </label>
           ))}
         </div>
+        {errors.room_preference && <p className="text-red-500 text-sm mt-1">{errors.room_preference}</p>}
 
-        {roomType === 'Dobbel' && (
+        {preference === 'partner' && (
           <div className="mt-3">
-            <label className="block text-sm font-medium text-(--color-text) mb-1">
-              Hvem deler du rom med?
+            <label htmlFor="booking-roommate" className="block text-sm font-medium text-(--color-text) mb-1">
+              Navn på reisepartneren <span className="text-red-500">*</span>
             </label>
             <input
+              id="booking-roommate"
               type="text"
               value={roommateName}
               onChange={e => setRoommateName(e.target.value)}
-              placeholder="Navn (valgfritt)"
+              aria-describedby="booking-roommate-hint"
               className="border border-(--color-border) rounded-lg px-4 py-3 w-full focus:outline-none focus:border-(--color-cta)"
             />
+            <p id="booking-roommate-hint" className="text-xs text-(--color-muted) mt-1">
+              Reisepartneren må reservere sin egen plass. Å skrive navnet her reserverer ikke plass for dem.
+            </p>
+            {errors.roommate_name && <p className="text-red-500 text-sm mt-1">{errors.roommate_name}</p>}
           </div>
         )}
-      </div>
 
-      {/* Tilvalg */}
+        {preference === 'match' && (
+          <div className="mt-3">
+            <label htmlFor="booking-gender" className="block text-sm font-medium text-(--color-text) mb-1">
+              Kjønn <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="booking-gender"
+              value={gender ?? ''}
+              onChange={e => setGender((e.target.value || undefined) as RoomShareGender | undefined)}
+              aria-describedby="booking-gender-hint"
+              className="border border-(--color-border) rounded-lg px-4 py-3 w-full bg-white focus:outline-none focus:border-(--color-cta)"
+            >
+              <option value="">Velg</option>
+              {ROOM_SHARE_GENDERS.map(g => <option key={g.value} value={g.value}>{g.label}</option>)}
+            </select>
+            <p id="booking-gender-hint" className="text-xs text-(--color-muted) mt-1">
+              Vi parer deg med en annen deltaker av samme kjønn og tar kontakt hvis vi ikke finner en romkamerat.
+              Du får aldri enkeltromstillegg uten at vi har avtalt det med deg.
+            </p>
+            {errors.room_share_gender && <p className="text-red-500 text-sm mt-1">{errors.room_share_gender}</p>}
+          </div>
+        )}
+      </fieldset>
+
       {trip.extras.length > 0 && (
         <div>
-          <p className="text-sm font-medium text-(--color-text) mb-3">Tilvalg</p>
-          <div className="space-y-2">
-            {trip.extras.map(extra => (
-              <label
-                key={extra.name}
-                className="flex items-center justify-between border border-(--color-border) rounded-lg p-4 cursor-pointer hover:border-(--color-muted) transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <input
-                    type="checkbox"
-                    checked={selectedExtras.includes(extra.name)}
-                    onChange={() => toggleExtra(extra.name)}
-                    className="accent-(--color-cta) w-4 h-4"
-                  />
-                  <span className="text-(--color-text)">{extra.name}</span>
-                </div>
-                <span className="text-(--color-gold) font-medium">+ {extra.price_eur} EUR</span>
-              </label>
-            ))}
-          </div>
+          <p className="text-sm font-medium text-(--color-text) mb-3">Tillegg</p>
+          <ExtrasPicker extras={trip.extras} selections={selections} onChange={setSelections} />
+          {errors.extras && <p className="text-red-500 text-sm mt-1">{errors.extras}</p>}
         </div>
       )}
 
-      {/* Prisoppsummering */}
-      <div className="bg-(--color-sand) rounded-xl p-5 space-y-2">
-        <p className="text-sm font-medium text-(--color-text) mb-3">Prisoversikt per person</p>
-        <div className="flex justify-between text-sm text-(--color-subtle)">
-          <span>{roomType === 'Dobbel' ? 'Dobbeltrom' : 'Enkeltrom'}</span>
-          <span>{roomPrice} EUR</span>
-        </div>
-        {selectedExtras.map(name => {
-          const extra = trip.extras.find(e => e.name === name)
-          return extra ? (
-            <div key={name} className="flex justify-between text-sm text-(--color-subtle)">
-              <span>+ {extra.name}</span>
-              <span>{extra.price_eur} EUR</span>
-            </div>
-          ) : null
-        })}
-        <div className="border-t border-(--color-border) pt-2 flex justify-between font-bold text-(--color-gold)">
-          <span>Totalpris</span>
-          <span>{totalPrice} EUR</span>
-        </div>
-        <p className="text-xs text-(--color-subtle) pt-1">
-          Ingen betaling nå. Vi tar kontakt med betalingsinformasjon før reservasjonen blir bindende.
-        </p>
-      </div>
+      <PriceSummary price={price} extras={extrasPreview} />
 
-      {/* Knapper */}
       <div className="flex gap-4">
         <button
           type="button"
@@ -163,7 +162,7 @@ export default function Step2RoomExtras({ trip, data, onBack, onNext }: Props) {
           onClick={handleSubmit}
           className="flex-1 bg-(--color-cta) text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-opacity"
         >
-          Neste: Bekreft →
+          Neste: Kontroller →
         </button>
       </div>
     </div>

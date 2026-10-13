@@ -3,6 +3,8 @@ import { getStripe } from '@/lib/stripe'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { bookingSchema } from '@/lib/booking/schema'
+import { formatBookedExtra, parseTripExtras, resolveExtras } from '@/lib/booking/extras'
+import { roomTypeFor } from '@/lib/booking/rooms'
 import { fetchEurNokRate, eurToNok } from '@/lib/currency'
 
 
@@ -28,6 +30,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Tur ikke tilgjengelig' }, { status: 422 })
     }
 
+    const extrasCheck = resolveExtras(data.extras, parseTripExtras(trip.extras))
+    if (!extrasCheck.ok) {
+      return NextResponse.json({ error: extrasCheck.error }, { status: 400 })
+    }
+
     // Bruk serviceClient for insert — bypasser RLS, booking-API validerer selv
     const serviceSupabase = createServiceClient()
     const { data: booking, error: bookingError } = await serviceSupabase
@@ -37,11 +44,12 @@ export async function POST(request: NextRequest) {
         first_name:      data.first_name,
         last_name:       data.last_name,
         email:           data.email,
-        phone:           data.phone           ?? null,
-        padel_level:     data.padel_level     ?? null,
-        room_type:       data.room_type,
+        phone:           data.phone,
+        padel_level:     data.padel_level,
+        room_type:       roomTypeFor(data.room_preference),
+        room_preference: data.room_preference,
         roommate_name:   data.roommate_name   ?? null,
-        selected_extras: data.selected_extras,
+        selected_extras: extrasCheck.items.map(formatBookedExtra),
         deposit_status:  'Ventende',
         gdpr_consent:    data.gdpr_consent,
         terms_accepted:  data.terms_accepted,
@@ -53,11 +61,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Kunne ikke opprette booking' }, { status: 500 })
     }
 
-    const extras = (trip.extras ?? []) as Array<{ name: string; price_eur: number }>
-    const extrasTotal = data.selected_extras.reduce((sum, extraName) => {
-      const extra = extras.find(e => e.name === extraName)
-      return sum + (extra?.price_eur ?? 0)
-    }, 0)
+    const extrasTotal = extrasCheck.items.reduce((sum, e) => sum + e.unit_price_eur * e.quantity, 0)
     const totalEur = trip.deposit_eur + extrasTotal
 
     // Konverter depositum til NOK for Stripe — Vipps støtter kun NOK

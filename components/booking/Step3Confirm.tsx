@@ -4,17 +4,36 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { Step1Data, Step2Data, BookingData } from '@/lib/booking/schema'
+import { padelLevelLabel, tripGoalLabel } from '@/lib/booking/levels'
+import { previewExtras, formatBookedExtra } from '@/lib/booking/extras'
+import { calculatePrice } from '@/lib/booking/pricing'
+import { ROOM_SHARE_GENDERS, roomPreferenceLabel, roomTypeFor } from '@/lib/booking/rooms'
+import type { BookingTrip } from './BookingShell'
+import PriceSummary from './PriceSummary'
 
 type Props = {
-  trip: { id: string; title: string }
+  trip: BookingTrip
   step1: Step1Data
   step2: Step2Data
   onBack: () => void
 }
 
-const ROOM_LABELS: Record<string, string> = {
-  Dobbel: 'Dobbeltrom',
-  Single: 'Enkeltrom',
+function summaryRows(trip: BookingTrip, step1: Step1Data, step2: Step2Data, extras: string[]): Array<[string, string]> {
+  const gender = ROOM_SHARE_GENDERS.find(g => g.value === step2.room_share_gender)?.label
+  const rows: Array<[string, string]> = [
+    ['Tur',        trip.title],
+    ['Navn',       `${step1.first_name} ${step1.last_name}`],
+    ['E-post',     step1.email],
+    ['Mobil',      step1.phone],
+    ['Padelnivå',  padelLevelLabel(step1.padel_level)],
+    ['Romønske',   roomPreferenceLabel(step2.room_preference)],
+  ]
+  if (step2.roommate_name) rows.push(['Reisepartner', step2.roommate_name])
+  if (gender)              rows.push(['Kjønn (romdeling)', gender])
+  if (step1.trip_goal)     rows.push(['Mål for turen', tripGoalLabel(step1.trip_goal)])
+  if (step1.special_requests) rows.push(['Ønsker', step1.special_requests])
+  if (extras.length > 0)   rows.push(['Tillegg', extras.join(', ')])
+  return rows
 }
 
 export default function Step3Confirm({ trip, step1, step2, onBack }: Props) {
@@ -25,6 +44,10 @@ export default function Step3Confirm({ trip, step1, step2, onBack }: Props) {
   const [loading,           setLoading]           = useState(false)
   const [error,             setError]             = useState('')
   const [isFull,            setIsFull]            = useState(false)
+
+  const extras = previewExtras(step2.extras, trip.extras)
+  const price  = calculatePrice(trip, roomTypeFor(step2.room_preference), extras)
+  const rows   = summaryRows(trip, step1, step2, extras.map(formatBookedExtra))
 
   async function handleSubmit() {
     setError('')
@@ -73,33 +96,19 @@ export default function Step3Confirm({ trip, step1, step2, onBack }: Props) {
 
       {/* Oppsummering */}
       <div className="bg-(--color-sand) rounded-xl p-5 space-y-3">
-        <div className="flex justify-between text-sm">
-          <span className="text-(--color-subtle)">Tur</span>
-          <span className="text-(--color-text) font-medium text-right">{trip.title}</span>
-        </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-(--color-subtle)">Navn</span>
-          <span className="text-(--color-text) font-medium">{step1.first_name} {step1.last_name}</span>
-        </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-(--color-subtle)">E-post</span>
-          <span className="text-(--color-text)">{step1.email}</span>
-        </div>
-        <div className="flex justify-between text-sm">
-          <span className="text-(--color-subtle)">Romtype</span>
-          <span className="text-(--color-text)">{ROOM_LABELS[step2.room_type] ?? step2.room_type}</span>
-        </div>
-        {step2.selected_extras.length > 0 && (
-          <div className="flex justify-between text-sm">
-            <span className="text-(--color-subtle)">Tilvalg</span>
-            <span className="text-(--color-text) text-right">{step2.selected_extras.join(', ')}</span>
+        {rows.map(([label, value]) => (
+          <div key={label} className="flex justify-between gap-4 text-sm">
+            <span className="text-(--color-subtle) shrink-0">{label}</span>
+            <span className="text-(--color-text) font-medium text-right break-words min-w-0">{value}</span>
           </div>
-        )}
+        ))}
         <p className="border-t border-(--color-border) pt-3 text-sm text-(--color-text)">
           Reservasjonen er <strong>uforpliktende</strong> og koster ingenting nå. Vi holder av plassen
           din og tar kontakt med betalingsinformasjon før påmeldingen blir bindende.
         </p>
       </div>
+
+      <PriceSummary price={price} extras={extras} />
 
       {/* Samtykker */}
       <div className="space-y-3">

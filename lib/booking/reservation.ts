@@ -29,11 +29,3 @@ export function reservationErrorResponse(message: string): ReservationError {
   }
   return { code, ...KNOWN_ERRORS[code] }
 }
-
-export function filterValidExtras(
-  selected: string[],
-  tripExtras: Array<{ name: string }>,
-): string[] {
-  const valid = new Set(tripExtras.map(e => e.name))
-  return [...new Set(selected)].filter(name => valid.has(name))
-}

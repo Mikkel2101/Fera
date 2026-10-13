@@ -2,18 +2,23 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import BookingShell from '@/components/booking/BookingShell'
-
-type Extra = { name: string; price_eur: number }
+import { parseTripExtras } from '@/lib/booking/extras'
+import { PADEL_LEVEL_VALUES, type PadelLevel } from '@/lib/booking/levels'
 
 const RESERVABLE_STATUSES = ['Åpen', 'Få plasser']
 
-function buildPrefill(fullName: string | null, email: string, phone: string | null) {
+function isPadelLevel(value: string | null | undefined): value is PadelLevel {
+  return PADEL_LEVEL_VALUES.includes(value as PadelLevel)
+}
+
+function buildPrefill(fullName: string | null, email: string, phone: string | null, padelLevel: string | null) {
   const [firstName = '', ...rest] = (fullName ?? '').trim().split(/\s+/)
   return {
-    first_name: firstName,
-    last_name:  rest.join(' '),
+    first_name:  firstName,
+    last_name:   rest.join(' '),
     email,
-    phone:      phone ?? '',
+    phone:       phone ?? '',
+    padel_level: isPadelLevel(padelLevel) ? padelLevel : undefined,
   }
 }
 
@@ -48,7 +53,7 @@ export default async function BookPage({
       .maybeSingle(),
     supabase
       .from('users')
-      .select('full_name, phone')
+      .select('full_name, phone, padel_level')
       .eq('id', user.id)
       .maybeSingle(),
   ])
@@ -57,6 +62,7 @@ export default async function BookPage({
     profile?.full_name ?? (user.user_metadata?.full_name as string | undefined) ?? null,
     user.email ?? '',
     profile?.phone ?? null,
+    profile?.padel_level ?? null,
   )
 
   return (
@@ -98,7 +104,7 @@ export default async function BookPage({
             trip={{
               id:               trip.id,
               title:            trip.name,
-              extras:           (trip.extras ?? []) as Extra[],
+              extras:           parseTripExtras(trip.extras),
               deposit_eur:      trip.deposit_eur,
               price_double_eur: trip.price_double_eur,
               price_single_eur: trip.price_single_eur ?? trip.price_double_eur,

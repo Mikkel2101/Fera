@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { bookingSchema } from '@/lib/booking/schema'
-import { filterValidExtras, reservationErrorResponse } from '@/lib/booking/reservation'
+import { reservationErrorResponse } from '@/lib/booking/reservation'
+import { formatBookedExtra, parseTripExtras, resolveExtras } from '@/lib/booking/extras'
+import { calculatePrice } from '@/lib/booking/pricing'
+import { roomTypeFor } from '@/lib/booking/rooms'
 import {
   sendOpsReservationEmail,
   sendReservationConfirmation,
@@ -28,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     const { data: trip } = await supabase
       .from('trips')
-      .select('id, name, destination, start_date, end_date, extras')
+      .select('id, name, destination, start_date, end_date, extras, price_double_eur, price_single_eur, deposit_eur')
       .eq('id', data.trip_id)
       .eq('published', true)
       .single()
@@ -36,6 +39,22 @@ export async function POST(request: NextRequest) {
     if (!trip) {
       return NextResponse.json({ error: 'Turen finnes ikke.' }, { status: 404 })
     }
+
+    // Pris og gyldige tillegg hentes fra turen — aldri fra klienten
+    const extrasCheck = resolveExtras(data.extras, parseTripExtras(trip.extras))
+    if (!extrasCheck.ok) {
+      return NextResponse.json({ error: extrasCheck.error }, { status: 400 })
+    }
+    const bookedExtras  = extrasCheck.items
+    const extrasSummary = bookedExtras.map(formatBookedExtra)
+    const roomType      = roomTypeFor(data.room_preference)
+    const price         = calculatePrice({
+      price_double_eur: trip.price_double_eur,
+      price_single_eur: trip.price_single_eur ?? trip.price_double_eur,
+      deposit_eur:      trip.deposit_eur,
+    }, roomType, bookedExtras)
+    const roommateName  = data.room_preference === 'partner' ? data.roommate_name ?? null : null
+    const shareGender   = data.room_preference === 'match' ? data.room_share_gender ?? null : null
 
     const service = createServiceClient()
 
@@ -45,9 +64,10 @@ export async function POST(request: NextRequest) {
     // samtykke aldri overskrives med false.
     const { error: userError } = await service.from('users').upsert(
       {
-        id:        user.id,
-        full_name: `${data.first_name} ${data.last_name}`,
-        phone:     data.phone ?? null,
+        id:          user.id,
+        full_name:   `${data.first_name} ${data.last_name}`,
+        phone:       data.phone,
+        padel_level: data.padel_level,
         ...(data.newsletter_consent ? { newsletter_consent: true } : {}),
       },
       { onConflict: 'id' },
@@ -57,24 +77,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Kunne ikke reservere plass. Prøv igjen.' }, { status: 500 })
     }
 
-    const selectedExtras = filterValidExtras(
-      data.selected_extras,
-      (trip.extras ?? []) as Array<{ name: string }>,
-    )
-
     const { data: bookingId, error: rpcError } = await service.rpc('reserve_trip_spot', {
-      p_user_id:         user.id,
-      p_trip_id:         trip.id,
-      p_first_name:      data.first_name,
-      p_last_name:       data.last_name,
-      p_email:           user.email,
-      p_phone:           data.phone ?? null,
-      p_padel_level:     data.padel_level ?? null,
-      p_room_type:       data.room_type,
-      p_roommate_name:   data.room_type === 'Dobbel' ? data.roommate_name ?? null : null,
-      p_selected_extras: selectedExtras,
-      p_gdpr_consent:    data.gdpr_consent,
-      p_terms_accepted:  data.terms_accepted,
+      p_user_id:           user.id,
+      p_trip_id:           trip.id,
+      p_first_name:        data.first_name,
+      p_last_name:         data.last_name,
+      p_email:             user.email,
+      p_phone:             data.phone,
+      p_padel_level:       data.padel_level,
+      p_room_type:         roomType,
+      p_room_preference:   data.room_preference,
+      p_roommate_name:     roommateName,
+      p_room_share_gender: shareGender,
+      p_trip_goal:         data.trip_goal ?? null,
+      p_special_requests:  data.special_requests ?? null,
+      p_selected_extras:   extrasSummary,
+      p_extras_detail:     bookedExtras,
+      p_price_total_eur:   price.total,
+      p_gdpr_consent:      data.gdpr_consent,
+      p_terms_accepted:    data.terms_accepted,
     })
 
     if (rpcError || !bookingId) {
@@ -84,15 +105,20 @@ export async function POST(request: NextRequest) {
     }
 
     await sendReservationEmails({
-      booking_id:      bookingId,
-      first_name:      data.first_name,
-      last_name:       data.last_name,
-      email:           user.email,
-      phone:           data.phone ?? null,
-      padel_level:     data.padel_level ?? null,
-      room_type:       data.room_type,
-      roommate_name:   data.roommate_name ?? null,
-      selected_extras: selectedExtras,
+      booking_id:        bookingId,
+      first_name:        data.first_name,
+      last_name:         data.last_name,
+      email:             user.email,
+      phone:             data.phone,
+      padel_level:       data.padel_level,
+      room_type:         roomType,
+      room_preference:   data.room_preference,
+      roommate_name:     roommateName,
+      room_share_gender: shareGender,
+      trip_goal:         data.trip_goal ?? null,
+      special_requests:  data.special_requests ?? null,
+      selected_extras:   extrasSummary,
+      price,
       trip: {
         id:          trip.id,
         name:        trip.name,
