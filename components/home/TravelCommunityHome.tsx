@@ -34,7 +34,7 @@ export default async function TravelCommunityHome() {
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-(--color-overlay-neutral)/95 via-(--color-overlay-neutral)/63 to-(--color-overlay-neutral)/20"
+          className="absolute inset-0 bg-gradient-to-r from-(--color-overlay-neutral)/95 via-(--color-overlay-neutral)/80 to-(--color-overlay-neutral)/45"
         />
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-6xl">
