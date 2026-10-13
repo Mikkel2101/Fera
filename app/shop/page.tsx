@@ -20,7 +20,7 @@ export default async function ShopPage() {
     <>
       {/* Hero-banner */}
       <div className="bg-(--color-dark) text-white">
-        <div className="max-w-[1600px] mx-auto px-4 py-12 sm:py-16 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <div className="max-w-[1450px] mx-auto px-4 py-12 sm:py-16 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
             <p className="text-sm text-(--color-ice) font-medium mb-2 uppercase tracking-widest">
               Offisiell Padelpoint-partner
@@ -52,7 +52,7 @@ export default async function ShopPage() {
 
       {/* Brødsmule */}
       <div className="bg-white border-b border-(--color-border)">
-        <div className="max-w-[1600px] mx-auto px-4 py-3">
+        <div className="max-w-[1450px] mx-auto px-4 py-3">
           <p className="text-(--color-muted) text-xs">
             <a href="/" className="hover:text-(--color-text) transition-colors">Hjem</a>
             <span className="mx-2">›</span>

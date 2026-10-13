@@ -1,5 +1,11 @@
 const PHOTOS = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
 
+export type Author = {
+  name: string
+  role: string
+  photo: string
+}
+
 export type BlogPost = {
   slug: string
   category: string
@@ -10,7 +16,11 @@ export type BlogPost = {
   image: string
   imageAlt: string
   metaDescription: string
+  author: Author
 }
+
+const PETTER: Author = { name: 'Petter Skimmeland', role: 'Reiseleder, Fera Travel', photo: '/Petter_Skimmeland.jpg' }
+const ANDRE: Author = { name: 'André Schlyter', role: 'Hovedcoach, Fera Travel', photo: '/Andre_S.jpg' }
 
 export const posts: BlogPost[] = [
   {
@@ -23,6 +33,7 @@ export const posts: BlogPost[] = [
     image: `${PHOTOS}/action-evening.jpg`,
     imageAlt: 'Spillere i aksjon på padelbane i Albir',
     metaDescription: 'Reiserapport fra Fera Padels tur til Albir, Costa Blanca. Sju dager med coaching, sol og padel — les hva som venter deg på en padelreise til Spania.',
+    author: PETTER,
   },
   {
     slug: 'coaching-med-andre',
@@ -34,6 +45,7 @@ export const posts: BlogPost[] = [
     image: `${PHOTOS}/coach-bullpadel.jpg`,
     imageAlt: 'André Schlyter klar på padelbane',
     metaDescription: 'Hvordan er det å trene padel med André Schlyter? Vi beskriver coaching-metodikken, hva du lærer og hvorfor deltakerne på Fera Padels turer alltid kommer hjem som bedre spillere.',
+    author: PETTER,
   },
   {
     slug: 'derfor-elsker-vi-costa-blanca',
@@ -45,6 +57,7 @@ export const posts: BlogPost[] = [
     image: `${PHOTOS}/palm-sunset.jpg`,
     imageAlt: 'Padelbane med palmer og solnedgang i Costa Blanca',
     metaDescription: 'Costa Blanca er Europas padel-hovedstad. Her er de viktigste grunnene til at vi alltid kommer tilbake — og hvorfor du bør booke en padelreise til Spania.',
+    author: ANDRE,
   },
 ]
 

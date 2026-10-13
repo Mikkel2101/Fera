@@ -23,12 +23,12 @@ export default function SkreddersyddeReiserPage() {
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
         />
         <div aria-hidden="true" className="absolute inset-0 bg-(--color-overlay)/80" />
-        <div className="relative w-full max-w-[1600px] mx-auto px-4 sm:px-6 py-20 md:py-28">
+        <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-3xl">
             <p className="text-(--color-sand) text-xs tracking-widest uppercase font-sans mb-4">
               Tilpassede reiser
             </p>
-            <h1 className="font-sans font-bold text-white text-4xl md:text-6xl leading-tight mb-6">
+            <h1 className="font-sans font-bold text-white text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
               Den neste padelopplevelsen <span className="font-display italic">starter her</span>
             </h1>
             <p className="text-white/70 text-lg max-w-2xl leading-relaxed mb-8">

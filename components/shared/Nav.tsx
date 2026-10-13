@@ -142,7 +142,7 @@ export default function Nav() {
           ? 'bg-white/98 backdrop-blur-md shadow-sm border-b border-(--color-border)'
           : 'bg-white border-b border-(--color-border)'
       }`}>
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1450px] mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
 
             {/* ── Logo ── */}

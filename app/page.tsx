@@ -68,7 +68,7 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-(--color-overlay)/65 lg:hidden" />
           {/* Desktop: gradient from left */}
           <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-(--color-overlay)/75 via-(--color-overlay)/30 to-transparent" />
-          <div className="relative max-w-[1600px] mx-auto px-4 py-24 w-full">
+          <div className="relative max-w-[1450px] mx-auto px-4 py-24 w-full">
             <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl lg:text-7xl leading-none max-w-3xl mb-6">
               Utstyr du elsker.<br />
               <span className="font-display italic">Turer du husker.</span>
@@ -98,7 +98,7 @@ export default async function HomePage() {
 
         {/* ── 1b. TRUST SIGNALS BAR — skjult
         <section className="border-b border-(--color-border)">
-          <div className="max-w-[1600px] mx-auto px-4 py-6">
+          <div className="max-w-[1450px] mx-auto px-4 py-6">
             <div className="grid grid-cols-3 gap-6 md:gap-0 md:divide-x divide-(--color-border)">
               {[
                 { stat: '100+', label: 'Reisende på ett år' },
@@ -117,7 +117,7 @@ export default async function HomePage() {
 
         {/* ── 1c. BRAND BAR ────────────────────────────────────── */}
         <div className="border-b border-(--color-border) bg-white">
-          <div className="max-w-[1600px] mx-auto px-4 py-5">
+          <div className="max-w-[1450px] mx-auto px-4 py-5">
             <p className="text-center text-(--color-muted) text-xs uppercase tracking-widest mb-4">Vi fører merker som</p>
             <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
               {['Bullpadel', 'Nox', 'Head', 'Wilson', 'Adidas', 'Dunlop'].map((brand) => (
@@ -132,7 +132,7 @@ export default async function HomePage() {
         {/* ── 2. PRODUKTNYHETER ────────────────────────────────── */}
         {newProducts && newProducts.length > 0 && (
           <section className="py-28">
-            <div className="max-w-[1600px] mx-auto px-4">
+            <div className="max-w-[1450px] mx-auto px-4">
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Padelutstyr</p>
@@ -193,7 +193,7 @@ export default async function HomePage() {
           />
           <div className="absolute inset-0 bg-(--color-overlay-deep)/75" />
 
-          <div className="relative max-w-[1600px] mx-auto px-4 py-24 w-full">
+          <div className="relative max-w-[1450px] mx-auto px-4 py-24 w-full">
             {/* Overline */}
             <p className="text-white text-xs tracking-[0.35em] uppercase font-sans mb-5">
               REIS MED FERA
@@ -234,7 +234,7 @@ export default async function HomePage() {
         {/* ── 3b. KOMMENDE TURER — skjult, kan brukes et annet sted
         {trips && trips.length > 0 && (
           <section className="py-24 px-4 bg-(--color-dark)">
-            <div className="max-w-[1600px] mx-auto">
+            <div className="max-w-[1450px] mx-auto">
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-sand)/60 text-xs uppercase tracking-widest font-medium mb-2">Neste tur</p>
@@ -262,7 +262,7 @@ export default async function HomePage() {
         {/* ── 4. BESTSELGERE ───────────────────────────────────── */}
         {bestSellers && bestSellers.length > 0 && (
           <section className="py-20 bg-white">
-            <div className="max-w-[1600px] mx-auto px-4">
+            <div className="max-w-[1450px] mx-auto px-4">
               <div className="flex items-end justify-between mb-10">
                 <div>
                   <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Populære valg</p>
@@ -288,7 +288,7 @@ export default async function HomePage() {
 
         {/* ── 6. SOSIALE MEDIER + INSTAGRAM — skjult
         <section className="py-20 bg-white">
-          <div className="max-w-[1600px] mx-auto px-4">
+          <div className="max-w-[1450px] mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Sosiale medier</p>

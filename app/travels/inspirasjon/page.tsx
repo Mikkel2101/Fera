@@ -33,9 +33,9 @@ export default async function InspirasjonPage({
 
   return (
     <>
-      <section className="bg-white px-4 pb-8 pt-10 sm:px-6 sm:pt-14">
-        <div className="mx-auto max-w-6xl">
-          <h1 className="font-sans text-4xl font-semibold text-(--color-dark) sm:text-5xl">Aktuelt</h1>
+      <section className="bg-white pb-8 pt-10 sm:pt-14">
+        <div className="mx-auto max-w-[1450px] px-4 sm:px-6">
+          <h1 className="font-sans text-4xl font-semibold text-(--color-dark) md:text-5xl lg:text-6xl">Aktuelt</h1>
           <p className="mt-2 text-sm text-(--color-subtle)">
             Få siste nytt fra Fera Travel
           </p>
@@ -95,8 +95,8 @@ export default async function InspirasjonPage({
       </section>
 
       {featuredPost && (
-        <section className="px-4 py-10 sm:px-6 sm:py-14">
-          <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.55fr_1fr] lg:items-center">
+        <section className="py-10 sm:py-14">
+          <div className="mx-auto grid max-w-[1450px] gap-8 px-4 sm:px-6 lg:grid-cols-[1.55fr_1fr] lg:items-center">
             <Link
               href={`/travels/inspirasjon/${featuredPost.slug}`}
               className="group relative block aspect-[16/10] overflow-hidden rounded-2xl bg-(--color-sand-light) lg:aspect-auto lg:h-[480px]"
@@ -142,8 +142,8 @@ export default async function InspirasjonPage({
       )}
 
       {latestPosts.length > 0 && (
-        <section className="border-t border-(--color-border) px-4 py-12 sm:px-6 sm:py-16">
-          <div className="mx-auto max-w-6xl">
+        <section className="border-t border-(--color-border) py-12 sm:py-16">
+          <div className="mx-auto max-w-[1450px] px-4 sm:px-6">
             <div className="mb-8 flex items-end justify-between gap-4">
               <div>
                 <p className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-(--color-subtle)">
@@ -188,8 +188,8 @@ export default async function InspirasjonPage({
       )}
 
       {!activeCategory && (
-        <section className="bg-(--color-community) px-4 py-12 text-white sm:px-6 sm:py-16">
-          <div className="mx-auto grid max-w-[1600px] gap-8 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14">
+        <section className="bg-(--color-community) py-12 text-white sm:py-16">
+          <div className="mx-auto grid max-w-[1450px] gap-8 px-4 sm:px-6 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14">
             <div className="max-w-xl">
               <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-(--color-overline-light)">Neste stopp</p>
               <h2 className="font-sans text-3xl font-normal leading-tight sm:text-4xl">Opplev Costa Blanca med Fera</h2>

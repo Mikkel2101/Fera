@@ -6,7 +6,7 @@ import ContactForm from '@/components/shared/ContactForm'
 type Audience = 'senter_klubb' | 'bedrift' | 'gruppe'
 
 const AUDIENCES: { key: Audience; label: string }[] = [
-  { key: 'senter_klubb', label: 'Senter & Klubb' },
+  { key: 'senter_klubb', label: 'Senter / Klubb' },
   { key: 'bedrift', label: 'Bedrift' },
   { key: 'gruppe', label: 'Gruppe' },
 ]
@@ -22,7 +22,7 @@ export default function TilbudForm() {
 
   return (
     <div>
-      <p className="text-white/60 text-sm text-center mb-3">Hvem er dere?</p>
+      <p className="text-white text-lg font-medium text-center mb-4">Hvem er dere?</p>
       <div className="flex flex-wrap justify-center gap-2 mb-8">
         {AUDIENCES.map((a) => (
           <button

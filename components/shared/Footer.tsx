@@ -4,7 +4,7 @@ import { SHOP_ENABLED } from '@/lib/flags'
 export default function Footer() {
   return (
     <footer className="bg-(--color-footer) text-white">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+      <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
 
         {/* Top grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">

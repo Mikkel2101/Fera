@@ -11,8 +11,13 @@ type Props = {
   onChange: (from: string, to: string) => void
 }
 
+// Lokal dato, ikke toISOString() (UTC) — ellers kan valgt dag hoppe en dag
+// tilbake for tidssoner foran UTC (f.eks. norsk sommertid).
 function toISO(date: Date): string {
-  return date.toISOString().slice(0, 10)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 function fromISO(value: string): Date | undefined {
@@ -67,13 +72,28 @@ export default function DateRangePicker({ label, from, to, onChange }: Props) {
     if (next?.from && next?.to) setOpen(false)
   }
 
+  function handleClear() {
+    onChange('', '')
+  }
+
   const display = range.from
     ? `${formatDay(range.from)}${range.to ? ` – ${formatDay(range.to)}` : ''}`
     : 'Velg datoer'
 
   return (
     <div ref={containerRef} className="relative">
-      <label className="block text-white/70 text-xs mb-1.5 uppercase tracking-widest">{label}</label>
+      <div className="flex items-center justify-between mb-1.5">
+        <label className="text-white/70 text-xs uppercase tracking-widest">{label}</label>
+        {range.from && (
+          <button
+            type="button"
+            onClick={handleClear}
+            className="text-white/50 hover:text-white text-xs underline underline-offset-2"
+          >
+            Tøm datoer
+          </button>
+        )}
+      </div>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -91,6 +111,15 @@ export default function DateRangePicker({ label, from, to, onChange }: Props) {
             weekStartsOn={1}
             classNames={calendarClassNames}
           />
+          <div className="border-t border-(--color-border) px-4 py-3">
+            <button
+              type="button"
+              onClick={handleClear}
+              className="text-(--color-cta) text-sm font-medium hover:opacity-80"
+            >
+              Tøm valgte datoer
+            </button>
+          </div>
         </div>
       )}
     </div>

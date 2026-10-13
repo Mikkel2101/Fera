@@ -32,9 +32,9 @@ export default async function TravelCommunityHome() {
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-to-r from-(--color-overlay-neutral)/95 via-(--color-overlay-neutral)/63 to-(--color-overlay-neutral)/20"
         />
-        <div className="relative w-full max-w-[1600px] mx-auto px-4 sm:px-6 py-20 md:py-28">
+        <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-6xl">
-            <h1 className="font-sans font-normal text-white text-5xl sm:text-7xl lg:text-[5rem] leading-[1.05] mb-6">
+            <h1 className="font-sans font-normal text-white text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-6">
               Padelopplevelser<br />
               <span className="font-display italic">på Costa Blanca</span>
             </h1>
@@ -72,7 +72,7 @@ export default async function TravelCommunityHome() {
       </section>
 
       <section id="turer" className="scroll-mt-20 py-20 sm:py-24">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1450px] mx-auto px-4 sm:px-6">
           <div className="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-(--color-overline) text-xs uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
@@ -98,7 +98,7 @@ export default async function TravelCommunityHome() {
       </section>
 
       <section className="bg-(--color-community) text-white md:min-h-[600px]">
-        <div className="mx-auto grid max-w-[1600px] gap-8 px-4 py-16 sm:px-6 md:min-h-[600px] md:grid-cols-2 md:items-center md:gap-14 md:py-20">
+        <div className="mx-auto grid max-w-[1450px] gap-8 px-4 py-16 sm:px-6 md:min-h-[600px] md:grid-cols-2 md:items-center md:gap-14 md:py-20">
           <div>
             <p className="text-(--color-overline-light) text-xs uppercase tracking-[0.18em] font-medium mb-3">Mer enn timer på banen</p>
             <h2 className="font-sans font-normal text-4xl sm:text-5xl leading-tight mb-5">Gode dager blir enda bedre sammen.</h2>

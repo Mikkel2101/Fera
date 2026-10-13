@@ -23,9 +23,9 @@ export default async function TravelsPage() {
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}
         />
         <div className="absolute inset-0 bg-(--color-overlay)/80" />
-        <div className="relative max-w-[1600px] mx-auto w-full">
+        <div className="relative max-w-[1450px] mx-auto w-full">
           <div className="pb-16 md:pb-24">
-            <h1 className="font-sans font-normal text-white text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
+            <h1 className="font-sans font-normal text-white text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
               Våre reiser
             </h1>
             <p className="text-white text-lg max-w-xl leading-relaxed">
@@ -42,7 +42,7 @@ export default async function TravelsPage() {
 
       {/* Testimonials */}
       <section className="py-24 bg-(--color-sand-light)">
-        <div className="max-w-[1600px] mx-auto px-4">
+        <div className="max-w-[1450px] mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Hva sier våre reisende</p>
             <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">

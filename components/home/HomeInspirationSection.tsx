@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { posts as articles } from '@/app/travels/inspirasjon/posts'
 
 type InspirationPost = {
   category: string
@@ -13,35 +14,16 @@ type InspirationPost = {
 
 const photos = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
 
-const homepagePosts: InspirationPost[] = [
-  {
-    category: 'Inspirasjon',
-    title: 'Costa Blanca: Spanias beste padeldestinasjon',
-    excerpt: 'Hvorfor tusenvis av norske padel-entusiaster velger Costa Blanca som sin neste reisedestinasjon.',
-    date: '5. juni 2026',
-    href: '/travels/inspirasjon',
-    src: `${photos}/palm-sunset.jpg`,
-    alt: 'Padelbane med palmer og solnedgang',
-  },
-  {
-    category: 'Klubbtur',
-    title: 'Ta klubben med til Costa Blanca',
-    excerpt: 'Skreddersydd padelreise for klubber med trening, sosialt samvær og nye opplevelser.',
-    date: 'For klubber',
-    href: '/travels/skreddersydde-reiser',
-    src: `${photos}/group-photo.jpg`,
-    alt: 'Padelspillere samlet etter en kamp',
-  },
-  {
-    category: 'Bedriftstur',
-    title: 'Bedriftstur til Albir, perfekt teambuilding',
-    excerpt: 'Se hvorfor Fera Padel er det naturlige valget for bedrifter som vil kombinere sport og sosialt.',
-    date: '28. mai 2026',
-    href: '/travels/skreddersydde-reiser',
-    src: `${photos}/group-photo.jpg`,
-    alt: 'Fera-gruppen samlet på padelbanen',
-  },
-]
+// Samme artikler som i Aktuelt — kortene skal linke videre til faktiske artikler.
+const homepagePosts: InspirationPost[] = articles.map((post) => ({
+  category: post.category,
+  title: post.title,
+  excerpt: post.excerpt,
+  date: post.date,
+  href: `/travels/inspirasjon/${post.slug}`,
+  src: post.image,
+  alt: post.imageAlt,
+}))
 
 const shopPosts: InspirationPost[] = [
   ...homepagePosts.slice(0, 1),
@@ -63,10 +45,10 @@ export default function HomeInspirationSection({ variant = 'travels' }: { varian
 
   return (
     <section className="py-28 overflow-hidden bg-(--color-sand-light)">
-      <div className="max-w-[1600px] mx-auto px-4">
+      <div className="max-w-[1450px] mx-auto px-4">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
+            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Aktuelt</p>
             <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
             <p className="font-sans text-[18px] text-(--color-text) max-w-xl leading-relaxed">
               {isShop
