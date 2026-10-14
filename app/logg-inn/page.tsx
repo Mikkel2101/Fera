@@ -8,7 +8,7 @@ import Footer from '@/components/shared/Footer'
 import { CartProvider } from '@/lib/cart/context'
 
 export const metadata: Metadata = {
-  title:  'Logg inn — Fera',
+  title:  'Logg inn — FERA',
   robots: { index: false },
 }
 
@@ -37,12 +37,12 @@ export default async function LoginPage({
       <main className="min-h-[80vh] bg-(--color-sand-light) px-4 py-16">
         <div className="mx-auto max-w-md rounded-2xl border border-(--color-border) bg-white p-8 sm:p-10">
           <h1 className="font-display text-3xl font-bold text-(--color-text)">
-            {isBooking ? 'Logg inn for å reservere' : 'Logg inn på Fera'}
+            {isBooking ? 'Logg inn for å reservere' : 'Logg inn på FERA'}
           </h1>
           <p className="mt-2 mb-8 text-sm text-(--color-muted)">
             {isBooking
-              ? 'Med en Fera-konto finner du reservasjonen din under «Mine reiser», og vi kan holde deg oppdatert om turen.'
-              : 'Én konto for reiser og bestillinger hos Fera.'}
+              ? 'Med en FERA-konto finner du reservasjonen din under «Mine reiser», og vi kan holde deg oppdatert om turen.'
+              : 'Én konto for reiser og bestillinger hos FERA.'}
           </p>
 
           {error && ERROR_MESSAGES[error] && (

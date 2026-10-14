@@ -5,21 +5,21 @@ import './globals.css'
 export const metadata: Metadata = {
   metadataBase: new URL('https://ferabrand.com'),
   title: {
-    default: 'Fera Padel — Reiser og utstyr',
-    template: '%s — Fera Padel',
+    default: 'FERA Padel — Reiser og utstyr',
+    template: '%s — FERA Padel',
   },
   description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint. Alt på ett sted.',
   openGraph: {
-    title: 'Fera Padel',
+    title: 'FERA Padel',
     description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.',
     url: 'https://ferabrand.com',
-    siteName: 'Fera Padel',
+    siteName: 'FERA Padel',
     locale: 'nb_NO',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Fera Padel',
+    title: 'FERA Padel',
     description: 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.',
   },
   robots: {

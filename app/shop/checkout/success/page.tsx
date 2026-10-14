@@ -2,7 +2,7 @@ import Link from 'next/link'
 import ClearCartEffect from '@/components/shop/ClearCartEffect'
 
 export const metadata = {
-  title: 'Bestilling bekreftet — Fera Shop',
+  title: 'Bestilling bekreftet — FERA Shop',
 }
 
 export default function ShopCheckoutSuccessPage() {

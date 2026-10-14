@@ -127,7 +127,7 @@ export default function ProfileForm({ initial }: { initial: ProfileData }) {
           className="mt-0.5 h-4 w-4 accent-(--color-cta)"
         />
         <label htmlFor="newsletter" className="text-sm text-(--color-text) cursor-pointer">
-          Jeg vil motta nyhetsbrev med tilbud, nyheter og reiser fra Fera
+          Jeg vil motta nyhetsbrev med tilbud, nyheter og reiser fra FERA
         </label>
       </div>
 

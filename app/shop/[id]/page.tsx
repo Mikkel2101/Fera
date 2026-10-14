@@ -21,7 +21,7 @@ export async function generateMetadata({
   if (!product) return { title: 'Produkt ikke funnet' }
   return {
     title: product.name,
-    description: product.description ?? `${product.name} — Fera Shop`,
+    description: product.description ?? `${product.name} — FERA Shop`,
     openGraph: {
       title: product.name,
       description: product.description ?? '',
@@ -182,7 +182,7 @@ export default async function ProductPage({
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-1">Planlegger du padel-reise?</p>
-            <p className="font-display font-bold text-(--color-text) text-xl">Bruk utstyret i Spania. Med Fera.</p>
+            <p className="font-display font-bold text-(--color-text) text-xl">Bruk utstyret i Spania. Med FERA.</p>
           </div>
           <Link
             href="/travels"

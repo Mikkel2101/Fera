@@ -17,7 +17,7 @@ export default function AdminNav() {
   return (
     <nav className="bg-(--color-dark) text-white px-6 py-3 flex items-center gap-6 sticky top-0 z-50">
       <span className="font-display text-(--color-gold) font-semibold mr-2">
-        Fera Admin
+        FERA Admin
       </span>
       {LINKS.map(({ href, label }) => (
         <Link

@@ -25,7 +25,7 @@ export type TripFormData = {
   gallery_images:          string[]
   included:                string[]
   not_included:            string[]
-  extras:                  Array<{ name: string; price_eur: number; description?: string; sizes?: string[]; max_quantity?: number }>
+  extras:                  Array<{ name: string; price_eur: number; original_price_eur?: number; description?: string; sizes?: string[]; max_quantity?: number }>
   coaches:                 Array<{ name: string; title: string; bio: string; image: string }>
   faq:                     Array<{ question: string; answer: string }>
 }

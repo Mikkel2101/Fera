@@ -25,6 +25,7 @@ export type ReservationEmailPayload = {
   room_share_gender: string | null
   trip_goal:         string | null
   special_requests:  string | null
+  allergies_preferences: string | null
   selected_extras:   string[]
   price:             PriceBreakdown
   trip: {
@@ -136,6 +137,7 @@ export async function sendOpsReservationEmail(p: ReservationEmailPayload): Promi
   if (p.preferred_side)   contactRows.push(['Banehalvdel', courtSideLabel(p.preferred_side)])
   if (gender)             contactRows.push(['Kjønn (romdeling)', gender])
   if (p.trip_goal)        contactRows.push(['Mål for turen', tripGoalLabel(p.trip_goal)])
+  if (p.allergies_preferences) contactRows.push(['Allergier og preferanser', p.allergies_preferences])
   if (p.special_requests) contactRows.push(['Ønsker', p.special_requests])
 
   const html = `

@@ -118,8 +118,20 @@ describe('parseTripExtras', () => {
     expect(parseTripExtras([
       { name: 'T-skjorte', price_eur: 10, sizes: ['S', 'M', ''], max_quantity: 3 },
     ])).toEqual([
-      { name: 'T-skjorte', price_eur: 10, description: null, sizes: ['S', 'M'], max_quantity: 3 },
+      { name: 'T-skjorte', price_eur: 10, original_price_eur: null, description: null, sizes: ['S', 'M'], max_quantity: 3 },
     ])
+  })
+
+  it('beholder normalpris når tillegget er på salg', () => {
+    expect(parseTripExtras([
+      { name: 'Hoodie', price_eur: 30, original_price_eur: 40 },
+    ])[0].original_price_eur).toBe(40)
+  })
+
+  it('ignorerer normalpris som ikke er høyere enn salgsprisen', () => {
+    expect(parseTripExtras([
+      { name: 'Hoodie', price_eur: 30, original_price_eur: 20 },
+    ])[0].original_price_eur).toBeNull()
   })
 
   it('dropper gamle tillegg uten tallpris og ugyldig data', () => {
@@ -230,6 +242,14 @@ describe('step1Schema', () => {
 
   it('avviser for lange ønsker', () => {
     expect(step1Schema.safeParse({ ...valid, special_requests: 'x'.repeat(1001) }).success).toBe(false)
+  })
+
+  it('godtar allergier og preferanser som eget valgfritt felt', () => {
+    expect(
+      step1Schema.parse({ ...valid, allergies_preferences: 'Nøtteallergi' }).allergies_preferences,
+    ).toBe('Nøtteallergi')
+    expect(step1Schema.parse(valid).allergies_preferences).toBeUndefined()
+    expect(step1Schema.safeParse({ ...valid, allergies_preferences: 'x'.repeat(1001) }).success).toBe(false)
   })
 })
 

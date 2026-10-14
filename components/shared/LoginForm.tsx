@@ -110,7 +110,7 @@ export function LoginForm({ next = '/' }: Props) {
       {error && <p className="mt-3 text-sm text-red-600" role="alert">{error}</p>}
 
       <p className="mt-5 text-center text-xs text-(--color-muted)">
-        Ny hos Fera? Kontoen opprettes automatisk. Ved å fortsette godtar du{' '}
+        Ny hos FERA? Kontoen opprettes automatisk. Ved å fortsette godtar du{' '}
         <a href="/personvern" className="underline hover:text-(--color-text)">personvernerklæringen</a>.
       </p>
     </div>

@@ -6,7 +6,7 @@ import { verifyUnsubscribe } from '@/lib/newsletter/token'
 import { unsubscribe } from '@/lib/newsletter/unsubscribe'
 
 export const metadata: Metadata = {
-  title: { absolute: 'Meld av nyhetsbrev — Fera Padel' },
+  title: { absolute: 'Meld av nyhetsbrev — FERA Padel' },
   robots: { index: false, follow: false },
 }
 
@@ -52,7 +52,7 @@ export default async function UnsubscribePage({ searchParams }: { searchParams: 
   if (status === 'ok') {
     return (
       <Shell title="Du er meldt av">
-        <p className={TEXT}>Du får ikke flere nyhetsbrev fra Fera Padel. Ombestemmer du deg, kan du melde deg på igjen når som helst.</p>
+        <p className={TEXT}>Du får ikke flere nyhetsbrev fra FERA Padel. Ombestemmer du deg, kan du melde deg på igjen når som helst.</p>
       </Shell>
     )
   }
@@ -75,7 +75,7 @@ export default async function UnsubscribePage({ searchParams }: { searchParams: 
 
   return (
     <Shell title="Meld av nyhetsbrev">
-      <p className={TEXT}>Vil du slutte å få nyhetsbrev fra Fera Padel på <strong className="text-(--color-text)">{email}</strong>?</p>
+      <p className={TEXT}>Vil du slutte å få nyhetsbrev fra FERA Padel på <strong className="text-(--color-text)">{email}</strong>?</p>
       <form action={confirmUnsubscribe}>
         <input type="hidden" name="e" value={e} />
         <input type="hidden" name="t" value={t} />

@@ -22,13 +22,14 @@ export type BookingCsvRow = {
   selected_extras:   string[]
   trip_goal:         string | null
   special_requests:  string | null
+  allergies_preferences: string | null
   price_total_eur:   number | null
 }
 
 const HEADERS = [
   'Reservert dato', 'Status', 'Tur', 'Fornavn', 'Etternavn', 'E-post',
   'Telefon', 'Padelnivå', 'Banehalvdel', 'Romtype', 'Romønske', 'Reisepartner', 'Kjønn (romdeling)',
-  'Romstatus', 'Tillegg', 'Mål for turen', 'Ønsker', 'Totalpris (EUR)',
+  'Romstatus', 'Tillegg', 'Mål for turen', 'Ønsker', 'Allergier og preferanser', 'Totalpris (EUR)',
 ]
 
 // Celler som starter med = + - @ tolkes som formler i Excel. Telefonnumre
@@ -67,6 +68,7 @@ export function bookingsToCsv(rows: BookingCsvRow[]): string {
     r.selected_extras.join(', '),
     tripGoalLabel(r.trip_goal),
     r.special_requests,
+    r.allergies_preferences,
     r.price_total_eur === null ? null : r.price_total_eur.toFixed(2).replace('.', ','),
   ].map(cell).join(';'))
 

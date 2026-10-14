@@ -14,17 +14,17 @@ import HomeInspirationSection from '@/components/home/HomeInspirationSection'
 import CommunitySignupSection from '@/components/home/CommunitySignupSection'
 
 export const metadata = {
-  title: SHOP_ENABLED ? 'Fera Padel | Reiser og utstyr' : 'Fera Travels | Padelreiser til Costa Blanca',
+  title: SHOP_ENABLED ? 'FERA Padel | Reiser og utstyr' : 'FERA Travels | Padelreiser til Costa Blanca',
   description: SHOP_ENABLED
     ? 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint. Alt på ett sted.'
     : 'Padelreiser til Costa Blanca med coaching, gode opplevelser og et sosialt fellesskap.',
   openGraph: {
-    title: SHOP_ENABLED ? 'Fera Padel | Reiser og utstyr' : 'Fera Travels | Padelreiser til Costa Blanca',
+    title: SHOP_ENABLED ? 'FERA Padel | Reiser og utstyr' : 'FERA Travels | Padelreiser til Costa Blanca',
     description: SHOP_ENABLED
       ? 'Profesjonelle padelreiser til Spania og premium padelutstyr fra Padelpoint.'
       : 'Padelreiser til Costa Blanca med coaching, gode opplevelser og et sosialt fellesskap.',
     url: 'https://ferapadel.com',
-    siteName: SHOP_ENABLED ? 'Fera Padel' : 'Fera Travels',
+    siteName: SHOP_ENABLED ? 'FERA Padel' : 'FERA Travels',
     locale: 'nb_NO',
     type: 'website',
   },
@@ -295,7 +295,7 @@ export default async function HomePage() {
                   Følg oss på<br />Instagram
                 </h2>
                 <p className="text-(--color-text)/70 text-base leading-relaxed mb-6">
-                  Daglige oppdateringer fra banen, turene og alt det fine imellom. Se hva som skjer i Fera-verdenen.
+                  Daglige oppdateringer fra banen, turene og alt det fine imellom. Se hva som skjer i FERA-verdenen.
                 </p>
                 <a
                   href="https://www.instagram.com/feratravels/"

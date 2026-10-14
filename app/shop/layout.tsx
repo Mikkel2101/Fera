@@ -8,12 +8,12 @@ import Footer from '@/components/shared/Footer'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Fera Shop — Padelutstyr fra Padelpoint',
-    template: '%s — Fera Shop',
+    default: 'FERA Shop — Padelutstyr fra Padelpoint',
+    template: '%s — FERA Shop',
   },
   description: 'Offisiell Padelpoint-partner. Racketer, sko, vesker og tilbehør levert raskt til Norge.',
   openGraph: {
-    siteName: 'Fera Shop',
+    siteName: 'FERA Shop',
     locale:   'nb_NO',
     type:     'website',
   },

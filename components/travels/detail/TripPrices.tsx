@@ -101,7 +101,7 @@ export default function TripPrices({ trip }: { trip: TripRow }) {
         </div>
 
         <p className="text-center text-(--color-muted) text-xs">
-          Reserver med en Fera-konto — ingen betaling nå, og ingenting er bindende før vi har snakket sammen
+          Reserver med en FERA-konto — ingen betaling nå, og ingenting er bindende før vi har snakket sammen
         </p>
       </div>
     </section>

@@ -33,6 +33,7 @@ function summaryRows(trip: BookingTrip, step1: Step1Data, step2: Step2Data, extr
   if (gender)              rows.push(['Kjønn (romdeling)', gender])
   if (step1.trip_goal)     rows.push(['Mål for turen', tripGoalLabel(step1.trip_goal)])
   if (step1.special_requests) rows.push(['Ønsker', step1.special_requests])
+  if (step1.allergies_preferences) rows.push(['Allergier og preferanser', step1.allergies_preferences])
   if (extras.length > 0)   rows.push(['Tillegg', extras.join(', ')])
   return rows
 }
@@ -96,7 +97,7 @@ export default function Step3Confirm({ trip, step1, step2, onBack }: Props) {
       </h2>
 
       {/* Oppsummering */}
-      <div className="bg-(--color-sand) rounded-xl p-5 space-y-3">
+      <div className="bg-(--color-sand-light) rounded-xl p-5 space-y-3">
         {rows.map(([label, value]) => (
           <div key={label} className="flex justify-between gap-4 text-sm">
             <span className="text-(--color-subtle) shrink-0">{label}</span>
@@ -121,7 +122,7 @@ export default function Step3Confirm({ trip, step1, step2, onBack }: Props) {
             className="accent-(--color-cta) w-4 h-4 mt-0.5 flex-shrink-0"
           />
           <span className="text-sm text-(--color-text)">
-            Jeg samtykker til at Fera Padel lagrer og behandler mine personopplysninger
+            Jeg samtykker til at FERA Padel lagrer og behandler mine personopplysninger
             i henhold til <Link href="/personvern" target="_blank" className="underline">personvernerklæringen</Link>.{' '}
             <span className="text-red-500">*</span>
           </span>
@@ -148,7 +149,7 @@ export default function Step3Confirm({ trip, step1, step2, onBack }: Props) {
             className="accent-(--color-cta) w-4 h-4 mt-0.5 flex-shrink-0"
           />
           <span className="text-sm text-(--color-text)">
-            Ja takk, send meg nyheter om nye turer og tilbud fra Fera.
+            Ja takk, send meg nyheter om nye turer og tilbud fra FERA.
           </span>
         </label>
       </div>

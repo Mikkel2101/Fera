@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Levering, retur og garanti — Fera Shop',
-  description: 'Informasjon om levering, størrelsesbytte, retur og garanti for produkter kjøpt i Fera Shop.',
+  title: 'Levering, retur og garanti — FERA Shop',
+  description: 'Informasjon om levering, størrelsesbytte, retur og garanti for produkter kjøpt i FERA Shop.',
 }
 
 export default function LeveringOgReturPage() {
@@ -20,7 +20,7 @@ export default function LeveringOgReturPage() {
         Levering, retur og garanti
       </h1>
       <p className="text-(--color-muted) text-lg mb-12">
-        Fera Padel AS er selger. Produktene leveres av vår partner Padelpoint fra Spania.
+        FERA Padel AS er selger. Produktene leveres av vår partner Padelpoint fra Spania.
         Vi speiler Padelpoints offisielle betingelser.
       </p>
 

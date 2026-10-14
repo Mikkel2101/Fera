@@ -3,11 +3,12 @@
 import { useState } from 'react'
 
 export type EditableExtra = {
-  name:          string
-  price_eur:     number
-  description?:  string
-  sizes?:        string[]
-  max_quantity?: number
+  name:                string
+  price_eur:           number
+  original_price_eur?: number
+  description?:        string
+  sizes?:              string[]
+  max_quantity?:       number
 }
 
 type Props = {
@@ -72,6 +73,21 @@ export default function ExtrasEditor({ extras, onChange }: Props) {
               className="text-(--color-muted) hover:text-red-500 text-sm px-2">✕</button>
           </div>
           <div className="flex flex-wrap gap-2 items-center">
+            <label className="text-xs text-(--color-muted) flex items-center gap-2">
+              Normalpris (ved salg, valgfritt)
+              <input
+                type="number"
+                value={e.original_price_eur ?? ''}
+                onChange={ev => {
+                  const parsed = parseFloat(ev.target.value)
+                  patch(i, { original_price_eur: Number.isFinite(parsed) ? parsed : undefined })
+                }}
+                placeholder="EUR"
+                aria-label="Normalpris før salg i EUR"
+                className={`${inputClass} w-24`}
+                min={0} step={0.01}
+              />
+            </label>
             <input
               type="text"
               value={sizeTexts[i] ?? ''}

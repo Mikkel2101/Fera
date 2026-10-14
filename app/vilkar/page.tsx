@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import LegalPage from '@/components/shared/LegalPage'
 
-export const metadata: Metadata = { title: 'Vilkår for reservasjon — Fera' }
+export const metadata: Metadata = { title: 'Vilkår for reservasjon — FERA' }
 
 export default function TermsPage() {
   return (
@@ -9,7 +9,7 @@ export default function TermsPage() {
       <section>
         <h2>Reservasjonen er uforpliktende</h2>
         <p>
-          Når du reserverer plass på en Fera-tur, holder vi av en plass til deg. Reservasjonen er gratis
+          Når du reserverer plass på en FERA-tur, holder vi av en plass til deg. Reservasjonen er gratis
           og uforpliktende — du betaler ingenting og har ikke forpliktet deg til å reise.
         </p>
       </section>
@@ -32,7 +32,7 @@ export default function TermsPage() {
       </section>
 
       <section>
-        <h2>Når Fera kan kansellere en reservasjon</h2>
+        <h2>Når FERA kan kansellere en reservasjon</h2>
         <p>
           Vi kan kansellere reservasjonen hvis turen avlyses, eller hvis vi ikke får kontakt med deg innen
           rimelig tid. Du får alltid beskjed på e-post hvis det skjer.

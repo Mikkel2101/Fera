@@ -146,8 +146,8 @@ export default function Nav() {
           <div className="flex items-center justify-between h-16">
 
             {/* ── Logo ── */}
-            <Link href="/" className="shrink-0 mr-10" aria-label="Fera — til forsiden">
-              <Image src="/fera-logo.svg" alt="Fera" width={80} height={28} style={{ height: '28px', width: 'auto' }} />
+            <Link href="/" className="shrink-0 mr-10" aria-label="FERA — til forsiden">
+              <Image src="/fera-logo.svg" alt="FERA" width={80} height={28} style={{ height: '28px', width: 'auto' }} />
             </Link>
 
             {/* ── Desktop nav ── */}
@@ -357,7 +357,7 @@ export default function Nav() {
             {/* Panel header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-(--color-border)">
               <Link href="/" className="shrink-0" onClick={() => setMobileOpen(false)}>
-                <Image src="/fera-logo.svg" alt="Fera" width={70} height={24} style={{ height: '24px', width: 'auto' }} />
+                <Image src="/fera-logo.svg" alt="FERA" width={70} height={24} style={{ height: '24px', width: 'auto' }} />
               </Link>
               <button
                 onClick={() => setMobileOpen(false)}
@@ -431,7 +431,7 @@ export default function Nav() {
 
               {/* HOVEDLENKER */}
               <div className={`px-5 ${SHOP_ENABLED ? 'py-2' : 'pt-6 pb-2'}`}>
-                <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Utforsk Fera</p>
+                <p className="text-[11px] uppercase tracking-widest font-semibold text-(--color-muted) mb-2">Utforsk FERA</p>
                 <Link
                   href="/travels"
                   onClick={() => setMobileOpen(false)}

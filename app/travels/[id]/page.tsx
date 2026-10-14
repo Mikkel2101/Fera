@@ -27,8 +27,8 @@ export async function generateMetadata({ params }: { params: Params }) {
     .eq('published', true)
     .single()
 
-  if (!trip) return { title: 'Tur ikke funnet — Fera Padel' }
-  return { title: `${trip.name} — Fera Padel` }
+  if (!trip) return { title: 'Tur ikke funnet — FERA Padel' }
+  return { title: `${trip.name} — FERA Padel` }
 }
 
 export default async function TripDetailPage({ params }: { params: Params }) {

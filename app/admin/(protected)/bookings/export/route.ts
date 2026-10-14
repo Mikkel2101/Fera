@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
   let query = supabase
     .from('bookings')
-    .select('id, trip_id, created_at, status, first_name, last_name, email, phone, padel_level, room_type, room_preference, roommate_name, room_share_gender, selected_extras, trip_goal, special_requests, price_total_eur, trips(name), users(preferred_side)')
+    .select('id, trip_id, created_at, status, first_name, last_name, email, phone, padel_level, room_type, room_preference, roommate_name, room_share_gender, selected_extras, trip_goal, special_requests, allergies_preferences, price_total_eur, trips(name), users(preferred_side)')
     .order('created_at', { ascending: true })
   if (tripId) query = query.eq('trip_id', tripId)
   if (isBookingStatus(status)) query = query.eq('status', status)

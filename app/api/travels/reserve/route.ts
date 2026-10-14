@@ -92,6 +92,7 @@ export async function POST(request: NextRequest) {
       p_room_share_gender: shareGender,
       p_trip_goal:         data.trip_goal ?? null,
       p_special_requests:  data.special_requests ?? null,
+      p_allergies_preferences: data.allergies_preferences ?? null,
       p_selected_extras:   extrasSummary,
       p_extras_detail:     bookedExtras,
       p_price_total_eur:   price.total,
@@ -119,6 +120,7 @@ export async function POST(request: NextRequest) {
       room_share_gender: shareGender,
       trip_goal:         data.trip_goal ?? null,
       special_requests:  data.special_requests ?? null,
+      allergies_preferences: data.allergies_preferences ?? null,
       selected_extras:   extrasSummary,
       price,
       trip: {

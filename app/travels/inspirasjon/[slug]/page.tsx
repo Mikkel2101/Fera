@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!article) return { title: 'Ikke funnet' }
   const description = article.meta_description ?? article.excerpt
   return {
-    title: `${article.title} — Fera Padel`,
+    title: `${article.title} — FERA Padel`,
     description,
     openGraph: {
       title: article.title,
