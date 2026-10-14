@@ -20,7 +20,7 @@ export default function TripProgram({ program }: { program: string | null }) {
     <section className="py-10">
       <div>
         <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Program</p>
-        <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-10">Dag-for-dag</h2>
+        <h2 className="font-sans font-bold text-(--color-text) text-4xl mb-10">Dag-for-dag</h2>
 
         {blocks.length > 1 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

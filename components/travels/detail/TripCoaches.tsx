@@ -13,7 +13,7 @@ export default function TripCoaches({ coaches }: { coaches: Coach[] }) {
     <section className="py-10">
       <div>
         <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Coaching</p>
-        <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-10">Møt coachene</h2>
+        <h2 className="font-sans font-bold text-(--color-text) text-4xl mb-10">Møt coachene</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {coaches.map((coach, i) => (
             <div key={i} className="bg-white rounded-2xl p-6 border border-(--color-border) flex gap-5">
