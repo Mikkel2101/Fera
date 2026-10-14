@@ -37,7 +37,7 @@ export default async function InspirasjonPage({
     <>
       <section className="bg-white pb-0 pt-10 sm:pt-14">
         <div className="mx-auto max-w-[1450px] px-4 sm:px-6">
-          <h1 className="font-sans text-4xl font-semibold text-(--color-dark) md:text-5xl lg:text-6xl">Inspirasjon</h1>
+          <h1 className="font-sans text-5xl font-semibold text-(--color-dark) sm:text-6xl">Inspirasjon</h1>
           <p className="mt-2 text-lg text-(--color-subtle)">
             Få siste nytt fra FERA Travel
           </p>

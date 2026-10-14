@@ -31,7 +31,7 @@ export default function SkreddersyddeReiserPage() {
             <p className="text-(--color-sand) text-xs tracking-widest uppercase font-sans mb-4">
               Tilpassede reiser
             </p>
-            <h1 className="font-sans font-bold text-white text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
+            <h1 className="font-sans font-bold text-white text-5xl sm:text-6xl leading-tight mb-6">
               Den neste padelopplevelsen starter her
             </h1>
             <p className="text-white/70 text-lg max-w-2xl leading-relaxed mb-8">
