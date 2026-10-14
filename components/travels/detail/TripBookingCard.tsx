@@ -63,10 +63,6 @@ const IconMap = () => (
 )
 
 export default function TripBookingCard({ trip }: { trip: TripRow }) {
-  const spotsLeft =
-    trip.max_participants != null
-      ? trip.max_participants - trip.registered_count
-      : null
   const isBookable = trip.status !== 'Fullbooket' && trip.status !== 'Avlyst' && trip.status !== 'Gjennomført' && trip.status !== 'Utkast'
   const nights = nightCount(trip.start_date, trip.end_date)
 
@@ -110,12 +106,10 @@ export default function TripBookingCard({ trip }: { trip: TripRow }) {
           <IconClock />
           {nights} netter
         </span>
-        {spotsLeft != null && (
-          <span className="flex items-center gap-2">
-            <IconUsers />
-            {spotsLeft} plasser igjen
-          </span>
-        )}
+        <span className="flex items-center gap-2">
+          <IconUsers />
+          Dobbeltrom (+300 enkeltrom)
+        </span>
       </div>
 
       {isBookable ? (
