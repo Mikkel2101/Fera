@@ -49,7 +49,13 @@ export default async function TripDetailPage({ params }: { params: Params }) {
       <TripMetaBar trip={trip} />
 
       <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-2 lg:py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[900px_1fr] gap-10 lg:gap-40 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[340px_900px] gap-10 lg:gap-40 items-start">
+          <aside className="hidden lg:block">
+            <div className="sticky top-24">
+              <TripBookingCard trip={trip} />
+            </div>
+          </aside>
+
           <div className="min-w-0 divide-y divide-(--color-border)">
             {trip.description && (
               <section className="py-10 first:pt-0">
@@ -64,12 +70,6 @@ export default async function TripDetailPage({ params }: { params: Params }) {
             <TripPrices trip={trip} />
             <TripFaq faq={trip.faq as FaqItem[]} />
           </div>
-
-          <aside className="hidden lg:block max-w-[340px]">
-            <div className="sticky top-24">
-              <TripBookingCard trip={trip} />
-            </div>
-          </aside>
         </div>
       </div>
 
