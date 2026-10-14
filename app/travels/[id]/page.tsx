@@ -51,7 +51,7 @@ export default async function TripDetailPage({ params }: { params: Params }) {
       <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-2 lg:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-[290px_1fr] gap-10 items-start">
           <aside className="hidden lg:block">
-            <div className="sticky top-24">
+            <div className="sticky top-20">
               <TripBookingCard trip={trip} />
             </div>
           </aside>
