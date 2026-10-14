@@ -44,10 +44,6 @@ export default function TripCard({ trip }: { trip: Trip }) {
 
   const badge = getStatusBadge(trip)
   const earlyBird = hasEarlyBird(trip)
-  const spotsLeft =
-    trip.max_participants != null
-      ? trip.max_participants - trip.registered_count
-      : null
 
   return (
     <Link href={`/travels/${trip.id}`} className="group bg-(--color-sand-light) rounded-2xl overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-300">
@@ -97,7 +93,6 @@ export default function TripCard({ trip }: { trip: Trip }) {
 
         <p className="text-(--color-muted) text-sm">
           {formatDate(trip.start_date)} · {trip.destination}
-          {spotsLeft != null && ` · ${spotsLeft} plasser igjen`}
         </p>
 
         {/* Footer */}

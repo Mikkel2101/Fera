@@ -23,6 +23,15 @@ export default function ExtrasPicker({ extras, selections, onChange }: Props) {
     onChange(selections.map(s => (s.name === name ? { ...s, ...changes } : s)))
   }
 
+  const selectClass =
+    'appearance-none ml-2 border border-(--color-border) rounded-lg pl-3 pr-10 py-2 bg-white'
+  const selectChevron = {
+    backgroundImage:
+      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%239B7888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")",
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right 1rem center',
+  }
+
   return (
     <div className="space-y-2">
       {extras.map(extra => {
@@ -46,8 +55,8 @@ export default function ExtrasPicker({ extras, selections, onChange }: Props) {
                   <span className="flex items-center gap-2">
                     <span className="text-(--color-text)">{extra.name}</span>
                     {extra.original_price_eur !== null && (
-                      <span className="bg-(--color-success) text-white text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap">
-                        Lanseringstilbud
+                      <span className="bg-(--color-cta) text-white text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap">
+                        -{Math.round((1 - extra.price_eur / extra.original_price_eur) * 100)}%
                       </span>
                     )}
                   </span>
@@ -76,7 +85,8 @@ export default function ExtrasPicker({ extras, selections, onChange }: Props) {
                     <select
                       value={selection.size ?? ''}
                       onChange={e => patch(extra.name, { size: e.target.value || undefined })}
-                      className="ml-2 border border-(--color-border) rounded-lg px-3 py-2 bg-white"
+                      className={selectClass}
+                      style={selectChevron}
                     >
                       <option value="">Velg</option>
                       {extra.sizes.map(size => <option key={size} value={size}>{size}</option>)}
@@ -89,7 +99,8 @@ export default function ExtrasPicker({ extras, selections, onChange }: Props) {
                     <select
                       value={selection.quantity}
                       onChange={e => patch(extra.name, { quantity: Number(e.target.value) })}
-                      className="ml-2 border border-(--color-border) rounded-lg px-3 py-2 bg-white"
+                      className={selectClass}
+                      style={selectChevron}
                     >
                       {Array.from({ length: extra.max_quantity }, (_, i) => i + 1).map(n => (
                         <option key={n} value={n}>{n}</option>
