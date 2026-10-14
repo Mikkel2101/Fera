@@ -3,7 +3,6 @@ import Image from 'next/image'
 import type { Database } from '@/lib/supabase/types'
 
 type Trip = Database['public']['Tables']['trips']['Row']
-type HeadingFont = 'display' | 'sans'
 
 function getStatusBadge(trip: Trip) {
   if (trip.status === 'Fullbooket') {
@@ -40,7 +39,7 @@ function formatDate(date: string) {
   })
 }
 
-export default function TripCard({ trip, headingFont = 'display' }: { trip: Trip; headingFont?: HeadingFont }) {
+export default function TripCard({ trip }: { trip: Trip }) {
   if (trip.status === 'Utkast') return null
 
   const badge = getStatusBadge(trip)
@@ -92,7 +91,7 @@ export default function TripCard({ trip, headingFont = 'display' }: { trip: Trip
           </p>
         )}
 
-        <h3 className={`${headingFont === 'sans' ? 'font-sans' : 'font-display'} text-(--color-text) text-xl font-semibold leading-tight`}>
+        <h3 className="font-sans text-(--color-text) text-2xl font-semibold leading-tight">
           {trip.name}
         </h3>
 

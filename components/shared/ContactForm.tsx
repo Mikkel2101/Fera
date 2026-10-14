@@ -120,7 +120,7 @@ export default function ContactForm({
         />
       </div>
       {status === 'error' && (
-        <p className="text-red-400 text-sm">Noe gikk galt. Prøv igjen eller send e-post til post@ferabrand.com</p>
+        <p className="text-red-400 text-sm">Noe gikk galt. Prøv igjen eller send e-post til post@ferapadel.com</p>
       )}
       <button
         type="submit"

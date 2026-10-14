@@ -66,9 +66,9 @@ describe('avmeldingstoken', () => {
 describe('newsletterConfig', () => {
   it('bruker standardverdier', () => {
     expect(newsletterConfig({ NEWSLETTER_UNSUBSCRIBE_SECRET: SECRET })).toEqual({
-      from: 'Fera Padel <nyhetsbrev@ferabrand.com>',
-      replyTo: 'post@ferabrand.com',
-      senderInfo: 'Fera Padel · ferapadel.com · post@ferabrand.com',
+      from: 'Fera Padel <post@ferapadel.com>',
+      replyTo: 'post@ferapadel.com',
+      senderInfo: 'Fera Padel · ferapadel.com · post@ferapadel.com',
       siteUrl: 'https://ferapadel.com',
       secret: SECRET,
     })
@@ -83,7 +83,7 @@ describe('newsletterConfig', () => {
     })
     expect(config.from).toBe('Fera <hei@ferabrand.com>')
     expect(config.siteUrl).toBe('http://localhost:3000')
-    expect(config.senderInfo).toBe('Fera Padel · ferapadel.com · post@ferabrand.com')
+    expect(config.senderInfo).toBe('Fera Padel · ferapadel.com · post@ferapadel.com')
   })
 
   it('kaster når hemmeligheten mangler eller er for kort', () => {

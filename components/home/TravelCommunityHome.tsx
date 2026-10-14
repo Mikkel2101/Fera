@@ -31,7 +31,7 @@ export default async function TravelCommunityHome() {
           playsInline
           poster="/Solrik%20padelglede%20i%20resortmilj%C3%B8%20FINAL%202%20MOBIL.png"
           className="absolute inset-0 w-full h-full object-cover"
-          src="https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/trips/videos/fera-travels.mp4"
+          src="/fera-travels.mp4"
         />
         <div
           aria-hidden="true"
@@ -89,7 +89,7 @@ export default async function TravelCommunityHome() {
           </div>
           {trips.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {trips.map((trip) => <TripCard key={trip.id} trip={trip} headingFont="sans" />)}
+              {trips.map((trip) => <TripCard key={trip.id} trip={trip} />)}
             </div>
           ) : (
             <div className="border-y border-(--color-border) py-8">

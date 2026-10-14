@@ -72,8 +72,8 @@ export default function LeveringOgReturPage() {
           <div className="flex flex-col gap-3 text-sm text-(--color-text) leading-relaxed">
             <p>
               <strong>Kontakt oss alltid FØR du sender noe.</strong> Send en e-post til{' '}
-              <a href="mailto:post@ferabrand.com" className="text-(--color-cta) underline">
-                post@ferabrand.com
+              <a href="mailto:post@ferapadel.com" className="text-(--color-cta) underline">
+                post@ferapadel.com
               </a>{' '}
               med ordrenummer og årsak, så hjelper vi deg videre.
             </p>
@@ -91,7 +91,7 @@ export default function LeveringOgReturPage() {
             <div>
               <p className="font-medium mb-2">Slik returnerer du:</p>
               <ol className="list-decimal list-inside flex flex-col gap-1.5 text-(--color-muted)">
-                <li>Send e-post til <a href="mailto:post@ferabrand.com" className="text-(--color-cta) underline">post@ferabrand.com</a> med ordrenummer og årsak</li>
+                <li>Send e-post til <a href="mailto:post@ferapadel.com" className="text-(--color-cta) underline">post@ferapadel.com</a> med ordrenummer og årsak</li>
                 <li>Vent på bekreftelse fra oss før du sender pakken</li>
                 <li>Send pakken (valgfri fraktmetode) på <strong>din kostnad</strong> til:</li>
               </ol>
@@ -125,8 +125,8 @@ export default function LeveringOgReturPage() {
         <div className="bg-white border border-(--color-border) rounded-2xl p-6 flex flex-col gap-3 text-sm text-(--color-text) leading-relaxed">
           <p>
             Ønsker du å bytte til en annen størrelse? Kontakt oss på{' '}
-            <a href="mailto:post@ferabrand.com" className="text-(--color-cta) underline">
-              post@ferabrand.com
+            <a href="mailto:post@ferapadel.com" className="text-(--color-cta) underline">
+              post@ferapadel.com
             </a>{' '}
             før du sender noe.
           </p>
@@ -163,7 +163,7 @@ export default function LeveringOgReturPage() {
             </p>
 
             <div>
-              <p className="font-medium mb-2">For å aktivere garantien, send følgende til <a href="mailto:post@ferabrand.com" className="text-(--color-cta) underline">post@ferabrand.com</a>:</p>
+              <p className="font-medium mb-2">For å aktivere garantien, send følgende til <a href="mailto:post@ferapadel.com" className="text-(--color-cta) underline">post@ferapadel.com</a>:</p>
               <ul className="list-disc list-inside flex flex-col gap-1.5 text-(--color-muted)">
                 <li>Ordrenummer</li>
                 <li>Beskrivelse av feilen</li>
@@ -193,10 +193,10 @@ export default function LeveringOgReturPage() {
           Start alltid med en e-post til oss — ikke send pakker uten forhåndsgodkjenning.
         </p>
         <a
-          href="mailto:post@ferabrand.com"
+          href="mailto:post@ferapadel.com"
           className="inline-block bg-white text-(--color-dark) font-semibold px-8 py-3 rounded-full hover:bg-(--color-sand) transition-colors"
         >
-          post@ferabrand.com
+          post@ferapadel.com
         </a>
       </section>
     </div>

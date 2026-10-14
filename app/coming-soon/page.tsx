@@ -39,7 +39,7 @@ export default function ComingSoonPage() {
       </a>
 
       <p className="absolute bottom-8 text-white/20 text-xs">
-        post@ferabrand.com
+        post@ferapadel.com
       </p>
     </div>
   )
