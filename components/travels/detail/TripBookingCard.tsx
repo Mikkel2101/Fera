@@ -42,6 +42,25 @@ const IconUsers = () => (
     <path d="M9.5 13.5c0-2 1.5-3.5 3-3.5"/>
   </svg>
 )
+const IconHotel = () => (
+  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M2 14.5V2.5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v12"/>
+    <path d="M10 7.5h3a1 1 0 0 1 1 1v6"/>
+    <path d="M2 14.5h12"/>
+    <path d="M4.5 4.5h1.5M4.5 7.5h1.5M4.5 10.5h1.5"/>
+  </svg>
+)
+const IconPlane = () => (
+  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M1.5 8.5 14 3.5c.7-.3 1.3.3 1 1L10 14.5l-1.5-4.5-4.5-1.5 7.5-4"/>
+  </svg>
+)
+const IconMap = () => (
+  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5.5 2.5 1.5 4v9.5l4-1.5 5 1.5 4-1.5V2.5l-4 1.5-5-1.5Z"/>
+    <path d="M5.5 2.5v9.5M10.5 4v9.5"/>
+  </svg>
+)
 
 export default function TripBookingCard({ trip }: { trip: TripRow }) {
   const spotsLeft =
@@ -60,6 +79,23 @@ export default function TripBookingCard({ trip }: { trip: TripRow }) {
         </span>
         <span className="text-(--color-muted) text-sm">/ deltaker</span>
       </p>
+
+      <div className="space-y-3 text-sm text-(--color-subtle) mb-5">
+        {trip.hotel && (
+          <span className="flex items-center gap-2">
+            <IconHotel />
+            {trip.hotel}
+          </span>
+        )}
+        <span className="flex items-center gap-2">
+          <IconPlane />
+          Alicante
+        </span>
+        <span className="flex items-center gap-2">
+          <IconMap />
+          Costa Blanca
+        </span>
+      </div>
 
       <div className="space-y-3 text-sm text-(--color-subtle) border-t border-(--color-border) pt-5 mb-5">
         <span className="flex items-center gap-2">
