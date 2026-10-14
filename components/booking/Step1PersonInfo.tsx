@@ -21,6 +21,7 @@ type FormState = {
   preferred_side:   string
   trip_goal:        string
   special_requests: string
+  allergies_preferences: string
 }
 
 // Tomme valgfrie felt sendes som undefined, ikke som tom streng
@@ -31,6 +32,7 @@ function toSchemaInput(form: FormState) {
     preferred_side:   form.preferred_side || undefined,
     trip_goal:        form.trip_goal || undefined,
     special_requests: form.special_requests.trim() || undefined,
+    allergies_preferences: form.allergies_preferences.trim() || undefined,
   }
 }
 
@@ -89,6 +91,7 @@ export default function Step1PersonInfo({ data, lockedEmail, onNext }: Props) {
     preferred_side:   data.preferred_side   ?? '',
     trip_goal:        data.trip_goal        ?? '',
     special_requests: data.special_requests ?? '',
+    allergies_preferences: data.allergies_preferences ?? '',
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -259,10 +262,29 @@ export default function Step1PersonInfo({ data, lockedEmail, onNext }: Props) {
           className={inputClass('special_requests')}
         />
         <p id="booking-wishes-hint" className="text-xs text-(--color-muted) mt-1">
-          Hva vil du trene på, eller praktiske ønsker. Ikke skriv helseopplysninger her – allergier og
-          tilrettelegging spør vi om før avreise.
+          Hva vil du trene på, eller praktiske ønsker.
         </p>
         {errors.special_requests && <p className="text-red-500 text-sm mt-1">{errors.special_requests}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="booking-allergies" className="block text-sm font-medium text-(--color-text) mb-1">
+          Allergier og preferanser <span className="font-normal text-(--color-muted)">(valgfritt)</span>
+        </label>
+        <textarea
+          id="booking-allergies"
+          rows={3}
+          maxLength={1000}
+          value={form.allergies_preferences}
+          onChange={e => update('allergies_preferences', e.target.value)}
+          onBlur={() => handleBlur('allergies_preferences')}
+          aria-describedby="booking-allergies-hint"
+          className={inputClass('allergies_preferences')}
+        />
+        <p id="booking-allergies-hint" className="text-xs text-(--color-muted) mt-1">
+          Matallergier, spesialkost eller annet vi bør vite om før turen.
+        </p>
+        {errors.allergies_preferences && <p className="text-red-500 text-sm mt-1">{errors.allergies_preferences}</p>}
       </div>
 
       <button

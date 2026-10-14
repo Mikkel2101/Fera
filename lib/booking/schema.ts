@@ -25,6 +25,7 @@ export const step1Schema = z.object({
   preferred_side:   z.enum(COURT_SIDE_VALUES).optional(),
   trip_goal:        z.enum(TRIP_GOAL_VALUES).optional(),
   special_requests: z.string().trim().max(MAX_WISHES_LENGTH, `Maks ${MAX_WISHES_LENGTH} tegn`).optional(),
+  allergies_preferences: z.string().trim().max(MAX_WISHES_LENGTH, `Maks ${MAX_WISHES_LENGTH} tegn`).optional(),
 })
 
 export const extraSelectionSchema = z.object({

@@ -33,6 +33,7 @@ type AdminBooking = {
   selected_extras:   string[]
   trip_goal:         string | null
   special_requests:  string | null
+  allergies_preferences: string | null
   price_total_eur:   number | null
   status:            string
   created_at:        string
@@ -51,7 +52,7 @@ export default async function AdminBookingsPage({
 
   let query = supabase
     .from('bookings')
-    .select('id, trip_id, first_name, last_name, email, phone, padel_level, room_type, roommate_name, room_share_gender, selected_extras, trip_goal, special_requests, price_total_eur, status, created_at, trips(name), users(preferred_side)')
+    .select('id, trip_id, first_name, last_name, email, phone, padel_level, room_type, roommate_name, room_share_gender, selected_extras, trip_goal, special_requests, allergies_preferences, price_total_eur, status, created_at, trips(name), users(preferred_side)')
     .order('created_at', { ascending: false })
   if (trip_id) query = query.eq('trip_id', trip_id)
   if (isBookingStatus(status)) query = query.eq('status', status)
@@ -121,6 +122,11 @@ export default async function AdminBookingsPage({
                       <p className="text-xs text-(--color-muted)">Banehalvdel: {courtSideLabel(b.users.preferred_side)}</p>
                     )}
                     {b.trip_goal && <p className="text-xs text-(--color-muted)">Mål: {tripGoalLabel(b.trip_goal)}</p>}
+                    {b.allergies_preferences && (
+                      <p className="text-xs font-medium text-(--color-dark-mid) mt-1 max-w-xs whitespace-pre-line">
+                        Allergier/preferanser: «{b.allergies_preferences}»
+                      </p>
+                    )}
                     {b.special_requests && (
                       <p className="text-xs text-(--color-text) mt-1 max-w-xs whitespace-pre-line">«{b.special_requests}»</p>
                     )}

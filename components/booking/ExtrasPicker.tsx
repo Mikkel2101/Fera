@@ -43,13 +43,29 @@ export default function ExtrasPicker({ extras, selections, onChange }: Props) {
                   className="accent-(--color-cta) w-4 h-4 mt-1"
                 />
                 <span>
-                  <span className="block text-(--color-text)">{extra.name}</span>
+                  <span className="flex items-center gap-2">
+                    <span className="text-(--color-text)">{extra.name}</span>
+                    {extra.original_price_eur !== null && (
+                      <span className="bg-(--color-success) text-white text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap">
+                        Lanseringstilbud
+                      </span>
+                    )}
+                  </span>
                   {extra.description && (
                     <span className="block text-sm text-(--color-subtle)">{extra.description}</span>
                   )}
                 </span>
               </span>
-              <span className="text-(--color-gold) font-medium whitespace-nowrap">+ {extra.price_eur} EUR</span>
+              <span className="whitespace-nowrap text-right">
+                {extra.original_price_eur !== null && (
+                  <span className="block text-sm text-(--color-muted) line-through">
+                    <span className="sr-only">Normalpris </span>{extra.original_price_eur} EUR
+                  </span>
+                )}
+                <span className="text-(--color-gold) font-medium">
+                  {extra.original_price_eur !== null && <span className="sr-only">Nå </span>}+ {extra.price_eur} EUR
+                </span>
+              </span>
             </label>
 
             {selection && (extra.sizes.length > 0 || extra.max_quantity > 1) && (

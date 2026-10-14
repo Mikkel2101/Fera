@@ -19,6 +19,7 @@ const row: BookingCsvRow = {
   selected_extras:   ['Golfrunde', 'Spa'],
   trip_goal:         'sosialt',
   special_requests:  null,
+  allergies_preferences: null,
   price_total_eur:   1520,
 }
 
@@ -27,14 +28,14 @@ describe('bookingsToCsv', () => {
     const csv = bookingsToCsv([])
     expect(csv.startsWith('﻿')).toBe(true)
     expect(csv.slice(1).split('\r\n')[0]).toBe(
-      'Reservert dato;Status;Tur;Fornavn;Etternavn;E-post;Telefon;Padelnivå;Banehalvdel;Romtype;Romønske;Reisepartner;Kjønn (romdeling);Romstatus;Tillegg;Mål for turen;Ønsker;Totalpris (EUR)',
+      'Reservert dato;Status;Tur;Fornavn;Etternavn;E-post;Telefon;Padelnivå;Banehalvdel;Romtype;Romønske;Reisepartner;Kjønn (romdeling);Romstatus;Tillegg;Mål for turen;Ønsker;Allergier og preferanser;Totalpris (EUR)',
     )
   })
 
   it('skriver én linje per booking med tomme felt for null', () => {
     const line = bookingsToCsv([row]).split('\r\n')[1]
     expect(line).toBe(
-      '2026-10-03;Reservert;Costa Blanca Camp – Påske 2027;Kari;Nordmann;kari@example.com;+47 400 00 000;Middels +;Venstre;Dobbel;Jeg reiser alene og vil dele rom med en annen deltaker av samme kjønn;;Kvinne;Reiser alene – mangler romkamerat;Golfrunde, Spa;Det sosiale;;1520,00',
+      '2026-10-03;Reservert;Costa Blanca Camp – Påske 2027;Kari;Nordmann;kari@example.com;+47 400 00 000;Middels +;Venstre;Dobbel;Jeg reiser alene og vil dele rom med en annen deltaker av samme kjønn;;Kvinne;Reiser alene – mangler romkamerat;Golfrunde, Spa;Det sosiale;;;1520,00',
     )
   })
 

@@ -2,11 +2,14 @@
 // alltid fra turen på serveren — kunden sender bare navn, størrelse og antall.
 
 export type TripExtra = {
-  name:         string
-  price_eur:    number
-  description:  string | null
-  sizes:        string[]
-  max_quantity: number
+  name:                string
+  price_eur:           number
+  // Normalpris før rabatt — settes bare når tillegget er på salg. price_eur
+  // er alltid prisen kunden faktisk betaler.
+  original_price_eur:  number | null
+  description:         string | null
+  sizes:                string[]
+  max_quantity:         number
 }
 
 export type ExtraSelection = {
@@ -37,6 +40,12 @@ function parseMaxQuantity(value: unknown): number {
   return typeof value === 'number' && Number.isInteger(value) && value >= 1 ? value : 1
 }
 
+// Normalpris vises bare som streket-over når den faktisk er høyere enn
+// salgsprisen — ellers er det ikke et salg.
+function parseOriginalPrice(value: unknown, price_eur: number): number | null {
+  return typeof value === 'number' && Number.isFinite(value) && value > price_eur ? value : null
+}
+
 // Eldre turer har tillegg med pris som tekst («€70/time»). De kan ikke
 // legges i en pris og vises derfor ikke som valgbare tillegg.
 export function parseTripExtras(raw: unknown): TripExtra[] {
@@ -49,6 +58,7 @@ export function parseTripExtras(raw: unknown): TripExtra[] {
     return [{
       name,
       price_eur,
+      original_price_eur: parseOriginalPrice(item.original_price_eur, price_eur),
       description:  typeof description === 'string' && description !== '' ? description : null,
       sizes:        parseSizes(item.sizes),
       max_quantity: parseMaxQuantity(item.max_quantity),

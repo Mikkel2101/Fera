@@ -336,6 +336,7 @@ export type Database = {
           stripe_session_id: string | null
           referral_code: string | null
           special_requests: string | null
+          allergies_preferences: string | null
           gdpr_consent: boolean
           terms_accepted: boolean
           created_at: string
@@ -364,6 +365,7 @@ export type Database = {
           stripe_session_id?: string | null
           referral_code?: string | null
           special_requests?: string | null
+          allergies_preferences?: string | null
           gdpr_consent?: boolean
           terms_accepted?: boolean
           created_at?: string
@@ -392,6 +394,7 @@ export type Database = {
           stripe_session_id?: string | null
           referral_code?: string | null
           special_requests?: string | null
+          allergies_preferences?: string | null
           gdpr_consent?: boolean
           terms_accepted?: boolean
           created_at?: string
@@ -761,6 +764,7 @@ export type Database = {
           p_room_share_gender: string | null
           p_trip_goal: string | null
           p_special_requests: string | null
+          p_allergies_preferences: string | null
           p_selected_extras: string[]
           p_extras_detail: Json
           p_price_total_eur: number

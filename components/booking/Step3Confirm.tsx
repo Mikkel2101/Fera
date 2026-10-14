@@ -33,6 +33,7 @@ function summaryRows(trip: BookingTrip, step1: Step1Data, step2: Step2Data, extr
   if (gender)              rows.push(['Kjønn (romdeling)', gender])
   if (step1.trip_goal)     rows.push(['Mål for turen', tripGoalLabel(step1.trip_goal)])
   if (step1.special_requests) rows.push(['Ønsker', step1.special_requests])
+  if (step1.allergies_preferences) rows.push(['Allergier og preferanser', step1.allergies_preferences])
   if (extras.length > 0)   rows.push(['Tillegg', extras.join(', ')])
   return rows
 }
