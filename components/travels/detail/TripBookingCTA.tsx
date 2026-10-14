@@ -12,7 +12,7 @@ export default function TripBookingCTA({ trip }: { trip: TripRow }) {
         <p className="text-white/50 text-xs uppercase tracking-widest font-medium mb-3">Booking</p>
         <h2 className="font-sans font-bold text-4xl mb-4">Sikre plassen din</h2>
         <p className="text-white/70 text-lg leading-relaxed mb-8 max-w-xl">
-          Fra {trip.price_double_eur.toLocaleString('nb-NO')} EUR per person i delt dobbeltrom. Reserver uten å betale nå — vi tar kontakt med mer informasjon før du bekrefter en bindende bestilling.
+          Fra {trip.price_double_eur.toLocaleString('nb-NO')} EUR per person. Reserver uten å betale nå — vi tar kontakt med mer informasjon før du bekrefter en bindende bestilling.
         </p>
         {isBookable ? (
           <Link
