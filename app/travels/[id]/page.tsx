@@ -9,7 +9,7 @@ import TripExtras from '@/components/travels/detail/TripExtras'
 import TripCoachingGeneric from '@/components/travels/detail/TripCoachingGeneric'
 import TripTravelDetails from '@/components/travels/detail/TripTravelDetails'
 import TripAreaGuide from '@/components/travels/detail/TripAreaGuide'
-import TripPrices from '@/components/travels/detail/TripPrices'
+import TripBookingCTA from '@/components/travels/detail/TripBookingCTA'
 import TripFaq from '@/components/travels/detail/TripFaq'
 import WaitlistForm from '@/components/travels/detail/WaitlistForm'
 
@@ -65,12 +65,12 @@ export default async function TripDetailPage({ params }: { params: Params }) {
             )}
 
             <TripProgram program={trip.program} />
+            <TripCoachingGeneric />
             <TripIncluded included={trip.included} />
             <TripExtras extras={trip.extras as Extra[]} />
-            <TripCoachingGeneric />
             <TripTravelDetails />
             <TripAreaGuide />
-            <TripPrices trip={trip} />
+            <TripBookingCTA trip={trip} />
             <TripFaq faq={trip.faq as FaqItem[]} />
           </div>
         </div>
