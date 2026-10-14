@@ -82,7 +82,7 @@ export default async function TravelCommunityHome() {
 
       <section id="turer" className="scroll-mt-20 overflow-hidden pt-20 sm:pt-24 pb-28 sm:pb-32">
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6">
-          <div className="mb-6">
+          <div className="mb-10">
             <p className="text-(--color-overline) text-sm uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
             <h2 className="font-sans font-normal text-(--color-text) text-5xl sm:text-6xl mb-4">Finn reisen som passer deg</h2>
             <p className="text-(--color-subtle) max-w-xl leading-relaxed">
