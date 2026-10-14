@@ -61,7 +61,7 @@ export default function HeroFeatureLoop({ items }: { items: FeatureItem[] }) {
     <div className="mt-12 max-w-3xl border-t border-white/25 pt-6" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div className="flex items-center justify-between gap-4">
         <div key={index} className="min-h-[52px] animate-[fadeInUp_0.4s_ease-out_both]" role="status" aria-live="polite">
-          <p className="text-white font-semibold text-lg">{item.title}</p>
+          <p className="text-white font-semibold text-lg uppercase tracking-wide">{item.title}</p>
           <p className="text-white/75 text-sm">{item.detail}</p>
         </div>
         <div className="flex shrink-0 items-center gap-2">

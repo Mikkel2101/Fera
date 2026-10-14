@@ -71,10 +71,10 @@ export default async function TravelCommunityHome() {
                 Be om tilbud
               </Link>
             </div>
-            <div className="hidden sm:grid mt-12 max-w-3xl grid-cols-3 gap-6 border-t border-white/25 pt-6">
+            <div className="hidden sm:grid mt-12 max-w-3xl grid-cols-3 gap-6 border-t border-white/25 pt-6 lg:gap-10">
               {HERO_FEATURES.map((item) => (
                 <div key={item.title}>
-                  <p className="text-white font-semibold text-lg">{item.title}</p>
+                  <p className="text-white font-semibold text-lg uppercase tracking-wide">{item.title}</p>
                   <p className="text-white/75 text-sm">{item.detail}</p>
                 </div>
               ))}
