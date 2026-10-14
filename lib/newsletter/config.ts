@@ -8,12 +8,12 @@ export type NewsletterConfig = {
 
 type Env = Record<string, string | undefined>
 
-export const CONTACT_EMAIL = 'post@ferabrand.com'
+export const CONTACT_EMAIL = 'post@ferapadel.com'
 const MIN_SECRET_LENGTH = 32
 
 // Standardvalg til Mikkel bestemmer noe annet — alle kan overstyres i Vercel.
 const DEFAULTS = {
-  from: 'Fera Padel <nyhetsbrev@ferabrand.com>',
+  from: 'Fera Padel <post@ferapadel.com>',
   replyTo: CONTACT_EMAIL,
   senderInfo: `Fera Padel · ferapadel.com · ${CONTACT_EMAIL}`,
   siteUrl: 'https://ferapadel.com',

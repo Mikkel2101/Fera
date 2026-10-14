@@ -8,8 +8,8 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY ?? '')
 }
 
-const OPS_EMAIL  = process.env.OPS_EMAIL ?? 'post@ferabrand.com'
-const FROM_EMAIL = 'Fera Padel <post@ferabrand.com>'
+const OPS_EMAIL  = process.env.OPS_EMAIL ?? 'post@ferapadel.com'
+const FROM_EMAIL = 'Fera Padel <post@ferapadel.com>'
 
 export type ReservationEmailPayload = {
   booking_id:        string
@@ -102,12 +102,12 @@ export async function sendReservationConfirmation(p: ReservationEmailPayload): P
 
         <p style="font-size:13px;color:#9B7888;margin:0;">
           Ombestemt deg, eller har du spørsmål? Svar på denne e-posten eller skriv til
-          <a href="mailto:post@ferabrand.com" style="color:#420016;">post@ferabrand.com</a>.
+          <a href="mailto:post@ferapadel.com" style="color:#420016;">post@ferapadel.com</a>.
         </p>
       </div>
 
       <div style="background:#f5f0ee;padding:16px 24px;text-align:center;">
-        <p style="margin:0;font-size:12px;color:#9B7888;">Fera Padel · post@ferabrand.com</p>
+        <p style="margin:0;font-size:12px;color:#9B7888;">Fera Padel · post@ferapadel.com</p>
       </div>
     </div>
   `

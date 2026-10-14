@@ -10,7 +10,7 @@ export default function PrivacyPage() {
         <h2>Hvem er ansvarlig</h2>
         <p>
           Fera Padel er behandlingsansvarlig for personopplysningene som samles inn på denne nettsiden.
-          Kontakt oss på <a href="mailto:post@ferabrand.com">post@ferabrand.com</a>.
+          Kontakt oss på <a href="mailto:post@ferapadel.com">post@ferapadel.com</a>.
         </p>
       </section>
 
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
         <h2>Dine rettigheter</h2>
         <p>
           Du har rett til innsyn, retting og sletting, og til å trekke tilbake samtykker. Send en e-post til{' '}
-          <a href="mailto:post@ferabrand.com">post@ferabrand.com</a>. Mener du at vi behandler opplysningene
+          <a href="mailto:post@ferapadel.com">post@ferapadel.com</a>. Mener du at vi behandler opplysningene
           dine i strid med regelverket, kan du klage til <a href="https://www.datatilsynet.no" target="_blank" rel="noopener noreferrer">Datatilsynet</a>.
         </p>
       </section>

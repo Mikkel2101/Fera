@@ -6,8 +6,8 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY ?? '')
 }
 
-const OPS_EMAIL  = process.env.OPS_EMAIL ?? 'post@ferabrand.com'
-const FROM_EMAIL = 'Fera Padel <post@ferabrand.com>'
+const OPS_EMAIL  = process.env.OPS_EMAIL ?? 'post@ferapadel.com'
+const FROM_EMAIL = 'Fera Padel <post@ferapadel.com>'
 
 export type OpsOrderPayload = {
   order_id:    string
@@ -111,7 +111,7 @@ export async function sendCustomerOrderConfirmation(payload: CustomerOrderPayloa
             <strong>Estimert leveringstid:</strong> 5–7 virkedager (fra Spania via UPS).<br>
             <strong>Merk:</strong> Toll og mva. (25 %) betales til UPS ved levering.<br>
             <strong>14 dagers angrerett</strong> — kontakt oss på
-            <a href="mailto:post@ferabrand.com" style="color:#420016;">post@ferabrand.com</a>
+            <a href="mailto:post@ferapadel.com" style="color:#420016;">post@ferapadel.com</a>
             for retur.
           </p>
         </div>
@@ -119,13 +119,13 @@ export async function sendCustomerOrderConfirmation(payload: CustomerOrderPayloa
         <p style="font-size:13px;color:#9B7888;margin:0;">
           Ordre-ID: ${payload.order_id}<br>
           Spørsmål? Send e-post til
-          <a href="mailto:post@ferabrand.com" style="color:#420016;">post@ferabrand.com</a>
+          <a href="mailto:post@ferapadel.com" style="color:#420016;">post@ferapadel.com</a>
         </p>
       </div>
 
       <div style="background:#f5f0ee;padding:16px 24px;text-align:center;">
         <p style="margin:0;font-size:12px;color:#9B7888;">
-          Fera Padel · post@ferabrand.com
+          Fera Padel · post@ferapadel.com
         </p>
       </div>
     </div>

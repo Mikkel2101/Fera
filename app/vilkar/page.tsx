@@ -25,7 +25,7 @@ export default function TermsPage() {
       <section>
         <h2>Avbestilling og endringer</h2>
         <ul>
-          <li>Du kan avbestille reservasjonen kostnadsfritt ved å skrive til <a href="mailto:post@ferabrand.com">post@ferabrand.com</a>.</li>
+          <li>Du kan avbestille reservasjonen kostnadsfritt ved å skrive til <a href="mailto:post@ferapadel.com">post@ferapadel.com</a>.</li>
           <li>Ønsker du å endre romtype eller tilvalg, tar du kontakt med oss.</li>
           <li>Du kan ha én aktiv reservasjon per tur.</li>
         </ul>
@@ -41,7 +41,7 @@ export default function TermsPage() {
 
       <section>
         <h2>Kontakt</h2>
-        <p>Spørsmål om reservasjonen? Skriv til <a href="mailto:post@ferabrand.com">post@ferabrand.com</a>.</p>
+        <p>Spørsmål om reservasjonen? Skriv til <a href="mailto:post@ferapadel.com">post@ferapadel.com</a>.</p>
       </section>
     </LegalPage>
   )

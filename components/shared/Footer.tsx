@@ -15,12 +15,12 @@ export default function Footer() {
               <img src="/fera-logo.svg" alt="Fera" className="h-8 w-auto brightness-0 invert" />
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
-              Profesjonelle padelopplevelser og premium utstyr
+              Profesjonelle padelopplevelser i Costa Blanca
             </p>
             <p className="text-white/50 text-xs mb-3">Følg oss på Instagram</p>
             <div className="flex gap-3">
               <a
-                href="https://instagram.com/fera.padel"
+                href="https://www.instagram.com/feratravels/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:border-white/50 hover:bg-white/10 transition-colors"
@@ -69,11 +69,11 @@ export default function Footer() {
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Kontakt</h4>
             <ul className="space-y-3">
               <li>
-                <a href="mailto:post@ferabrand.com" className="text-white/50 text-sm hover:text-white transition-colors">
-                  post@ferabrand.com
+                <a href="mailto:post@ferapadel.com" className="text-white/50 text-sm hover:text-white transition-colors">
+                  post@ferapadel.com
                 </a>
               </li>
-              <li className="text-white/50 text-sm">Instagram: @fera.padel</li>
+              <li className="text-white/50 text-sm">Instagram: @feratravels</li>
             </ul>
             <div className="mt-8 p-4 rounded-xl border border-white/10 bg-white/5">
               <p className="text-white/70 text-xs leading-relaxed">
@@ -81,7 +81,7 @@ export default function Footer() {
                 Vi svarer innen 24 timer.
               </p>
               <a
-                href="mailto:post@ferabrand.com"
+                href="mailto:post@ferapadel.com"
                 className="mt-3 inline-block text-xs text-(--color-sand) hover:text-white transition-colors font-medium"
               >
                 Send e-post →
@@ -97,7 +97,7 @@ export default function Footer() {
               © {new Date().getFullYear()} Fera Padel AS · Alle rettigheter forbeholdt
             </p>
             <p className="text-white/20 text-xs">
-              Org.nr: [FYLL INN] · post@ferabrand.com
+              post@ferapadel.com
             </p>
           </div>
           <div className="flex items-center gap-4 text-xs text-white/30">

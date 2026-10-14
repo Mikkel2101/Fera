@@ -115,7 +115,7 @@ export default function FaqPage() {
         <div className="text-center mt-16">
           <p className="text-(--color-muted) mb-4">Fant du ikke svaret?</p>
           <a
-            href="mailto:post@feratravels.com"
+            href="mailto:post@ferapadel.com"
             className="inline-block bg-(--color-cta) text-white font-semibold text-sm px-8 py-4 rounded-full hover:opacity-90 transition-opacity"
           >
             Kontakt oss →
