@@ -43,7 +43,7 @@ export default function TripFilters({ trips, onFilter }: Props) {
   }, [destination, tripType, month, trips, onFilter])
 
   const selectClass =
-    'border border-(--color-border) rounded-lg px-3 py-2 text-sm bg-white text-(--color-text) focus:outline-none focus:ring-2 focus:ring-(--color-gold)/40'
+    'border border-(--color-border) rounded-lg pl-3 pr-8 py-2 text-sm bg-white text-(--color-text) focus:outline-none focus:ring-2 focus:ring-(--color-gold)/40'
 
   return (
     <div className="bg-white border-b border-(--color-border) py-3">
