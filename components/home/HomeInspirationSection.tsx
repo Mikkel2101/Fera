@@ -56,7 +56,7 @@ export default async function HomeInspirationSection({ variant = 'travels' }: { 
             </p>
           </div>
           <Link href="/travels/inspirasjon" className="hidden self-end text-lg font-semibold leading-relaxed text-(--color-dark-mid) underline decoration-(--color-border) underline-offset-4 transition-colors hover:decoration-(--color-dark-mid) sm:block">
-            Se mer →
+            Inspirasjon →
           </Link>
         </div>
 
