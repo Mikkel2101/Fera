@@ -180,13 +180,13 @@ export default async function InspirasjonPage({
                       {post.category}
                     </span>
                   </div>
-                  <p className="mb-2 text-xs text-(--color-muted)">
+                  <p className="mb-2 text-sm text-(--color-muted)">
                     {formatArticleDate(post.published_at)} · {post.reading_minutes} min lesing
                   </p>
-                  <h3 className="line-clamp-2 font-sans text-xl font-normal leading-snug text-(--color-dark) group-hover:text-(--color-dark-mid)">
+                  <h3 className="line-clamp-2 font-sans text-2xl font-normal leading-snug text-(--color-dark) group-hover:text-(--color-dark-mid)">
                     {post.title}
                   </h3>
-                  <p className="mt-2 line-clamp-2 text-base leading-relaxed text-(--color-subtle)">{post.excerpt}</p>
+                  <p className="mt-2 line-clamp-1 text-lg leading-relaxed text-(--color-subtle)">{post.excerpt}</p>
                 </Link>
               ))}
             </div>
