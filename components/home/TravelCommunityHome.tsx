@@ -43,7 +43,7 @@ export default async function TravelCommunityHome() {
         />
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-6xl">
-            <h1 className="font-sans font-normal text-white text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-6">
+            <h1 className="font-sans font-normal text-white text-6xl md:text-7xl lg:text-8xl leading-[1.05] mb-6">
               Padelopplevelser<br />
               på <span className="font-display italic">Costa Blanca</span>
             </h1>
