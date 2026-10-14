@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { step1Schema } from '@/lib/booking/schema'
 import type { Step1Data } from '@/lib/booking/schema'
 import { COURT_SIDES, PADEL_LEVELS, TRIP_GOALS } from '@/lib/booking/levels'
@@ -282,7 +283,8 @@ export default function Step1PersonInfo({ data, lockedEmail, onNext }: Props) {
           className={inputClass('allergies_preferences')}
         />
         <p id="booking-allergies-hint" className="text-xs text-(--color-muted) mt-1">
-          Matallergier, spesialkost eller annet vi bør vite om før turen.
+          Matallergier, spesialkost eller annet vi bør vite om før turen. Ved å fylle ut feltet samtykker du til
+          at vi bruker opplysningene til å tilrettelegge turen (se <Link href="/personvern" target="_blank" className="underline">personvernerklæringen</Link>).
         </p>
         {errors.allergies_preferences && <p className="text-red-500 text-sm mt-1">{errors.allergies_preferences}</p>}
       </div>

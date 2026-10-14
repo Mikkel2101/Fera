@@ -5,7 +5,7 @@ export const metadata: Metadata = { title: 'Personvernerklæring — FERA' }
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Personvernerklæring" updated="3. oktober 2026">
+    <LegalPage title="Personvernerklæring" updated="14. oktober 2026">
       <section>
         <h2>Hvem er ansvarlig</h2>
         <p>
@@ -19,6 +19,7 @@ export default function PrivacyPage() {
         <ul>
           <li>Kontoopplysninger: navn og e-post (fra Google hvis du logger inn med Google).</li>
           <li>Reservasjoner: telefon, padelnivå, romtype, navn på romkamerat og valgte tilvalg.</li>
+          <li>Allergier og preferanser: matallergier, spesialkost og lignende, bare hvis du selv fyller ut feltet i reservasjonen.</li>
           <li>Samtykker: om du har godtatt vilkår og personvern, og om du vil ha nyhetsbrev.</li>
         </ul>
       </section>
@@ -28,6 +29,7 @@ export default function PrivacyPage() {
         <ul>
           <li>For å håndtere reservasjonen din og kontakte deg om turen (avtale, GDPR art. 6 nr. 1 bokstav b).</li>
           <li>For å sende nyheter om nye turer — bare hvis du har krysset av for det (samtykke, art. 6 nr. 1 bokstav a). Du kan trekke samtykket når som helst med «Meld deg av»-lenken nederst i hver e-post.</li>
+          <li>Allergier og kostbehov er helseopplysninger. Vi behandler dem bare fordi du selv oppgir dem (uttrykkelig samtykke, art. 9 nr. 2 bokstav a), og bruker dem kun til å tilrettelegge turen — de deles bare med hotellet eller arrangøren på stedet når det trengs. Du kan når som helst be oss slette dem.</li>
         </ul>
       </section>
 
