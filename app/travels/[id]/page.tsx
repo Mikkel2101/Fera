@@ -5,7 +5,6 @@ import TripMetaBar from '@/components/travels/detail/TripMetaBar'
 import TripBookingCard from '@/components/travels/detail/TripBookingCard'
 import TripProgram from '@/components/travels/detail/TripProgram'
 import TripIncluded from '@/components/travels/detail/TripIncluded'
-import TripExtras from '@/components/travels/detail/TripExtras'
 import TripCoachingGeneric from '@/components/travels/detail/TripCoachingGeneric'
 import TripTravelDetails from '@/components/travels/detail/TripTravelDetails'
 import TripAreaGuide from '@/components/travels/detail/TripAreaGuide'
@@ -13,7 +12,6 @@ import TripBookingCTA from '@/components/travels/detail/TripBookingCTA'
 import TripFaq from '@/components/travels/detail/TripFaq'
 import WaitlistForm from '@/components/travels/detail/WaitlistForm'
 
-type Extra = { name: string; price_eur: number }
 type FaqItem = { question: string; answer: string }
 
 type Params = Promise<{ id: string }>
@@ -67,7 +65,6 @@ export default async function TripDetailPage({ params }: { params: Params }) {
             <TripProgram program={trip.program} />
             <TripCoachingGeneric />
             <TripIncluded included={trip.included} />
-            <TripExtras extras={trip.extras as Extra[]} />
             <TripTravelDetails />
             <TripAreaGuide />
             <TripBookingCTA trip={trip} />
