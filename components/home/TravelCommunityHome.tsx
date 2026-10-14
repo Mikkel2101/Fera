@@ -38,7 +38,7 @@ export default async function TravelCommunityHome() {
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse 90% 80% at 28% 50%, color-mix(in srgb, var(--color-overlay) 65%, transparent) 0%, color-mix(in srgb, var(--color-overlay) 50%, transparent) 40%, color-mix(in srgb, var(--color-dark) 30%, transparent) 70%, color-mix(in srgb, var(--color-dark) 10%, transparent) 100%)',
+              'radial-gradient(ellipse 90% 80% at 28% 50%, color-mix(in srgb, var(--color-overlay) 75%, transparent) 0%, color-mix(in srgb, var(--color-overlay) 60%, transparent) 40%, color-mix(in srgb, var(--color-dark) 42%, transparent) 70%, color-mix(in srgb, var(--color-dark) 22%, transparent) 100%)',
           }}
         />
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
