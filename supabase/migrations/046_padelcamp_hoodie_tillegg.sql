@@ -10,7 +10,7 @@ set extras = '[
     "price_eur": 30,
     "original_price_eur": 40,
     "description": "Lanseringstilbud – 25 % rabatt",
-    "sizes": ["KS", "S", "M", "L", "XL", "XXL"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
     "max_quantity": 3
   }
 ]'::jsonb
