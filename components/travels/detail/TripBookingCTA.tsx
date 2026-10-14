@@ -16,6 +16,7 @@ export default function TripBookingCTA({ trip }: { trip: TripRow }) {
         </p>
         {isBookable ? (
           <Link
+            id="trip-booking-cta"
             href={`/travels/${trip.id}/book`}
             className="inline-block bg-white text-(--color-dark) font-semibold text-sm px-7 py-3.5 rounded-full hover:bg-(--color-sand) transition-colors"
           >

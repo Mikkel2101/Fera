@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import type { Database } from '@/lib/supabase/types'
 
 type TripRow = Database['public']['Tables']['trips']['Row']
@@ -29,18 +32,9 @@ const IconEuro = () => (
     <path d="M2.5 7h6M2.5 9h6"/>
   </svg>
 )
-const IconUsers = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="6" cy="5" r="2.5"/>
-    <path d="M1 13.5c0-2.761 2.239-5 5-5"/>
-    <circle cx="12" cy="6" r="2"/>
-    <path d="M9.5 13.5c0-2 1.5-3.5 3-3.5"/>
-  </svg>
-)
-const IconClock = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="8" cy="8" r="6.5"/>
-    <path d="M8 4.5v4l2.5 2"/>
+const IconPlane = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3-1 3 1v-1.5L13 19v-5.5l8 2.5Z"/>
   </svg>
 )
 
@@ -50,45 +44,60 @@ function nightCount(start: string, end: string) {
 }
 
 export default function TripMetaBar({ trip }: { trip: TripRow }) {
-  const spotsLeft =
-    trip.max_participants != null
-      ? trip.max_participants - trip.registered_count
-      : null
   const isBookable = trip.status !== 'Fullbooket' && trip.status !== 'Avlyst' && trip.status !== 'Gjennomført' && trip.status !== 'Utkast'
   const nights = nightCount(trip.start_date, trip.end_date)
 
+  // Skjuler den sticky baren når turens egen "Reserver plass"-knapp lenger ned er synlig, slik at vi ikke viser to like knapper samtidig.
+  const [ctaVisible, setCtaVisible] = useState(false)
+
+  useEffect(() => {
+    const target = document.getElementById('trip-booking-cta')
+    if (!target) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setCtaVisible(entry.isIntersecting),
+      { rootMargin: '-96px 0px 0px 0px' }
+    )
+    observer.observe(target)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <div className="bg-white border-b border-(--color-border) py-4 px-4 sm:px-6 sticky top-14 z-40 lg:hidden">
-      <div className="max-w-[1450px] mx-auto flex flex-wrap items-center gap-4 justify-between">
-        <div className="flex flex-wrap items-center gap-4 text-sm text-(--color-subtle)">
-          <span className="flex items-center gap-1.5">
-            <IconCalendar />
-            {formatDate(trip.start_date)} – {formatDate(trip.end_date)}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <IconPin />
-            {trip.destination}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <IconClock />
-            {nights} netter
-          </span>
-          <span className="flex items-center gap-1.5">
-            <IconEuro />
-            Fra {trip.price_double_eur.toLocaleString('nb-NO')} EUR
-          </span>
-          {spotsLeft != null && (
+    <div
+      aria-hidden={ctaVisible}
+      className={`bg-white border-b border-(--color-border) py-5 sticky top-14 z-40 lg:hidden transition-all duration-300 ${
+        ctaVisible ? 'pointer-events-none -translate-y-2 opacity-0' : 'opacity-100 translate-y-0'
+      }`}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex flex-col gap-1.5">
+          <div className="flex flex-wrap items-center gap-3 text-xs text-(--color-subtle) sm:text-sm">
             <span className="flex items-center gap-1.5">
-              <IconUsers />
-              {spotsLeft} plasser igjen
+              <IconCalendar />
+              {formatDate(trip.start_date)} – {formatDate(trip.end_date)} ({nights}&nbsp;netter)
             </span>
-          )}
+            <span className="flex items-center gap-1.5">
+              <IconPlane />
+              Alicante (ALC)
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 text-xs text-(--color-subtle) sm:text-sm">
+            <span className="flex items-center gap-1.5">
+              <IconPin />
+              {trip.destination}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <IconEuro />
+              Fra {trip.price_double_eur.toLocaleString('nb-NO')} EUR
+            </span>
+          </div>
         </div>
 
         {isBookable && (
           <Link
             href={`/travels/${trip.id}/book`}
-            className="shrink-0 bg-(--color-cta) text-white px-6 py-3 rounded-full font-semibold text-sm hover:opacity-90 transition-opacity"
+            className="shrink-0 bg-(--color-cta) text-white px-4 py-2.5 rounded-full font-semibold text-xs sm:px-6 sm:py-3 sm:text-sm hover:opacity-90 transition-opacity"
           >
             Reserver plass
           </Link>

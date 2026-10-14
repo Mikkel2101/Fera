@@ -2,10 +2,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import HomeInspirationSection from '@/components/home/HomeInspirationSection'
 import TripsCarousel from '@/components/home/TripsCarousel'
+import HeroFeatureLoop from '@/components/home/HeroFeatureLoop'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
 
 type Trip = Database['public']['Tables']['trips']['Row']
+
+const HERO_FEATURES = [
+  { title: 'Mer enn padel', detail: 'Gode opplevelser på og utenfor banen' },
+  { title: 'For alle nivåer', detail: 'Personlig og tilpasset oppfølging' },
+  { title: 'Costa Blanca', detail: 'Solfylte dager med sport og fellesskap' },
+]
 
 export default async function TravelCommunityHome() {
   const supabase = await createClient()
@@ -43,8 +50,8 @@ export default async function TravelCommunityHome() {
         />
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-6xl">
-            <h1 className="font-sans font-normal text-white text-6xl md:text-7xl lg:text-8xl leading-[1.05] mb-6">
-              Padelopplevelser<br />
+            <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] mb-6">
+              Padel&shy;opplevelser<br />
               på <span className="font-display italic">Costa Blanca</span>
             </h1>
             <p className="text-white text-base sm:text-lg max-w-2xl leading-relaxed mb-9">
@@ -64,17 +71,16 @@ export default async function TravelCommunityHome() {
                 Be om tilbud
               </Link>
             </div>
-            <div className="mt-12 grid max-w-3xl grid-cols-1 gap-4 border-t border-white/25 pt-6 sm:grid-cols-3 sm:gap-6">
-              {[
-                { title: 'Mer enn padel', detail: 'Gode opplevelser på og utenfor banen' },
-                { title: 'For alle nivåer', detail: 'Personlig og tilpasset oppfølging' },
-                { title: 'Costa Blanca', detail: 'Solfylte dager med sport og fellesskap' },
-              ].map((item) => (
+            <div className="hidden sm:grid mt-12 max-w-3xl grid-cols-3 gap-6 border-t border-white/25 pt-6">
+              {HERO_FEATURES.map((item) => (
                 <div key={item.title}>
                   <p className="text-white font-semibold text-lg">{item.title}</p>
                   <p className="text-white/75 text-sm">{item.detail}</p>
                 </div>
               ))}
+            </div>
+            <div className="sm:hidden">
+              <HeroFeatureLoop items={HERO_FEATURES} />
             </div>
           </div>
         </div>
@@ -103,23 +109,23 @@ export default async function TravelCommunityHome() {
       </section>
 
       <section className="bg-(--color-community) text-white md:min-h-[720px]">
-        <div className="mx-auto grid max-w-[1450px] gap-8 px-4 py-16 sm:px-6 md:min-h-[720px] md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14 md:py-20">
+        <div className="mx-auto grid max-w-[1450px] gap-10 px-4 py-20 sm:px-6 md:min-h-[720px] md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14 md:py-24">
           <div>
-            <p className="text-(--color-overline-light) text-sm uppercase tracking-[0.18em] font-medium mb-3">Mer enn timer på banen</p>
-            <h2 className="font-sans font-normal text-5xl sm:text-6xl leading-tight mb-5">Det er menneskene som gjør opplevelsen.</h2>
-            <p className="max-w-xl text-white/80 leading-relaxed mb-7">
+            <p className="text-(--color-overline-light) text-sm uppercase tracking-[0.18em] font-medium mb-4 md:mb-3">Mer enn timer på banen</p>
+            <h2 className="font-sans font-normal text-5xl sm:text-6xl leading-tight mb-6 md:mb-5">Det er menneskene som gjør opplevelsen.</h2>
+            <p className="max-w-xl text-white/80 leading-relaxed mb-8 md:mb-7">
               Padel har alltid handlet om mer enn selve spillet. Det handler om menneskene du møter, og alt det gode som skjer på og utenfor banen.
             </p>
             <Link href="/travels/om-oss" className="inline-block min-h-11 text-lg font-semibold text-(--color-overline-light) underline decoration-(--color-overline-light)/50 underline-offset-4 hover:decoration-(--color-overline-light)">
-              Les om FERA Travel <span aria-hidden="true">→</span>
+              Les mer om FERA <span aria-hidden="true">→</span>
             </Link>
           </div>
-          <div className="relative aspect-[3/2] w-[95%] mx-auto rounded-2xl overflow-hidden bg-black">
+          <div className="relative aspect-[16/10] w-full mx-auto rounded-2xl overflow-hidden bg-black md:aspect-[3/2] md:w-[95%]">
             <Image
               src="/Bilder%20fra%20tur/DSC02287-2.JPG"
               alt="Gjeng fra en FERA-padeltur samlet ved nettet etter spill"
               fill
-              sizes="(max-width: 768px) 95vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
           </div>

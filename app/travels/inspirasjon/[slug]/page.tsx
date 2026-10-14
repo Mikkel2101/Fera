@@ -8,10 +8,12 @@ import { getPublishedArticle } from '@/lib/articles/queries'
 import { readingTimeMinutes } from '@/lib/articles/content'
 import { formatArticleDate } from '@/lib/articles/format'
 
-function CategoryBadge({ category }: { category: string }) {
+function CategoryBadge({ category, hideLabel }: { category: string; hideLabel?: boolean }) {
   return (
     <div>
-      <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-(--color-muted)">Kategori</p>
+      <p className={`mb-2 text-[11px] font-semibold uppercase tracking-widest text-(--color-muted) ${hideLabel ? 'invisible' : ''}`}>
+        Kategori
+      </p>
       <span className="inline-block rounded-full bg-(--color-sand-light) px-3 py-1 text-xs font-semibold text-(--color-dark)">
         {category}
       </span>
@@ -91,7 +93,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         {/* Innhold */}
         <div className="min-w-0 max-w-[900px] lg:pt-6">
           <div className="mb-4 lg:hidden">
-            <CategoryBadge category={article.category} />
+            <CategoryBadge category={article.category} hideLabel />
           </div>
 
           <h1 className="font-sans text-(--color-text) text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">

@@ -49,9 +49,19 @@ export default function ArticleShareButtons({ title }: { title: string }) {
 
   return (
     <div className="flex items-center gap-2">
-      <button type="button" onClick={copyLink} className={BUTTON} aria-label="Kopier lenke" title={copied ? 'Kopiert!' : 'Kopier lenke'}>
-        <IconLink />
-      </button>
+      <div className="relative">
+        <button type="button" onClick={copyLink} className={BUTTON} aria-label="Kopier lenke">
+          <IconLink />
+        </button>
+        {copied && (
+          <span
+            role="status"
+            className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-md bg-(--color-dark) px-2 py-1 text-[11px] font-medium text-white"
+          >
+            Lenke kopiert
+          </span>
+        )}
+      </div>
       <button type="button" onClick={share} className={BUTTON} aria-label="Del artikkel">
         <IconShare />
       </button>

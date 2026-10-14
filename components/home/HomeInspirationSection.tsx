@@ -43,7 +43,7 @@ export default async function HomeInspirationSection({ variant = 'travels' }: { 
     : articlePosts
 
   return (
-    <section className="py-28 overflow-hidden bg-(--color-sand-light)">
+    <section className="py-20 md:py-24 overflow-hidden bg-(--color-sand-light)">
       <div className="max-w-[1450px] mx-auto px-4">
         <div className="flex items-end justify-between mb-10">
           <div>

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { getPublishedArticles } from '@/lib/articles/queries'
 import { formatArticleDate } from '@/lib/articles/format'
+import InspirasjonSearch from '@/components/travels/InspirasjonSearch'
 
 export const metadata: Metadata = {
   title: 'Inspirasjon — FERA Travels',
@@ -42,7 +43,7 @@ export default async function InspirasjonPage({
             Alt om våre reiser og destinasjoner — siste nytt, tips og inspirasjon, samlet på ett sted.
           </p>
 
-          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="relative mt-6 flex flex-wrap items-center gap-3 sm:static sm:justify-between">
           <nav aria-label="Filtrer artikler" className="flex flex-wrap gap-1.5">
             <Link
               href="/travels/inspirasjon"
@@ -70,28 +71,7 @@ export default async function InspirasjonPage({
               </Link>
             ))}
           </nav>
-          <form action="/travels/inspirasjon" method="get" role="search" className="flex w-full max-w-sm items-center gap-2 sm:w-auto">
-            {activeCategory && <input type="hidden" name="category" value={activeCategory} />}
-            <label htmlFor="article-search" className="sr-only">Søk i artikler</label>
-            <input
-              id="article-search"
-              name="q"
-              type="search"
-              defaultValue={q}
-              placeholder="Søk i artikler"
-              className="min-w-0 flex-1 border-b border-(--color-border) bg-transparent px-2 py-2 text-sm text-(--color-text) placeholder:text-(--color-muted) focus:border-(--color-cta) focus:outline-none"
-            />
-            <button
-              type="submit"
-              aria-label="Søk"
-              className="grid size-9 shrink-0 place-items-center rounded-md bg-(--color-sand-light) text-(--color-dark) transition-colors hover:bg-(--color-sand-warm)"
-            >
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="7" />
-                <path d="m20 20-4-4" />
-              </svg>
-            </button>
-          </form>
+          <InspirasjonSearch activeCategory={activeCategory} defaultValue={q} />
           </div>
           <div className="mt-6 sm:mt-8 border-t border-(--color-border)" />
         </div>
@@ -162,7 +142,39 @@ export default async function InspirasjonPage({
                 </Link>
               )}
             </div>
-            <div className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Mobil — kompakt liste uten ingress, bilde på venstre side */}
+            <div className="sm:hidden divide-y divide-(--color-border) border-t border-(--color-border)">
+              {latestPosts.map((post) => (
+                <Link key={post.slug} href={`/travels/inspirasjon/${post.slug}`} className="group flex gap-4 py-5">
+                  <div className="relative size-20 shrink-0 overflow-hidden rounded-xl bg-(--color-sand-light)">
+                    {post.cover_image && (
+                      <Image
+                        src={post.cover_image}
+                        alt={post.cover_image_alt ?? ''}
+                        fill
+                        sizes="80px"
+                        className="object-cover"
+                        unoptimized
+                      />
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className="inline-block rounded-full bg-(--color-sand-light) px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-(--color-dark)">
+                      {post.category}
+                    </span>
+                    <h3 className="mt-1.5 line-clamp-2 font-sans text-lg font-medium leading-snug text-(--color-dark) group-hover:text-(--color-dark-mid)">
+                      {post.title}
+                    </h3>
+                    <p className="mt-1.5 text-sm text-(--color-muted)">
+                      {formatArticleDate(post.published_at)} — {post.reading_minutes} min lesing
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Nettbrett/desktop — grid med bilde og ingress */}
+            <div className="hidden sm:grid grid-cols-2 gap-x-10 gap-y-14 lg:grid-cols-3">
               {latestPosts.map((post) => (
                 <Link key={post.slug} href={`/travels/inspirasjon/${post.slug}`} className="group">
                   <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-2xl bg-(--color-sand-light)">
@@ -196,16 +208,28 @@ export default async function InspirasjonPage({
 
       {!activeCategory && (
         <section className="bg-(--color-community) py-20 text-white sm:py-28">
-          <div className="mx-auto grid max-w-[1450px] gap-8 px-4 sm:px-6 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14">
-            <div className="max-w-xl">
-              <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-(--color-overline-light)">Neste stopp</p>
-              <h2 className="font-sans text-3xl font-normal leading-tight sm:text-4xl">Opplev Costa Blanca med FERA</h2>
-              <p className="mt-4 leading-relaxed text-white/75">Gode baner, personlig coaching og tid til å nyte livet utenfor banen.</p>
-              <Link href="/travels" className="mt-6 inline-flex min-h-11 items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-(--color-dark) transition-colors hover:bg-(--color-sand)">
+          <div className="mx-auto grid max-w-[1450px] gap-0 px-4 sm:px-6 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14">
+            {/* md:block gjengir denne gruppen som normal blokk slik at overskrift/tekst/knapp havner i venstre kolonne på desktop; på mobil blir den usynlig (display: contents) slik at order-N under styrer rekkefølgen direkte. gap-0 på grid-containeren er bevisst — ellers arver de flate order-elementene grid-gapet som ekstra avstand oppå sine egne mt-klasser */}
+            <div className="contents md:block md:max-w-xl">
+              <p className="order-1 mb-3 text-xs font-medium uppercase tracking-[0.16em] text-(--color-overline-light)">Neste stopp</p>
+              <h2 className="order-2 font-sans text-3xl font-normal leading-tight sm:text-4xl">Opplev Costa Blanca med FERA</h2>
+              {/* Video kun i mobil-rekkefølgen her — den egentlige, synlige videoen på desktop ligger i høyrekolonnen under */}
+              <div className="order-3 relative mt-7 aspect-[16/9] overflow-hidden rounded-2xl md:mt-0 md:hidden">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 h-full w-full object-cover"
+                  src="/fera-travels.mp4"
+                />
+              </div>
+              <p className="order-4 mt-7 leading-snug text-white/75 md:mt-4 md:leading-relaxed">Gode baner, personlig coaching og tid til å nyte livet utenfor banen.</p>
+              <Link href="/travels" className="order-5 mt-5 inline-flex min-h-11 w-fit items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-(--color-dark) transition-colors hover:bg-(--color-sand) md:mt-6">
                 Se våre reiser <span aria-hidden="true" className="ml-2">→</span>
               </Link>
             </div>
-            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
+            <div className="hidden md:block relative aspect-[16/9] overflow-hidden rounded-2xl">
               <video
                 autoPlay
                 muted
