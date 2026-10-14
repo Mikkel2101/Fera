@@ -47,7 +47,7 @@ export default function TripsCarousel({ trips }: { trips: Trip[] }) {
         style={{ marginRight: 'calc(-50vw + 50%)' }}
       >
         {trips.map((trip) => (
-          <div key={trip.id} className="w-[85vw] shrink-0 snap-start sm:w-[380px] lg:w-[420px]">
+          <div key={trip.id} className="w-[88vw] shrink-0 snap-start sm:w-[440px] lg:w-[480px]">
             <TripCard trip={trip} />
           </div>
         ))}
