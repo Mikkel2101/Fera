@@ -39,7 +39,7 @@ export default async function InspirasjonPage({
         <div className="mx-auto max-w-[1450px] px-4 sm:px-6">
           <h1 className="font-sans text-5xl font-semibold text-(--color-dark) sm:text-6xl">Inspirasjon</h1>
           <p className="mt-2 text-lg text-(--color-subtle)">
-            Få siste nytt fra FERA Travel
+            Det siste om hvordan vi former fremtidens padelreiser.
           </p>
 
           <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
