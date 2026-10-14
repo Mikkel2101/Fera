@@ -59,6 +59,8 @@ const IconMapPin = () => (
 export default function TripBookingCard({ trip }: { trip: TripRow }) {
   const isBookable = trip.status !== 'Fullbooket' && trip.status !== 'Avlyst' && trip.status !== 'Gjennomført' && trip.status !== 'Utkast'
   const nights = nightCount(trip.start_date, trip.end_date)
+  const singleSupplement =
+    trip.price_single_eur != null ? trip.price_single_eur - trip.price_double_eur : null
 
   return (
     <div className="bg-white border border-(--color-border) rounded-2xl p-6 shadow-sm">
@@ -95,7 +97,9 @@ export default function TripBookingCard({ trip }: { trip: TripRow }) {
         </span>
         <span className="flex items-center gap-2">
           <IconUsers />
-          Dobbeltrom (+300 enkeltrom)
+          {singleSupplement != null
+            ? `Dobbeltrom (+${singleSupplement.toLocaleString('nb-NO')}€ enkeltrom)`
+            : 'Dobbeltrom'}
         </span>
       </div>
 

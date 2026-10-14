@@ -50,7 +50,7 @@ export default function TripHero({ trip }: { trip: TripRow }) {
             )}
           </div>
 
-          <h1 className="font-sans text-white text-4xl sm:text-5xl lg:text-7xl font-bold leading-[1.05]">
+          <h1 className="font-sans text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05]">
             {trip.name}
           </h1>
         </div>
