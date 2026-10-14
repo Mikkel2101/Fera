@@ -109,6 +109,7 @@ export default function DateRangePicker({ label, from, to, onChange }: Props) {
             selected={range}
             onSelect={handleSelect}
             weekStartsOn={1}
+            min={1}
             classNames={calendarClassNames}
           />
           <div className="border-t border-(--color-border) px-4 py-3">

@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-type Testimonial = { quote: string; name: string; role: string }
+export type Testimonial = { quote: string; name: string; role: string }
 
-const testimonials: Testimonial[] = [
+export const testimonials: Testimonial[] = [
   {
     quote:
       'FERA og Petter er fantastiske og pålitelige samarbeidspartnere på padelturer. De tilrettelegger for alle nivåer og leverer et produkt som ingen andre på markedet kan måle seg mot. Seriøs padel med gode trenere og nivåinndelte turneringer. Og så liker jeg at kveldene er satt av til sosialt og gode matopplevelser.',
     name: 'Anders Fältnas',
-    role: 'Eier og senterleder, Sotra Padel',
+    role: 'Sotra Padel',
   },
   {
     quote:
