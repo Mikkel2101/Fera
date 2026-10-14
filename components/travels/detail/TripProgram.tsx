@@ -25,13 +25,13 @@ export default function TripProgram({ program }: { program: string | null }) {
         {blocks.length > 1 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {blocks.map((block, i) => (
-              <div key={i} className="flex gap-5 bg-white border border-(--color-border) rounded-xl p-5">
+              <div key={i} className="flex gap-5 bg-(--color-sand-light) border border-(--color-border) rounded-xl p-5">
                 <div className="w-8 h-8 rounded-full bg-(--color-dark) text-white text-xs font-bold flex items-center justify-center shrink-0">
                   {i + 1}
                 </div>
                 <div className="min-w-0">
                   {block.day && (
-                    <p className="font-display font-bold text-(--color-text) text-lg capitalize mb-2">{block.day}</p>
+                    <p className="font-sans font-bold text-(--color-text) text-lg capitalize mb-2">{block.day}</p>
                   )}
                   <div className="space-y-1">
                     {block.lines.map((l, j) => (

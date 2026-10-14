@@ -9,7 +9,7 @@ export default function TripIncluded({ included }: { included: string[] }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {included.map((item, i) => (
             <div key={i} className="flex items-start gap-3 bg-(--color-sand-light) rounded-xl px-5 py-4">
-              <span className="shrink-0 w-6 h-6 rounded-full bg-(--color-success) flex items-center justify-center mt-0.5">
+              <span className="shrink-0 w-6 h-6 rounded-full bg-(--color-cta) flex items-center justify-center mt-0.5">
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M1.5 5l2.5 2.5 5-5"/>
                 </svg>
