@@ -84,11 +84,11 @@ export default async function HomeInspirationSection({ variant = 'travels' }: { 
                     {post.category}
                   </span>
                 </div>
-                <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
-                <h3 className="font-sans font-normal text-(--color-text) text-2xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
+                <p className="text-(--color-muted) text-sm mb-2">{post.date}</p>
+                <h3 className="font-sans font-normal text-(--color-text) text-3xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
+                <p className="line-clamp-1 text-(--color-muted) text-base leading-relaxed">{post.excerpt}</p>
               </Link>
             ))}
             <div className="flex-none w-4 sm:w-6 lg:w-8" />
