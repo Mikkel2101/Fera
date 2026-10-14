@@ -35,11 +35,11 @@ export default async function InspirasjonPage({
 
   return (
     <>
-      <section className="bg-white pb-8 pt-10 sm:pt-14">
+      <section className="bg-white pb-0 pt-10 sm:pt-14">
         <div className="mx-auto max-w-[1450px] px-4 sm:px-6">
-          <h1 className="font-sans text-4xl font-semibold text-(--color-dark) md:text-5xl lg:text-6xl">Inspirasjon</h1>
-          <p className="mt-2 text-sm text-(--color-subtle)">
-            Få siste nytt fra FERA Travel
+          <h1 className="font-sans text-5xl font-semibold text-(--color-dark) sm:text-6xl">Inspirasjon</h1>
+          <p className="mt-2 text-lg text-(--color-subtle)">
+            Alt om våre reiser og destinasjoner — siste nytt, tips og inspirasjon, samlet på ett sted.
           </p>
 
           <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -93,11 +93,12 @@ export default async function InspirasjonPage({
             </button>
           </form>
           </div>
+          <div className="mt-6 sm:mt-8 border-t border-(--color-border)" />
         </div>
       </section>
 
       {featuredPost && (
-        <section className="py-10 sm:py-14">
+        <section className="pt-6 pb-10 sm:pt-8 sm:pb-14">
           <div className="mx-auto grid max-w-[1450px] gap-8 px-4 sm:px-6 lg:grid-cols-[1.55fr_1fr] lg:items-center">
             <Link
               href={`/travels/inspirasjon/${featuredPost.slug}`}
@@ -130,8 +131,8 @@ export default async function InspirasjonPage({
               <p className="mt-4 max-w-xl leading-relaxed text-(--color-subtle)">{featuredPost.excerpt}</p>
               <div className="mt-8 flex w-full flex-wrap items-center justify-between gap-x-5 gap-y-3 lg:mt-auto">
                 <p className="flex items-center gap-3 text-sm font-medium text-(--color-text)">
-                  <span className="grid size-9 place-items-center rounded-full bg-(--color-sand) text-xs font-bold text-(--color-dark)">F</span>
-                  FERA Travel
+                  <span className="grid size-9 place-items-center rounded-full bg-(--color-ice) text-xs font-bold text-(--color-dark)">F</span>
+                  Teamet i FERA
                 </p>
                 <Link
                   href={`/travels/inspirasjon/${featuredPost.slug}`}
@@ -146,7 +147,7 @@ export default async function InspirasjonPage({
       )}
 
       {latestPosts.length > 0 && (
-        <section className="border-t border-(--color-border) py-12 sm:py-16">
+        <section className="border-t border-(--color-border) pt-12 pb-28 sm:pt-16 sm:pb-36">
           <div className="mx-auto max-w-[1450px] px-4 sm:px-6">
             <div className="mb-8 flex items-end justify-between gap-4">
               <div>
@@ -161,7 +162,7 @@ export default async function InspirasjonPage({
                 </Link>
               )}
             </div>
-            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
               {latestPosts.map((post) => (
                 <Link key={post.slug} href={`/travels/inspirasjon/${post.slug}`} className="group">
                   <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-2xl bg-(--color-sand-light)">
@@ -182,10 +183,10 @@ export default async function InspirasjonPage({
                   <p className="mb-2 text-xs text-(--color-muted)">
                     {formatArticleDate(post.published_at)} · {post.reading_minutes} min lesing
                   </p>
-                  <h3 className="font-sans text-xl font-normal leading-snug text-(--color-dark) group-hover:text-(--color-dark-mid)">
+                  <h3 className="line-clamp-2 font-sans text-2xl font-normal leading-snug text-(--color-dark) group-hover:text-(--color-dark-mid)">
                     {post.title}
                   </h3>
-                  <p className="mt-2 text-base leading-relaxed text-(--color-subtle)">{post.excerpt}</p>
+                  <p className="mt-2 line-clamp-2 text-base leading-relaxed text-(--color-subtle)">{post.excerpt}</p>
                 </Link>
               ))}
             </div>
@@ -194,7 +195,7 @@ export default async function InspirasjonPage({
       )}
 
       {!activeCategory && (
-        <section className="bg-(--color-community) py-12 text-white sm:py-16">
+        <section className="bg-(--color-community) py-20 text-white sm:py-28">
           <div className="mx-auto grid max-w-[1450px] gap-8 px-4 sm:px-6 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14">
             <div className="max-w-xl">
               <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-(--color-overline-light)">Neste stopp</p>
@@ -205,13 +206,13 @@ export default async function InspirasjonPage({
               </Link>
             </div>
             <div className="relative aspect-[16/9] overflow-hidden rounded-2xl">
-              <Image
-                src={`${PHOTOS}/palm-sunset.jpg`}
-                alt="Padelbane ved palmer i solnedgang på Costa Blanca"
-                fill
-                sizes="(max-width: 768px) 100vw, 60vw"
-                className="object-cover"
-                unoptimized
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover"
+                src="/fera-travels.mp4"
               />
             </div>
           </div>

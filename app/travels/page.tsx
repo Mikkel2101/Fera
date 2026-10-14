@@ -25,7 +25,7 @@ export default async function TravelsPage() {
         />
         <div className="absolute inset-0 bg-(--color-overlay)/80" />
         <div className="relative max-w-[1450px] mx-auto w-full px-4 sm:px-6">
-          <h1 className="font-sans font-normal text-white text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
+          <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl leading-tight mb-6">
             Våre reiser
           </h1>
           <p className="text-white text-lg max-w-xl leading-relaxed">

@@ -68,7 +68,7 @@ export default async function HomePage() {
           {/* Desktop: gradient from left */}
           <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-(--color-overlay)/75 via-(--color-overlay)/30 to-transparent" />
           <div className="relative max-w-[1450px] mx-auto px-4 py-24 w-full">
-            <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl lg:text-7xl leading-none max-w-3xl mb-6">
+            <h1 className="font-sans font-normal text-white text-6xl sm:text-7xl lg:text-8xl leading-none max-w-3xl mb-6">
               Utstyr du elsker.<br />
               <span className="font-display italic">Turer du husker.</span>
             </h1>
@@ -190,22 +190,25 @@ export default async function HomePage() {
             className="absolute inset-0 w-full h-full object-cover"
             src="/fera-travels.mp4"
           />
-          <div className="absolute inset-0 bg-(--color-overlay-deep)/75" />
+          {/* Mobile + tablet: full overlay */}
+          <div className="absolute inset-0 bg-(--color-overlay-deep)/60 lg:hidden" />
+          {/* Desktop: gradient from left so the video shows through on the right */}
+          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-(--color-overlay-deep)/80 via-(--color-overlay-deep)/25 to-transparent" />
 
           <div className="relative max-w-[1450px] mx-auto px-4 py-24 w-full">
             {/* Overline */}
-            <p className="text-white text-xs tracking-[0.35em] uppercase font-sans mb-5">
+            <p className="text-white text-shadow-sm text-xs tracking-[0.35em] uppercase font-sans mb-5">
               REIS MED FERA
             </p>
 
             {/* Heading */}
-            <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-2xl mb-5">
+            <h2 className="text-white text-shadow-lg text-4xl sm:text-5xl lg:text-6xl leading-tight max-w-2xl mb-5">
               <span className="font-sans font-medium">Utforsk våre reiser langs kysten i</span>
               <span className="font-display italic font-medium">Costa Blanca</span>
             </h2>
 
             {/* Subtitle */}
-            <p className="text-white text-lg max-w-lg leading-relaxed mb-8">
+            <p className="text-white text-shadow-sm text-lg max-w-lg leading-relaxed mb-8">
               Vi tilbyr reiser med hotell, baner, coaching og opplevelser. Nøye planlagt for deg som vil kombinere spill, sol og gode dager på og utenfor banen.
             </p>
 

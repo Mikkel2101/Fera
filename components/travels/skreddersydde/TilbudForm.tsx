@@ -54,7 +54,7 @@ export default function TilbudForm() {
         messagePlaceholder="Nivå, destinasjon dere drømmer om, aktivitetsmix, budsjettramme, spesielle ønsker..."
         messageLabel="Fortell oss om nivå og ønsker"
         submitLabel="Be om tilbud →"
-        successMessage="Takk for forespørselen! Vi sender et skreddersydd tilbud innen 24 timer."
+        successMessage="Takk for forespørselen! Vi sender et tilpasset tilbud innen 24 timer."
       />
     </div>
   )

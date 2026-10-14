@@ -31,7 +31,7 @@ const faqs = [
   },
   {
     q: 'Kan dere skreddersy tur for vår klubb eller bedrift?',
-    a: 'Absolutt! Vi arrangerer private gruppeturer for alt fra 8 til 30 deltakere. Ta kontakt via siden for skreddersydde reiser for et uforpliktende tilbud.',
+    a: 'Absolutt! Vi arrangerer private gruppeturer for alt fra 8 til 30 deltakere. Ta kontakt via siden for tilpassede reiser for et uforpliktende tilbud.',
   },
   {
     q: 'Kan vi få spesiell mat (allergier, preferanser)?',

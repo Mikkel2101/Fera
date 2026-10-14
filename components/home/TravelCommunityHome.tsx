@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import HomeInspirationSection from '@/components/home/HomeInspirationSection'
-import TripCard from '@/components/travels/TripCard'
+import TripsCarousel from '@/components/home/TripsCarousel'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
 
@@ -17,7 +17,7 @@ export default async function TravelCommunityHome() {
     .gte('start_date', today)
     .in('status', ['Åpen', 'Få plasser', 'Fullbooket'])
     .order('start_date', { ascending: true })
-    .limit(3)
+    .limit(6)
 
   const trips = (data ?? []) as Trip[]
 
@@ -35,13 +35,17 @@ export default async function TravelCommunityHome() {
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-(--color-overlay-neutral)/75"
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 90% 80% at 28% 50%, color-mix(in srgb, var(--color-overlay) 75%, transparent) 0%, color-mix(in srgb, var(--color-overlay) 60%, transparent) 40%, color-mix(in srgb, var(--color-dark) 42%, transparent) 70%, color-mix(in srgb, var(--color-dark) 22%, transparent) 100%)',
+          }}
         />
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-6xl">
-            <h1 className="font-sans font-normal text-white text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-6">
+            <h1 className="font-sans font-normal text-white text-6xl md:text-7xl lg:text-8xl leading-[1.05] mb-6">
               Padelopplevelser<br />
-              <span className="font-display italic">på Costa Blanca</span>
+              på <span className="font-display italic">Costa Blanca</span>
             </h1>
             <p className="text-white text-base sm:text-lg max-w-2xl leading-relaxed mb-9">
               Kurerte padelreiser for klubber, bedrifter og venner - med trening, opplevelser og alt det praktiske ivaretatt.
@@ -49,15 +53,15 @@ export default async function TravelCommunityHome() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/travels#turer"
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-(--color-dark) transition-colors hover:bg-(--color-sand)"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 py-3 text-base font-normal text-(--color-dark) transition-colors hover:bg-(--color-sand)"
               >
                 Utforsk reisene
               </Link>
               <Link
-                href="/travels/om-oss"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+                href="/travels/skreddersydde-reiser#tilbud"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/60 px-6 py-3 text-base font-normal text-white transition-colors hover:bg-white/10"
               >
-                Møt FERA
+                Be om tilbud
               </Link>
             </div>
             <div className="mt-12 grid max-w-3xl grid-cols-1 gap-4 border-t border-white/25 pt-6 sm:grid-cols-3 sm:gap-6">
@@ -76,21 +80,17 @@ export default async function TravelCommunityHome() {
         </div>
       </section>
 
-      <section id="turer" className="scroll-mt-20 pt-20 sm:pt-24 pb-28 sm:pb-32">
+      <section id="turer" className="scroll-mt-20 overflow-hidden pt-20 sm:pt-24 pb-28 sm:pb-32">
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6">
-          <div className="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-(--color-overline) text-xs uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
-              <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Finn reisen som passer deg</h2>
-            </div>
-            <Link href="/travels" className="hidden self-end text-lg font-semibold leading-relaxed text-(--color-dark-mid) underline decoration-(--color-border) underline-offset-4 transition-colors hover:decoration-(--color-dark-mid) sm:block">
-              Se alle reiser <span aria-hidden="true">→</span>
-            </Link>
+          <div className="mb-10">
+            <p className="text-(--color-overline) text-sm uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
+            <h2 className="font-sans font-normal text-(--color-text) text-5xl sm:text-6xl mb-4">Finn reisen som passer deg</h2>
+            <p className="text-(--color-subtle) max-w-xl text-lg leading-relaxed">
+              Noen av våre kommende turer til Costa Blanca — bla gjennom og finn den som passer dere.
+            </p>
           </div>
           {trips.length > 0 ? (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {trips.map((trip) => <TripCard key={trip.id} trip={trip} />)}
-            </div>
+            <TripsCarousel trips={trips} seeAllHref="/travels" />
           ) : (
             <div className="border-y border-(--color-border) py-8">
               <p className="text-(--color-subtle) mb-4">Nye reiser legges ut fortløpende.</p>
@@ -105,7 +105,7 @@ export default async function TravelCommunityHome() {
       <section className="bg-(--color-community) text-white md:min-h-[720px]">
         <div className="mx-auto grid max-w-[1450px] gap-8 px-4 py-16 sm:px-6 md:min-h-[720px] md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14 md:py-20">
           <div>
-            <p className="text-(--color-overline-light) text-xs uppercase tracking-[0.18em] font-medium mb-3">Mer enn timer på banen</p>
+            <p className="text-(--color-overline-light) text-sm uppercase tracking-[0.18em] font-medium mb-3">Mer enn timer på banen</p>
             <h2 className="font-sans font-normal text-5xl sm:text-6xl leading-tight mb-5">Det er menneskene som gjør opplevelsen.</h2>
             <p className="max-w-xl text-white/80 leading-relaxed mb-7">
               Padel har alltid handlet om mer enn selve spillet. Det handler om menneskene du møter, og alt det gode som skjer på og utenfor banen.

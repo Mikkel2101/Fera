@@ -47,8 +47,8 @@ export default async function HomeInspirationSection({ variant = 'travels' }: { 
       <div className="max-w-[1450px] mx-auto px-4">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
-            <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
+            <p className="text-(--color-overline) text-sm uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
+            <h2 className="font-sans font-normal text-(--color-text) text-5xl sm:text-6xl mb-4">Utforsk FERA-universet</h2>
             <p className="font-sans text-[18px] text-(--color-text) max-w-xl leading-relaxed">
               {isShop
                 ? 'Les om tidligere padelreiser, få våre utstyrsanbefalinger og finn inspirasjon til deg som vil få mer ut av padel.'
@@ -56,7 +56,7 @@ export default async function HomeInspirationSection({ variant = 'travels' }: { 
             </p>
           </div>
           <Link href="/travels/inspirasjon" className="hidden self-end text-lg font-semibold leading-relaxed text-(--color-dark-mid) underline decoration-(--color-border) underline-offset-4 transition-colors hover:decoration-(--color-dark-mid) sm:block">
-            Se mer →
+            Inspirasjon →
           </Link>
         </div>
 
@@ -84,11 +84,11 @@ export default async function HomeInspirationSection({ variant = 'travels' }: { 
                     {post.category}
                   </span>
                 </div>
-                <p className="text-(--color-muted) text-xs mb-2">{post.date}</p>
-                <h3 className="font-sans font-normal text-(--color-text) text-2xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
+                <p className="text-(--color-muted) text-sm mb-2">{post.date}</p>
+                <h3 className="font-sans font-normal text-(--color-text) text-3xl leading-snug mb-2 group-hover:text-(--color-cta) transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-(--color-muted) text-sm leading-relaxed">{post.excerpt}</p>
+                <p className="line-clamp-1 text-(--color-muted) text-base leading-relaxed">{post.excerpt}</p>
               </Link>
             ))}
             <div className="flex-none w-4 sm:w-6 lg:w-8" />
