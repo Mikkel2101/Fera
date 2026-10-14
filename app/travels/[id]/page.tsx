@@ -7,6 +7,7 @@ import TripProgram from '@/components/travels/detail/TripProgram'
 import TripIncluded from '@/components/travels/detail/TripIncluded'
 import TripCoachingGeneric from '@/components/travels/detail/TripCoachingGeneric'
 import TripTravelDetails from '@/components/travels/detail/TripTravelDetails'
+import TripHotelInfo from '@/components/travels/detail/TripHotelInfo'
 import TripAreaGuide from '@/components/travels/detail/TripAreaGuide'
 import TripBookingCTA from '@/components/travels/detail/TripBookingCTA'
 import TripFaq from '@/components/travels/detail/TripFaq'
@@ -66,6 +67,7 @@ export default async function TripDetailPage({ params }: { params: Params }) {
             <TripCoachingGeneric />
             <TripIncluded included={trip.included} />
             <TripTravelDetails />
+            <TripHotelInfo />
             <TripAreaGuide />
             <TripBookingCTA trip={trip} />
             <TripFaq faq={trip.faq as FaqItem[]} />
