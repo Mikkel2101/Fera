@@ -46,7 +46,6 @@ export default async function TripDetailPage({ params }: { params: Params }) {
   return (
     <>
       <TripHero trip={trip} />
-      <TripMetaBar trip={trip} />
 
       <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8 py-2 lg:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-10">
@@ -62,6 +61,8 @@ export default async function TripDetailPage({ params }: { params: Params }) {
                 <p className="text-(--color-text) text-xl leading-relaxed">{trip.description}</p>
               </section>
             )}
+
+            <TripMetaBar trip={trip} />
 
             <TripProgram program={trip.program} />
             <TripCoachingGeneric />

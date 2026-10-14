@@ -25,11 +25,11 @@ Målgruppe: norske padel-spillere. Alle brukervendte tekster er på norsk.
 
 **Siden er offentlig:** `COMING_SOON=false` i Vercel Production (åpnet 13. oktober for brukertest). Sjekken ligger øverst i `proxy()` i `proxy.ts` — nye rewrites/redirects MÅ ligge etter den blokka. `COMING_SOON` er ikke satt for Preview. Å bytte verdien krever ny deploy før den trer i kraft.
 
-**Publiserte turer:** fire Padelcamp-turer på Costa Blanca i april 2027 (`trip_type = 'Padelcamp'`). Placeholder-FAQ ligger fortsatt på Klubb, Sotra og Haugesund — bare Bergen har ekte FAQ. Hotell-, Alicante- og Costa Blanca-teksten og «+300 enkeltrom» er hardkodet i turdetalj-komponentene; det må gjøres datadrevet før en tur til et annet sted publiseres.
+**Publiserte turer:** fire Padelcamp-turer på Costa Blanca i april 2027 (`trip_type = 'Padelcamp'`). Alle fire viser nå samme FAQ (Bergens opprinnelige 7 spørsmål, synkronisert i migrasjon 051) — placeholder-FAQ fra 036 er historie. Hotell-, Alicante- og Costa Blanca-teksten og «+300 enkeltrom» er hardkodet i turdetalj-komponentene; det må gjøres datadrevet før en tur til et annet sted publiseres.
 
 **E-post:** all avsender- og kontaktadresse er `post@ferapadel.com` (Resend, domenet er verifisert).
 
-**Neste ledige migrasjon: 048** (001–047 er kjørt i prod). Unntak: DROP av den gamle `reserve_trip_spot`-signaturen (18 parametre, uten `p_allergies_preferences`) fra 045 er ikke kjørt ennå — den gamle versjonen ligger ubrukt ved siden av den nye til Mikkel godkjenner DROP. Se «Drift» under.
+**Neste ledige migrasjon: 052** (001–051 er kjørt i prod).
 
 **Ferdig:**
 - FeraTravels: turlisteside `/travels`, turdetaljside `/travels/[id]`, booking er nå **uforpliktende reservasjon** (ingen Stripe-depositum ennå), admin-panel `/admin` med bekreft/kanseller/CSV-eksport
