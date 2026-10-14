@@ -47,8 +47,8 @@ export default async function HomeInspirationSection({ variant = 'travels' }: { 
       <div className="max-w-[1450px] mx-auto px-4">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
-            <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Utforsk FERA-universet</h2>
+            <p className="text-(--color-overline) text-sm uppercase tracking-widest font-medium mb-2">Inspirasjon</p>
+            <h2 className="font-sans font-normal text-(--color-text) text-5xl sm:text-6xl mb-4">Utforsk FERA-universet</h2>
             <p className="font-sans text-[18px] text-(--color-text) max-w-xl leading-relaxed">
               {isShop
                 ? 'Les om tidligere padelreiser, få våre utstyrsanbefalinger og finn inspirasjon til deg som vil få mer ut av padel.'

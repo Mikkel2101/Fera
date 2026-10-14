@@ -83,8 +83,8 @@ export default async function TravelCommunityHome() {
       <section id="turer" className="scroll-mt-20 pt-20 sm:pt-24 pb-28 sm:pb-32">
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6">
           <div className="mb-9">
-            <p className="text-(--color-overline) text-xs uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
-            <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Finn reisen som passer deg</h2>
+            <p className="text-(--color-overline) text-sm uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
+            <h2 className="font-sans font-normal text-(--color-text) text-5xl sm:text-6xl mb-4">Finn reisen som passer deg</h2>
             <p className="text-(--color-subtle) max-w-xl leading-relaxed mb-6">
               Noen av våre kommende turer til Costa Blanca — bla gjennom og finn den som passer dere.
             </p>
@@ -108,8 +108,8 @@ export default async function TravelCommunityHome() {
       <section className="bg-(--color-community) text-white md:min-h-[720px]">
         <div className="mx-auto grid max-w-[1450px] gap-8 px-4 py-16 sm:px-6 md:min-h-[720px] md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14 md:py-20">
           <div>
-            <p className="text-(--color-overline-light) text-xs uppercase tracking-[0.18em] font-medium mb-3">Mer enn timer på banen</p>
-            <h2 className="font-sans font-normal text-4xl sm:text-5xl leading-tight mb-5">Det er menneskene som gjør opplevelsen.</h2>
+            <p className="text-(--color-overline-light) text-sm uppercase tracking-[0.18em] font-medium mb-3">Mer enn timer på banen</p>
+            <h2 className="font-sans font-normal text-5xl sm:text-6xl leading-tight mb-5">Det er menneskene som gjør opplevelsen.</h2>
             <p className="max-w-xl text-white/80 leading-relaxed mb-7">
               Padel har alltid handlet om mer enn selve spillet. Det handler om menneskene du møter, og alt det gode som skjer på og utenfor banen.
             </p>

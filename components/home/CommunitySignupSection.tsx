@@ -17,8 +17,8 @@ export default function CommunitySignupSection() {
         </div>
 
         <div className="flex flex-col justify-center bg-(--color-community) px-10 py-16 sm:px-12 lg:col-span-2 lg:px-16 lg:py-20">
-          <p className="mb-4 text-xs font-medium uppercase tracking-widest text-white">FERA Travel</p>
-          <h2 className="mb-6 font-sans text-4xl font-normal leading-tight text-white sm:text-5xl">
+          <p className="mb-4 text-sm font-medium uppercase tracking-widest text-white">FERA Travel</p>
+          <h2 className="mb-6 font-sans text-5xl font-normal leading-tight text-white sm:text-6xl">
             Bli med i<br />FERA Community
           </h2>
           <p className="mb-8 font-sans text-base leading-relaxed text-white">
