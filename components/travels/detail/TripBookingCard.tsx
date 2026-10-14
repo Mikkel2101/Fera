@@ -53,10 +53,13 @@ export default function TripBookingCard({ trip }: { trip: TripRow }) {
 
   return (
     <div className="bg-white border border-(--color-border) rounded-2xl p-6 shadow-sm">
-      <p className="text-(--color-text) text-2xl font-bold mb-1">
-        Fra {trip.price_double_eur.toLocaleString('nb-NO')} EUR
+      <p className="text-(--color-muted) text-sm font-medium mb-1">Fra</p>
+      <p className="flex items-baseline gap-1.5 mb-5">
+        <span className="text-(--color-text) text-4xl font-bold">
+          {trip.price_double_eur.toLocaleString('nb-NO')} €
+        </span>
+        <span className="text-(--color-muted) text-sm">/ deltaker</span>
       </p>
-      <p className="text-(--color-muted) text-sm mb-5">per person i dobbeltrom</p>
 
       <div className="space-y-3 text-sm text-(--color-subtle) border-t border-(--color-border) pt-5 mb-5">
         <span className="flex items-center gap-2">
