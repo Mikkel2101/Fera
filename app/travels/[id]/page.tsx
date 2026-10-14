@@ -6,13 +6,12 @@ import TripBookingCard from '@/components/travels/detail/TripBookingCard'
 import TripProgram from '@/components/travels/detail/TripProgram'
 import TripIncluded from '@/components/travels/detail/TripIncluded'
 import TripExtras from '@/components/travels/detail/TripExtras'
-import TripCoaches from '@/components/travels/detail/TripCoaches'
+import TripCoachingGeneric from '@/components/travels/detail/TripCoachingGeneric'
 import TripPrices from '@/components/travels/detail/TripPrices'
 import TripFaq from '@/components/travels/detail/TripFaq'
 import WaitlistForm from '@/components/travels/detail/WaitlistForm'
 
 type Extra = { name: string; price_eur: number }
-type Coach = { name: string; title: string; bio: string }
 type FaqItem = { question: string; answer: string }
 
 type Params = Promise<{ id: string }>
@@ -66,7 +65,7 @@ export default async function TripDetailPage({ params }: { params: Params }) {
             <TripProgram program={trip.program} />
             <TripIncluded included={trip.included} />
             <TripExtras extras={trip.extras as Extra[]} />
-            <TripCoaches coaches={trip.coaches as Coach[]} />
+            <TripCoachingGeneric />
             <TripPrices trip={trip} />
             <TripFaq faq={trip.faq as FaqItem[]} />
           </div>
