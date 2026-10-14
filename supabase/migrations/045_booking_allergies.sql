@@ -1,4 +1,4 @@
--- Migration 039: Eget felt for allergier og preferanser på booking
+-- Migration 045: Eget felt for allergier og preferanser på booking
 -- Skilt ut fra special_requests ("Ønsker for turen") så vi kan samle inn
 -- allergier/kostbehov direkte i booking-skjemaet i stedet for før avreise.
 
