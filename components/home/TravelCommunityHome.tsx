@@ -48,7 +48,7 @@ export default async function TravelCommunityHome() {
               'radial-gradient(ellipse 90% 80% at 28% 50%, color-mix(in srgb, var(--color-overlay) 75%, transparent) 0%, color-mix(in srgb, var(--color-overlay) 60%, transparent) 40%, color-mix(in srgb, var(--color-dark) 42%, transparent) 70%, color-mix(in srgb, var(--color-dark) 22%, transparent) 100%)',
           }}
         />
-        <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 pt-28 pb-20 md:py-28">
+        <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 pt-32 pb-20 md:py-28">
           <div className="max-w-6xl">
             <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] mb-6">
               Padel&shy;opplevelser<br />
@@ -71,7 +71,7 @@ export default async function TravelCommunityHome() {
                 Be om tilbud
               </Link>
             </div>
-            <div className="hidden sm:grid mt-12 max-w-3xl grid-cols-3 gap-6 border-t border-white/25 pt-6 lg:gap-10">
+            <div className="hidden sm:grid mt-16 max-w-3xl grid-cols-3 gap-6 border-t border-white/25 pt-6 lg:gap-10">
               {HERO_FEATURES.map((item) => (
                 <div key={item.title}>
                   <p className="text-white font-semibold text-lg uppercase tracking-wide">{item.title}</p>
