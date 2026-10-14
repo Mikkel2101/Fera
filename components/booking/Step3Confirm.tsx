@@ -97,7 +97,7 @@ export default function Step3Confirm({ trip, step1, step2, onBack }: Props) {
       </h2>
 
       {/* Oppsummering */}
-      <div className="bg-(--color-sand) rounded-xl p-5 space-y-3">
+      <div className="bg-(--color-beige) rounded-xl p-5 space-y-3">
         {rows.map(([label, value]) => (
           <div key={label} className="flex justify-between gap-4 text-sm">
             <span className="text-(--color-subtle) shrink-0">{label}</span>
