@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import HomeInspirationSection from '@/components/home/HomeInspirationSection'
-import TripCard from '@/components/travels/TripCard'
+import TripsCarousel from '@/components/home/TripsCarousel'
 import { createClient } from '@/lib/supabase/server'
 import type { Database } from '@/lib/supabase/types'
 
@@ -17,7 +17,7 @@ export default async function TravelCommunityHome() {
     .gte('start_date', today)
     .in('status', ['Åpen', 'Få plasser', 'Fullbooket'])
     .order('start_date', { ascending: true })
-    .limit(3)
+    .limit(6)
 
   const trips = (data ?? []) as Trip[]
 
@@ -38,7 +38,7 @@ export default async function TravelCommunityHome() {
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse 85% 75% at 30% 50%, color-mix(in srgb, var(--color-dark) 85%, transparent) 0%, color-mix(in srgb, var(--color-dark) 50%, transparent) 55%, color-mix(in srgb, var(--color-dark) 15%, transparent) 100%)',
+              'radial-gradient(ellipse 85% 75% at 30% 50%, color-mix(in srgb, var(--color-overlay-deep) 90%, transparent) 0%, color-mix(in srgb, var(--color-dark) 55%, transparent) 55%, color-mix(in srgb, var(--color-dark) 15%, transparent) 100%)',
           }}
         />
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
@@ -82,19 +82,18 @@ export default async function TravelCommunityHome() {
 
       <section id="turer" className="scroll-mt-20 pt-20 sm:pt-24 pb-28 sm:pb-32">
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6">
-          <div className="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-(--color-overline) text-xs uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
-              <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">Finn reisen som passer deg</h2>
-            </div>
-            <Link href="/travels" className="hidden self-end text-lg font-semibold leading-relaxed text-(--color-dark-mid) underline decoration-(--color-border) underline-offset-4 transition-colors hover:decoration-(--color-dark-mid) sm:block">
-              Se alle reiser <span aria-hidden="true">→</span>
+          <div className="mb-9">
+            <p className="text-(--color-overline) text-xs uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
+            <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl mb-4">Finn reisen som passer deg</h2>
+            <p className="text-(--color-subtle) max-w-xl leading-relaxed mb-6">
+              Noen av våre kommende turer til Costa Blanca — bla gjennom og finn den som passer dere.
+            </p>
+            <Link href="/travels" className="inline-flex min-h-12 items-center justify-center rounded-full bg-(--color-cta) px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-(--color-dark-mid)">
+              Se alle reiser <span aria-hidden="true" className="ml-2">→</span>
             </Link>
           </div>
           {trips.length > 0 ? (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {trips.map((trip) => <TripCard key={trip.id} trip={trip} />)}
-            </div>
+            <TripsCarousel trips={trips} />
           ) : (
             <div className="border-y border-(--color-border) py-8">
               <p className="text-(--color-subtle) mb-4">Nye reiser legges ut fortløpende.</p>
