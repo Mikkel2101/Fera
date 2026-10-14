@@ -22,12 +22,6 @@ const IconCalendar = () => (
     <path d="M1 6.5h14M5 1v3M11 1v3"/>
   </svg>
 )
-const IconClock = () => (
-  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="8" cy="8" r="6.5"/>
-    <path d="M8 4.5v4l2.5 2"/>
-  </svg>
-)
 const IconUsers = () => (
   <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="6" cy="5" r="2.5"/>
@@ -73,12 +67,10 @@ export default function TripBookingCard({ trip }: { trip: TripRow }) {
       </p>
 
       <div className="space-y-3 text-sm text-(--color-subtle) border-t border-(--color-border) pt-5 mb-5">
-        {trip.hotel && (
-          <span className="flex items-center gap-2">
-            <IconHotel />
-            {trip.hotel}
-          </span>
-        )}
+        <span className="flex items-center gap-2">
+          <IconCalendar />
+          {formatDate(trip.start_date)} – {formatDate(trip.end_date)} ({nights} netter)
+        </span>
         <span className="flex items-center gap-2">
           <IconPlane />
           Alicante (ALC)
@@ -87,14 +79,12 @@ export default function TripBookingCard({ trip }: { trip: TripRow }) {
           <IconMapPin />
           Costa Blanca
         </span>
-        <span className="flex items-center gap-2">
-          <IconCalendar />
-          {formatDate(trip.start_date)} – {formatDate(trip.end_date)}
-        </span>
-        <span className="flex items-center gap-2">
-          <IconClock />
-          {nights} netter
-        </span>
+        {trip.hotel && (
+          <span className="flex items-center gap-2">
+            <IconHotel />
+            {trip.hotel}
+          </span>
+        )}
         <span className="flex items-center gap-2">
           <IconUsers />
           {singleSupplement != null
