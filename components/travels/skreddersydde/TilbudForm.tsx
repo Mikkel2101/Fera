@@ -22,23 +22,25 @@ export default function TilbudForm() {
 
   return (
     <div>
-      <p className="text-white text-lg font-medium text-center mb-4">Hvem er dere?</p>
-      <div className="flex flex-wrap justify-center gap-2 mb-8">
-        {AUDIENCES.map((a) => (
-          <button
-            key={a.key}
-            type="button"
-            onClick={() => setAudience(a.key)}
-            aria-pressed={audience === a.key}
-            className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
-              audience === a.key
-                ? 'bg-white text-(--color-dark)'
-                : 'border border-white/30 text-white hover:border-white/60'
-            }`}
-          >
-            {a.label}
-          </button>
-        ))}
+      <div className="flex flex-col items-center gap-3 mb-8 lg:flex-row lg:items-center lg:gap-4">
+        <p className="text-white text-lg font-medium text-center lg:text-left lg:text-xl">Hvem er dere?</p>
+        <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
+          {AUDIENCES.map((a) => (
+            <button
+              key={a.key}
+              type="button"
+              onClick={() => setAudience(a.key)}
+              aria-pressed={audience === a.key}
+              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
+                audience === a.key
+                  ? 'bg-white text-(--color-dark)'
+                  : 'border border-white/30 text-white hover:border-white/60'
+              }`}
+            >
+              {a.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <ContactForm
