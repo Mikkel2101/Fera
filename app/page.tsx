@@ -68,7 +68,7 @@ export default async function HomePage() {
           {/* Desktop: gradient from left */}
           <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-(--color-overlay)/75 via-(--color-overlay)/30 to-transparent" />
           <div className="relative max-w-[1450px] mx-auto px-4 py-24 w-full">
-            <h1 className="font-sans font-normal text-white text-5xl sm:text-6xl lg:text-7xl leading-none max-w-3xl mb-6">
+            <h1 className="font-sans font-normal text-white text-6xl sm:text-7xl lg:text-8xl leading-none max-w-3xl mb-6">
               Utstyr du elsker.<br />
               <span className="font-display italic">Turer du husker.</span>
             </h1>
