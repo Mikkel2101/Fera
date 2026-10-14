@@ -35,13 +35,17 @@ export default async function TravelCommunityHome() {
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-(--color-overlay-neutral)/75"
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 85% 75% at 30% 50%, color-mix(in srgb, var(--color-dark) 85%, transparent) 0%, color-mix(in srgb, var(--color-dark) 50%, transparent) 55%, color-mix(in srgb, var(--color-dark) 15%, transparent) 100%)',
+          }}
         />
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
           <div className="max-w-6xl">
             <h1 className="font-sans font-normal text-white text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-6">
               Padelopplevelser<br />
-              <span className="font-display italic">på Costa Blanca</span>
+              på <span className="font-display italic">Costa Blanca</span>
             </h1>
             <p className="text-white text-base sm:text-lg max-w-2xl leading-relaxed mb-9">
               Kurerte padelreiser for klubber, bedrifter og venner - med trening, opplevelser og alt det praktiske ivaretatt.
@@ -49,15 +53,15 @@ export default async function TravelCommunityHome() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/travels#turer"
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-(--color-dark) transition-colors hover:bg-(--color-sand)"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 py-3 text-base font-semibold text-(--color-dark) transition-colors hover:bg-(--color-sand)"
               >
                 Utforsk reisene
               </Link>
               <Link
-                href="/travels/om-oss"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
+                href="/travels/skreddersydde-reiser#tilbud"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/60 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-white/10"
               >
-                Møt FERA
+                Be om tilbud
               </Link>
             </div>
             <div className="mt-12 grid max-w-3xl grid-cols-1 gap-4 border-t border-white/25 pt-6 sm:grid-cols-3 sm:gap-6">
