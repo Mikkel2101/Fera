@@ -190,7 +190,10 @@ export default async function HomePage() {
             className="absolute inset-0 w-full h-full object-cover"
             src="/fera-travels.mp4"
           />
-          <div className="absolute inset-0 bg-(--color-overlay-deep)/75" />
+          {/* Mobile + tablet: full overlay */}
+          <div className="absolute inset-0 bg-(--color-overlay-deep)/60 lg:hidden" />
+          {/* Desktop: gradient from left so the video shows through on the right */}
+          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-(--color-overlay-deep)/80 via-(--color-overlay-deep)/40 to-transparent" />
 
           <div className="relative max-w-[1450px] mx-auto px-4 py-24 w-full">
             {/* Overline */}
