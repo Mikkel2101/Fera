@@ -22,12 +22,6 @@ const IconCalendar = () => (
     <path d="M1 6.5h14M5 1v3M11 1v3"/>
   </svg>
 )
-const IconPin = () => (
-  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M8 1.5C5.515 1.5 3.5 3.515 3.5 6c0 3.75 4.5 8.5 4.5 8.5s4.5-4.75 4.5-8.5c0-2.485-2.015-4.5-4.5-4.5z"/>
-    <circle cx="8" cy="6" r="1.5"/>
-  </svg>
-)
 const IconClock = () => (
   <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="8" cy="8" r="6.5"/>
@@ -51,8 +45,8 @@ const IconHotel = () => (
   </svg>
 )
 const IconPlane = () => (
-  <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M1.5 8.5 14 3.5c.7-.3 1.3.3 1 1L10 14.5l-1.5-4.5-4.5-1.5 7.5-4"/>
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3-1 3 1v-1.5L13 19v-5.5l8 2.5Z"/>
   </svg>
 )
 const IconMap = () => (
@@ -76,7 +70,7 @@ export default function TripBookingCard({ trip }: { trip: TripRow }) {
         <span className="text-(--color-muted) text-sm">/ deltaker</span>
       </p>
 
-      <div className="space-y-3 text-sm text-(--color-subtle) mb-5">
+      <div className="space-y-3 text-sm text-(--color-subtle) border-t border-(--color-border) pt-5 mb-5">
         {trip.hotel && (
           <span className="flex items-center gap-2">
             <IconHotel />
@@ -85,22 +79,15 @@ export default function TripBookingCard({ trip }: { trip: TripRow }) {
         )}
         <span className="flex items-center gap-2">
           <IconPlane />
-          Alicante
+          Alicante (ALC)
         </span>
         <span className="flex items-center gap-2">
           <IconMap />
           Costa Blanca
         </span>
-      </div>
-
-      <div className="space-y-3 text-sm text-(--color-subtle) border-t border-(--color-border) pt-5 mb-5">
         <span className="flex items-center gap-2">
           <IconCalendar />
           {formatDate(trip.start_date)} – {formatDate(trip.end_date)}
-        </span>
-        <span className="flex items-center gap-2">
-          <IconPin />
-          {trip.destination}
         </span>
         <span className="flex items-center gap-2">
           <IconClock />
