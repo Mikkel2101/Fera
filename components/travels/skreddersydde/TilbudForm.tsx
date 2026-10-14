@@ -22,9 +22,9 @@ export default function TilbudForm() {
 
   return (
     <div>
-      <div className="flex flex-col items-center gap-3 mb-8 lg:flex-row lg:items-center lg:gap-4">
+      <div className="flex flex-col items-center gap-3 mb-8 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
         <p className="text-white text-lg font-medium text-center lg:text-left lg:text-2xl">Hvem er dere?</p>
-        <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
+        <div className="flex flex-wrap justify-center gap-2 lg:justify-end">
           {AUDIENCES.map((a) => (
             <button
               key={a.key}
