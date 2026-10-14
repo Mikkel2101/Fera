@@ -21,9 +21,15 @@ Målgruppe: norske padel-spillere. Alle brukervendte tekster er på norsk.
 
 ---
 
-## Nåværende status (per 8. oktober 2026)
+## Nåværende status (per 14. oktober 2026)
 
-**Siden er stengt bak coming-soon:** `COMING_SOON=true` i Vercel Production. Sjekken ligger øverst i `proxy()` i `proxy.ts` — nye rewrites/redirects MÅ ligge etter den blokka. `COMING_SOON` er ikke satt for Preview, så designendringer kan sees i PR-previews.
+**Siden er offentlig:** `COMING_SOON=false` i Vercel Production (åpnet 13. oktober for brukertest). Sjekken ligger øverst i `proxy()` i `proxy.ts` — nye rewrites/redirects MÅ ligge etter den blokka. `COMING_SOON` er ikke satt for Preview. Å bytte verdien krever ny deploy før den trer i kraft.
+
+**Publiserte turer:** fire Padelcamp-turer på Costa Blanca i april 2027 (`trip_type = 'Padelcamp'`). Placeholder-FAQ ligger fortsatt på Klubb, Sotra og Haugesund — bare Bergen har ekte FAQ. Hotell-, Alicante- og Costa Blanca-teksten og «+300 enkeltrom» er hardkodet i turdetalj-komponentene; det må gjøres datadrevet før en tur til et annet sted publiseres.
+
+**E-post:** all avsender- og kontaktadresse er `post@ferapadel.com` (Resend, domenet er verifisert).
+
+**Neste ledige migrasjon: 048** (001–047 er kjørt i prod). Unntak: DROP av den gamle `reserve_trip_spot`-signaturen (18 parametre, uten `p_allergies_preferences`) fra 045 er ikke kjørt ennå — den gamle versjonen ligger ubrukt ved siden av den nye til Mikkel godkjenner DROP. Se «Drift» under.
 
 **Ferdig:**
 - FeraTravels: turlisteside `/travels`, turdetaljside `/travels/[id]`, booking er nå **uforpliktende reservasjon** (ingen Stripe-depositum ennå), admin-panel `/admin` med bekreft/kanseller/CSV-eksport
@@ -384,38 +390,51 @@ await supabase.from('waitlist').insert({ email, trip_id })
 
 ---
 
-## Samarbeidsworkflow (Mikkel + designer)
+## Samarbeidsworkflow
+
+Fra 14. oktober 2026 eier **Ida** (`ida-rebne`) den daglige utviklingen — design, kode og migrasjoner. Mikkel er tilgjengelig for beslutninger som ikke kan angres (se under).
 
 ### Branches
 
 ```
-main                  ← alltid deploybar, aldri commit direkte
-design/[feature]      ← designerens branch (f.eks. design/shop-detail-polish)
-feature/[feature]     ← utviklerbranch for ny funksjonalitet
+main                  ← alltid deploybar, aldri commit direkte (beskyttet)
+design/[feature]      ← design/UI-endringer
+feature/[feature]     ← ny funksjonalitet
 fix/[bug]             ← bugfiks
 ```
 
-### Ansvarsfordeling
-
-| Område | Hvem |
-|---|---|
-| `components/shop/`, `components/travels/`, `components/shared/Nav.tsx` | Designer fritt territorium |
-| `app/*/page.tsx`, `app/*/layout.tsx` (kun markup/styling) | Designer, men koordiner |
-| `lib/`, `app/api/`, `supabase/` | Mikkel — ikke rør uten avtale |
-| `app/globals.css` | Koordiner — fargetokens er felles |
+**Lag alltid en ny branch fra oppdatert main for hver PR.** Ikke fortsett på en branch som allerede er merget — etter squash-merge ligger de gamle commitene igjen på branchen og blir med i neste PR.
 
 ### Workflow
 
-1. Start alltid fra oppdatert main: `git checkout main && git pull`
-2. Designer lager branch: `git checkout -b design/feature-navn`
-3. Gjør endringer, commit med beskrivende melding
-4. Push og lag PR på GitHub (`main` er beskyttet — direkte push avvises)
-5. Mikkel reviewer og merger
-6. Små, hyppige PR-er er bedre enn én stor — mindre konflikter
+1. `git checkout main && git pull`, så `git checkout -b design/feature-navn`
+2. Små, hyppige PR-er — mindre konflikter
+3. Kjør `npx tsc --noEmit` og `npx vitest run` før push. Alle tester skal være grønne
+4. Push og lag PR. Vent til Vercel-preview er grønn og se på endringen der
+5. **Squash-merge** (`gh pr merge <nr> --squash --delete-branch`) — aldri vanlig merge-commit
+6. Etter merge: sjekk at Vercel-deployen av main er ferdig og at ferapadel.com svarer
+
+### Drift: migrasjoner (Supabase)
+
+Det finnes **ingen migrasjonshistorikk** i Supabase — filene i `supabase/migrations/` kjøres manuelt, én gang, mot prod (project id `dbvnuoayzevtoaolhqxd`), via Supabase-connectoren (`execute_sql`) eller SQL Editor (bytt rolle til `postgres` for DDL).
+
+- **Nummer:** bruk neste ledige nummer (står i «Nåværende status» over) og sjekk `ls supabase/migrations` på oppdatert main før du lager fila. Oppdater «Neste ledige migrasjon» i denne fila i samme PR.
+- **Aldri endre en migrasjon som er kjørt.** Lag en ny i stedet.
+- **Rekkefølge mot deploy:** kjør migrasjoner som bare *legger til* (ny kolonne, ny funksjon) **før** merge, så den nye koden finner dem. Ting som fjerner noe koden i prod bruker (DROP, rename, ny funksjonssignatur som erstatter gammel) kjøres **etter** at den nye koden er deployet — ellers knekker prod i minuttene mellom.
+- **DROP, DELETE og sletting av data krever Mikkels godkjenning** først. Det kan ikke angres.
+- `CREATE POLICY IF NOT EXISTS` er ugyldig PostgreSQL — bruk `DROP POLICY IF EXISTS` + `CREATE POLICY`.
+- Etter endring av funksjoner: `NOTIFY pgrst, 'reload schema';`
+
+### Drift: filer og innhold
+
+- **Repoet er offentlig.** Ingen hemmeligheter, og ingen ubrukte store bilder eller bilder av personer. Bilder som ikke brukes på siden, ligger i det private repoet `Mikkel2101/fera-media`.
+- Koden skal ikke peke på filer som ligger i `.gitignore` — de finnes ikke på Vercel.
+- Helseopplysninger (f.eks. allergier) er en særlig kategori i GDPR: nye felt som samler slikt må ha samtykketekst og stå i `/personvern`.
+- Send aldri e-post eller meldinger til ekte kunder fra lokalt miljø. Lokal `.env.local` peker på **prod-databasen**.
 
 ### Lokalt oppsett
 
-Se «Kom i gang» i `README.md`. Kort: `npm install`, kopier `.env.example` til `.env.local` og fyll inn verdiene du får fra Mikkel, `npm run dev`. Designer trenger kun `NEXT_PUBLIC_*`-variablene — aldri service role-, Stripe- eller Resend-nøkler.
+Se «Kom i gang» i `README.md`. Kort: `npm install`, kopier `.env.example` til `.env.local` og fyll inn verdiene du får fra Mikkel, `npm run dev`. Service role-, Stripe- og Resend-nøkler for prod ligger bare i Vercel.
 
 ---
 
