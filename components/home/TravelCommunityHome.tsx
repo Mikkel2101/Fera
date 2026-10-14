@@ -85,7 +85,7 @@ export default async function TravelCommunityHome() {
           <div className="mb-10">
             <p className="text-(--color-overline) text-sm uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
             <h2 className="font-sans font-normal text-(--color-text) text-5xl sm:text-6xl mb-4">Finn reisen som passer deg</h2>
-            <p className="text-(--color-subtle) max-w-xl leading-relaxed">
+            <p className="text-(--color-subtle) max-w-xl text-lg leading-relaxed">
               Noen av våre kommende turer til Costa Blanca — bla gjennom og finn den som passer dere.
             </p>
           </div>
