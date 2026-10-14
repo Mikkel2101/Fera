@@ -58,8 +58,8 @@ export default function TripMetaBar({ trip }: { trip: TripRow }) {
   const nights = nightCount(trip.start_date, trip.end_date)
 
   return (
-    <div className="bg-white border-b border-(--color-border) py-4 px-4 sm:px-6 lg:px-8 sticky top-14 z-40">
-      <div className="max-w-5xl mx-auto flex flex-wrap items-center gap-4 justify-between">
+    <div className="bg-white border-b border-(--color-border) py-4 px-4 sm:px-6 sticky top-14 z-40 lg:hidden">
+      <div className="max-w-[1450px] mx-auto flex flex-wrap items-center gap-4 justify-between">
         <div className="flex flex-wrap items-center gap-4 text-sm text-(--color-subtle)">
           <span className="flex items-center gap-1.5">
             <IconCalendar />
