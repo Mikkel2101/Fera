@@ -44,12 +44,14 @@ export default function TripsCarousel({ trips }: { trips: Trip[] }) {
       <div
         ref={scrollerRef}
         className="flex gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ marginRight: 'calc(-50vw + 50%)' }}
       >
         {trips.map((trip) => (
-          <div key={trip.id} className="w-[85%] shrink-0 snap-start sm:w-[47%] lg:w-[32%]">
+          <div key={trip.id} className="w-[85vw] shrink-0 snap-start sm:w-[380px] lg:w-[420px]">
             <TripCard trip={trip} />
           </div>
         ))}
+        <div className="w-4 shrink-0 sm:w-6 lg:w-8" />
       </div>
     </div>
   )

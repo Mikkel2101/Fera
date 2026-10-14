@@ -80,7 +80,7 @@ export default async function TravelCommunityHome() {
         </div>
       </section>
 
-      <section id="turer" className="scroll-mt-20 pt-20 sm:pt-24 pb-28 sm:pb-32">
+      <section id="turer" className="scroll-mt-20 overflow-hidden pt-20 sm:pt-24 pb-28 sm:pb-32">
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6">
           <div className="mb-9">
             <p className="text-(--color-overline) text-sm uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
