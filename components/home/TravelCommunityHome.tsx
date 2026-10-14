@@ -53,13 +53,13 @@ export default async function TravelCommunityHome() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/travels#turer"
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 py-3 text-base font-medium text-(--color-dark) transition-colors hover:bg-(--color-sand)"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 py-3 text-base font-normal text-(--color-dark) transition-colors hover:bg-(--color-sand)"
               >
                 Utforsk reisene
               </Link>
               <Link
                 href="/travels/skreddersydde-reiser#tilbud"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/60 px-6 py-3 text-base font-medium text-white transition-colors hover:bg-white/10"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/60 px-6 py-3 text-base font-normal text-white transition-colors hover:bg-white/10"
               >
                 Be om tilbud
               </Link>
