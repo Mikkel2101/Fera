@@ -16,7 +16,7 @@ export default function TripHero({ trip }: { trip: TripRow }) {
   const badgeColor = statusColor[trip.status] ?? 'bg-(--color-success)'
 
   return (
-    <section className="relative min-h-[32vh] md:min-h-[38vh] flex items-end overflow-hidden bg-(--color-dark)">
+    <section className="relative min-h-[26vh] md:min-h-[30vh] flex items-end overflow-hidden bg-(--color-dark)">
       {trip.main_image ? (
         <>
           <Image
