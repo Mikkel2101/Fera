@@ -12,7 +12,7 @@ export default function TripPrices({ trip }: { trip: TripRow }) {
 
   return (
     <section className="px-4 sm:px-6 lg:px-8 py-16 bg-(--color-sand-light)">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Priser</p>
         <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-10">Finn ditt alternativ</h2>
 

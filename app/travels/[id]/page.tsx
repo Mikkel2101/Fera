@@ -49,7 +49,7 @@ export default async function TripDetailPage({ params }: { params: Params }) {
 
       <div className="divide-y divide-(--color-border)">
         {trip.description && (
-          <section className="bg-(--color-surface) px-4 sm:px-6 lg:px-8 py-10 max-w-4xl mx-auto w-full">
+          <section className="bg-(--color-surface) px-4 sm:px-6 lg:px-8 py-10 max-w-6xl mx-auto w-full">
             <p className="text-(--color-text) text-lg leading-relaxed">{trip.description}</p>
           </section>
         )}
