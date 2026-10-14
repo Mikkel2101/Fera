@@ -85,15 +85,12 @@ export default async function TravelCommunityHome() {
           <div className="mb-6">
             <p className="text-(--color-overline) text-sm uppercase tracking-[0.18em] font-medium mb-3">Utvalgte reiser</p>
             <h2 className="font-sans font-normal text-(--color-text) text-5xl sm:text-6xl mb-4">Finn reisen som passer deg</h2>
-            <p className="text-(--color-subtle) max-w-xl leading-relaxed mb-6">
+            <p className="text-(--color-subtle) max-w-xl leading-relaxed">
               Noen av våre kommende turer til Costa Blanca — bla gjennom og finn den som passer dere.
             </p>
-            <Link href="/travels" className="inline-flex min-h-12 items-center justify-center rounded-full bg-(--color-cta) px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-(--color-dark-mid)">
-              Se alle reiser <span aria-hidden="true" className="ml-2">→</span>
-            </Link>
           </div>
           {trips.length > 0 ? (
-            <TripsCarousel trips={trips} />
+            <TripsCarousel trips={trips} seeAllHref="/travels" />
           ) : (
             <div className="border-y border-(--color-border) py-8">
               <p className="text-(--color-subtle) mb-4">Nye reiser legges ut fortløpende.</p>
