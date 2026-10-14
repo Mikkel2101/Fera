@@ -49,10 +49,10 @@ const IconPlane = () => (
     <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3-1 3 1v-1.5L13 19v-5.5l8 2.5Z"/>
   </svg>
 )
-const IconMap = () => (
+const IconMapPin = () => (
   <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5.5 2.5 1.5 4v9.5l4-1.5 5 1.5 4-1.5V2.5l-4 1.5-5-1.5Z"/>
-    <path d="M5.5 2.5v9.5M10.5 4v9.5"/>
+    <path d="M8 1.5C5.515 1.5 3.5 3.515 3.5 6c0 3.75 4.5 8.5 4.5 8.5s4.5-4.75 4.5-8.5c0-2.485-2.015-4.5-4.5-4.5z"/>
+    <circle cx="8" cy="6" r="1.5"/>
   </svg>
 )
 
@@ -82,7 +82,7 @@ export default function TripBookingCard({ trip }: { trip: TripRow }) {
           Alicante (ALC)
         </span>
         <span className="flex items-center gap-2">
-          <IconMap />
+          <IconMapPin />
           Costa Blanca
         </span>
         <span className="flex items-center gap-2">
