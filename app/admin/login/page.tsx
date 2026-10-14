@@ -33,7 +33,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-(--color-bg) flex items-center justify-center px-4">
       <div className="bg-(--color-surface) border border-(--color-border) rounded-2xl p-8 w-full max-w-sm shadow-sm">
         <h1 className="font-display text-2xl font-semibold text-(--color-text) mb-1">
-          Fera Admin
+          FERA Admin
         </h1>
         <p className="text-sm text-(--color-muted) mb-6">Logg inn for å fortsette</p>
 

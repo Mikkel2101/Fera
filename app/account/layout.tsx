@@ -11,8 +11,8 @@ import AccountSidebar from './_components/AccountSidebar'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Min konto — Fera',
-    template: '%s — Min konto | Fera',
+    default: 'Min konto — FERA',
+    template: '%s — Min konto | FERA',
   },
 }
 

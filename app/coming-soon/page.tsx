@@ -1,7 +1,7 @@
 export const metadata = {
-  // absolute, ellers legger rot-layoutens mal på "— Fera Padel" en gang til
-  title: { absolute: 'Fera Padel — Kommer snart' },
-  description: 'Vi jobber med noe nytt. Fera Padel lanserer snart.',
+  // absolute, ellers legger rot-layoutens mal på "— FERA Padel" en gang til
+  title: { absolute: 'FERA Padel — Kommer snart' },
+  description: 'Vi jobber med noe nytt. FERA Padel lanserer snart.',
 }
 
 export default function ComingSoonPage() {
@@ -12,7 +12,7 @@ export default function ComingSoonPage() {
       </p>
 
       <h1 className="font-display text-6xl sm:text-8xl font-bold text-white mb-4 leading-none">
-        Fera Padel
+        FERA Padel
       </h1>
 
       <p className="font-display italic text-white/50 text-xl sm:text-2xl mb-16">

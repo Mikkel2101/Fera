@@ -7,7 +7,7 @@ import Image from 'next/image'
 const faqs = [
   {
     q: 'Hva er inkludert i prisen?',
-    a: 'Alle Fera-turer inkluderer hotell med frokost, baneleie, coaching, lokal transport og minst én felles middag. Se den spesifikke turens detaljside for nøyaktig innhold.',
+    a: 'Alle FERA-turer inkluderer hotell med frokost, baneleie, coaching, lokal transport og minst én felles middag. Se den spesifikke turens detaljside for nøyaktig innhold.',
   },
   {
     q: 'Hvor mange er på en tur?',
@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: 'Hvordan reserverer jeg plass?',
-    a: 'Du reserverer plass med en Fera-konto direkte på turen — det koster ingenting og er uforpliktende. Vi holder av plassen din og tar kontakt med betalingsinformasjon før påmeldingen blir bindende.',
+    a: 'Du reserverer plass med en FERA-konto direkte på turen — det koster ingenting og er uforpliktende. Vi holder av plassen din og tar kontakt med betalingsinformasjon før påmeldingen blir bindende.',
   },
   {
     q: 'Hva er avbestillingsreglene?',

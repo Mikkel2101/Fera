@@ -69,11 +69,11 @@ export function AuthModal({ isOpen, onClose, redirectTo = '/' }: AuthModalProps)
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Logg inn på Fera"
+        aria-label="Logg inn på FERA"
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-sm rounded-2xl border border-(--color-border) bg-white p-8 shadow-xl"
       >
-        <p className="mb-6 text-center font-display text-2xl font-semibold text-(--color-text)">Logg inn på Fera</p>
+        <p className="mb-6 text-center font-display text-2xl font-semibold text-(--color-text)">Logg inn på FERA</p>
         <LoginForm next={redirectTo} />
         <button
           type="button"

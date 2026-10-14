@@ -1,7 +1,7 @@
 import TilbudForm from '@/components/travels/skreddersydde/TilbudForm'
 
 export const metadata = {
-  title: 'Skreddersydde reiser — Fera',
+  title: 'Skreddersydde reiser — FERA',
   description: 'Padelreiser skreddersydd for padelsentre, klubber, bedrifter og mindre grupper. Vi setter sammen hele opplegget og tar kontakt innen 24 timer.',
 }
 

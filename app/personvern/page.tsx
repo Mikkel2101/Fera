@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import LegalPage from '@/components/shared/LegalPage'
 
-export const metadata: Metadata = { title: 'Personvernerklæring — Fera' }
+export const metadata: Metadata = { title: 'Personvernerklæring — FERA' }
 
 export default function PrivacyPage() {
   return (
@@ -9,7 +9,7 @@ export default function PrivacyPage() {
       <section>
         <h2>Hvem er ansvarlig</h2>
         <p>
-          Fera Padel er behandlingsansvarlig for personopplysningene som samles inn på denne nettsiden.
+          FERA Padel er behandlingsansvarlig for personopplysningene som samles inn på denne nettsiden.
           Kontakt oss på <a href="mailto:post@ferapadel.com">post@ferapadel.com</a>.
         </p>
       </section>

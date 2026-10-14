@@ -12,7 +12,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="inline-block mb-5">
-              <img src="/fera-logo.svg" alt="Fera" className="h-8 w-auto brightness-0 invert" />
+              <img src="/fera-logo.svg" alt="FERA" className="h-8 w-auto brightness-0 invert" />
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
               Profesjonelle padelopplevelser i Costa Blanca
@@ -55,7 +55,7 @@ export default function Footer() {
               <li><Link href="/shop/levering-og-retur" className="text-white/50 text-sm hover:text-white transition-colors">Levering og retur</Link></li>
             </ul>
             </>)}
-            <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Om Fera</h4>
+            <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Om FERA</h4>
             <ul className="space-y-3">
               <li><Link href="/travels/om-oss" className="text-white/50 text-sm hover:text-white transition-colors">Om oss</Link></li>
               <li><Link href="/travels/inspirasjon" className="text-white/50 text-sm hover:text-white transition-colors">Inspirasjon</Link></li>
@@ -94,7 +94,7 @@ export default function Footer() {
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
             <p className="text-white/30 text-xs">
-              © {new Date().getFullYear()} Fera Padel AS · Alle rettigheter forbeholdt
+              © {new Date().getFullYear()} FERA Padel AS · Alle rettigheter forbeholdt
             </p>
             <p className="text-white/20 text-xs">
               post@ferapadel.com

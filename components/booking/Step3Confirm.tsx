@@ -122,7 +122,7 @@ export default function Step3Confirm({ trip, step1, step2, onBack }: Props) {
             className="accent-(--color-cta) w-4 h-4 mt-0.5 flex-shrink-0"
           />
           <span className="text-sm text-(--color-text)">
-            Jeg samtykker til at Fera Padel lagrer og behandler mine personopplysninger
+            Jeg samtykker til at FERA Padel lagrer og behandler mine personopplysninger
             i henhold til <Link href="/personvern" target="_blank" className="underline">personvernerklæringen</Link>.{' '}
             <span className="text-red-500">*</span>
           </span>
@@ -149,7 +149,7 @@ export default function Step3Confirm({ trip, step1, step2, onBack }: Props) {
             className="accent-(--color-cta) w-4 h-4 mt-0.5 flex-shrink-0"
           />
           <span className="text-sm text-(--color-text)">
-            Ja takk, send meg nyheter om nye turer og tilbud fra Fera.
+            Ja takk, send meg nyheter om nye turer og tilbud fra FERA.
           </span>
         </label>
       </div>

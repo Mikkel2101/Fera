@@ -5,8 +5,8 @@ import { getPublishedArticles } from '@/lib/articles/queries'
 import { formatArticleDate } from '@/lib/articles/format'
 
 export const metadata: Metadata = {
-  title: 'Inspirasjon — Fera Travels',
-  description: 'Reiserapporter, coaching og tips fra Fera Travels på Costa Blanca.',
+  title: 'Inspirasjon — FERA Travels',
+  description: 'Reiserapporter, coaching og tips fra FERA Travels på Costa Blanca.',
 }
 
 const PHOTOS = 'https://dbvnuoayzevtoaolhqxd.supabase.co/storage/v1/object/public/photos'
@@ -39,7 +39,7 @@ export default async function InspirasjonPage({
         <div className="mx-auto max-w-[1450px] px-4 sm:px-6">
           <h1 className="font-sans text-4xl font-semibold text-(--color-dark) md:text-5xl lg:text-6xl">Inspirasjon</h1>
           <p className="mt-2 text-sm text-(--color-subtle)">
-            Få siste nytt fra Fera Travel
+            Få siste nytt fra FERA Travel
           </p>
 
           <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -131,7 +131,7 @@ export default async function InspirasjonPage({
               <div className="mt-8 flex w-full flex-wrap items-center justify-between gap-x-5 gap-y-3 lg:mt-auto">
                 <p className="flex items-center gap-3 text-sm font-medium text-(--color-text)">
                   <span className="grid size-9 place-items-center rounded-full bg-(--color-sand) text-xs font-bold text-(--color-dark)">F</span>
-                  Fera Travel
+                  FERA Travel
                 </p>
                 <Link
                   href={`/travels/inspirasjon/${featuredPost.slug}`}
@@ -198,7 +198,7 @@ export default async function InspirasjonPage({
           <div className="mx-auto grid max-w-[1450px] gap-8 px-4 sm:px-6 md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14">
             <div className="max-w-xl">
               <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-(--color-overline-light)">Neste stopp</p>
-              <h2 className="font-sans text-3xl font-normal leading-tight sm:text-4xl">Opplev Costa Blanca med Fera</h2>
+              <h2 className="font-sans text-3xl font-normal leading-tight sm:text-4xl">Opplev Costa Blanca med FERA</h2>
               <p className="mt-4 leading-relaxed text-white/75">Gode baner, personlig coaching og tid til å nyte livet utenfor banen.</p>
               <Link href="/travels" className="mt-6 inline-flex min-h-11 items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-(--color-dark) transition-colors hover:bg-(--color-sand)">
                 Se våre reiser <span aria-hidden="true" className="ml-2">→</span>

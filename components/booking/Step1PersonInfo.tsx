@@ -180,7 +180,7 @@ export default function Step1PersonInfo({ data, lockedEmail, onNext }: Props) {
           className="border border-(--color-border) bg-(--color-sand-light) text-(--color-subtle) rounded-lg px-4 py-3 w-full"
         />
         <p id="booking-email-hint" className="text-xs text-(--color-muted) mt-1">
-          E-posten fra Fera-kontoen din. Bekreftelsen sendes hit.
+          E-posten fra FERA-kontoen din. Bekreftelsen sendes hit.
         </p>
       </div>
 

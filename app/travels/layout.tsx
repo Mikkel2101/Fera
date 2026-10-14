@@ -6,12 +6,12 @@ import Footer from '@/components/shared/Footer'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Fera Travels — Padel-reiser til Costa Blanca',
-    template: '%s — Fera Travels',
+    default: 'FERA Travels — Padel-reiser til Costa Blanca',
+    template: '%s — FERA Travels',
   },
   description: 'Kurerte padel-reisepakker til Spania for norske padel-entusiaster. Hotell, coaching og opplevelser inkludert.',
   openGraph: {
-    siteName: 'Fera Travels',
+    siteName: 'FERA Travels',
     locale: 'nb_NO',
     type: 'website',
   },

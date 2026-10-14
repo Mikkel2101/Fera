@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Reserver plass — Fera Padel',
+  title: 'Reserver plass — FERA Padel',
 }
 
 export default async function BookLayout({

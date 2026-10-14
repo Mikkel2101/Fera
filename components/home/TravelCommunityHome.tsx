@@ -57,7 +57,7 @@ export default async function TravelCommunityHome() {
                 href="/travels/om-oss"
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
               >
-                Møt Fera
+                Møt FERA
               </Link>
             </div>
             <div className="mt-12 grid max-w-3xl grid-cols-1 gap-4 border-t border-white/25 pt-6 sm:grid-cols-3 sm:gap-6">
@@ -111,13 +111,13 @@ export default async function TravelCommunityHome() {
               Padel har alltid handlet om mer enn selve spillet. Det handler om menneskene du møter, og alt det gode som skjer på og utenfor banen.
             </p>
             <Link href="/travels/om-oss" className="inline-block min-h-11 text-lg font-semibold text-(--color-overline-light) underline decoration-(--color-overline-light)/50 underline-offset-4 hover:decoration-(--color-overline-light)">
-              Les om Fera Travel <span aria-hidden="true">→</span>
+              Les om FERA Travel <span aria-hidden="true">→</span>
             </Link>
           </div>
           <div className="relative aspect-[3/2] w-[95%] mx-auto rounded-2xl overflow-hidden bg-black">
             <Image
               src="/Bilder%20fra%20tur/DSC02287-2.JPG"
-              alt="Gjeng fra en Fera-padeltur samlet ved nettet etter spill"
+              alt="Gjeng fra en FERA-padeltur samlet ved nettet etter spill"
               fill
               sizes="(max-width: 768px) 95vw, 50vw"
               className="object-cover"

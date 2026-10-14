@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import ProductGrid from '@/components/shop/ProductGrid'
 
 export const metadata = {
-  title: 'Fera Shop — Padelutstyr fra Spania',
+  title: 'FERA Shop — Padelutstyr fra Spania',
   description: 'Offisiell Padelpoint-partner. Racketer, sko, vesker og tilbehør levert til Norge.',
 }
 

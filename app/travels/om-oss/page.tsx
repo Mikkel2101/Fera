@@ -4,7 +4,7 @@ import Image from 'next/image'
 const HERO_BG = 'https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=80'
 
 export const metadata = {
-  title: 'Om oss — Fera',
+  title: 'Om oss — FERA',
   description: 'Vi startet med en enkel idé: å kombinere det beste fra padel med det beste fra reising.',
 }
 
@@ -44,7 +44,7 @@ export default function OmOssPage() {
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:items-center">
             <div>
-              <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Historien bak Fera</p>
+              <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Historien bak FERA</p>
               <h2 className="font-sans font-bold text-(--color-text) text-4xl sm:text-5xl mb-6">Det er menneskene som gjør opplevelsen</h2>
               <div className="space-y-4 text-(--color-muted) leading-relaxed">
                 <p>
@@ -145,7 +145,7 @@ export default function OmOssPage() {
                   Kort fortalt er dette en mann du må oppleve. En utrolig god venn, en gledesspreder, nybakt pappa, og padeltrener i verdensklasse. Og en ekstremt viktig del av FERA-teamet.
                 </p>
                 <p className="text-(--color-text) font-medium">
-                  Når du reiser med Fera, får du coaching fra en trener som kombinerer faglig dybde med smittsom entusiasme. Det er ikke bare trening – det er en opplevelse.
+                  Når du reiser med FERA, får du coaching fra en trener som kombinerer faglig dybde med smittsom entusiasme. Det er ikke bare trening – det er en opplevelse.
                 </p>
               </div>
             </div>

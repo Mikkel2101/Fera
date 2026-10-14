@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Betaling avbrutt — Fera Shop',
+  title: 'Betaling avbrutt — FERA Shop',
 }
 
 export default function ShopCheckoutCancelPage() {

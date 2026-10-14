@@ -1,7 +1,7 @@
 import ContactForm from '@/components/shared/ContactForm'
 
 export const metadata = {
-  title: 'Kontakt oss — Fera',
+  title: 'Kontakt oss — FERA',
   description: 'Har du spørsmål om reiser eller padel? Send oss en melding, så svarer vi innen 24 timer.',
 }
 
