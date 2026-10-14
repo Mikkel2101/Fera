@@ -17,7 +17,7 @@ function Row({ label, amount }: { label: string; amount: number }) {
 
 export default function PriceSummary({ price, extras }: Props) {
   return (
-    <div className="bg-(--color-beige) rounded-xl p-5 space-y-2">
+    <div className="bg-(--color-sand-light) rounded-xl p-5 space-y-2">
       <p className="text-sm font-medium text-(--color-text) mb-3">Prisoversikt per person</p>
       <Row label="Grunnpris i delt dobbeltrom" amount={price.base} />
       {price.single_supplement > 0 && <Row label="Enkeltromstillegg" amount={price.single_supplement} />}
