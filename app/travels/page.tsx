@@ -18,7 +18,7 @@ export default async function TravelsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-(--color-community) overflow-hidden px-4 pt-14 pb-10 md:pt-16 md:pb-12 min-h-[26vh] md:min-h-[30vh] flex flex-col justify-center">
+      <section className="relative bg-(--color-community) overflow-hidden px-4 sm:px-6 pt-14 pb-10 md:pt-16 md:pb-12 min-h-[26vh] md:min-h-[30vh] flex flex-col justify-center">
         <div
           className="absolute inset-0"
           style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=80)', backgroundSize: 'cover', backgroundPosition: 'center' }}

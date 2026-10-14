@@ -47,7 +47,7 @@ export default function TripFilters({ trips, onFilter }: Props) {
 
   return (
     <div className="bg-white border-b border-(--color-border) py-3">
-      <div className="max-w-[1450px] mx-auto px-4 flex flex-wrap gap-3">
+      <div className="max-w-[1450px] mx-auto px-4 sm:px-6 flex flex-wrap gap-3">
         <select
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
