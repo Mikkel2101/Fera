@@ -155,7 +155,7 @@ export default function Nav() {
 
               <Link
                 href="/"
-                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`relative px-3 py-2 text-[15px] font-medium rounded-lg transition-colors ${
                   pathname === '/'
                     ? 'text-(--color-text)'
                     : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
@@ -173,7 +173,7 @@ export default function Nav() {
                 <button
                   onClick={() => setShopDropdownOpen(v => !v)}
                   onMouseEnter={() => setShopDropdownOpen(true)}
-                  className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  className={`flex items-center gap-1 px-3 py-2 text-[15px] font-medium rounded-lg transition-colors ${
                     isShop
                       ? 'text-(--color-text)'
                       : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
@@ -230,7 +230,7 @@ export default function Nav() {
               {/* Salg */}
               <Link
                 href="/shop?sort=sale"
-                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`relative px-3 py-2 text-[15px] font-medium rounded-lg transition-colors ${
                   pathname === '/shop' && false
                     ? 'text-(--color-text)'
                     : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
@@ -246,7 +246,7 @@ export default function Nav() {
               {/* Reiser */}
               <Link
                 href="/travels"
-                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`relative px-3 py-2 text-[15px] font-medium rounded-lg transition-colors ${
                   isTrips
                     ? 'text-(--color-text)'
                     : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
@@ -259,7 +259,7 @@ export default function Nav() {
               </Link>
               <Link
                 href="/travels/skreddersydde-reiser"
-                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`relative px-3 py-2 text-[15px] font-medium rounded-lg transition-colors ${
                   isSkreddersydd
                     ? 'text-(--color-text)'
                     : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
@@ -272,7 +272,7 @@ export default function Nav() {
               </Link>
               <Link
                 href="/travels/inspirasjon"
-                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`relative px-3 py-2 text-[15px] font-medium rounded-lg transition-colors ${
                   isInspiration
                     ? 'text-(--color-text)'
                     : 'text-(--color-subtle) hover:text-(--color-text) hover:bg-(--color-ice-light)'
