@@ -17,8 +17,8 @@ export default function TripProgram({ program }: { program: string | null }) {
   if (current.lines.length > 0 || current.day) blocks.push(current)
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-16">
-      <div className="max-w-[1450px] mx-auto">
+    <section className="py-10">
+      <div>
         <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Program</p>
         <h2 className="font-display italic font-bold text-(--color-text) text-3xl mb-10">Dag-for-dag</h2>
 
