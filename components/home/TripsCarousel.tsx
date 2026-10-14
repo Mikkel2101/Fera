@@ -18,7 +18,7 @@ export default function TripsCarousel({ trips, seeAllHref }: { trips: Trip[]; se
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
         <Link href={seeAllHref} className="inline-flex min-h-12 items-center justify-center rounded-full bg-(--color-cta) px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-(--color-dark-mid)">
           Se alle reiser <span aria-hidden="true" className="ml-2">→</span>
         </Link>
