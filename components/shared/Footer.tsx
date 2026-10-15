@@ -14,10 +14,10 @@ export default function Footer() {
             <Link href="/" className="inline-block mb-5">
               <img src="/fera-logo.svg" alt="FERA" className="h-8 w-auto brightness-0 invert" />
             </Link>
-            <p className="text-white/50 text-sm leading-relaxed mb-6">
+            <p className="text-white/60 text-sm leading-relaxed mb-6">
               Profesjonelle padelopplevelser i Costa Blanca
             </p>
-            <p className="text-white/50 text-xs mb-3">Følg oss på Instagram</p>
+            <p className="text-white/60 text-xs mb-3">Følg oss på Instagram</p>
             <div className="flex gap-3">
               <a
                 href="https://www.instagram.com/feratravels/"
@@ -37,8 +37,8 @@ export default function Footer() {
           <div>
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Reiser</h4>
             <ul className="space-y-3">
-              <li><Link href="/travels" className="text-white/50 text-sm hover:text-white transition-colors">Se alle turer</Link></li>
-              <li><Link href="/travels/skreddersydde-reiser" className="text-white/50 text-sm hover:text-white transition-colors">Tilpassede reiser</Link></li>
+              <li><Link href="/travels" className="text-white/60 text-sm hover:text-white transition-colors">Se alle turer</Link></li>
+              <li><Link href="/travels/skreddersydde-reiser" className="text-white/60 text-sm hover:text-white transition-colors">Tilpassede reiser</Link></li>
             </ul>
           </div>
 
@@ -47,20 +47,20 @@ export default function Footer() {
             {SHOP_ENABLED && (<>
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Nettbutikk</h4>
             <ul className="space-y-3 mb-8">
-              <li><Link href="/shop" className="text-white/50 text-sm hover:text-white transition-colors">Alle produkter</Link></li>
-              <li><Link href="/shop?kategori=racket" className="text-white/50 text-sm hover:text-white transition-colors">Racketer</Link></li>
-              <li><Link href="/shop?kategori=shoes" className="text-white/50 text-sm hover:text-white transition-colors">Sko</Link></li>
-              <li><Link href="/shop?kategori=bag" className="text-white/50 text-sm hover:text-white transition-colors">Vesker</Link></li>
-              <li><Link href="/shop?kategori=balls" className="text-white/50 text-sm hover:text-white transition-colors">Baller</Link></li>
-              <li><Link href="/shop/levering-og-retur" className="text-white/50 text-sm hover:text-white transition-colors">Levering og retur</Link></li>
+              <li><Link href="/shop" className="text-white/60 text-sm hover:text-white transition-colors">Alle produkter</Link></li>
+              <li><Link href="/shop?kategori=racket" className="text-white/60 text-sm hover:text-white transition-colors">Racketer</Link></li>
+              <li><Link href="/shop?kategori=shoes" className="text-white/60 text-sm hover:text-white transition-colors">Sko</Link></li>
+              <li><Link href="/shop?kategori=bag" className="text-white/60 text-sm hover:text-white transition-colors">Vesker</Link></li>
+              <li><Link href="/shop?kategori=balls" className="text-white/60 text-sm hover:text-white transition-colors">Baller</Link></li>
+              <li><Link href="/shop/levering-og-retur" className="text-white/60 text-sm hover:text-white transition-colors">Levering og retur</Link></li>
             </ul>
             </>)}
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Om FERA</h4>
             <ul className="space-y-3">
-              <li><Link href="/travels/om-oss" className="text-white/50 text-sm hover:text-white transition-colors">Om oss</Link></li>
-              <li><Link href="/travels/inspirasjon" className="text-white/50 text-sm hover:text-white transition-colors">Inspirasjon</Link></li>
-              <li><Link href="/travels/faq" className="text-white/50 text-sm hover:text-white transition-colors">Vanlige spørsmål</Link></li>
-              <li><Link href="/travels/kontakt" className="text-white/50 text-sm hover:text-white transition-colors">Kontakt oss</Link></li>
+              <li><Link href="/travels/om-oss" className="text-white/60 text-sm hover:text-white transition-colors">Om oss</Link></li>
+              <li><Link href="/travels/inspirasjon" className="text-white/60 text-sm hover:text-white transition-colors">Inspirasjon</Link></li>
+              <li><Link href="/travels/faq" className="text-white/60 text-sm hover:text-white transition-colors">Vanlige spørsmål</Link></li>
+              <li><Link href="/travels/kontakt" className="text-white/60 text-sm hover:text-white transition-colors">Kontakt oss</Link></li>
             </ul>
           </div>
 
@@ -69,11 +69,11 @@ export default function Footer() {
             <h4 className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Kontakt</h4>
             <ul className="space-y-3">
               <li>
-                <a href="mailto:post@ferapadel.com" className="text-white/50 text-sm hover:text-white transition-colors">
+                <a href="mailto:post@ferapadel.com" className="text-white/60 text-sm hover:text-white transition-colors">
                   post@ferapadel.com
                 </a>
               </li>
-              <li className="text-white/50 text-sm">Instagram: @feratravels</li>
+              <li className="text-white/60 text-sm">Instagram: @feratravels</li>
             </ul>
             <div className="mt-8 p-4 rounded-xl border border-white/10 bg-white/5">
               <p className="text-white/70 text-xs leading-relaxed">
@@ -93,14 +93,14 @@ export default function Footer() {
         {/* Divider */}
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex flex-col gap-1">
-            <p className="text-white/30 text-xs">
+            <p className="text-white/60 text-xs">
               © {new Date().getFullYear()} FERA Padel AS · Alle rettigheter forbeholdt
             </p>
-            <p className="text-white/20 text-xs">
+            <p className="text-white/60 text-xs">
               post@ferapadel.com
             </p>
           </div>
-          <div className="flex items-center gap-4 text-xs text-white/30">
+          <div className="flex items-center gap-4 text-xs text-white/60">
             {SHOP_ENABLED ? (<>
               <span>Offisiell Padelpoint-partner</span>
               <span className="hidden sm:inline">·</span>

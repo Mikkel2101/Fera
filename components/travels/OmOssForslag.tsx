@@ -2,7 +2,7 @@
 import Image from 'next/image'
 
 const facts = [
-  { value: '2018', label: 'Første padelreise' },
+  { value: '2025', label: 'Første padelreise' },
   { value: '100+', label: 'Reisende på tur' },
   { value: 'Alle nivåer', label: 'Fra nybegynner til viderekommen' },
 ]
@@ -66,7 +66,7 @@ export default function OmOssForslag() {
                 mennesker trives, føler seg inkludert og får gode opplevelser sammen.
               </p>
               <p>
-                Det var nettopp denne følelsen som traff ham da han nærmest tilfeldig arrangerte sin første padelreise i 2018.
+                Det var nettopp denne følelsen som traff ham da han nærmest tilfeldig arrangerte sin første padelreise i 2025.
                 Å se mennesker smile fra øre til øre gjennom fem dager fylt med padel, sol, nye bekjentskaper, god mat og latter
                 fra morgen til kveld ga virkelig mersmak.
               </p>

@@ -30,8 +30,8 @@ export default function OmOssPage() {
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-16 md:py-20">
           <div className="max-w-4xl">
             <p className="text-(--color-sand) text-xs tracking-widest uppercase font-sans mb-4">Om oss</p>
-            <h1 className="font-sans font-bold text-white text-4xl md:text-5xl lg:text-6xl leading-tight mb-6 lg:whitespace-nowrap">
-              Mer enn bare padelreiser
+            <h1 className="font-sans font-bold text-white text-6xl sm:text-6xl md:text-7xl lg:text-8xl leading-tight mb-6">
+              Mer enn bare<br />padelreiser
             </h1>
             <p className="text-white/70 text-lg max-w-2xl leading-relaxed">
               Teamet bak FERA elsker padel, reising og alt det fine som skjer når mennesker møtes. Det er denne lidenskapen som ligger bak våre nøye sammensatte padelreiser.
