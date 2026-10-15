@@ -10,7 +10,7 @@ export default function VideoShowcase({ features }: { features: Feature[] }) {
           <div className="order-1">
             <p className="text-(--color-overline) text-sm uppercase tracking-[0.18em] font-medium mb-4">Hva vi leverer</p>
             <h2 className="font-sans font-normal text-(--color-text) text-5xl sm:text-6xl leading-[1.05] mb-6">
-              Mer enn bare <span className="font-display italic">padel</span>
+              Mer enn bare<br className="sm:hidden" /> <span className="font-display italic">padel</span>
             </h2>
             <p className="text-(--color-text) text-lg leading-relaxed max-w-xl lg:mb-10">
               FERA kombinerer profesjonell padel-coaching med gode opplevelser og genuin lokalkunnskap. Resultatet? En tur

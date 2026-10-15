@@ -1,10 +1,16 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import type { Testimonial } from '@/components/travels/Testimonials'
+
+const INTERVAL_MS = 6500
+const CIRCLE_SIZE = 40
+const RADIUS = 17
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 export default function TestimonialCarousel({ testimonials }: { testimonials: Testimonial[] }) {
   const [index, setIndex] = useState(0)
+  const [cycle, setCycle] = useState(0)
   const [expanded, setExpanded] = useState(false)
   const [overflowing, setOverflowing] = useState(false)
   const quoteRef = useRef<HTMLParagraphElement>(null)
@@ -15,14 +21,25 @@ export default function TestimonialCarousel({ testimonials }: { testimonials: Te
     if (el) setOverflowing(el.scrollHeight > el.clientHeight + 1)
   }, [index])
 
+  useEffect(() => {
+    if (expanded || testimonials.length <= 1) return
+    const timer = setInterval(() => {
+      setIndex((i) => (i + 1) % testimonials.length)
+      setCycle((c) => c + 1)
+    }, INTERVAL_MS)
+    return () => clearInterval(timer)
+  }, [expanded, testimonials.length])
+
   function prev() {
     setExpanded(false)
     setIndex((i) => (i - 1 + testimonials.length) % testimonials.length)
+    setCycle((c) => c + 1)
   }
 
   function next() {
     setExpanded(false)
     setIndex((i) => (i + 1) % testimonials.length)
+    setCycle((c) => c + 1)
   }
 
   return (
@@ -79,8 +96,25 @@ export default function TestimonialCarousel({ testimonials }: { testimonials: Te
             type="button"
             onClick={next}
             aria-label="Neste tilbakemelding"
-            className="w-10 h-10 rounded-full border border-(--color-border) flex items-center justify-center text-(--color-dark) hover:bg-white transition-colors"
+            className="relative w-10 h-10 rounded-full flex items-center justify-center text-(--color-dark) hover:bg-white transition-colors"
           >
+            <svg width={CIRCLE_SIZE} height={CIRCLE_SIZE} viewBox={`0 0 ${CIRCLE_SIZE} ${CIRCLE_SIZE}`} className="absolute inset-0 -rotate-90">
+              <circle cx={CIRCLE_SIZE / 2} cy={CIRCLE_SIZE / 2} r={RADIUS} fill="none" stroke="var(--color-border)" strokeWidth="1.5" />
+              <circle
+                key={cycle}
+                cx={CIRCLE_SIZE / 2}
+                cy={CIRCLE_SIZE / 2}
+                r={RADIUS}
+                fill="none"
+                stroke="var(--color-dark)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeDasharray={CIRCUMFERENCE}
+                strokeDashoffset={CIRCUMFERENCE}
+                className="circle-fill"
+                style={{ '--circle-circumference': CIRCUMFERENCE, animationDuration: `${INTERVAL_MS}ms` } as CSSProperties}
+              />
+            </svg>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6" />
             </svg>
