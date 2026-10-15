@@ -112,7 +112,7 @@ export default async function TravelCommunityHome() {
         <div className="mx-auto grid max-w-[1450px] gap-10 px-4 py-20 sm:px-6 md:min-h-[720px] md:grid-cols-[1fr_1.4fr] md:items-center md:gap-14 md:py-24">
           <div>
             <p className="text-(--color-overline-light) text-sm uppercase tracking-[0.18em] font-medium mb-4 md:mb-3">Mer enn timer på banen</p>
-            <h2 className="font-sans font-normal text-5xl sm:text-6xl leading-tight mb-6 md:mb-5">Det er menneskene som gjør opplevelsen.</h2>
+            <h2 className="font-sans font-normal text-5xl sm:text-6xl leading-tight mb-6 md:mb-5">Gode opplevelser begynner med gode <span className="font-display italic">mennesker</span>.</h2>
             <p className="max-w-xl text-white/80 leading-relaxed mb-8 md:mb-7">
               Padel har alltid handlet om mer enn selve spillet. Det handler om menneskene du møter, og alt det gode som skjer på og utenfor banen.
             </p>
