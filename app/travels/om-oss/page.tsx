@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import OmOssForslag from '@/components/travels/OmOssForslag'
 
 const HERO_BG = 'https://images.unsplash.com/photo-1499678329028-101435549a4e?w=1600&q=80'
 
@@ -19,14 +20,14 @@ export default function OmOssPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative min-h-[60svh] md:min-h-[65svh] flex items-center overflow-hidden bg-(--color-community)">
+      <section className="relative min-h-[45svh] md:min-h-[50svh] flex items-center overflow-hidden bg-(--color-community)">
         <div
           aria-hidden="true"
           className="absolute inset-0"
           style={{ backgroundImage: `url(${HERO_BG})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         />
         <div aria-hidden="true" className="absolute inset-0 bg-(--color-overlay)/80" />
-        <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-20 md:py-28">
+        <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 py-16 md:py-20">
           <div className="max-w-4xl">
             <p className="text-(--color-sand) text-xs tracking-widest uppercase font-sans mb-4">Om oss</p>
             <h1 className="font-sans font-bold text-white text-4xl md:text-5xl lg:text-6xl leading-tight mb-6 lg:whitespace-nowrap">
@@ -39,69 +40,8 @@ export default function OmOssPage() {
         </div>
       </section>
 
-      {/* Historien bak Fera */}
-      <section className="py-20">
-        <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:items-center">
-            <div>
-              <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Historien bak FERA</p>
-              <h2 className="font-sans font-bold text-(--color-text) text-4xl sm:text-5xl mb-6">Det er menneskene som gjør opplevelsen</h2>
-              <div className="space-y-4 text-(--color-muted) leading-relaxed">
-                <p>
-                  For oss har padel alltid handlet om mer enn selve spillet. Det handler om kulturen rundt sporten, menneskene vi møter og alle de gode øyeblikkene som oppstår både på og utenfor banen.
-                </p>
-                <p>
-                  Noe av det vi liker aller best, er å se mennesker ha det gøy sammen. Å se nye bekjentskaper bli til vennskap, latteren mellom kampene og fellesskapet som oppstår når man deler en interesse.
-                </p>
-                <p>
-                  Det var nettopp dette som inspirerte oss til å skape FERA. Vi ønsket å kombinere padel og reising på en måte som gir rom for både gode sportslige opplevelser, nye mennesker og minner man tar med seg hjem.
-                </p>
-              </div>
-            </div>
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden relative">
-              <Image
-                src="/Bilder%20fra%20tur/DSC00763.JPG"
-                alt="Padelspillere som feirer sammen på banen"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Petter */}
-      <section className="py-20">
-        <div className="max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:items-center">
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden relative">
-              <Image
-                src="/Bilder%20fra%20tur/DSC06786.JPG"
-                alt="Petter Skimmeland"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-center"
-              />
-            </div>
-            <div>
-              <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Grunnlegger</p>
-              <h2 className="font-sans font-bold text-(--color-text) text-4xl sm:text-5xl mb-6">Møt grunnleggeren av FERA</h2>
-              <div className="space-y-4 text-(--color-muted) leading-relaxed">
-                <p>
-                  Bak FERA står Petter Skimmeland, som etter mange år som lærer vet hvor mye det betyr å legge til rette for at mennesker trives, føler seg inkludert og får gode opplevelser sammen.
-                </p>
-                <p>
-                  Det var nettopp denne følelsen som traff ham da han nærmest tilfeldig arrangerte sin første padelreise i 2018. Å se mennesker smile fra øre til øre gjennom fem dager fylt med padel, sol, nye bekjentskaper, god mat og latter fra morgen til kveld ga virkelig mersmak.
-                </p>
-                <p>
-                  Opplevelsen inspirerte Petter til å satse videre. På under ett år hadde han arrangert en rekke padelreiser og tatt med over 100 reisende på tur.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Historien bak FERA + grunnleggeren */}
+      <OmOssForslag />
 
       {/* Sitat fra grunnleggeren */}
       <section className="relative min-h-[480px] md:min-h-[560px] flex items-center overflow-hidden bg-(--color-dark)">
@@ -114,11 +54,11 @@ export default function OmOssPage() {
         />
         <div aria-hidden="true" className="absolute inset-0 bg-(--color-overlay-neutral)/90" />
         <div className="relative w-full max-w-[1450px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl lg:pl-10">
-            <p className="font-sans text-2xl sm:text-3xl leading-relaxed text-white">
+          <div className="max-w-6xl">
+            <p className="font-sans text-2xl sm:text-3xl lg:text-4xl leading-relaxed text-white">
               «For meg handler FERA om mye mer enn padel. Det handler om menneskene og opplevelsene, både på og utenfor banen. Jeg gleder meg til å bli kjent med alle som blir med oss på tur, og skal gjøre mitt aller beste for at alle får lyst til å komme tilbake igjen og igjen.»
             </p>
-            <p className="mt-6 text-white/70 text-sm">— Petter Skimmeland, padelcoach og grunnlegger av FERA</p>
+            <p className="mt-6 text-white/70 text-sm">— Petter Skimmeland, grunnlegger av FERA</p>
           </div>
         </div>
       </section>
@@ -183,11 +123,16 @@ export default function OmOssPage() {
       {/* CTA */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 text-center bg-(--color-dark)">
         <div className="max-w-xl mx-auto">
-          <h2 className="font-sans font-bold text-white text-4xl sm:text-5xl mb-4">Be om tilbud</h2>
-          <p className="text-white/70 mb-8">Vi skreddersyr turen etter deres ønsker og tar kontakt innen 24 timer.</p>
-          <Link href="/travels/skreddersydde-reiser#tilbud" className="inline-block bg-white text-(--color-dark) font-semibold text-sm px-8 py-4 rounded-full hover:bg-(--color-sand) transition-colors">
-            Be om tilbud →
-          </Link>
+          <h2 className="font-sans font-bold text-white text-4xl sm:text-5xl mb-4">La oss ta en prat</h2>
+          <p className="text-white/70 mb-8">Har dere spørsmål, eller ønsker dere å planlegge en reise med FERA? Vi svarer innen 24 timer.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href="/travels/kontakt" className="inline-block bg-white text-(--color-dark) font-semibold text-sm px-8 py-4 rounded-full hover:bg-(--color-sand) transition-colors">
+              Kontakt oss
+            </Link>
+            <Link href="/travels/skreddersydde-reiser#tilbud" className="inline-block border border-white/60 text-white font-semibold text-sm px-8 py-4 rounded-full hover:bg-white/10 transition-colors">
+              Be om tilbud
+            </Link>
+          </div>
         </div>
       </section>
     </>

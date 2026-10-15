@@ -48,21 +48,24 @@ function TestimonialCard({ t }: { t: Testimonial }) {
       <p
         ref={quoteRef}
         className={`text-(--color-text) text-sm leading-relaxed mb-2 italic whitespace-pre-line ${
-          expanded ? '' : 'line-clamp-4'
+          expanded ? '' : 'line-clamp-4 min-h-[6.5em]'
         }`}
       >
         &quot;{t.quote}&quot;
       </p>
 
-      {(overflowing || expanded) && (
-        <button
-          type="button"
-          onClick={() => setExpanded((v) => !v)}
-          className="text-(--color-dark) text-xs font-semibold mb-6 self-start underline"
-        >
-          {expanded ? 'Vis mindre' : 'Les hele'}
-        </button>
-      )}
+      {/* Knappen holder plassen sin også når den er skjult, så alle kort er like høye før expand */}
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-hidden={!(overflowing || expanded)}
+        tabIndex={overflowing || expanded ? 0 : -1}
+        className={`text-(--color-dark) text-xs font-semibold mb-6 self-start underline ${
+          overflowing || expanded ? '' : 'invisible'
+        }`}
+      >
+        {expanded ? 'Vis mindre' : 'Les hele'}
+      </button>
 
       <div className="mt-auto">
         <p className="font-semibold text-(--color-text) text-sm">{t.name}</p>
@@ -72,20 +75,52 @@ function TestimonialCard({ t }: { t: Testimonial }) {
   )
 }
 
+const arrowClass =
+  'w-10 h-10 rounded-full border-0 sm:border sm:border-(--color-border) flex items-center justify-center text-(--color-dark) hover:bg-white transition-colors'
+
 export default function Testimonials() {
+  const scrollerRef = useRef<HTMLDivElement>(null)
+
+  function scroll(direction: 1 | -1) {
+    const el = scrollerRef.current
+    if (!el) return
+    el.scrollBy({ left: direction * el.clientWidth * 0.9, behavior: 'smooth' })
+  }
+
   return (
-    <section className="pt-24 pb-32 bg-(--color-sand-light)">
+    <section className="pt-24 pb-32 overflow-hidden bg-(--color-sand-light)">
       <div className="max-w-[1450px] mx-auto px-4">
-        <div className="text-center mb-12">
-          <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium mb-3">Hva sier våre reisende</p>
-          <h2 className="font-sans font-normal text-(--color-text) text-4xl sm:text-5xl">
-            Over 100 fornøyde gjester
-          </h2>
+        <div className="flex items-end justify-between gap-6 mb-10">
+          <div>
+            <p className="text-(--color-overline) text-sm uppercase tracking-widest font-medium mb-2">Hva sier våre reisende</p>
+            <h2 className="font-sans font-normal text-(--color-text) text-5xl sm:text-6xl">
+              Over 100 fornøyde gjester
+            </h2>
+          </div>
+          <div className="flex gap-2 shrink-0">
+            <button type="button" onClick={() => scroll(-1)} aria-label="Forrige omtaler" className={arrowClass}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button type="button" onClick={() => scroll(1)} aria-label="Neste omtaler" className={arrowClass}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        <div
+          ref={scrollerRef}
+          className="flex items-start gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{ marginRight: 'calc(-50vw + 50%)' }}
+        >
           {testimonials.map((t) => (
-            <TestimonialCard key={t.name} t={t} />
+            <div key={t.name} className="flex w-[85vw] shrink-0 snap-start sm:w-[460px] lg:w-[520px] [&>*]:w-full">
+              <TestimonialCard t={t} />
+            </div>
           ))}
+          <div className="w-4 shrink-0 sm:w-6 lg:w-8" />
         </div>
       </div>
     </section>

@@ -1,10 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import TripListClient from '@/components/travels/TripListClient'
 import Testimonials from '@/components/travels/Testimonials'
+import TilbudTeaser from '@/components/travels/TilbudTeaser'
 
 export const metadata = {
   title: 'Våre reiser',
-  description: 'Utforsk våre padelreiser på Costa Blanca, med spill, gode opplevelser og alt det praktiske ivaretatt.',
+  description: 'Utforsk våre kurerte padelreiser på Costa Blanca, med spill, gode opplevelser og alt det praktiske ivaretatt.',
 }
 
 export default async function TravelsPage() {
@@ -29,7 +30,7 @@ export default async function TravelsPage() {
             Våre reiser
           </h1>
           <p className="text-white text-lg max-w-xl leading-relaxed">
-            Utforsk våre padelreiser på Costa Blanca - med spill, gode opplevelser og alt det praktiske ivaretatt.
+            Utforsk våre kurerte padelreiser - med spill, gode opplevelser og alt det praktiske ivaretatt.
           </p>
         </div>
       </section>
@@ -40,6 +41,8 @@ export default async function TravelsPage() {
       </div>
 
       <Testimonials />
+
+      <TilbudTeaser />
     </>
   )
 }

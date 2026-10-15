@@ -55,7 +55,7 @@ export default async function TravelCommunityHome() {
               på <span className="font-display italic">Costa Blanca</span>
             </h1>
             <p className="text-white text-base sm:text-lg max-w-2xl leading-relaxed mb-9">
-              Kurerte padelreiser for klubber, bedrifter og venner - med trening, opplevelser og alt det praktiske ivaretatt.
+              Bli med på en av våre signaturreiser, eller la oss skape en egen for klubben, bedriften eller vennegjengen.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
