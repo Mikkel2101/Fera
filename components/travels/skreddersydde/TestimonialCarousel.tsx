@@ -11,49 +11,57 @@ export default function TestimonialCarousel({ testimonials }: { testimonials: Te
   const current = testimonials[index]
 
   useEffect(() => {
-    setExpanded(false)
     const el = quoteRef.current
     if (el) setOverflowing(el.scrollHeight > el.clientHeight + 1)
   }, [index])
 
   function prev() {
+    setExpanded(false)
     setIndex((i) => (i - 1 + testimonials.length) % testimonials.length)
   }
 
   function next() {
+    setExpanded(false)
     setIndex((i) => (i + 1) % testimonials.length)
   }
 
   return (
-    <div className="flex flex-col gap-10">
-      <p className="text-(--color-overline) text-xs uppercase tracking-widest font-medium">Hva sier våre gjester</p>
+    <div className="flex flex-col items-center text-center">
+      <p className="text-(--color-overline) text-sm uppercase tracking-[0.18em] font-medium mb-8">Hva sier våre gjester</p>
 
-      <div>
-        <p
-          ref={quoteRef}
-          className={`font-sans text-(--color-text) text-xl sm:text-2xl leading-relaxed italic mb-2 whitespace-pre-line ${
-            expanded ? '' : 'line-clamp-5'
-          }`}
-        >
-          &quot;{current.quote}&quot;
-        </p>
+      <span aria-hidden="true" className="font-display italic text-(--color-dark-mid) text-8xl leading-none h-12 mb-4">
+        &ldquo;
+      </span>
 
-        {(overflowing || expanded) && (
-          <button
-            type="button"
-            onClick={() => setExpanded((v) => !v)}
-            className="text-(--color-dark) text-xs font-semibold mb-4 underline underline-offset-4"
-          >
-            {expanded ? 'Vis mindre' : 'Les hele'}
-          </button>
-        )}
+      <p
+        ref={quoteRef}
+        className={`font-sans font-normal text-(--color-text) text-xl sm:text-2xl lg:text-3xl leading-relaxed whitespace-pre-line ${
+          expanded ? '' : 'line-clamp-4 min-h-[6.5em]'
+        }`}
+      >
+        {current.quote}
+      </p>
 
-        <p className="font-semibold text-(--color-text) text-sm mt-2">{current.name}</p>
-        <p className="text-(--color-muted) text-xs">{current.role}</p>
+      {/* Knappen holder plassen sin også når den er skjult, så høyden ikke hopper mellom omtalene */}
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        aria-hidden={!(overflowing || expanded)}
+        tabIndex={overflowing || expanded ? 0 : -1}
+        className={`text-(--color-dark) text-sm font-semibold mt-4 underline underline-offset-4 ${
+          overflowing || expanded ? '' : 'invisible'
+        }`}
+      >
+        {expanded ? 'Vis mindre' : 'Les hele'}
+      </button>
+
+      <div className="mt-8">
+        <p className="font-semibold text-(--color-text) text-base">{current.name}</p>
+        <p className="text-(--color-muted) text-sm">{current.role}</p>
       </div>
 
       {testimonials.length > 1 && (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-5 mt-10">
           <button
             type="button"
             onClick={prev}
@@ -64,6 +72,9 @@ export default function TestimonialCarousel({ testimonials }: { testimonials: Te
               <polyline points="15 18 9 12 15 6" />
             </svg>
           </button>
+          <span className="text-(--color-subtle) text-sm tabular-nums" aria-live="polite">
+            {String(index + 1).padStart(2, '0')} / {String(testimonials.length).padStart(2, '0')}
+          </span>
           <button
             type="button"
             onClick={next}
