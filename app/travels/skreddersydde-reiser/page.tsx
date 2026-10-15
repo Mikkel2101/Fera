@@ -61,7 +61,7 @@ export default function SkreddersyddeReiserPage() {
         <div className="max-w-[1450px] mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-16 items-start">
           <div className="lg:pt-10">
             <p className="text-(--color-sand) text-xs uppercase tracking-widest font-medium mb-3">Neste steg</p>
-            <h2 className="font-sans font-bold text-white text-4xl sm:text-5xl mb-4">La oss planlegge reisen deres</h2>
+            <h2 className="font-sans font-bold text-white text-5xl sm:text-6xl mb-4">La oss planlegge reisen deres</h2>
             <p className="text-white text-lg leading-relaxed">
               Fortell oss om padelsenteret, klubben, bedriften eller gjengen deres, så setter vi sammen et tilbud tilpasset nivå, budsjett og ønsker – med transparent pris og svar innen 24 timer.
             </p>
