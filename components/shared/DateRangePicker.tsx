@@ -42,15 +42,15 @@ const calendarClassNames = {
   month_grid: 'w-full border-collapse',
   weekday: 'text-(--color-muted) text-[11px] font-medium uppercase w-9 h-7',
   day: 'p-0 text-center align-middle',
-  day_button: 'w-9 h-9 rounded-full text-sm text-(--color-text) hover:bg-(--color-ice-light) transition-colors',
+  day_button: 'w-9 h-9 rounded-full text-sm text-(--color-text) hover:bg-(--color-ice) transition-colors',
   today: '[&>button]:font-bold [&>button]:text-(--color-cta)',
   outside: 'text-(--color-muted)/40',
   disabled: 'text-(--color-muted)/30',
   hidden: 'invisible',
-  range_start: 'bg-(--color-ice-light) rounded-l-full [&>button]:bg-(--color-cta) [&>button]:text-white [&>button]:hover:bg-(--color-dark-mid)',
-  range_end: 'bg-(--color-ice-light) rounded-r-full [&>button]:bg-(--color-cta) [&>button]:text-white [&>button]:hover:bg-(--color-dark-mid)',
-  range_middle: 'bg-(--color-ice-light)',
-  selected: 'rounded-full [&>button]:bg-(--color-cta) [&>button]:text-white',
+  range_start: 'bg-(--color-ice) rounded-l-full [&>button]:bg-(--color-cta) [&>button]:text-white [&>button]:hover:bg-(--color-dark-mid)!',
+  range_end: 'bg-(--color-ice) rounded-r-full [&>button]:bg-(--color-cta) [&>button]:text-white [&>button]:hover:bg-(--color-dark-mid)!',
+  range_middle: 'bg-(--color-ice)',
+  selected: 'rounded-full [&>button]:bg-(--color-cta) [&>button]:text-white [&>button]:hover:bg-(--color-dark-mid)!',
 }
 
 export default function DateRangePicker({ label, from, to, onChange }: Props) {

@@ -56,13 +56,13 @@ export default async function TripDetailPage({ params }: { params: Params }) {
           </aside>
 
           <div className="min-w-0 max-w-[900px] divide-y divide-(--color-border)">
+            <TripMetaBar trip={trip} />
+
             {trip.description && (
-              <section className="py-10 first:pt-0">
+              <section className="py-10 first:pt-0 lg:border-t-0 lg:pt-0">
                 <p className="text-(--color-text) text-xl leading-relaxed">{trip.description}</p>
               </section>
             )}
-
-            <TripMetaBar trip={trip} />
 
             <TripProgram program={trip.program} />
             <TripCoachingGeneric />
